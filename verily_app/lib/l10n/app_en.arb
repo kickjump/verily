@@ -1,0 +1,722 @@
+{
+  "@@locale": "en",
+
+  "appName": "Verily",
+  "@appName": { "description": "The application name." },
+
+  "ok": "OK",
+  "@ok": { "description": "Generic confirmation label." },
+
+  "cancel": "Cancel",
+  "@cancel": { "description": "Generic cancel label." },
+
+  "save": "Save",
+  "@save": { "description": "Generic save label." },
+
+  "delete": "Delete",
+  "@delete": { "description": "Generic delete label." },
+
+  "done": "Done",
+  "@done": { "description": "Generic done label." },
+
+  "close": "Close",
+  "@close": { "description": "Generic close label." },
+
+  "retry": "Retry",
+  "@retry": { "description": "Generic retry label." },
+
+  "loading": "Loading…",
+  "@loading": { "description": "Generic loading indicator text." },
+
+  "error": "Error",
+  "@error": { "description": "Generic error label." },
+
+  "errorGeneric": "Something went wrong. Please try again.",
+  "@errorGeneric": { "description": "Fallback error message." },
+
+  "errorNetwork": "No internet connection. Check your network and try again.",
+  "@errorNetwork": { "description": "Network connectivity error." },
+
+  "errorTimeout": "Request timed out. Please try again.",
+  "@errorTimeout": { "description": "Request timeout error." },
+
+  "errorNotFound": "The requested resource was not found.",
+  "@errorNotFound": { "description": "404 error message." },
+
+  "errorUnauthorized": "You are not authorized to perform this action.",
+  "@errorUnauthorized": { "description": "401/403 error message." },
+
+  "yes": "Yes",
+  "@yes": { "description": "Generic yes label." },
+
+  "no": "No",
+  "@no": { "description": "Generic no label." },
+
+  "confirm": "Confirm",
+  "@confirm": { "description": "Generic confirm label." },
+
+  "continueLabel": "Continue",
+  "@continueLabel": { "description": "Generic continue label." },
+
+  "back": "Back",
+  "@back": { "description": "Generic back navigation label." },
+
+  "next": "Next",
+  "@next": { "description": "Generic next label." },
+
+  "skip": "Skip",
+  "@skip": { "description": "Generic skip label." },
+
+  "submit": "Submit",
+  "@submit": { "description": "Generic submit label." },
+
+  "edit": "Edit",
+  "@edit": { "description": "Generic edit label." },
+
+  "share": "Share",
+  "@share": { "description": "Generic share label." },
+
+  "report": "Report",
+  "@report": { "description": "Generic report label." },
+
+  "seeAll": "See All",
+  "@seeAll": { "description": "Label to view all items in a list." },
+
+  "noResults": "No results found.",
+  "@noResults": { "description": "Empty state when a search has zero results." },
+
+  "emptyState": "Nothing here yet.",
+  "@emptyState": { "description": "Generic empty state message." },
+
+  "copiedToClipboard": "Copied to clipboard",
+  "@copiedToClipboard": { "description": "Snackbar message when content is copied." },
+
+
+  "loginTitle": "Log In",
+  "@loginTitle": { "description": "Login screen title." },
+
+  "loginSubtitle": "Welcome back to Verily",
+  "@loginSubtitle": { "description": "Login screen subtitle." },
+
+  "registerTitle": "Create Account",
+  "@registerTitle": { "description": "Registration screen title." },
+
+  "registerSubtitle": "Join the Verily community",
+  "@registerSubtitle": { "description": "Registration screen subtitle." },
+
+  "email": "Email",
+  "@email": { "description": "Email field label." },
+
+  "emailHint": "you@example.com",
+  "@emailHint": { "description": "Email field hint text." },
+
+  "emailRequired": "Email is required.",
+  "@emailRequired": { "description": "Validation: email empty." },
+
+  "emailInvalid": "Enter a valid email address.",
+  "@emailInvalid": { "description": "Validation: email format." },
+
+  "password": "Password",
+  "@password": { "description": "Password field label." },
+
+  "passwordHint": "Enter your password",
+  "@passwordHint": { "description": "Password field hint text." },
+
+  "passwordRequired": "Password is required.",
+  "@passwordRequired": { "description": "Validation: password empty." },
+
+  "passwordTooShort": "Password must be at least 8 characters.",
+  "@passwordTooShort": { "description": "Validation: password length." },
+
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": { "description": "Confirm password field label." },
+
+  "confirmPasswordHint": "Re-enter your password",
+  "@confirmPasswordHint": { "description": "Confirm password field hint." },
+
+  "passwordMismatch": "Passwords do not match.",
+  "@passwordMismatch": { "description": "Validation: passwords differ." },
+
+  "displayName": "Display Name",
+  "@displayName": { "description": "Display name field label." },
+
+  "displayNameHint": "How others see you",
+  "@displayNameHint": { "description": "Display name field hint." },
+
+  "displayNameRequired": "Display name is required.",
+  "@displayNameRequired": { "description": "Validation: display name empty." },
+
+  "login": "Log In",
+  "@login": { "description": "Login button label." },
+
+  "register": "Sign Up",
+  "@register": { "description": "Register button label." },
+
+  "logout": "Log Out",
+  "@logout": { "description": "Logout button label." },
+
+  "logoutConfirm": "Are you sure you want to log out?",
+  "@logoutConfirm": { "description": "Logout confirmation dialog message." },
+
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": { "description": "Forgot password link label." },
+
+  "forgotPasswordTitle": "Reset Password",
+  "@forgotPasswordTitle": { "description": "Forgot password screen title." },
+
+  "forgotPasswordMessage": "Enter your email and we'll send you a link to reset your password.",
+  "@forgotPasswordMessage": { "description": "Forgot password instructions." },
+
+  "resetPasswordSent": "Password reset email sent. Check your inbox.",
+  "@resetPasswordSent": { "description": "Confirmation after sending reset email." },
+
+  "noAccountPrompt": "Don't have an account?",
+  "@noAccountPrompt": { "description": "Prompt to navigate to registration." },
+
+  "hasAccountPrompt": "Already have an account?",
+  "@hasAccountPrompt": { "description": "Prompt to navigate to login." },
+
+  "orContinueWith": "Or continue with",
+  "@orContinueWith": { "description": "Social login separator." },
+
+  "signInWithApple": "Sign in with Apple",
+  "@signInWithApple": { "description": "Apple sign-in button." },
+
+  "signInWithGoogle": "Sign in with Google",
+  "@signInWithGoogle": { "description": "Google sign-in button." },
+
+  "termsAndPrivacy": "By continuing, you agree to our Terms of Service and Privacy Policy.",
+  "@termsAndPrivacy": { "description": "Legal disclaimer on auth screens." },
+
+
+  "feedTitle": "Feed",
+  "@feedTitle": { "description": "Feed tab title." },
+
+  "feedNearby": "Nearby",
+  "@feedNearby": { "description": "Feed section: nearby actions." },
+
+  "feedTrending": "Trending",
+  "@feedTrending": { "description": "Feed section: trending actions." },
+
+  "feedRecent": "Recent",
+  "@feedRecent": { "description": "Feed section: recently created actions." },
+
+  "feedNoActions": "No actions nearby. Explore trending actions instead!",
+  "@feedNoActions": { "description": "Empty state for feed." },
+
+  "feedRefreshing": "Refreshing…",
+  "@feedRefreshing": { "description": "Pull-to-refresh indicator." },
+
+  "feedEndOfList": "You've reached the end.",
+  "@feedEndOfList": { "description": "Message at the bottom of an infinite list." },
+
+  "feedPostedBy": "Posted by {username}",
+  "@feedPostedBy": {
+    "description": "Attribution label on an action card.",
+    "placeholders": {
+      "username": { "type": "String" }
+    }
+  },
+
+  "feedTimeAgo": "{time} ago",
+  "@feedTimeAgo": {
+    "description": "Relative time label.",
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+
+
+  "searchTitle": "Search",
+  "@searchTitle": { "description": "Search tab title." },
+
+  "searchActions": "Search Actions",
+  "@searchActions": { "description": "Search bar label." },
+
+  "searchHint": "Try \"plant a tree\" or \"clean a beach\"",
+  "@searchHint": { "description": "Search bar placeholder." },
+
+  "searchCategories": "Categories",
+  "@searchCategories": { "description": "Section header: categories." },
+
+  "searchNoResults": "No actions match your search.",
+  "@searchNoResults": { "description": "Empty state for search." },
+
+  "searchRecent": "Recent Searches",
+  "@searchRecent": { "description": "Section header: recent searches." },
+
+  "searchClearRecent": "Clear Recent",
+  "@searchClearRecent": { "description": "Button to clear recent searches." },
+
+  "searchFilterTitle": "Filters",
+  "@searchFilterTitle": { "description": "Filter sheet title." },
+
+  "searchFilterApply": "Apply Filters",
+  "@searchFilterApply": { "description": "Apply filters button." },
+
+  "searchFilterReset": "Reset",
+  "@searchFilterReset": { "description": "Reset filters button." },
+
+  "searchFilterDistance": "Distance",
+  "@searchFilterDistance": { "description": "Distance filter label." },
+
+  "searchFilterReward": "Reward Amount",
+  "@searchFilterReward": { "description": "Reward filter label." },
+
+  "searchFilterType": "Action Type",
+  "@searchFilterType": { "description": "Action type filter label." },
+
+  "searchResultCount": "{count, plural, =0{No results} =1{1 result} other{{count} results}}",
+  "@searchResultCount": {
+    "description": "Number of search results.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+
+  "actionDetailTitle": "Action Detail",
+  "@actionDetailTitle": { "description": "Action detail screen title." },
+
+  "createActionTitle": "Create Action",
+  "@createActionTitle": { "description": "Create action screen title." },
+
+  "editActionTitle": "Edit Action",
+  "@editActionTitle": { "description": "Edit action screen title." },
+
+  "actionTitle": "Title",
+  "@actionTitle": { "description": "Action title field label." },
+
+  "actionTitleHint": "What needs to be done?",
+  "@actionTitleHint": { "description": "Action title field hint." },
+
+  "actionTitleRequired": "Title is required.",
+  "@actionTitleRequired": { "description": "Validation: title empty." },
+
+  "actionDescription": "Description",
+  "@actionDescription": { "description": "Action description field label." },
+
+  "actionDescriptionHint": "Describe the action in detail…",
+  "@actionDescriptionHint": { "description": "Action description field hint." },
+
+  "actionDescriptionRequired": "Description is required.",
+  "@actionDescriptionRequired": { "description": "Validation: description empty." },
+
+  "actionCategory": "Category",
+  "@actionCategory": { "description": "Action category field label." },
+
+  "actionCategoryRequired": "Please select a category.",
+  "@actionCategoryRequired": { "description": "Validation: category empty." },
+
+  "actionLocation": "Location",
+  "@actionLocation": { "description": "Action location field label." },
+
+  "actionLocationHint": "Where should this be done?",
+  "@actionLocationHint": { "description": "Action location hint." },
+
+  "actionLocationRequired": "Location is required.",
+  "@actionLocationRequired": { "description": "Validation: location empty." },
+
+  "actionRadius": "Verification Radius",
+  "@actionRadius": { "description": "Radius within which the action must be completed." },
+
+  "actionRadiusHint": "How close must the performer be?",
+  "@actionRadiusHint": { "description": "Action radius hint." },
+
+  "actionReward": "Reward",
+  "@actionReward": { "description": "Action reward field label." },
+
+  "actionRewardHint": "Points or badge awarded on completion",
+  "@actionRewardHint": { "description": "Action reward hint." },
+
+  "actionRewardRequired": "Reward is required.",
+  "@actionRewardRequired": { "description": "Validation: reward empty." },
+
+  "actionType": "Action Type",
+  "@actionType": { "description": "Action type selector label." },
+
+  "actionTypeOneOff": "One-Off",
+  "@actionTypeOneOff": { "description": "Label for single-step actions." },
+
+  "actionTypeSequential": "Sequential",
+  "@actionTypeSequential": { "description": "Label for multi-step actions." },
+
+  "actionTypeOneOffDescription": "A single action completed in one step.",
+  "@actionTypeOneOffDescription": { "description": "Description of one-off actions." },
+
+  "actionTypeSequentialDescription": "A multi-step action completed over time.",
+  "@actionTypeSequentialDescription": { "description": "Description of sequential actions." },
+
+  "verificationCriteria": "Verification Criteria",
+  "@verificationCriteria": { "description": "Section: what AI should look for." },
+
+  "verificationCriteriaHint": "What should the video show to pass verification?",
+  "@verificationCriteriaHint": { "description": "Verification criteria hint." },
+
+  "verificationCriteriaRequired": "Verification criteria are required.",
+  "@verificationCriteriaRequired": { "description": "Validation: criteria empty." },
+
+  "actionSteps": "Steps",
+  "@actionSteps": { "description": "Section header for sequential action steps." },
+
+  "actionAddStep": "Add Step",
+  "@actionAddStep": { "description": "Button to add a sequential step." },
+
+  "actionRemoveStep": "Remove Step",
+  "@actionRemoveStep": { "description": "Button to remove a sequential step." },
+
+  "actionStepNumber": "Step {number}",
+  "@actionStepNumber": {
+    "description": "Step label with number.",
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+
+  "actionDeadline": "Deadline",
+  "@actionDeadline": { "description": "Action deadline field label." },
+
+  "actionDeadlineHint": "Optional completion deadline",
+  "@actionDeadlineHint": { "description": "Action deadline hint." },
+
+  "actionMaxParticipants": "Max Participants",
+  "@actionMaxParticipants": { "description": "Maximum number of participants." },
+
+  "actionMaxParticipantsHint": "Leave empty for unlimited",
+  "@actionMaxParticipantsHint": { "description": "Max participants hint." },
+
+  "actionCreated": "Action created successfully!",
+  "@actionCreated": { "description": "Success message after creating an action." },
+
+  "actionUpdated": "Action updated successfully!",
+  "@actionUpdated": { "description": "Success message after updating an action." },
+
+  "actionDeleted": "Action deleted.",
+  "@actionDeleted": { "description": "Success message after deleting an action." },
+
+  "actionDeleteConfirm": "Are you sure you want to delete this action?",
+  "@actionDeleteConfirm": { "description": "Delete action confirmation." },
+
+  "actionParticipants": "{count, plural, =0{No participants} =1{1 participant} other{{count} participants}}",
+  "@actionParticipants": {
+    "description": "Number of participants.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "actionSubmissions": "{count, plural, =0{No submissions} =1{1 submission} other{{count} submissions}}",
+  "@actionSubmissions": {
+    "description": "Number of submissions.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+
+  "submitVideoTitle": "Submit Video",
+  "@submitVideoTitle": { "description": "Submit video screen title." },
+
+  "recordingTitle": "Recording",
+  "@recordingTitle": { "description": "Recording screen title." },
+
+  "recordVideo": "Record Video",
+  "@recordVideo": { "description": "Button to start recording." },
+
+  "stopRecording": "Stop Recording",
+  "@stopRecording": { "description": "Button to stop recording." },
+
+  "recordingInProgress": "Recording in progress…",
+  "@recordingInProgress": { "description": "Status label while recording." },
+
+  "recordingDuration": "{minutes}:{seconds}",
+  "@recordingDuration": {
+    "description": "Recording timer display.",
+    "placeholders": {
+      "minutes": { "type": "String" },
+      "seconds": { "type": "String" }
+    }
+  },
+
+  "reviewVideoTitle": "Review Video",
+  "@reviewVideoTitle": { "description": "Review video screen title." },
+
+  "reviewVideoPrompt": "Review your video before submitting.",
+  "@reviewVideoPrompt": { "description": "Instruction on the review screen." },
+
+  "retakeVideo": "Retake",
+  "@retakeVideo": { "description": "Button to re-record." },
+
+  "submitVideo": "Submit Video",
+  "@submitVideo": { "description": "Button to submit video for verification." },
+
+  "submitting": "Submitting…",
+  "@submitting": { "description": "Status while uploading submission." },
+
+  "submissionSuccess": "Video submitted for verification!",
+  "@submissionSuccess": { "description": "Success message after submitting." },
+
+  "submissionFailed": "Submission failed. Please try again.",
+  "@submissionFailed": { "description": "Error message when submission fails." },
+
+  "cameraPermissionTitle": "Camera Access Required",
+  "@cameraPermissionTitle": { "description": "Camera permission dialog title." },
+
+  "cameraPermissionMessage": "Verily needs camera access to record video proof.",
+  "@cameraPermissionMessage": { "description": "Camera permission dialog message." },
+
+  "microphonePermissionTitle": "Microphone Access Required",
+  "@microphonePermissionTitle": { "description": "Microphone permission dialog title." },
+
+  "microphonePermissionMessage": "Verily needs microphone access to record audio with your video.",
+  "@microphonePermissionMessage": { "description": "Microphone permission dialog message." },
+
+  "openSettings": "Open Settings",
+  "@openSettings": { "description": "Button to open device settings." },
+
+
+  "verifying": "Verifying…",
+  "@verifying": { "description": "Status while AI is verifying." },
+
+  "verificationPassed": "Verification Passed",
+  "@verificationPassed": { "description": "Status: video passed verification." },
+
+  "verificationFailed": "Verification Failed",
+  "@verificationFailed": { "description": "Status: video failed verification." },
+
+  "verificationPending": "Pending Review",
+  "@verificationPending": { "description": "Status: awaiting verification." },
+
+  "verificationProcessing": "Processing",
+  "@verificationProcessing": { "description": "Status: AI is processing." },
+
+  "verificationError": "Verification encountered an error.",
+  "@verificationError": { "description": "Status: verification errored." },
+
+  "confidenceScore": "Confidence: {score}%",
+  "@confidenceScore": {
+    "description": "AI confidence score.",
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+
+  "verificationFeedback": "AI Feedback",
+  "@verificationFeedback": { "description": "Section header for AI reasoning." },
+
+  "verificationRetry": "You can re-submit with a new video.",
+  "@verificationRetry": { "description": "Hint after a failed verification." },
+
+  "submissionStatusTitle": "Submission Status",
+  "@submissionStatusTitle": { "description": "Submission status screen title." },
+
+
+  "rewardsTitle": "Rewards",
+  "@rewardsTitle": { "description": "Rewards screen title." },
+
+  "badges": "Badges",
+  "@badges": { "description": "Badges section label." },
+
+  "badgesEmpty": "No badges earned yet. Complete actions to earn them!",
+  "@badgesEmpty": { "description": "Empty state for badges." },
+
+  "points": "Points",
+  "@points": { "description": "Points label." },
+
+  "pointsTotal": "{count} points",
+  "@pointsTotal": {
+    "description": "Total points display.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "leaderboard": "Leaderboard",
+  "@leaderboard": { "description": "Leaderboard section label." },
+
+  "leaderboardRank": "#{rank}",
+  "@leaderboardRank": {
+    "description": "Leaderboard rank display.",
+    "placeholders": {
+      "rank": { "type": "int" }
+    }
+  },
+
+  "earnedAt": "Earned {date}",
+  "@earnedAt": {
+    "description": "Date a reward was earned.",
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+
+  "rewardPoints": "+{count} points",
+  "@rewardPoints": {
+    "description": "Points awarded for a reward.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "rewardBadge": "Badge: {name}",
+  "@rewardBadge": {
+    "description": "Badge award display.",
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
+
+  "profileTitle": "Profile",
+  "@profileTitle": { "description": "Profile tab title." },
+
+  "editProfileTitle": "Edit Profile",
+  "@editProfileTitle": { "description": "Edit profile screen title." },
+
+  "profileBio": "Bio",
+  "@profileBio": { "description": "Bio field label." },
+
+  "profileBioHint": "Tell others about yourself",
+  "@profileBioHint": { "description": "Bio field hint." },
+
+  "profilePhoto": "Profile Photo",
+  "@profilePhoto": { "description": "Profile photo label." },
+
+  "profilePhotoChange": "Change Photo",
+  "@profilePhotoChange": { "description": "Button to change profile photo." },
+
+  "followers": "Followers",
+  "@followers": { "description": "Followers count label." },
+
+  "following": "Following",
+  "@following": { "description": "Following count label." },
+
+  "follow": "Follow",
+  "@follow": { "description": "Follow button label." },
+
+  "unfollow": "Unfollow",
+  "@unfollow": { "description": "Unfollow button label." },
+
+  "actionsCreated": "Actions Created",
+  "@actionsCreated": { "description": "Profile stat: actions created." },
+
+  "actionsCompleted": "Actions Completed",
+  "@actionsCompleted": { "description": "Profile stat: actions completed." },
+
+  "profileUpdated": "Profile updated successfully!",
+  "@profileUpdated": { "description": "Success message after updating profile." },
+
+  "profileFollowerCount": "{count, plural, =0{No followers} =1{1 follower} other{{count} followers}}",
+  "@profileFollowerCount": {
+    "description": "Follower count with pluralization.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "profileFollowingCount": "{count, plural, =0{Not following anyone} =1{Following 1} other{Following {count}}}",
+  "@profileFollowingCount": {
+    "description": "Following count with pluralization.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+
+  "settingsTitle": "Settings",
+  "@settingsTitle": { "description": "Settings screen title." },
+
+  "settingsTheme": "Theme",
+  "@settingsTheme": { "description": "Theme setting label." },
+
+  "settingsDarkMode": "Dark Mode",
+  "@settingsDarkMode": { "description": "Dark mode option." },
+
+  "settingsLightMode": "Light Mode",
+  "@settingsLightMode": { "description": "Light mode option." },
+
+  "settingsSystemMode": "System Default",
+  "@settingsSystemMode": { "description": "System theme option." },
+
+  "settingsNotifications": "Notifications",
+  "@settingsNotifications": { "description": "Notifications setting label." },
+
+  "settingsNotificationsPush": "Push Notifications",
+  "@settingsNotificationsPush": { "description": "Push notifications toggle." },
+
+  "settingsNotificationsEmail": "Email Notifications",
+  "@settingsNotificationsEmail": { "description": "Email notifications toggle." },
+
+  "settingsPrivacy": "Privacy",
+  "@settingsPrivacy": { "description": "Privacy setting label." },
+
+  "settingsPrivacyProfile": "Public Profile",
+  "@settingsPrivacyProfile": { "description": "Public/private profile toggle." },
+
+  "settingsPrivacyLocation": "Share Location",
+  "@settingsPrivacyLocation": { "description": "Location sharing toggle." },
+
+  "settingsAbout": "About",
+  "@settingsAbout": { "description": "About section label." },
+
+  "settingsAboutVersion": "Version {version}",
+  "@settingsAboutVersion": {
+    "description": "App version display.",
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+
+  "settingsAboutLicenses": "Open-Source Licenses",
+  "@settingsAboutLicenses": { "description": "Link to open-source licenses." },
+
+  "settingsAboutTerms": "Terms of Service",
+  "@settingsAboutTerms": { "description": "Link to terms of service." },
+
+  "settingsAboutPrivacy": "Privacy Policy",
+  "@settingsAboutPrivacy": { "description": "Link to privacy policy." },
+
+  "settingsDeleteAccount": "Delete Account",
+  "@settingsDeleteAccount": { "description": "Delete account button." },
+
+  "settingsDeleteAccountConfirm": "This action cannot be undone. All your data will be permanently deleted.",
+  "@settingsDeleteAccountConfirm": { "description": "Delete account confirmation message." },
+
+  "settingsLanguage": "Language",
+  "@settingsLanguage": { "description": "Language setting label." },
+
+
+  "locationNearby": "Nearby",
+  "@locationNearby": { "description": "Label for nearby actions." },
+
+  "locationDistance": "{distance} away",
+  "@locationDistance": {
+    "description": "Distance to an action.",
+    "placeholders": {
+      "distance": { "type": "String" }
+    }
+  },
+
+  "locationWithinRadius": "Within {radius}",
+  "@locationWithinRadius": {
+    "description": "Actions within a given radius.",
+    "placeholders": {
+      "radius": { "type": "String" }
+    }
+  },
+
+  "locationPermissionTitle": "Location Access Required",
+  "@locationPermissionTitle": { "description": "Location permission dialog title." },
+
+  "locationPermissionMessage": "Verily uses your location to show nearby actions and verify submissions.",
+  "@locationPermissionMessage": { "description": "Location permission dialog message." },
+
+  "locationPermissionDenied": "Location permission denied. Some features may be unavailable.",
+  "@locationPermissionDenied": { "description": "Message when location is denied." },
+
+  "locationServiceDisabled": "Location services are disabled. Enable them in settings.",
+  "@locationServiceDisabled": { "description": "Message when location services are off." },
+
+  "locationUpdating": "Updating location…",
+  "@locationUpdating": { "description": "Status while fetching location." }
+}

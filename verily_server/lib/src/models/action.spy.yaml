@@ -1,0 +1,42 @@
+class: Action
+table: action
+fields:
+  title:
+    type: String
+  description:
+    type: String
+  creatorId:
+    type: UuidValue
+  actionType:
+    type: String
+  status:
+    type: String
+  locationId:
+    type: int?
+    relation:
+      parentTable: location
+      onDelete: setNull
+  categoryId:
+    type: int?
+    relation:
+      parentTable: action_category
+      onDelete: setNull
+  totalSteps:
+    type: int?
+  intervalDays:
+    type: int?
+  maxPerformers:
+    type: int?
+  referenceImages:
+    type: String?
+  verificationCriteria:
+    type: String
+  createdAt:
+    type: DateTime
+  updatedAt:
+    type: DateTime
+indexes:
+  action_creator_id_idx:
+    fields: creatorId
+  action_status_idx:
+    fields: status

@@ -1,0 +1,35 @@
+class: ActionSubmission
+table: action_submission
+fields:
+  actionId:
+    type: int
+    relation:
+      parentTable: action
+      onDelete: cascade
+  performerId:
+    type: UuidValue
+  stepNumber:
+    type: int?
+  videoUrl:
+    type: String
+  videoDurationSeconds:
+    type: double?
+  deviceMetadata:
+    type: String?
+  latitude:
+    type: double?
+  longitude:
+    type: double?
+  status:
+    type: String
+  createdAt:
+    type: DateTime
+  updatedAt:
+    type: DateTime
+indexes:
+  action_submission_action_id_idx:
+    fields: actionId
+  action_submission_performer_id_idx:
+    fields: performerId
+  action_submission_status_idx:
+    fields: status

@@ -1,0 +1,22 @@
+class: ActionStep
+table: action_step
+fields:
+  actionId:
+    type: int
+    relation:
+      parentTable: action
+      onDelete: cascade
+  stepNumber:
+    type: int
+  title:
+    type: String
+  description:
+    type: String?
+  verificationCriteria:
+    type: String
+indexes:
+  action_step_action_id_idx:
+    fields: actionId
+  action_step_unique_idx:
+    fields: actionId, stepNumber
+    unique: true

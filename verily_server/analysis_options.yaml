@@ -1,0 +1,8 @@
+include: package:verily_lints/analysis_options.yaml
+
+analyzer:
+  errors:
+    experimental_member_use: ignore
+  exclude:
+    - lib/src/generated/**
+    - test/integration/test_tools/serverpod_test_tools.dart

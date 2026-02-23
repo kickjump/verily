@@ -1,0 +1,17 @@
+name: verily_client
+description: Verily Serverpod client.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+resolution: workspace
+
+dependencies:
+  serverpod_auth_idp_client: 3.3.1
+  serverpod_client: 3.3.1
+
+dev_dependencies:
+  verily_lints:
+    path: ../verily_lints

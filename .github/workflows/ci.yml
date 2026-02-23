@@ -1,0 +1,178 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  lint:
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/devenv
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: lint all
+        run: lint:all
+        shell: devenv shell -- bash -e {0}
+
+  test:
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/devenv
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: run flutter tests
+        run: melos run test:flutter --no-select
+        shell: devenv shell -- bash -e {0}
+
+      - name: run dart tests
+        run: melos exec --scope="verily_core" -- dart test
+        shell: devenv shell -- bash -e {0}
+
+  server-test:
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    timeout-minutes: 60
+    services:
+      postgres:
+        image: postgis/postgis:16-3.5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: changeme
+          POSTGRES_DB: verily_test
+        ports:
+          - 9090:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: start redis
+        run: |
+          docker run -d --name redis-test \
+            --network host \
+            redis:6.2.6 \
+            redis-server --port 9091 --requirepass changeme
+          for i in $(seq 1 10); do
+            redis-cli -p 9091 -a changeme ping 2>/dev/null && break || sleep 1
+          done
+      - name: create test passwords
+        run: |
+          cat > verily_server/config/passwords.yaml << 'EOF'
+          development:
+            database: 'changeme'
+            redis: 'changeme'
+            serviceSecret: 'ci-service-secret'
+            emailSecretHashPepper: 'ci-email-pepper'
+            jwtHmacSha512PrivateKey: 'ci-jwt-key-must-be-long-enough-32chars'
+            jwtRefreshTokenHashPepper: 'ci-jwt-refresh-pepper'
+          test:
+            database: 'changeme'
+            redis: 'changeme'
+            serviceSecret: 'ci-service-secret'
+            emailSecretHashPepper: 'ci-email-pepper'
+            jwtHmacSha512PrivateKey: 'ci-jwt-key-must-be-long-enough-32chars'
+            jwtRefreshTokenHashPepper: 'ci-jwt-refresh-pepper'
+          EOF
+      - uses: ./.github/actions/devenv
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: run server tests
+        run: melos exec --scope="verily_server" -- dart test
+        shell: devenv shell -- bash -e {0}
+
+  integration-test:
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/devenv
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: run integration tests
+        run: |
+          cd verily_app
+          set -euo pipefail
+          shopt -s nullglob
+          tests=(integration_test/*_test.dart)
+
+          if [ "${#tests[@]}" -eq 0 ]; then
+            echo "::error::No integration tests were discovered under verily_app/integration_test."
+            exit 1
+          fi
+
+          echo "Discovered ${#tests[@]} integration test file(s)."
+          failed=0
+
+          for f in "${tests[@]}"; do
+            echo "::group::Running $f"
+            if ! flutter test "$f" -d flutter-tester; then
+              failed=1
+            fi
+            echo "::endgroup::"
+          done
+
+          if [ "$failed" -ne 0 ]; then
+            echo "::error::One or more integration tests failed."
+          fi
+
+          exit "$failed"
+        shell: devenv shell -- bash -e {0}
+
+  native-change-check:
+    name: Detect native dependency changes
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: check for native dependency changes
+        run: |
+          BASE=${{ github.event.pull_request.base.sha }}
+
+          NATIVE_FILES=(
+            "verily_app/ios/Podfile"
+            "verily_app/ios/Podfile.lock"
+            "verily_app/ios/Runner.xcodeproj/project.pbxproj"
+            "verily_app/android/app/build.gradle.kts"
+            "verily_app/android/build.gradle.kts"
+            "verily_app/android/settings.gradle.kts"
+            "verily_app/android/gradle/wrapper/gradle-wrapper.properties"
+            "verily_app/macos/Podfile"
+            "verily_app/macos/Podfile.lock"
+            "verily_app/linux/CMakeLists.txt"
+            "verily_app/windows/CMakeLists.txt"
+          )
+
+          CHANGED=false
+          for file in "${NATIVE_FILES[@]}"; do
+            if git diff --name-only "$BASE"...HEAD | grep -q "^$file$"; then
+              echo "::warning::Native file changed: $file"
+              CHANGED=true
+            fi
+          done
+
+          if git diff "$BASE"...HEAD -- verily_app/pubspec.yaml | grep -E '^\+.*:' | grep -vE '^\+\+\+|^\+\s*#|^\+\s*$|path:|sdk:' | head -20; then
+            echo "::notice::App pubspec.yaml dependencies changed — review for native plugins"
+          fi
+
+          if [ "$CHANGED" = true ]; then
+            echo "::warning::Native dependencies changed! This PR requires a MAJOR version bump for verily_app (full app store release)."
+          else
+            echo "No native dependency changes detected."
+          fi

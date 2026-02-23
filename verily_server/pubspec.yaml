@@ -1,0 +1,31 @@
+name: verily_server
+description: Verily action verification server.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+resolution: workspace
+
+dependencies:
+  google_generative_ai: ^0.4.6
+  logging: ^1.3.0
+  verily_core:
+    path: ../verily_core
+  serverpod: 3.3.1
+  serverpod_auth_idp_server: 3.3.1
+
+dev_dependencies:
+  verily_lints:
+    path: ../verily_lints
+  serverpod_test: 3.3.1
+  test: ^1.25.5
+
+serverpod:
+  scripts:
+    start: dart bin/main.dart --apply-migrations
+    flutter_build:
+      posix: |
+        cd ../verily_app
+        flutter build web --base-href /app/ --wasm --output ../verily_server/web/app

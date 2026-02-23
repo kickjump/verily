@@ -1,0 +1,80 @@
+[packages.verily_app]
+versioned_files = ["verily_app/pubspec.yaml"]
+changelog = "verily_app/CHANGELOG.md"
+scopes = ["app"]
+
+[packages.verily_server]
+versioned_files = ["verily_server/pubspec.yaml"]
+changelog = "verily_server/CHANGELOG.md"
+scopes = ["server"]
+
+[packages.verily_client]
+versioned_files = ["verily_client/pubspec.yaml"]
+changelog = "verily_client/CHANGELOG.md"
+scopes = ["client"]
+
+[packages.verily_core]
+versioned_files = ["verily_core/pubspec.yaml"]
+changelog = "verily_core/CHANGELOG.md"
+scopes = ["core"]
+
+[packages.verily_ui]
+versioned_files = ["verily_ui/pubspec.yaml"]
+changelog = "verily_ui/CHANGELOG.md"
+scopes = ["ui"]
+
+[packages.verily_lints]
+versioned_files = ["verily_lints/pubspec.yaml"]
+changelog = "verily_lints/CHANGELOG.md"
+scopes = ["lints"]
+
+[packages.verily_test_utils]
+versioned_files = ["verily_test_utils/pubspec.yaml"]
+changelog = "verily_test_utils/CHANGELOG.md"
+scopes = ["test_utils"]
+
+[[workflows]]
+name = "release"
+
+[[workflows.steps]]
+type = "PrepareRelease"
+ignore_conventional_commits = true
+
+[[workflows.steps]]
+type = "Command"
+command = "dprint fmt"
+
+[[workflows.steps]]
+type = "Command"
+command = "git add --all"
+
+[[workflows.steps]]
+type = "Command"
+command = 'git commit -m "chore: prepare releases"'
+
+[[workflows.steps]]
+type = "Command"
+command = "git push"
+
+[[workflows.steps]]
+type = "Release"
+
+[[workflows]]
+name = "document-change"
+
+[[workflows.steps]]
+type = "CreateChangeFile"
+
+[[workflows.steps]]
+type = "Command"
+command = "dprint fmt .changeset/* --allow-no-files"
+
+[[workflows]]
+name = "forced-release"
+
+[[workflows.steps]]
+type = "Release"
+
+[github]
+owner = "kickjump"
+repo = "verily"

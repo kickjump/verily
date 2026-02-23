@@ -1,0 +1,63 @@
+name: verily_app
+description: Verily — AI-powered real-world action verification.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+  flutter: ^3.41.0
+
+resolution: workspace
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+  # Local packages
+  verily_ui:
+    path: ../verily_ui
+  verily_client:
+    path: ../verily_client
+  verily_core:
+    path: ../verily_core
+
+  # State management
+  hooks_riverpod: 3.2.1
+  flutter_hooks: 0.21.0
+  riverpod_annotation: 3.2.1
+
+  # Routing
+  go_router: 15.1.3
+
+  # UI / Theming
+  google_fonts: 8.0.1
+  flutter_animate: 4.5.2
+
+  # Serverpod
+  serverpod_auth_idp_flutter: 3.3.1
+  serverpod_flutter: 3.3.1
+
+  # Device capabilities
+  camera: 0.11.1
+  video_player: 2.9.6
+  geolocator: 14.0.0
+  permission_handler: 11.3.1
+  image_picker: 1.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.4.0
+  riverpod_generator: ^3.2.0
+  patrol: 3.20.0
+  verily_lints:
+    path: ../verily_lints
+  verily_test_utils:
+    path: ../verily_test_utils

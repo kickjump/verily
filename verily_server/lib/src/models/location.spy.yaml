@@ -1,0 +1,15 @@
+class: Location
+table: location
+fields:
+  name:
+    type: String
+  address:
+    type: String?
+  latitude:
+    type: double
+  longitude:
+    type: double
+  radiusMeters:
+    type: double
+  createdAt:
+    type: DateTime

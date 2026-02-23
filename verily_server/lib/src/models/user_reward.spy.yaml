@@ -1,0 +1,20 @@
+class: UserReward
+table: user_reward
+fields:
+  userId:
+    type: UuidValue
+  rewardId:
+    type: int
+    relation:
+      parentTable: reward
+      onDelete: cascade
+  submissionId:
+    type: int?
+    relation:
+      parentTable: action_submission
+      onDelete: setNull
+  earnedAt:
+    type: DateTime
+indexes:
+  user_reward_user_id_idx:
+    fields: userId

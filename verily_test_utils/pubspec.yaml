@@ -1,0 +1,31 @@
+name: verily_test_utils
+description: Shared test helpers for Verily packages.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+  flutter: ^3.41.0
+
+resolution: workspace
+
+flutter:
+  uses-material-design: true
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  go_router: ^15.1.0
+  hooks_riverpod: ^3.2.0
+  verily_core:
+    path: ../verily_core
+  verily_ui:
+    path: ../verily_ui
+
+dev_dependencies:
+  verily_lints:
+    path: ../verily_lints

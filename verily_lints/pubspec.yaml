@@ -1,0 +1,16 @@
+name: verily_lints
+description: Centralized lint rules for the Verily project.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+resolution: workspace
+
+dependencies:
+  analysis_server_plugin: ^0.3.4
+  analyzer: ^9.0.0
+  riverpod_lint: ^3.1.2
+  very_good_analysis: ^7.0.0
+  yaml: ^3.1.3

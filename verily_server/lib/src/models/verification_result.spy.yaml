@@ -1,0 +1,26 @@
+class: VerificationResult
+table: verification_result
+fields:
+  submissionId:
+    type: int
+    relation:
+      parentTable: action_submission
+      onDelete: cascade
+  passed:
+    type: bool
+  confidenceScore:
+    type: double
+  analysisText:
+    type: String
+  structuredResult:
+    type: String?
+  spoofingDetected:
+    type: bool
+  modelUsed:
+    type: String
+  createdAt:
+    type: DateTime
+indexes:
+  verification_result_submission_id_unique_idx:
+    fields: submissionId
+    unique: true

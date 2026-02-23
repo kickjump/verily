@@ -1,0 +1,15 @@
+class: ActionCategory
+table: action_category
+fields:
+  name:
+    type: String
+  description:
+    type: String?
+  iconName:
+    type: String?
+  sortOrder:
+    type: int
+indexes:
+  action_category_name_unique_idx:
+    fields: name
+    unique: true

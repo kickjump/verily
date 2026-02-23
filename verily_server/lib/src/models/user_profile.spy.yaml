@@ -1,0 +1,28 @@
+class: UserProfile
+table: user_profile
+fields:
+  authUserId:
+    type: UuidValue
+  username:
+    type: String
+  displayName:
+    type: String
+  bio:
+    type: String?
+  avatarUrl:
+    type: String?
+  isPublic:
+    type: bool
+  socialLinks:
+    type: String?
+  createdAt:
+    type: DateTime
+  updatedAt:
+    type: DateTime
+indexes:
+  user_profile_auth_user_id_unique_idx:
+    fields: authUserId
+    unique: true
+  user_profile_username_unique_idx:
+    fields: username
+    unique: true

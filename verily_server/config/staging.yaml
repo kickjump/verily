@@ -1,0 +1,34 @@
+apiServer:
+  port: 8080
+  publicHost: api-staging.verily.fun
+  publicPort: 443
+  publicScheme: https
+
+insightsServer:
+  port: 8081
+  publicHost: insights-staging.verily.fun
+  publicPort: 443
+  publicScheme: https
+
+webServer:
+  port: 8082
+  publicHost: app-staging.verily.fun
+  publicPort: 443
+  publicScheme: https
+
+database:
+  host: database.private-staging.verily.fun
+  port: 5432
+  name: serverpod
+  user: postgres
+  requireSsl: true
+
+redis:
+  enabled: false
+  host: redis.private-staging.verily.fun
+  port: 6379
+
+maxRequestSize: 524288
+
+sessionLogs:
+  consoleEnabled: false

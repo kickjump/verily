@@ -1,0 +1,17 @@
+class: UserFollow
+table: user_follow
+fields:
+  followerId:
+    type: UuidValue
+  followedId:
+    type: UuidValue
+  createdAt:
+    type: DateTime
+indexes:
+  user_follow_unique_idx:
+    fields: followerId, followedId
+    unique: true
+  user_follow_follower_id_idx:
+    fields: followerId
+  user_follow_followed_id_idx:
+    fields: followedId

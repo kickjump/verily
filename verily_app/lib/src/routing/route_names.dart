@@ -1,0 +1,89 @@
+/// Route name constants used throughout the Verily app.
+///
+/// These names are used both as GoRouter route names and as path segments.
+abstract final class RouteNames {
+  // ---------------------------------------------------------------------------
+  // Bottom-tab shells
+  // ---------------------------------------------------------------------------
+
+  /// Feed tab — shows nearby and trending actions.
+  static const String feed = 'feed';
+
+  /// Search tab — discover actions by keyword or category.
+  static const String search = 'search';
+
+  /// Profile tab — current user profile.
+  static const String profile = 'profile';
+
+  // ---------------------------------------------------------------------------
+  // Auth
+  // ---------------------------------------------------------------------------
+
+  /// Login screen.
+  static const String login = 'login';
+
+  /// Registration screen.
+  static const String register = 'register';
+
+  // ---------------------------------------------------------------------------
+  // Actions
+  // ---------------------------------------------------------------------------
+
+  /// Action detail screen.
+  static const String actionDetail = 'actionDetail';
+
+  /// Create-action flow.
+  static const String createAction = 'createAction';
+
+  // ---------------------------------------------------------------------------
+  // Submission flow
+  // ---------------------------------------------------------------------------
+
+  /// Video recording screen.
+  static const String videoRecording = 'videoRecording';
+
+  /// Video review screen (before submitting).
+  static const String videoReview = 'videoReview';
+
+  /// Submission status screen (verifying / passed / failed).
+  static const String submissionStatus = 'submissionStatus';
+
+  // ---------------------------------------------------------------------------
+  // Profile / Social
+  // ---------------------------------------------------------------------------
+
+  /// Edit own profile.
+  static const String editProfile = 'editProfile';
+
+  /// Another user's profile.
+  static const String userProfile = 'userProfile';
+
+  // ---------------------------------------------------------------------------
+  // Misc
+  // ---------------------------------------------------------------------------
+
+  /// Rewards & badges.
+  static const String rewards = 'rewards';
+
+  /// Settings screen.
+  static const String settings = 'settings';
+
+  // ---------------------------------------------------------------------------
+  // Paths (full path segments for GoRouter)
+  // ---------------------------------------------------------------------------
+
+  static const String feedPath = '/feed';
+  static const String searchPath = '/search';
+  static const String profilePath = '/profile';
+  static const String loginPath = '/login';
+  static const String registerPath = '/register';
+  static const String actionDetailPath = '/action/:actionId';
+  static const String createActionPath = '/action/create';
+  static const String videoRecordingPath = '/submission/:actionId/record';
+  static const String videoReviewPath = '/submission/:actionId/review';
+  static const String submissionStatusPath = '/submission/:submissionId/status';
+  static const String editProfilePath = '/profile/edit';
+  static const String userProfilePath = '/user/:userId';
+  static const String rewardsPath = '/rewards';
+  static const String settingsPath = '/settings';
+}

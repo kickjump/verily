@@ -1,0 +1,21 @@
+class: Reward
+table: reward
+fields:
+  rewardType:
+    type: String
+  name:
+    type: String
+  description:
+    type: String?
+  iconUrl:
+    type: String?
+  pointValue:
+    type: int?
+  actionId:
+    type: int
+    relation:
+      parentTable: action
+      onDelete: cascade
+indexes:
+  reward_action_id_idx:
+    fields: actionId
