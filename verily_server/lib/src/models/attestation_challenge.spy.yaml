@@ -1,0 +1,26 @@
+class: AttestationChallenge
+table: attestation_challenge
+fields:
+  userId:
+    type: UuidValue
+  actionId:
+    type: int
+    relation:
+      parentTable: action
+      onDelete: cascade
+  nonce:
+    type: String
+  visualNonce:
+    type: String?
+  expiresAt:
+    type: DateTime
+  used:
+    type: bool
+  createdAt:
+    type: DateTime
+indexes:
+  attestation_challenge_user_id_idx:
+    fields: userId
+  attestation_challenge_nonce_idx:
+    fields: nonce
+    unique: true

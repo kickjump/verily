@@ -171,6 +171,40 @@ GoRouter appRouter(AppRouterRef ref) {
         name: RouteNames.settings,
         builder: (context, state) => _placeholder('Settings'),
       ),
+
+      // -----------------------------------------------------------------------
+      // Wallet / Solana
+      // -----------------------------------------------------------------------
+      GoRoute(
+        path: RouteNames.walletPath,
+        name: RouteNames.wallet,
+        builder: (context, state) => _placeholder('Wallet'),
+      ),
+      GoRoute(
+        path: RouteNames.walletSetupPath,
+        name: RouteNames.walletSetup,
+        builder: (context, state) => _placeholder('Wallet Setup'),
+      ),
+
+      // -----------------------------------------------------------------------
+      // Reward Pools
+      // -----------------------------------------------------------------------
+      GoRoute(
+        path: RouteNames.createRewardPoolPath,
+        name: RouteNames.createRewardPool,
+        builder: (context, state) {
+          final actionId = state.pathParameters['actionId']!;
+          return _placeholder('Create Reward Pool for $actionId');
+        },
+      ),
+      GoRoute(
+        path: RouteNames.rewardPoolDetailPath,
+        name: RouteNames.rewardPoolDetail,
+        builder: (context, state) {
+          final poolId = state.pathParameters['poolId']!;
+          return _placeholder('Reward Pool $poolId');
+        },
+      ),
     ],
   );
 }

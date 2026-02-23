@@ -1,0 +1,39 @@
+class: RewardPool
+table: reward_pool
+fields:
+  actionId:
+    type: int
+    relation:
+      parentTable: action
+      onDelete: cascade
+  creatorId:
+    type: UuidValue
+  rewardType:
+    type: String
+  tokenMintAddress:
+    type: String?
+  totalAmount:
+    type: double
+  remainingAmount:
+    type: double
+  perPersonAmount:
+    type: double
+  maxRecipients:
+    type: int?
+  expiresAt:
+    type: DateTime?
+  platformFeePercent:
+    type: double
+  status:
+    type: String
+  fundingTxSignature:
+    type: String?
+  createdAt:
+    type: DateTime
+indexes:
+  reward_pool_action_id_idx:
+    fields: actionId
+  reward_pool_creator_id_idx:
+    fields: creatorId
+  reward_pool_status_idx:
+    fields: status

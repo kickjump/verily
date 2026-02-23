@@ -59,6 +59,26 @@ abstract final class RouteNames {
   static const String userProfile = 'userProfile';
 
   // ---------------------------------------------------------------------------
+  // Wallet / Solana
+  // ---------------------------------------------------------------------------
+
+  /// Wallet management screen.
+  static const String wallet = 'wallet';
+
+  /// Initial wallet setup during onboarding.
+  static const String walletSetup = 'walletSetup';
+
+  // ---------------------------------------------------------------------------
+  // Reward Pools
+  // ---------------------------------------------------------------------------
+
+  /// Create a reward pool for an action.
+  static const String createRewardPool = 'createRewardPool';
+
+  /// Reward pool detail screen.
+  static const String rewardPoolDetail = 'rewardPoolDetail';
+
+  // ---------------------------------------------------------------------------
   // Misc
   // ---------------------------------------------------------------------------
 
@@ -84,6 +104,10 @@ abstract final class RouteNames {
   static const String submissionStatusPath = '/submission/:submissionId/status';
   static const String editProfilePath = '/profile/edit';
   static const String userProfilePath = '/user/:userId';
+  static const String walletPath = '/wallet';
+  static const String walletSetupPath = '/wallet/setup';
+  static const String createRewardPoolPath = '/action/:actionId/reward-pool/create';
+  static const String rewardPoolDetailPath = '/reward-pool/:poolId';
   static const String rewardsPath = '/rewards';
   static const String settingsPath = '/settings';
 }

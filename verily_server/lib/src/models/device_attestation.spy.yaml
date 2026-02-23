@@ -1,0 +1,22 @@
+class: DeviceAttestation
+table: device_attestation
+fields:
+  submissionId:
+    type: int
+    relation:
+      parentTable: action_submission
+      onDelete: cascade
+  platform:
+    type: String
+  attestationType:
+    type: String
+  verified:
+    type: bool
+  rawResult:
+    type: String?
+  createdAt:
+    type: DateTime
+indexes:
+  device_attestation_submission_id_idx:
+    fields: submissionId
+    unique: true
