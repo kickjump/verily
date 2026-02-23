@@ -1,0 +1,21 @@
+class: SolanaWallet
+table: solana_wallet
+fields:
+  userId:
+    type: UuidValue
+  publicKey:
+    type: String
+  walletType:
+    type: String
+  isDefault:
+    type: bool
+  label:
+    type: String?
+  createdAt:
+    type: DateTime
+indexes:
+  solana_wallet_user_id_idx:
+    fields: userId
+  solana_wallet_public_key_idx:
+    fields: publicKey
+    unique: true

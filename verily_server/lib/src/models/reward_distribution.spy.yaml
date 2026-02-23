@@ -1,0 +1,30 @@
+class: RewardDistribution
+table: reward_distribution
+fields:
+  rewardPoolId:
+    type: int
+    relation:
+      parentTable: reward_pool
+      onDelete: cascade
+  recipientId:
+    type: UuidValue
+  submissionId:
+    type: int
+    relation:
+      parentTable: action_submission
+      onDelete: cascade
+  amount:
+    type: double
+  txSignature:
+    type: String?
+  status:
+    type: String
+  createdAt:
+    type: DateTime
+indexes:
+  reward_distribution_pool_id_idx:
+    fields: rewardPoolId
+  reward_distribution_recipient_id_idx:
+    fields: recipientId
+  reward_distribution_submission_id_idx:
+    fields: submissionId
