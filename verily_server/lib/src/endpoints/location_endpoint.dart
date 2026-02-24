@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
-import '../generated/protocol.dart';
-import '../services/location_service.dart';
+import 'package:verily_server/src/generated/protocol.dart';
+import 'package:verily_server/src/services/location_service.dart';
 
 /// Endpoint for managing geographic locations.
 ///
@@ -39,7 +39,7 @@ class LocationEndpoint extends Endpoint {
   }
 
   /// Retrieves a single location by its ID.
-  Future<Location?> get(Session session, int id) async {
+  Future<Location> get(Session session, int id) async {
     return LocationService.findById(session, id);
   }
 }

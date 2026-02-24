@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -14,7 +13,7 @@ class RewardsScreen extends HookConsumerWidget {
     final colorScheme = theme.colorScheme;
 
     // TODO: Fetch real rewards data from provider.
-    final totalPoints = 2450;
+    const totalPoints = 2450;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Rewards')),
@@ -28,7 +27,7 @@ class RewardsScreen extends HookConsumerWidget {
               padding: const EdgeInsets.all(SpacingTokens.lg),
               child: Column(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.emoji_events,
                     size: 48,
                     color: ColorTokens.secondary,
@@ -67,7 +66,7 @@ class RewardsScreen extends HookConsumerWidget {
                       color: ColorTokens.tertiary.withAlpha(20),
                       borderRadius: BorderRadius.circular(RadiusTokens.sm),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.leaderboard_outlined,
                       color: ColorTokens.tertiary,
                     ),
@@ -133,12 +132,9 @@ class RewardsScreen extends HookConsumerWidget {
 class _BadgeGrid extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     // TODO: Replace with real badge data from provider.
     final badges = [
-      _BadgeData(
+      const _BadgeData(
         name: 'First Action',
         description: 'Complete your first action',
         icon: Icons.stars_outlined,
@@ -146,7 +142,7 @@ class _BadgeGrid extends HookWidget {
         isEarned: true,
         earnedDate: 'Jan 5, 2026',
       ),
-      _BadgeData(
+      const _BadgeData(
         name: 'Push-Up Pro',
         description: 'Complete 10 fitness actions',
         icon: Icons.fitness_center,
@@ -154,7 +150,7 @@ class _BadgeGrid extends HookWidget {
         isEarned: true,
         earnedDate: 'Jan 12, 2026',
       ),
-      _BadgeData(
+      const _BadgeData(
         name: 'Eco Warrior',
         description: 'Complete 5 environment actions',
         icon: Icons.eco,
@@ -162,7 +158,7 @@ class _BadgeGrid extends HookWidget {
         isEarned: true,
         earnedDate: 'Jan 20, 2026',
       ),
-      _BadgeData(
+      const _BadgeData(
         name: 'Community Hero',
         description: 'Help 10 community members',
         icon: Icons.groups_outlined,
@@ -170,7 +166,7 @@ class _BadgeGrid extends HookWidget {
         isEarned: true,
         earnedDate: 'Feb 1, 2026',
       ),
-      _BadgeData(
+      const _BadgeData(
         name: 'Streak Master',
         description: 'Complete actions 7 days in a row',
         icon: Icons.local_fire_department,
@@ -178,7 +174,7 @@ class _BadgeGrid extends HookWidget {
         isEarned: true,
         earnedDate: 'Feb 8, 2026',
       ),
-      _BadgeData(
+      const _BadgeData(
         name: 'Explorer',
         description: 'Complete actions in 5 different locations',
         icon: Icons.explore_outlined,
@@ -186,21 +182,21 @@ class _BadgeGrid extends HookWidget {
         isEarned: true,
         earnedDate: 'Feb 14, 2026',
       ),
-      _BadgeData(
+      const _BadgeData(
         name: 'Creator',
         description: 'Create 10 actions for others',
         icon: Icons.create_outlined,
         color: ColorTokens.tertiary,
         isEarned: false,
       ),
-      _BadgeData(
+      const _BadgeData(
         name: 'Centurion',
         description: 'Complete 100 actions',
         icon: Icons.workspace_premium,
         color: ColorTokens.secondary,
         isEarned: false,
       ),
-      _BadgeData(
+      const _BadgeData(
         name: 'Perfectionist',
         description: 'Get 95%+ confidence on 10 verifications',
         icon: Icons.auto_awesome,
@@ -368,7 +364,10 @@ class _BadgeDetailSheet extends HookWidget {
           ],
           if (!badge.isEarned) ...[
             const SizedBox(height: SpacingTokens.md),
-            VBadgeChip(label: 'Not yet earned', icon: Icons.lock_outlined),
+            const VBadgeChip(
+              label: 'Not yet earned',
+              icon: Icons.lock_outlined,
+            ),
           ],
           const SizedBox(height: SpacingTokens.lg),
         ],

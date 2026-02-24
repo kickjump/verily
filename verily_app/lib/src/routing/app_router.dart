@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_hooks/flutter_hooks.dart' show HookWidget;
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart' show HookConsumerWidget;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:verily_app/src/logging/navigation_observer.dart';
 import 'package:verily_app/src/routing/route_names.dart';
@@ -22,7 +23,7 @@ Widget _placeholder(String label) {
 /// Auth redirect logic checks the session manager and pushes unauthenticated
 /// users to the login screen.
 @riverpod
-GoRouter appRouter(AppRouterRef ref) {
+GoRouter appRouter(Ref ref) {
   return GoRouter(
     initialLocation: RouteNames.feedPath,
     debugLogDiagnostics: true,
@@ -66,17 +67,6 @@ GoRouter appRouter(AppRouterRef ref) {
                 path: RouteNames.searchPath,
                 name: RouteNames.search,
                 builder: (context, state) => _placeholder('Search'),
-              ),
-            ],
-          ),
-
-          // Map tab
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: RouteNames.mapPath,
-                name: RouteNames.map,
-                builder: (context, state) => _placeholder('Map'),
               ),
             ],
           ),
@@ -221,8 +211,8 @@ GoRouter appRouter(AppRouterRef ref) {
   );
 }
 
-/// Scaffold that hosts the [NavigationBar] for the bottom tabs.
-class _ShellScaffold extends HookWidget {
+/// Scaffold that hosts the [NavigationBar] for the three bottom tabs.
+class _ShellScaffold extends StatelessWidget {
   const _ShellScaffold({required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
@@ -249,11 +239,6 @@ class _ShellScaffold extends HookWidget {
             icon: Icon(Icons.search_outlined),
             selectedIcon: Icon(Icons.search),
             label: 'Search',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.map_outlined),
-            selectedIcon: Icon(Icons.map),
-            label: 'Map',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline),

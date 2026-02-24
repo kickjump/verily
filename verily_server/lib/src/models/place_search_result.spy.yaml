@@ -1,0 +1,14 @@
+class: PlaceSearchResult
+fields:
+  mapboxId:
+    type: String
+  name:
+    type: String
+  fullAddress:
+    type: String?
+  latitude:
+    type: double
+  longitude:
+    type: double
+  category:
+    type: String?

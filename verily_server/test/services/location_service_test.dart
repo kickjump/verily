@@ -69,13 +69,13 @@ void main() {
     test('North Pole to South Pole is approximately 20015 km', () {
       // North Pole: 90 N, 0 E
       // South Pole: 90 S, 0 E
-      final distance = haversineDistance(90.0, 0.0, -90.0, 0.0);
+      final distance = haversineDistance(90, 0, -90, 0);
       // Half the circumference of Earth: ~20015 km.
       expect(distance, closeTo(20_015_000, 100_000));
     });
 
     test('equatorial points 1 degree apart are approximately 111 km', () {
-      final distance = haversineDistance(0.0, 0.0, 0.0, 1.0);
+      final distance = haversineDistance(0, 0, 0, 1);
       // 1 degree of longitude at the equator is approximately 111 km.
       expect(distance, closeTo(111_000, 1_000));
     });

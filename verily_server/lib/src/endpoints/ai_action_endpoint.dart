@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
-import '../services/ai_action_service.dart';
+import 'package:verily_server/src/services/ai_action_service.dart';
 
 /// Endpoint for AI-powered action creation.
 ///

@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
-import '../generated/protocol.dart';
-import '../services/user_follow_service.dart';
+import 'package:verily_server/src/generated/protocol.dart';
+import 'package:verily_server/src/services/user_follow_service.dart';
 
 /// Endpoint for managing user follow relationships.
 ///
@@ -13,7 +13,7 @@ class UserFollowEndpoint extends Endpoint {
 
   /// Follows another user.
   Future<UserFollow> follow(Session session, UuidValue userId) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final authId = _authenticatedUserId(session);
     return UserFollowService.follow(
       session,
       followerId: authId,
@@ -23,7 +23,7 @@ class UserFollowEndpoint extends Endpoint {
 
   /// Unfollows another user.
   Future<void> unfollow(Session session, UuidValue userId) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final authId = _authenticatedUserId(session);
     return UserFollowService.unfollow(
       session,
       followerId: authId,
@@ -49,11 +49,15 @@ class UserFollowEndpoint extends Endpoint {
 
   /// Checks whether the authenticated user is following a given user.
   Future<bool> isFollowing(Session session, UuidValue userId) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final authId = _authenticatedUserId(session);
     return UserFollowService.isFollowing(
       session,
       followerId: authId,
       followedId: userId,
     );
   }
+}
+
+UuidValue _authenticatedUserId(Session session) {
+  return UuidValue.fromString(session.authenticated!.userIdentifier);
 }

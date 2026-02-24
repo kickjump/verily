@@ -35,17 +35,16 @@ import 'package:verily_client/src/protocol/place_search_result.dart' as _i22;
 import 'package:verily_client/src/protocol/location.dart' as _i23;
 import 'package:verily_client/src/protocol/reward.dart' as _i24;
 import 'package:verily_client/src/protocol/user_reward.dart' as _i25;
-import 'package:verily_client/src/services/reward_service.dart' as _i26;
-import 'package:verily_client/src/protocol/reward_pool.dart' as _i27;
-import 'package:verily_client/src/protocol/reward_distribution.dart' as _i28;
-import 'package:verily_client/src/protocol/solana_wallet.dart' as _i29;
-import 'package:verily_client/src/protocol/action_submission.dart' as _i30;
-import 'package:verily_client/src/protocol/user_follow.dart' as _i31;
-import 'package:verily_client/src/protocol/user_profile.dart' as _i32;
+import 'package:verily_client/src/protocol/reward_pool.dart' as _i26;
+import 'package:verily_client/src/protocol/reward_distribution.dart' as _i27;
+import 'package:verily_client/src/protocol/solana_wallet.dart' as _i28;
+import 'package:verily_client/src/protocol/action_submission.dart' as _i29;
+import 'package:verily_client/src/protocol/user_follow.dart' as _i30;
+import 'package:verily_client/src/protocol/user_profile.dart' as _i31;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
-    as _i33;
+    as _i32;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
-    as _i34;
+    as _i33;
 export 'action.dart';
 export 'action_category.dart';
 export 'action_step.dart';
@@ -240,49 +239,43 @@ class Protocol extends _i1.SerializationManager {
       return (data as List).map((e) => deserialize<_i25.UserReward>(e)).toList()
           as T;
     }
-    if (t == List<_i26.LeaderboardEntry>) {
+    if (t == List<_i26.RewardPool>) {
+      return (data as List).map((e) => deserialize<_i26.RewardPool>(e)).toList()
+          as T;
+    }
+    if (t == List<_i27.RewardDistribution>) {
       return (data as List)
-              .map((e) => deserialize<_i26.LeaderboardEntry>(e))
+              .map((e) => deserialize<_i27.RewardDistribution>(e))
               .toList()
           as T;
     }
-    if (t == List<_i27.RewardPool>) {
-      return (data as List).map((e) => deserialize<_i27.RewardPool>(e)).toList()
-          as T;
-    }
-    if (t == List<_i28.RewardDistribution>) {
+    if (t == List<_i28.SolanaWallet>) {
       return (data as List)
-              .map((e) => deserialize<_i28.RewardDistribution>(e))
+              .map((e) => deserialize<_i28.SolanaWallet>(e))
               .toList()
           as T;
     }
-    if (t == List<_i29.SolanaWallet>) {
+    if (t == List<_i29.ActionSubmission>) {
       return (data as List)
-              .map((e) => deserialize<_i29.SolanaWallet>(e))
+              .map((e) => deserialize<_i29.ActionSubmission>(e))
               .toList()
           as T;
     }
-    if (t == List<_i30.ActionSubmission>) {
-      return (data as List)
-              .map((e) => deserialize<_i30.ActionSubmission>(e))
-              .toList()
+    if (t == List<_i30.UserFollow>) {
+      return (data as List).map((e) => deserialize<_i30.UserFollow>(e)).toList()
           as T;
     }
-    if (t == List<_i31.UserFollow>) {
-      return (data as List).map((e) => deserialize<_i31.UserFollow>(e)).toList()
-          as T;
-    }
-    if (t == List<_i32.UserProfile>) {
+    if (t == List<_i31.UserProfile>) {
       return (data as List)
-              .map((e) => deserialize<_i32.UserProfile>(e))
+              .map((e) => deserialize<_i31.UserProfile>(e))
               .toList()
           as T;
     }
     try {
-      return _i33.Protocol().deserialize<T>(data, t);
+      return _i32.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     try {
-      return _i34.Protocol().deserialize<T>(data, t);
+      return _i33.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -352,11 +345,11 @@ class Protocol extends _i1.SerializationManager {
       case _i17.VerificationResult():
         return 'VerificationResult';
     }
-    className = _i33.Protocol().getClassNameForObject(data);
+    className = _i32.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_idp.$className';
     }
-    className = _i34.Protocol().getClassNameForObject(data);
+    className = _i33.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_core.$className';
     }
@@ -419,11 +412,11 @@ class Protocol extends _i1.SerializationManager {
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       data['className'] = dataClassName.substring(19);
-      return _i33.Protocol().deserializeByClassName(data);
+      return _i32.Protocol().deserializeByClassName(data);
     }
     if (dataClassName.startsWith('serverpod_auth_core.')) {
       data['className'] = dataClassName.substring(20);
-      return _i34.Protocol().deserializeByClassName(data);
+      return _i33.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }
@@ -438,10 +431,10 @@ class Protocol extends _i1.SerializationManager {
       return null;
     }
     try {
-      return _i33.Protocol().mapRecordToJson(record);
+      return _i32.Protocol().mapRecordToJson(record);
     } catch (_) {}
     try {
-      return _i34.Protocol().mapRecordToJson(record);
+      return _i33.Protocol().mapRecordToJson(record);
     } catch (_) {}
     throw Exception('Unsupported record type ${record.runtimeType}');
   }

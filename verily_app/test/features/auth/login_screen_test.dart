@@ -13,18 +13,26 @@ import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('LoginScreen', () {
-    ProviderContainer buildContainer() {
-      return ProviderContainer(
+    // Override the authProvider so it starts in Unauthenticated state
+    // instead of AuthLoading (which would show loading spinners).
+    late ProviderContainer container;
+
+    setUp(() {
+      container = ProviderContainer(
         overrides: [
           authProvider.overrideWith(() {
             return _FakeAuth();
           }),
         ],
       );
-    }
+    });
+
+    tearDown(() {
+      container.dispose();
+    });
 
     Future<void> pumpLoginScreen(WidgetTester tester) async {
-      await tester.pumpApp(const LoginScreen(), container: buildContainer());
+      await tester.pumpApp(const LoginScreen(), container: container);
     }
 
     testWidgets('renders email text field', (tester) async {

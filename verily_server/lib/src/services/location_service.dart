@@ -3,8 +3,8 @@ import 'dart:math' as math;
 import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
-import '../exceptions/server_exceptions.dart';
-import '../generated/protocol.dart';
+import 'package:verily_server/src/exceptions/server_exceptions.dart';
+import 'package:verily_server/src/generated/protocol.dart';
 
 /// Business logic for managing geographic locations attached to actions.
 ///
@@ -186,25 +186,6 @@ class LocationService {
     });
 
     return nearby.take(limit).toList();
-  }
-
-  /// Finds locations within a lat/lng bounding box (for map viewport queries).
-  static Future<List<Location>> findInBoundingBox(
-    Session session, {
-    required double southLat,
-    required double westLng,
-    required double northLat,
-    required double eastLng,
-    int limit = 100,
-  }) async {
-    // Simple bbox filter. For production, use PostGIS ST_MakeEnvelope.
-    return Location.db.find(
-      session,
-      where: (t) =>
-          t.latitude.between(southLat, northLat) &
-          t.longitude.between(westLng, eastLng),
-      limit: limit,
-    );
   }
 
   /// Checks whether a given point is within the radius of a specific location.

@@ -1,9 +1,8 @@
 import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
-import '../exceptions/server_exceptions.dart';
-import '../generated/protocol.dart';
-import 'location_service.dart';
+import 'package:verily_server/src/exceptions/server_exceptions.dart';
+import 'package:verily_server/src/generated/protocol.dart';
 
 /// Business logic for creating, reading, updating, and deleting actions.
 ///
@@ -202,63 +201,6 @@ class ActionService {
 
     await Action.db.deleteRow(session, action);
     _log.info('Deleted action id=$id');
-  }
-
-  /// Finds active actions with a location within [radiusMeters] of the given
-  /// point.
-  static Future<List<Action>> listNearby(
-    Session session, {
-    required double latitude,
-    required double longitude,
-    required double radiusMeters,
-    int limit = 50,
-  }) async {
-    final nearbyLocations = await LocationService.findNearby(
-      session,
-      latitude: latitude,
-      longitude: longitude,
-      radiusMeters: radiusMeters,
-    );
-    final locationIds = nearbyLocations.map((l) => l.id!).toList();
-    if (locationIds.isEmpty) return [];
-
-    return Action.db.find(
-      session,
-      where: (t) =>
-          t.status.equals('active') & t.locationId.inSet(locationIds.toSet()),
-      limit: limit,
-      orderBy: (t) => t.createdAt,
-      orderDescending: true,
-    );
-  }
-
-  /// Finds active actions with locations inside the given bounding box.
-  static Future<List<Action>> listInBoundingBox(
-    Session session, {
-    required double southLat,
-    required double westLng,
-    required double northLat,
-    required double eastLng,
-    int limit = 100,
-  }) async {
-    final locations = await LocationService.findInBoundingBox(
-      session,
-      southLat: southLat,
-      westLng: westLng,
-      northLat: northLat,
-      eastLng: eastLng,
-    );
-    final locationIds = locations.map((l) => l.id!).toList();
-    if (locationIds.isEmpty) return [];
-
-    return Action.db.find(
-      session,
-      where: (t) =>
-          t.status.equals('active') & t.locationId.inSet(locationIds.toSet()),
-      limit: limit,
-      orderBy: (t) => t.createdAt,
-      orderDescending: true,
-    );
   }
 
   /// Verifies that [callerId] matches the action's [creatorId].

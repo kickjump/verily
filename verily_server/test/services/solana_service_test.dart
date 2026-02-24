@@ -31,8 +31,8 @@ void main() {
       const perPersonAmount = 1.0; // 1 SOL
       const platformFeePercent = 5.0;
 
-      final fee = perPersonAmount * (platformFeePercent / 100);
-      final performerAmount = perPersonAmount - fee;
+      const fee = perPersonAmount * (platformFeePercent / 100);
+      const performerAmount = perPersonAmount - fee;
 
       expect(fee, closeTo(0.05, 0.001));
       expect(performerAmount, closeTo(0.95, 0.001));
@@ -42,8 +42,8 @@ void main() {
       const perPersonAmount = 1.0;
       const platformFeePercent = 0.0;
 
-      final fee = perPersonAmount * (platformFeePercent / 100);
-      final performerAmount = perPersonAmount - fee;
+      const fee = perPersonAmount * (platformFeePercent / 100);
+      const performerAmount = perPersonAmount - fee;
 
       expect(fee, 0.0);
       expect(performerAmount, 1.0);

@@ -13,26 +13,29 @@ import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('SettingsScreen', () {
-    ProviderContainer buildContainer() {
-      return ProviderContainer(
+    late ProviderContainer container;
+
+    setUp(() {
+      container = ProviderContainer(
         overrides: [
           authProvider.overrideWith(() {
             return _FakeAuth();
           }),
         ],
       );
-    }
+    });
+
+    tearDown(() {
+      container.dispose();
+    });
 
     Future<void> pumpSettingsScreen(WidgetTester tester) async {
-      await tester.pumpApp(const SettingsScreen(), container: buildContainer());
+      await tester.pumpApp(const SettingsScreen(), container: container);
     }
 
-    Future<void> scrollTo(WidgetTester tester, Finder finder) async {
-      await tester.scrollUntilVisible(
-        finder,
-        300,
-        scrollable: find.byType(Scrollable).first,
-      );
+    Future<void> scrollDown(WidgetTester tester) async {
+      final scrollable = find.byType(Scrollable).first;
+      await tester.drag(scrollable, const Offset(0, -600));
       await tester.pumpAndSettle();
     }
 
@@ -86,7 +89,7 @@ void main() {
 
     testWidgets('renders About section', (tester) async {
       await pumpSettingsScreen(tester);
-      await scrollTo(tester, find.text('About Verily'));
+      await scrollDown(tester);
 
       expect(find.text('About'), findsOneWidget);
       expect(find.text('About Verily'), findsOneWidget);
@@ -95,28 +98,28 @@ void main() {
 
     testWidgets('renders Terms of Service tile', (tester) async {
       await pumpSettingsScreen(tester);
-      await scrollTo(tester, find.text('Terms of Service'));
+      await scrollDown(tester);
 
       expect(find.text('Terms of Service'), findsOneWidget);
     });
 
     testWidgets('renders Privacy Policy tile', (tester) async {
       await pumpSettingsScreen(tester);
-      await scrollTo(tester, find.text('Privacy Policy'));
+      await scrollDown(tester);
 
       expect(find.text('Privacy Policy'), findsOneWidget);
     });
 
     testWidgets('renders Open Source Licenses tile', (tester) async {
       await pumpSettingsScreen(tester);
-      await scrollTo(tester, find.text('Open Source Licenses'));
+      await scrollDown(tester);
 
       expect(find.text('Open Source Licenses'), findsOneWidget);
     });
 
     testWidgets('renders Log Out button', (tester) async {
       await pumpSettingsScreen(tester);
-      await scrollTo(tester, find.text('Log Out'));
+      await scrollDown(tester);
 
       expect(find.text('Log Out'), findsOneWidget);
       expect(find.byIcon(Icons.logout), findsOneWidget);

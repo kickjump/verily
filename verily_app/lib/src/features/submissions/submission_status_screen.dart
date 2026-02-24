@@ -16,7 +16,9 @@ class SubmissionStatusScreen extends HookConsumerWidget {
   /// The action this submission belongs to.
   final String actionId;
 
-  /// Whether to simulate status progression automatically.
+  /// Whether to run the built-in delayed status simulation.
+  ///
+  /// Tests disable this to avoid pending timer leaks.
   final bool simulateVerification;
 
   @override
@@ -26,7 +28,7 @@ class SubmissionStatusScreen extends HookConsumerWidget {
 
     // Simulated verification progress.
     final status = useState(VerificationStatus.pending);
-    final confidenceScore = useState(0.0);
+    final confidenceScore = useState<double>(0);
     final analysisText = useState('');
 
     // Simulate verification flow.
@@ -55,7 +57,7 @@ class SubmissionStatusScreen extends HookConsumerWidget {
 
       runSimulation();
       return () => cancelled = true;
-    }, []);
+    }, [simulateVerification]);
 
     return Scaffold(
       appBar: AppBar(

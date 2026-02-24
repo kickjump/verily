@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/auth/auth_provider.dart';
+import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
-
-import 'auth_provider.dart';
 
 /// Step in the registration flow.
 enum _RegisterStep {
@@ -48,7 +48,11 @@ class RegisterScreen extends HookConsumerWidget {
             if (currentStep.value == _RegisterStep.verification) {
               currentStep.value = _RegisterStep.credentials;
             } else {
-              context.pop();
+              if (context.canPop()) {
+                context.pop();
+              } else {
+                context.go(RouteNames.loginPath);
+              }
             }
           },
         ),
@@ -200,7 +204,7 @@ class RegisterScreen extends HookConsumerWidget {
 
                     if (currentStep.value == _RegisterStep.verification) ...[
                       // Verification instructions
-                      Icon(
+                      const Icon(
                         Icons.mark_email_read_outlined,
                         size: 64,
                         color: ColorTokens.primary,
@@ -277,7 +281,15 @@ class RegisterScreen extends HookConsumerWidget {
                           ),
                         ),
                         VTextButton(
-                          onPressed: isLoading ? null : () => context.pop(),
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  if (context.canPop()) {
+                                    context.pop();
+                                  } else {
+                                    context.go(RouteNames.loginPath);
+                                  }
+                                },
                           child: const Text('Log In'),
                         ),
                       ],

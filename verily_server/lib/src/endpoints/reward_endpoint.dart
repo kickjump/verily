@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
-import '../generated/protocol.dart';
-import '../services/reward_service.dart';
+import 'package:verily_server/src/generated/protocol.dart';
+import 'package:verily_server/src/services/reward_service.dart';
 
 /// Endpoint for managing rewards and leaderboards.
 ///
@@ -18,12 +18,21 @@ class RewardEndpoint extends Endpoint {
 
   /// Lists all rewards earned by the authenticated user.
   Future<List<UserReward>> listByUser(Session session) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final authId = _authenticatedUserId(session);
     return RewardService.findUserRewards(session, userId: authId);
   }
 
   /// Retrieves the leaderboard of users ranked by total reward points.
-  Future<List<LeaderboardEntry>> getLeaderboard(Session session) async {
-    return RewardService.getLeaderboard(session);
+  Future<List<UserReward>> getLeaderboard(Session session) async {
+    return UserReward.db.find(
+      session,
+      limit: 100,
+      orderBy: (t) => t.earnedAt,
+      orderDescending: true,
+    );
   }
+}
+
+UuidValue _authenticatedUserId(Session session) {
+  return UuidValue.fromString(session.authenticated!.userIdentifier);
 }

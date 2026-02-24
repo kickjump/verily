@@ -45,7 +45,10 @@ class ActionDetailScreen extends HookConsumerWidget {
             // Category and type badges
             Row(
               children: [
-                VBadgeChip(label: 'Fitness', icon: Icons.category_outlined),
+                const VBadgeChip(
+                  label: 'Fitness',
+                  icon: Icons.category_outlined,
+                ),
                 const SizedBox(width: SpacingTokens.sm),
                 VBadgeChip(
                   label: 'One-Off',
@@ -84,26 +87,26 @@ class ActionDetailScreen extends HookConsumerWidget {
             const SizedBox(height: SpacingTokens.lg),
 
             // Verification criteria section
-            _SectionHeader(
+            const _SectionHeader(
               icon: Icons.verified_outlined,
               title: 'Verification Criteria',
             ),
             const SizedBox(height: SpacingTokens.sm),
-            VCard(
-              padding: const EdgeInsets.all(SpacingTokens.md),
+            const VCard(
+              padding: EdgeInsets.all(SpacingTokens.md),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _CriterionRow(
                     text: 'Full body visible in frame during all push-ups',
                   ),
-                  const SizedBox(height: SpacingTokens.sm),
+                  SizedBox(height: SpacingTokens.sm),
                   _CriterionRow(text: 'Must complete 20 consecutive push-ups'),
-                  const SizedBox(height: SpacingTokens.sm),
+                  SizedBox(height: SpacingTokens.sm),
                   _CriterionRow(
                     text: 'Park environment clearly visible in background',
                   ),
-                  const SizedBox(height: SpacingTokens.sm),
+                  SizedBox(height: SpacingTokens.sm),
                   _CriterionRow(
                     text:
                         'Proper push-up form (chest to ground, full extension)',
@@ -114,7 +117,10 @@ class ActionDetailScreen extends HookConsumerWidget {
             const SizedBox(height: SpacingTokens.lg),
 
             // Location section
-            _SectionHeader(icon: Icons.location_on_outlined, title: 'Location'),
+            const _SectionHeader(
+              icon: Icons.location_on_outlined,
+              title: 'Location',
+            ),
             const SizedBox(height: SpacingTokens.sm),
             VCard(
               padding: const EdgeInsets.all(SpacingTokens.md),
@@ -162,10 +168,13 @@ class ActionDetailScreen extends HookConsumerWidget {
             const SizedBox(height: SpacingTokens.lg),
 
             // Rewards section
-            _SectionHeader(icon: Icons.emoji_events_outlined, title: 'Rewards'),
+            const _SectionHeader(
+              icon: Icons.emoji_events_outlined,
+              title: 'Rewards',
+            ),
             const SizedBox(height: SpacingTokens.sm),
-            VCard(
-              padding: const EdgeInsets.all(SpacingTokens.md),
+            const VCard(
+              padding: EdgeInsets.all(SpacingTokens.md),
               child: Column(
                 children: [
                   _RewardRow(
@@ -174,7 +183,7 @@ class ActionDetailScreen extends HookConsumerWidget {
                     title: '100 Points',
                     subtitle: 'Awarded upon verification',
                   ),
-                  const Divider(height: SpacingTokens.lg),
+                  Divider(height: SpacingTokens.lg),
                   _RewardRow(
                     icon: Icons.military_tech,
                     iconColor: ColorTokens.tertiary,
@@ -187,7 +196,10 @@ class ActionDetailScreen extends HookConsumerWidget {
             const SizedBox(height: SpacingTokens.lg),
 
             // Creator info section
-            _SectionHeader(icon: Icons.person_outline, title: 'Created By'),
+            const _SectionHeader(
+              icon: Icons.person_outline,
+              title: 'Created By',
+            ),
             const SizedBox(height: SpacingTokens.sm),
             VCard(
               onTap: () => context.push('/profile/user/creator_1'),
@@ -225,14 +237,14 @@ class ActionDetailScreen extends HookConsumerWidget {
             const SizedBox(height: SpacingTokens.lg),
 
             // Action metadata
-            VCard(
-              padding: const EdgeInsets.all(SpacingTokens.md),
+            const VCard(
+              padding: EdgeInsets.all(SpacingTokens.md),
               child: Column(
                 children: [
                   _MetadataRow(label: 'Max Performers', value: '50'),
-                  const SizedBox(height: SpacingTokens.sm),
+                  SizedBox(height: SpacingTokens.sm),
                   _MetadataRow(label: 'Completed', value: '12 / 50'),
-                  const SizedBox(height: SpacingTokens.sm),
+                  SizedBox(height: SpacingTokens.sm),
                   _MetadataRow(label: 'Created', value: 'Jan 15, 2026'),
                 ],
               ),
@@ -299,7 +311,11 @@ class _CriterionRow extends HookWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(Icons.check_circle_outline, size: 18, color: ColorTokens.success),
+        const Icon(
+          Icons.check_circle_outline,
+          size: 18,
+          color: ColorTokens.success,
+        ),
         const SizedBox(width: SpacingTokens.sm),
         Expanded(child: Text(text, style: theme.textTheme.bodyMedium)),
       ],

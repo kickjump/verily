@@ -37,7 +37,6 @@ void main() {
       // We verify by generating a reference color scheme and comparing.
       final expectedLightScheme = ColorScheme.fromSeed(
         seedColor: ColorTokens.primary,
-        brightness: Brightness.light,
         secondary: ColorTokens.secondary,
         tertiary: ColorTokens.tertiary,
         error: ColorTokens.error,

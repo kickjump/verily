@@ -7,7 +7,6 @@
 // 3. Generated protocol code from `serverpod generate`
 
 import 'package:test/test.dart';
-import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
 // These imports will resolve once `serverpod generate` has been run:
@@ -18,18 +17,6 @@ import 'package:verily_core/verily_core.dart';
 // import 'package:verily_server/src/exceptions/server_exceptions.dart';
 
 void main() {
-  // ---------------------------------------------------------------------------
-  // Shared test data
-  // ---------------------------------------------------------------------------
-
-  final testCreatorId = UuidValue.fromString(
-    'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee',
-  );
-  final performerId = UuidValue.fromString(
-    '11111111-2222-3333-4444-555555555555',
-  );
-  const testVideoUrl = 'https://storage.example.com/video.mp4';
-
   group('SubmissionService', () {
     // late Session session;
     // late Action oneOffAction;

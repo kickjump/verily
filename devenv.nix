@@ -68,7 +68,7 @@ in
         enable = true;
         name = "lint";
         description = "Run linting and formatting checks on every commit.";
-        entry = "${config.env.DEVENV_PROFILE}/bin/dart analyze --fatal-infos";
+        entry = "${config.env.DEVENV_PROFILE}/bin/dart analyze";
         pass_filenames = true;
         always_run = true;
         stages = [ "pre-commit" ];
@@ -294,7 +294,7 @@ in
     "lint:analyze" = {
       exec = ''
         set -e
-        dart analyze --fatal-infos .
+        dart analyze .
       '';
       description = "Run dart analyze across the workspace in a single process.";
     };

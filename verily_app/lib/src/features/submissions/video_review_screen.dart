@@ -13,8 +13,6 @@ class VideoReviewScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final isSubmitting = useState(false);
 
     Future<void> submitVideo() async {
@@ -49,9 +47,6 @@ class VideoReviewScreen extends HookConsumerWidget {
           // Video preview
           Expanded(
             child: VVideoPlayer(
-              // TODO: Use actual recorded video URL.
-              videoUrl: null,
-              thumbnailUrl: null,
               aspectRatio: 9 / 16,
               onPlay: () {
                 // TODO: Play the recorded video.
@@ -61,10 +56,10 @@ class VideoReviewScreen extends HookConsumerWidget {
           const SizedBox(height: SpacingTokens.md),
 
           // Video metadata
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.md),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: SpacingTokens.md),
             child: VCard(
-              padding: const EdgeInsets.all(SpacingTokens.md),
+              padding: EdgeInsets.all(SpacingTokens.md),
               child: Column(
                 children: [
                   _MetadataItem(
@@ -72,14 +67,14 @@ class VideoReviewScreen extends HookConsumerWidget {
                     label: 'Duration',
                     value: '0:32',
                   ),
-                  const SizedBox(height: SpacingTokens.sm),
+                  SizedBox(height: SpacingTokens.sm),
                   _MetadataItem(
                     icon: Icons.gps_fixed,
                     label: 'Location',
                     value: 'GPS coordinates captured',
                     valueColor: ColorTokens.success,
                   ),
-                  const SizedBox(height: SpacingTokens.sm),
+                  SizedBox(height: SpacingTokens.sm),
                   _MetadataItem(
                     icon: Icons.high_quality_outlined,
                     label: 'Quality',

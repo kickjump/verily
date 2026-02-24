@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -21,8 +20,6 @@ extension PumpApp on WidgetTester {
     Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates,
     Iterable<Locale>? supportedLocales,
   }) {
-    GoogleFonts.config.allowRuntimeFetching = false;
-
     final Widget app;
 
     if (router != null) {

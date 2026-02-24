@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_ui/verily_ui.dart';
-
-import '../auth/auth_provider.dart';
 
 /// Screen for adjusting app settings.
 class SettingsScreen extends HookConsumerWidget {
@@ -32,7 +31,7 @@ class SettingsScreen extends HookConsumerWidget {
       body: ListView(
         children: [
           // Appearance section
-          _SectionTitle(title: 'Appearance'),
+          const _SectionTitle(title: 'Appearance'),
           _ThemeModeTile(
             currentMode: themeMode.value,
             onChanged: (mode) => themeMode.value = mode,
@@ -40,7 +39,7 @@ class SettingsScreen extends HookConsumerWidget {
           const Divider(),
 
           // Notifications section
-          _SectionTitle(title: 'Notifications'),
+          const _SectionTitle(title: 'Notifications'),
           _SettingsToggleTile(
             icon: Icons.notifications_outlined,
             title: 'Push Notifications',
@@ -51,7 +50,7 @@ class SettingsScreen extends HookConsumerWidget {
           const Divider(),
 
           // Privacy section
-          _SectionTitle(title: 'Privacy'),
+          const _SectionTitle(title: 'Privacy'),
           _SettingsToggleTile(
             icon: Icons.location_on_outlined,
             title: 'Location Sharing',
@@ -69,7 +68,7 @@ class SettingsScreen extends HookConsumerWidget {
           const Divider(),
 
           // About section
-          _SectionTitle(title: 'About'),
+          const _SectionTitle(title: 'About'),
           _SettingsNavTile(
             icon: Icons.info_outline,
             title: 'About Verily',
@@ -79,7 +78,7 @@ class SettingsScreen extends HookConsumerWidget {
                 context: context,
                 applicationName: 'Verily',
                 applicationVersion: '1.0.0+1',
-                applicationIcon: Icon(
+                applicationIcon: const Icon(
                   Icons.verified_rounded,
                   size: 48,
                   color: ColorTokens.primary,
@@ -330,8 +329,8 @@ class _SettingsNavTile extends HookWidget {
   const _SettingsNavTile({
     required this.icon,
     required this.title,
-    this.subtitle,
     required this.onTap,
+    this.subtitle,
   });
 
   final IconData icon;

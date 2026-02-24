@@ -14,7 +14,6 @@ class VideoRecordingScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final isRecording = useState(false);
     final elapsedSeconds = useState(0);
     final isFrontCamera = useState(false);
@@ -50,7 +49,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
         fit: StackFit.expand,
         children: [
           // Camera preview placeholder
-          Container(
+          ColoredBox(
             color: Colors.black87,
             child: Center(
               child: Column(
@@ -225,7 +224,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
                         ),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.info_outline,
                               color: Colors.white70,
                               size: 20,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
 /// Screen for searching and filtering actions.
@@ -10,8 +11,6 @@ class SearchScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final searchController = useTextEditingController();
     final searchQuery = useState('');
     final selectedCategory = useState<String?>(null);
@@ -67,23 +66,23 @@ class SearchScreen extends HookConsumerWidget {
               ),
               child: Row(
                 children: [
-                  for (final entry in categories.asMap().entries) ...[
-                    if (entry.key > 0) const SizedBox(width: SpacingTokens.sm),
+                  for (final category in categories) ...[
                     FilterChip(
                       selected:
-                          (entry.value == 'All' &&
+                          (category == 'All' &&
                               selectedCategory.value == null) ||
-                          selectedCategory.value == entry.value,
-                      label: Text(entry.value),
+                          selectedCategory.value == category,
+                      label: Text(category),
                       onSelected: (selected) {
-                        selectedCategory.value =
-                            (selected && entry.value != 'All')
-                            ? entry.value
+                        selectedCategory.value = (selected && category != 'All')
+                            ? category
                             : null;
                       },
                       selectedColor: ColorTokens.primary.withAlpha(30),
                       checkmarkColor: ColorTokens.primary,
                     ),
+                    if (category != categories.last)
+                      const SizedBox(width: SpacingTokens.sm),
                   ],
                 ],
               ),
@@ -175,7 +174,9 @@ class _SearchResultCard extends HookWidget {
     final colorScheme = theme.colorScheme;
 
     return VCard(
-      onTap: () => context.push('/actions/$index'),
+      onTap: () => context.push(
+        RouteNames.actionDetailPath.replaceFirst(':actionId', '$index'),
+      ),
       padding: const EdgeInsets.all(SpacingTokens.md),
       child: Row(
         children: [
@@ -187,7 +188,10 @@ class _SearchResultCard extends HookWidget {
               color: ColorTokens.primary.withAlpha(20),
               borderRadius: BorderRadius.circular(RadiusTokens.sm),
             ),
-            child: Icon(Icons.assignment_outlined, color: ColorTokens.primary),
+            child: const Icon(
+              Icons.assignment_outlined,
+              color: ColorTokens.primary,
+            ),
           ),
           const SizedBox(width: SpacingTokens.md),
 
@@ -207,7 +211,10 @@ class _SearchResultCard extends HookWidget {
                 const SizedBox(height: SpacingTokens.xs),
                 Row(
                   children: [
-                    VBadgeChip(label: 'Fitness', icon: Icons.category_outlined),
+                    const VBadgeChip(
+                      label: 'Fitness',
+                      icon: Icons.category_outlined,
+                    ),
                     const SizedBox(width: SpacingTokens.sm),
                     Text(
                       '${(index + 1) * 25} pts',

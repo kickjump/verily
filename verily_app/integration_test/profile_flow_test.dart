@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 
 import 'common/patrol_helpers.dart';
-import 'common/test_data.dart';
 
 // TODO(codegen): These tests use a minimal GoRouter setup that bypasses
 // the full VerilyApp widget. Once localization codegen (`flutter gen-l10n`)

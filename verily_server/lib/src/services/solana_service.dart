@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
-import '../exceptions/server_exceptions.dart';
-import '../generated/protocol.dart';
+import 'package:verily_server/src/exceptions/server_exceptions.dart';
+import 'package:verily_server/src/generated/protocol.dart';
 
 /// Service for Solana blockchain operations including wallet management,
 /// token transfers, and NFT minting.
@@ -19,11 +19,6 @@ class SolanaService {
   SolanaService._();
 
   static final _log = VLogger('SolanaService');
-
-  /// The Solana cluster RPC URL. Reads from passwords.yaml.
-  static String _getRpcUrl(Session session) {
-    return session.passwords['solanaRpcUrl'] ?? 'https://api.devnet.solana.com';
-  }
 
   // ---------------------------------------------------------------------------
   // Wallet management
@@ -331,14 +326,17 @@ class SolanaService {
   /// Should be called periodically (e.g., via a cron job or future call).
   static Future<int> processExpiredPools(Session session) async {
     final now = DateTime.now().toUtc();
-    final expiredPools = await RewardPool.db.find(
+    final activePools = await RewardPool.db.find(
       session,
       where: (t) =>
           t.status.equals(PoolStatus.active.value) &
-              t.expiresAt.notEquals(null) &
-              t.expiresAt <=
-          now,
+          t.expiresAt.notEquals(null),
     );
+    final expiredPools = activePools
+        .where(
+          (pool) => pool.expiresAt != null && pool.expiresAt!.isBefore(now),
+        )
+        .toList();
 
     for (final pool in expiredPools) {
       pool.status = PoolStatus.expired.value;
