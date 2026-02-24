@@ -17,4 +17,5 @@ asset_filters = [".tar.gz"]
 tag = "v0.22.0"
 
 ["pnpm/pnpm"]
+asset_filters = ["^linuxstatic"]
 tag = "v10.30.2"
