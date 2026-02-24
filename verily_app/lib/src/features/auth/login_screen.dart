@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_ui/verily_ui.dart';
-
-import 'auth_provider.dart';
 
 /// Screen that allows users to log in with email/password or social providers.
 class LoginScreen extends HookConsumerWidget {
@@ -40,7 +39,7 @@ class LoginScreen extends HookConsumerWidget {
                   const SizedBox(height: SpacingTokens.xxl),
 
                   // App branding
-                  Icon(
+                  const Icon(
                     Icons.verified_rounded,
                     size: 64,
                     color: ColorTokens.primary,

@@ -270,7 +270,8 @@ void main() {
 
     group('markdown-wrapped JSON', () {
       test('strips ```json wrapper', () {
-        const responseText = '''```json
+        const responseText = '''
+```json
 {
   "passed": true,
   "confidenceScore": 0.9,
@@ -287,7 +288,8 @@ void main() {
       });
 
       test('strips ``` wrapper without language tag', () {
-        const responseText = '''```
+        const responseText = '''
+```
 {
   "passed": false,
   "confidenceScore": 0.4,
@@ -323,7 +325,8 @@ void main() {
       test('handles ```JSON (uppercase) wrapper', () {
         // The regex uses (?:json)? which is case-sensitive. Test that the
         // parser handles this gracefully (either strips it or falls back).
-        const responseText = '''```JSON
+        const responseText = '''
+```JSON
 {
   "passed": true,
   "confidenceScore": 0.75,

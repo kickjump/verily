@@ -5,7 +5,7 @@ import 'package:verily_core/verily_core.dart';
 
 /// Initializes server-side logging with file output for development.
 void initServerLogging() {
-  VLogger.init(source: 'server', minLevel: Level.ALL);
+  VLogger.init(source: 'server');
 
   final logDir = Directory('.temp/logs');
   if (!logDir.existsSync()) {

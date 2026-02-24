@@ -129,7 +129,7 @@ class UserProfileScreen extends HookConsumerWidget {
                     const SizedBox(height: SpacingTokens.lg),
 
                     // Stats row
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         _UserStatItem(count: '156', label: 'Followers'),
@@ -225,7 +225,10 @@ class _PublicActionsTab extends HookWidget {
               children: [
                 Row(
                   children: [
-                    VBadgeChip(label: 'Fitness', icon: Icons.category_outlined),
+                    const VBadgeChip(
+                      label: 'Fitness',
+                      icon: Icons.category_outlined,
+                    ),
                     const Spacer(),
                     VBadgeChip(
                       label: 'Completed',
@@ -263,7 +266,6 @@ class _PublicBadgesTab extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
 
     // TODO: Replace with real data from provider.
     final badges = [
@@ -330,7 +332,7 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(color: color, child: tabBar);
+    return ColoredBox(color: color, child: tabBar);
   }
 
   @override

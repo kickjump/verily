@@ -1,6 +1,6 @@
 import 'package:serverpod/serverpod.dart';
 
-import '../services/seed_service.dart';
+import 'package:verily_server/src/services/seed_service.dart';
 
 /// Endpoint for seeding the database with default data.
 ///

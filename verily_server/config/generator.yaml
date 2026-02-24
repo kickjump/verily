@@ -1,0 +1,11 @@
+type: server
+client_package_path: ../verily_client
+
+modules:
+  serverpod_auth_idp:
+    nickname: auth_idp
+  serverpod_auth_core:
+    nickname: auth_core
+
+features:
+  database: true

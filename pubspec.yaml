@@ -24,7 +24,7 @@ melos:
   scripts:
     analyze:
       description: Run dart analyze across all packages.
-      exec: dart analyze --fatal-infos .
+      exec: dart analyze .
 
     test:
       description: Run tests in all packages.

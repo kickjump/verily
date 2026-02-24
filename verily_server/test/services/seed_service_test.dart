@@ -6,9 +6,8 @@
 // 2. serverpod_test configured with test session support
 // 3. Generated protocol code from `serverpod generate`
 
-import 'package:test/test.dart';
 import 'package:serverpod/serverpod.dart';
-import 'package:verily_core/verily_core.dart';
+import 'package:test/test.dart';
 
 // These imports will resolve once `serverpod generate` has been run:
 // import 'package:verily_server/src/generated/protocol.dart';

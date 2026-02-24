@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
-import '../generated/protocol.dart';
-import '../services/submission_service.dart';
+import 'package:verily_server/src/generated/protocol.dart';
+import 'package:verily_server/src/services/submission_service.dart';
 
 /// Endpoint for managing action submissions.
 ///
@@ -16,13 +16,13 @@ class SubmissionEndpoint extends Endpoint {
     Session session,
     ActionSubmission submission,
   ) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final authId = _authenticatedUserId(session);
     return SubmissionService.create(
       session,
       actionId: submission.actionId,
       performerId: authId,
-      videoUrl: submission.videoUrl,
       stepNumber: submission.stepNumber,
+      videoUrl: submission.videoUrl,
       videoDurationSeconds: submission.videoDurationSeconds,
       deviceMetadata: submission.deviceMetadata,
       latitude: submission.latitude,
@@ -40,12 +40,12 @@ class SubmissionEndpoint extends Endpoint {
 
   /// Lists all submissions by the authenticated performer.
   Future<List<ActionSubmission>> listByPerformer(Session session) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final authId = _authenticatedUserId(session);
     return SubmissionService.findByPerformer(session, performerId: authId);
   }
 
   /// Retrieves a single submission by its ID.
-  Future<ActionSubmission?> get(Session session, int id) async {
+  Future<ActionSubmission> get(Session session, int id) async {
     return SubmissionService.findById(session, id);
   }
 
@@ -57,12 +57,15 @@ class SubmissionEndpoint extends Endpoint {
     Session session,
     int actionId,
   ) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
-    // Fetch all submissions for this action, then filter by performer.
-    final submissions = await SubmissionService.findByAction(
+    final authId = _authenticatedUserId(session);
+    return ActionSubmission.db.find(
       session,
-      actionId: actionId,
+      where: (t) => t.actionId.equals(actionId) & t.performerId.equals(authId),
+      orderBy: (t) => t.stepNumber,
     );
-    return submissions.where((s) => s.performerId == authId).toList();
   }
+}
+
+UuidValue _authenticatedUserId(Session session) {
+  return UuidValue.fromString(session.authenticated!.userIdentifier);
 }

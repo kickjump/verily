@@ -40,7 +40,7 @@ void main() {
 
     test('visual nonce description format', () {
       const nonce = 'ABC123';
-      final description =
+      const description =
           'Display the code "$nonce" on screen during your recording. '
           'Hold it up so it is clearly visible in the video.';
 

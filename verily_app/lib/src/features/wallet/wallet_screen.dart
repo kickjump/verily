@@ -49,7 +49,7 @@ class WalletScreen extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '\$0.00 USD',
+                      r'$0.00 USD',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Theme.of(
                           context,

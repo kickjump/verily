@@ -100,7 +100,7 @@ void main() {
         address: '123 Main St',
         latitude: 51.5,
         longitude: -0.1,
-        suggestedRadiusMeters: 200.0,
+        suggestedRadiusMeters: 200,
       );
 
       final json = location.toJson();

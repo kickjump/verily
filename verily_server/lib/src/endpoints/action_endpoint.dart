@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
-
-import '../generated/protocol.dart';
-import '../services/action_service.dart';
+import 'package:verily_server/src/generated/protocol.dart';
+import 'package:verily_server/src/services/action_service.dart';
+import 'package:verily_server/src/services/location_service.dart';
 
 /// Endpoint for managing verifiable actions.
 ///
@@ -13,7 +13,7 @@ class ActionEndpoint extends Endpoint {
 
   /// Creates a new action.
   Future<Action> create(Session session, Action action) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final authId = _authenticatedUserId(session);
     return ActionService.create(
       session,
       title: action.title,
@@ -42,15 +42,32 @@ class ActionEndpoint extends Endpoint {
     double lng,
     double radiusMeters,
   ) async {
-    return ActionService.listNearby(
+    final nearbyLocations = await LocationService.findNearby(
       session,
       latitude: lat,
       longitude: lng,
       radiusMeters: radiusMeters,
+      limit: 200,
     );
+    final nearbyLocationIds = nearbyLocations.map((l) => l.id).whereType<int>();
+    final nearbySet = nearbyLocationIds.toSet();
+    if (nearbySet.isEmpty) return [];
+
+    final activeActions = await ActionService.list(
+      session,
+      status: 'active',
+      limit: 500,
+    );
+    return activeActions
+        .where(
+          (action) =>
+              action.locationId != null &&
+              nearbySet.contains(action.locationId),
+        )
+        .toList();
   }
 
-  /// Lists active actions with locations inside a bounding box.
+  /// Lists actions that have locations inside a bounding box.
   Future<List<Action>> listInBoundingBox(
     Session session,
     double southLat,
@@ -58,18 +75,42 @@ class ActionEndpoint extends Endpoint {
     double northLat,
     double eastLng,
   ) async {
-    return ActionService.listInBoundingBox(
+    final locations = await LocationService.list(session, limit: 2000);
+    final locationIds = locations
+        .where(
+          (location) =>
+              location.latitude >= southLat &&
+              location.latitude <= northLat &&
+              location.longitude >= westLng &&
+              location.longitude <= eastLng,
+        )
+        .map((location) => location.id)
+        .whereType<int>()
+        .toSet();
+
+    if (locationIds.isEmpty) return [];
+
+    final activeActions = await ActionService.list(
       session,
-      southLat: southLat,
-      westLng: westLng,
-      northLat: northLat,
-      eastLng: eastLng,
+      status: 'active',
+      limit: 500,
     );
+    return activeActions
+        .where(
+          (action) =>
+              action.locationId != null &&
+              locationIds.contains(action.locationId),
+        )
+        .toList();
   }
 
   /// Lists actions belonging to a specific category.
   Future<List<Action>> listByCategory(Session session, int categoryId) async {
-    return ActionService.list(session, categoryId: categoryId);
+    return ActionService.list(
+      session,
+      status: 'active',
+      categoryId: categoryId,
+    );
   }
 
   /// Searches actions by a query string.
@@ -78,16 +119,21 @@ class ActionEndpoint extends Endpoint {
   }
 
   /// Retrieves a single action by its ID.
-  Future<Action?> get(Session session, int id) async {
+  Future<Action> get(Session session, int id) async {
     return ActionService.findById(session, id);
   }
 
   /// Updates an existing action.
   Future<Action> update(Session session, Action action) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final authId = _authenticatedUserId(session);
+    final actionId = action.id;
+    if (actionId == null) {
+      throw ArgumentError('Action id is required for updates');
+    }
+
     return ActionService.update(
       session,
-      id: action.id!,
+      id: actionId,
       callerId: authId,
       title: action.title,
       description: action.description,
@@ -104,13 +150,17 @@ class ActionEndpoint extends Endpoint {
 
   /// Deletes an action by its ID.
   Future<void> delete(Session session, int id) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final authId = _authenticatedUserId(session);
     return ActionService.delete(session, id: id, callerId: authId);
   }
 
   /// Lists all actions created by the authenticated user.
   Future<List<Action>> listByCreator(Session session) async {
-    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final authId = _authenticatedUserId(session);
     return ActionService.findByCreator(session, creatorId: authId);
   }
+}
+
+UuidValue _authenticatedUserId(Session session) {
+  return UuidValue.fromString(session.authenticated!.userIdentifier);
 }

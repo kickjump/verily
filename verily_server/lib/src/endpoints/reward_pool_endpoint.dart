@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
-import '../generated/protocol.dart';
-import '../services/reward_pool_service.dart';
+import 'package:verily_server/src/generated/protocol.dart';
+import 'package:verily_server/src/services/reward_pool_service.dart';
 
 /// Endpoint for managing reward pools on actions.
 ///
@@ -22,7 +22,7 @@ class RewardPoolEndpoint extends Endpoint {
     int? maxRecipients,
     DateTime? expiresAt,
   }) async {
-    final userId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final userId = _authenticatedUserId(session);
     return RewardPoolService.create(
       session,
       actionId: actionId,
@@ -48,13 +48,13 @@ class RewardPoolEndpoint extends Endpoint {
 
   /// Lists all reward pools created by the authenticated user.
   Future<List<RewardPool>> listByCreator(Session session) async {
-    final userId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final userId = _authenticatedUserId(session);
     return RewardPoolService.findByCreator(session, creatorId: userId);
   }
 
   /// Cancels a reward pool (only the creator can cancel).
   Future<RewardPool> cancel(Session session, int poolId) async {
-    final userId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final userId = _authenticatedUserId(session);
     return RewardPoolService.cancel(session, poolId: poolId, userId: userId);
   }
 
@@ -65,4 +65,8 @@ class RewardPoolEndpoint extends Endpoint {
   ) async {
     return RewardPoolService.getDistributions(session, poolId: poolId);
   }
+}
+
+UuidValue _authenticatedUserId(Session session) {
+  return UuidValue.fromString(session.authenticated!.userIdentifier);
 }

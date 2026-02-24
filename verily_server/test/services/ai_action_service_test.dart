@@ -84,7 +84,7 @@ void main() {
         },
       ];
 
-      final steps = jsonList.map((e) => AiGeneratedStep.fromJson(e)).toList();
+      final steps = jsonList.map(AiGeneratedStep.fromJson).toList();
 
       expect(steps.length, 2);
       expect(steps[0].stepNumber, 1);

@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
-import '../generated/protocol.dart';
-import '../services/action_category_service.dart';
+import 'package:verily_server/src/generated/protocol.dart';
+import 'package:verily_server/src/services/action_category_service.dart';
 
 /// Endpoint for managing action categories.
 ///
@@ -31,7 +31,7 @@ class ActionCategoryEndpoint extends Endpoint {
   }
 
   /// Retrieves a single action category by its ID.
-  Future<ActionCategory?> get(Session session, int id) async {
+  Future<ActionCategory> get(Session session, int id) async {
     return ActionCategoryService.findById(session, id);
   }
 }

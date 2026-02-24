@@ -10,7 +10,7 @@ import 'package:verily_core/verily_core.dart';
 /// `flutter:ios`, `flutter:android`, `flutter:web`, etc.
 void initAppLogging() {
   final source = _resolveSource();
-  VLogger.init(source: source, minLevel: kDebugMode ? Level.ALL : Level.INFO);
+  VLogger.init(source: source);
 
   Logger.root.onRecord.listen((record) {
     final entry = LogEntry(

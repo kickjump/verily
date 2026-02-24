@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:verily_ui/src/theme/color_tokens.dart';
 
 /// Provides Material 3 light and dark themes for Verily.
@@ -20,9 +21,12 @@ abstract final class VerilyTheme {
       error: ColorTokens.error,
     );
 
-    final baseTextTheme =
-        (isLight ? ThemeData.light().textTheme : ThemeData.dark().textTheme)
-            .apply(fontFamily: 'PlusJakartaSans');
+    final defaultTextTheme = isLight
+        ? ThemeData.light().textTheme
+        : ThemeData.dark().textTheme;
+    final baseTextTheme = GoogleFonts.config.allowRuntimeFetching
+        ? GoogleFonts.plusJakartaSansTextTheme(defaultTextTheme)
+        : defaultTextTheme;
 
     return ThemeData(
       useMaterial3: true,

@@ -33,7 +33,6 @@ class CreateActionScreen extends HookConsumerWidget {
     final locationNameController = useTextEditingController();
     final locationEnabled = useState(false);
     final maxPerformersController = useTextEditingController();
-    final selectedLocation = useState<LocationPickerResult?>(null);
 
     // Form keys per step
     final formKeys = useMemoized(
@@ -59,7 +58,7 @@ class CreateActionScreen extends HookConsumerWidget {
     Future<void> submitAction() async {
       isSubmitting.value = true;
       try {
-        // TODO(verily): Submit action to Serverpod.
+        // TODO: Submit action to Serverpod.
         await Future<void>.delayed(const Duration(seconds: 1));
         if (context.mounted) {
           context.go('/feed');
@@ -108,7 +107,6 @@ class CreateActionScreen extends HookConsumerWidget {
                 locationNameController: locationNameController,
                 locationEnabled: locationEnabled,
                 maxPerformersController: maxPerformersController,
-                selectedLocation: selectedLocation,
               ),
             ),
           ),
@@ -160,7 +158,6 @@ class CreateActionScreen extends HookConsumerWidget {
     required TextEditingController locationNameController,
     required ValueNotifier<bool> locationEnabled,
     required TextEditingController maxPerformersController,
-    required ValueNotifier<LocationPickerResult?> selectedLocation,
   }) {
     switch (currentStep) {
       case 0:
@@ -182,7 +179,6 @@ class CreateActionScreen extends HookConsumerWidget {
           locationNameController: locationNameController,
           locationEnabled: locationEnabled,
           maxPerformersController: maxPerformersController,
-          selectedLocation: selectedLocation,
         );
       case 3:
         return _StepReview(
@@ -193,9 +189,8 @@ class CreateActionScreen extends HookConsumerWidget {
           criteria: criteriaController.text,
           category: selectedCategory.value,
           locationName: locationEnabled.value
-              ? (selectedLocation.value?.name ?? locationNameController.text)
+              ? locationNameController.text
               : null,
-          selectedLocation: selectedLocation.value,
           maxPerformers: maxPerformersController.text,
         );
       default:
@@ -394,7 +389,7 @@ class _StepVerification extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // TODO(verily): Replace with real categories from provider.
+    // TODO: Replace with real categories from provider.
     final categories = [
       'Fitness',
       'Environment',
@@ -483,14 +478,12 @@ class _StepLocation extends HookWidget {
     required this.locationNameController,
     required this.locationEnabled,
     required this.maxPerformersController,
-    required this.selectedLocation,
   });
 
   final GlobalKey<FormState> formKey;
   final TextEditingController locationNameController;
   final ValueNotifier<bool> locationEnabled;
   final TextEditingController maxPerformersController;
-  final ValueNotifier<LocationPickerResult?> selectedLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -553,43 +546,20 @@ class _StepLocation extends HookWidget {
 
           if (locationEnabled.value) ...[
             const SizedBox(height: SpacingTokens.md),
-            LocationPickerMap(
-              onConfirm: (result) {
-                selectedLocation.value = result;
-              },
+            VTextField(
+              controller: locationNameController,
+              labelText: 'Location Name',
+              hintText: 'e.g., Central Park',
+              prefixIcon: const Icon(Icons.place_outlined),
             ),
-            if (selectedLocation.value != null) ...[
-              const SizedBox(height: SpacingTokens.sm),
-              VCard(
-                padding: const EdgeInsets.all(SpacingTokens.md),
-                child: Row(
-                  children: [
-                    const Icon(Icons.check_circle, color: ColorTokens.success),
-                    const SizedBox(width: SpacingTokens.sm),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Location selected',
-                            style: theme.textTheme.labelMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            '${selectedLocation.value!.point.latitude.toStringAsFixed(4)}, '
-                            '${selectedLocation.value!.point.longitude.toStringAsFixed(4)}',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+            const SizedBox(height: SpacingTokens.sm),
+            Text(
+              'A map picker will be available in a future update.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+                fontStyle: FontStyle.italic,
               ),
-            ],
+            ),
           ],
           const SizedBox(height: SpacingTokens.lg),
 
@@ -634,7 +604,6 @@ class _StepReview extends HookWidget {
     required this.maxPerformers,
     this.category,
     this.locationName,
-    this.selectedLocation,
   });
 
   final GlobalKey<FormState> formKey;
@@ -644,7 +613,6 @@ class _StepReview extends HookWidget {
   final String criteria;
   final String? category;
   final String? locationName;
-  final LocationPickerResult? selectedLocation;
   final String maxPerformers;
 
   @override
@@ -684,12 +652,7 @@ class _StepReview extends HookWidget {
           const SizedBox(height: SpacingTokens.md),
           _ReviewField(
             label: 'Location',
-            value: selectedLocation != null
-                ? '${locationName ?? 'Selected'} '
-                      '(${selectedLocation!.point.latitude.toStringAsFixed(4)}, '
-                      '${selectedLocation!.point.longitude.toStringAsFixed(4)}) '
-                      '— ${selectedLocation!.radiusMeters >= 1000 ? '${(selectedLocation!.radiusMeters / 1000).toStringAsFixed(1)} km' : '${selectedLocation!.radiusMeters.round()} m'} radius'
-                : (locationName ?? 'No location restriction'),
+            value: locationName ?? 'No location restriction',
           ),
           const SizedBox(height: SpacingTokens.md),
           _ReviewField(

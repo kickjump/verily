@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart' show GoRouter;
 import 'package:verily_core/verily_core.dart';
 
 /// A [NavigatorObserver] that logs route changes via [VLogger].

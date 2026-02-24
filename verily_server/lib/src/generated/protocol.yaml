@@ -1,0 +1,74 @@
+actionCategory:
+  - list:
+  - create:
+  - get:
+action:
+  - create:
+  - listActive:
+  - listNearby:
+  - listInBoundingBox:
+  - listByCategory:
+  - search:
+  - get:
+  - update:
+  - delete:
+  - listByCreator:
+actionStep:
+  - create:
+  - listByAction:
+  - update:
+  - delete:
+aiAction:
+  - generate:
+  - generateCriteria:
+  - generateSteps:
+attestation:
+  - createChallenge:
+  - submitAttestation:
+geocoding:
+  - searchPlaces:
+  - reverseGeocode:
+location:
+  - create:
+  - searchNearby:
+  - get:
+reward:
+  - listByAction:
+  - listByUser:
+  - getLeaderboard:
+rewardPool:
+  - create:
+  - get:
+  - listByAction:
+  - listByCreator:
+  - cancel:
+  - getDistributions:
+seed:
+  - seedDefaultActions:
+solana:
+  - createWallet:
+  - linkWallet:
+  - getWallets:
+  - setDefaultWallet:
+  - getBalance:
+submission:
+  - create:
+  - listByAction:
+  - listByPerformer:
+  - get:
+  - getSequentialProgress:
+userFollow:
+  - follow:
+  - unfollow:
+  - listFollowers:
+  - listFollowing:
+  - isFollowing:
+userProfile:
+  - create:
+  - get:
+  - getByUsername:
+  - update:
+  - search:
+verification:
+  - getBySubmission:
+  - retryVerification:

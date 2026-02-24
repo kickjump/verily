@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
 /// Main feed screen showing nearby and trending actions.
@@ -10,8 +11,6 @@ class FeedScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final tabController = useTabController(initialLength: 2);
     final isRefreshing = useState(false);
 
@@ -28,7 +27,7 @@ class FeedScreen extends HookConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () => context.push('/search'),
+            onPressed: () => context.push(RouteNames.searchPath),
           ),
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
@@ -66,7 +65,7 @@ class FeedScreen extends HookConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/actions/create'),
+        onPressed: () => context.push(RouteNames.createActionPath),
         icon: const Icon(Icons.add),
         label: const Text('Create Action'),
       ),
@@ -167,7 +166,9 @@ class _ActionFeedCard extends HookWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
       child: VCard(
-        onTap: () => context.push('/actions/$index'),
+        onTap: () => context.push(
+          RouteNames.actionDetailPath.replaceFirst(':actionId', '$index'),
+        ),
         padding: const EdgeInsets.all(SpacingTokens.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +240,7 @@ class _ActionFeedCard extends HookWidget {
                   ),
                 ),
                 const Spacer(),
-                Icon(
+                const Icon(
                   Icons.emoji_events_outlined,
                   size: 16,
                   color: ColorTokens.secondary,

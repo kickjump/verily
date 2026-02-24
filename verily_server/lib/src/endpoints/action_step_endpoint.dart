@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
-import '../generated/protocol.dart';
-import '../services/action_step_service.dart';
+import 'package:verily_server/src/generated/protocol.dart';
+import 'package:verily_server/src/services/action_step_service.dart';
 
 /// Endpoint for managing steps within an action.
 ///
@@ -30,9 +30,14 @@ class ActionStepEndpoint extends Endpoint {
 
   /// Updates an existing action step.
   Future<ActionStep> update(Session session, ActionStep actionStep) async {
+    final stepId = actionStep.id;
+    if (stepId == null) {
+      throw ArgumentError('Action step id is required for updates');
+    }
+
     return ActionStepService.update(
       session,
-      id: actionStep.id!,
+      id: stepId,
       title: actionStep.title,
       description: actionStep.description,
       verificationCriteria: actionStep.verificationCriteria,

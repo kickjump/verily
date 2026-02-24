@@ -12,9 +12,6 @@ abstract final class RouteNames {
   /// Search tab — discover actions by keyword or category.
   static const String search = 'search';
 
-  /// Map tab — discover actions on a map.
-  static const String map = 'map';
-
   /// Profile tab — current user profile.
   static const String profile = 'profile';
 
@@ -97,7 +94,6 @@ abstract final class RouteNames {
 
   static const String feedPath = '/feed';
   static const String searchPath = '/search';
-  static const String mapPath = '/map';
   static const String profilePath = '/profile';
   static const String loginPath = '/login';
   static const String registerPath = '/register';

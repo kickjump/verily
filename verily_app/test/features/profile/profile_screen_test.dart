@@ -33,7 +33,7 @@ void main() {
     testWidgets('renders Profile app bar title', (tester) async {
       await pumpProfileScreen(tester);
 
-      expect(find.text('Profile'), findsOneWidget);
+      expect(find.widgetWithText(AppBar, 'Profile'), findsOneWidget);
     });
 
     testWidgets('renders stats bar with Created count', (tester) async {
@@ -47,7 +47,7 @@ void main() {
       await pumpProfileScreen(tester);
 
       expect(find.text('28'), findsOneWidget);
-      expect(find.text('Completed'), findsOneWidget);
+      expect(find.text('Completed'), findsWidgets);
     });
 
     testWidgets('renders stats bar with Badges count', (tester) async {

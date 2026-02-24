@@ -1,17 +1,16 @@
 import 'dart:io';
 
-import 'package:verily_server/src/auth/apple_oauth_callback_route.dart';
+import 'package:serverpod/serverpod.dart';
+import 'package:serverpod_auth_idp_server/core.dart';
+import 'package:serverpod_auth_idp_server/providers/apple.dart';
+import 'package:serverpod_auth_idp_server/providers/email.dart';
+import 'package:serverpod_auth_idp_server/providers/google.dart';
 import 'package:verily_server/src/auth/email_sender.dart';
 import 'package:verily_server/src/generated/endpoints.dart';
 import 'package:verily_server/src/generated/protocol.dart';
 import 'package:verily_server/src/logging/server_logging.dart';
 import 'package:verily_server/src/web/routes/app_config_route.dart';
 import 'package:verily_server/src/web/routes/root.dart';
-import 'package:serverpod/serverpod.dart';
-import 'package:serverpod_auth_idp_server/core.dart';
-import 'package:serverpod_auth_idp_server/providers/apple.dart';
-import 'package:serverpod_auth_idp_server/providers/email.dart';
-import 'package:serverpod_auth_idp_server/providers/google.dart';
 
 /// Email sender instance. Replace with [SmtpEmailSender] for production.
 final EmailSender _emailSender = ConsoleEmailSender();
@@ -62,19 +61,7 @@ Future<void> run(List<String> args) async {
   );
 
   if (appleIdpEnabled) {
-    pod.webServer.addRoute(
-      AppleOauthCallbackRoute(
-        androidPackageIdentifier: _readPassword(
-          pod,
-          'appleAndroidPackageIdentifier',
-        ),
-      ),
-      '/auth/apple/callback',
-    );
-    pod.webServer.addRoute(
-      AuthServices.instance.appleIdp.revokedNotificationRoute(),
-      '/hooks/apple-notification',
-    );
+    pod.configureAppleIdpRoutes();
   }
 
   // Checks if the Flutter web app has been built and serves it.

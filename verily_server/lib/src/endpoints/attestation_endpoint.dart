@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
-import '../generated/protocol.dart';
-import '../services/attestation_service.dart';
+import 'package:verily_server/src/generated/protocol.dart';
+import 'package:verily_server/src/services/attestation_service.dart';
 
 /// Endpoint for device attestation and video nonce management.
 ///
@@ -19,7 +19,7 @@ class AttestationEndpoint extends Endpoint {
     Session session,
     int actionId,
   ) async {
-    final userId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final userId = _authenticatedUserId(session);
     return AttestationService.createChallenge(
       session,
       userId: userId,
@@ -54,4 +54,8 @@ class AttestationEndpoint extends Endpoint {
     }
     throw ArgumentError('Unsupported platform: $platform');
   }
+}
+
+UuidValue _authenticatedUserId(Session session) {
+  return UuidValue.fromString(session.authenticated!.userIdentifier);
 }

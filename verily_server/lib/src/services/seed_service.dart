@@ -1,11 +1,11 @@
 import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
-import '../generated/protocol.dart';
-import 'action_category_service.dart';
-import 'action_service.dart';
-import 'action_step_service.dart';
-import 'reward_service.dart';
+import 'package:verily_server/src/generated/protocol.dart';
+import 'package:verily_server/src/services/action_category_service.dart';
+import 'package:verily_server/src/services/action_service.dart';
+import 'package:verily_server/src/services/action_step_service.dart';
+import 'package:verily_server/src/services/reward_service.dart';
 
 /// Seeds the database with the built-in default actions and their rewards.
 ///
@@ -80,7 +80,6 @@ class SeedService {
       rewardType: 'badge',
       name: 'Press-up Pro',
       description: 'Completed 10 press-ups with verified form',
-      iconUrl: null,
       pointValue: 100,
       actionId: action.id!,
     );
@@ -151,7 +150,6 @@ class SeedService {
       rewardType: 'badge',
       name: '7-Day Warrior',
       description: 'Completed the entire 7-Day Press-up Challenge',
-      iconUrl: null,
       pointValue: 500,
       actionId: action.id!,
     );
@@ -199,7 +197,6 @@ class SeedService {
       rewardType: 'badge',
       name: 'Star Jump Champion',
       description: 'Completed 20 star jumps with verified form',
-      iconUrl: null,
       pointValue: 100,
       actionId: action.id!,
     );
@@ -250,7 +247,6 @@ class SeedService {
       rewardType: 'badge',
       name: 'Social Butterfly',
       description: 'Said hello to 3 strangers in public',
-      iconUrl: null,
       pointValue: 150,
       actionId: action.id!,
     );

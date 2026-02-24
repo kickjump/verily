@@ -13,18 +13,24 @@ import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('RegisterScreen', () {
-    ProviderContainer buildContainer() {
-      return ProviderContainer(
+    late ProviderContainer container;
+
+    setUp(() {
+      container = ProviderContainer(
         overrides: [
           authProvider.overrideWith(() {
             return _FakeAuth();
           }),
         ],
       );
-    }
+    });
+
+    tearDown(() {
+      container.dispose();
+    });
 
     Future<void> pumpRegisterScreen(WidgetTester tester) async {
-      await tester.pumpApp(const RegisterScreen(), container: buildContainer());
+      await tester.pumpApp(const RegisterScreen(), container: container);
     }
 
     testWidgets('renders email text field', (tester) async {

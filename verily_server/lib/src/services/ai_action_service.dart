@@ -41,7 +41,7 @@ class AiActionService {
       final locationCtx = latitude != null && longitude != null
           ? '\nUser location: lat=$latitude, lng=$longitude. '
                 'If the description mentions a place, suggest coordinates near '
-                'the user\'s location.'
+                "the user's location."
           : '';
 
       final prompt =

@@ -58,7 +58,7 @@ void main() {
       late VLogger logger;
 
       setUp(() {
-        VLogger.init(source: 'test', minLevel: Level.ALL);
+        VLogger.init(source: 'test');
         logger = VLogger('TestLogger');
       });
 

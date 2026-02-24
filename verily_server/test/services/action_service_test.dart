@@ -10,7 +10,6 @@
 // behavior of ActionService and serve as a specification for integration tests.
 
 import 'package:test/test.dart';
-import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
 // These imports will resolve once `serverpod generate` has been run:
@@ -19,17 +18,6 @@ import 'package:verily_core/verily_core.dart';
 // import 'package:verily_server/src/exceptions/server_exceptions.dart';
 
 void main() {
-  // ---------------------------------------------------------------------------
-  // Shared test data
-  // ---------------------------------------------------------------------------
-
-  final testCreatorId = UuidValue.fromString(
-    'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee',
-  );
-  final otherUserId = UuidValue.fromString(
-    '11111111-2222-3333-4444-555555555555',
-  );
-
   group('ActionService', () {
     // late Session session;
 

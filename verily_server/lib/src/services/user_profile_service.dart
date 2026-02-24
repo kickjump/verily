@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
-import '../exceptions/server_exceptions.dart';
-import '../generated/protocol.dart';
+import 'package:verily_server/src/exceptions/server_exceptions.dart';
+import 'package:verily_server/src/generated/protocol.dart';
 
 /// Business logic for user profile management.
 ///
@@ -171,7 +171,7 @@ class UserProfileService {
     if (email == null || !email.contains('@')) return null;
     final local = email.split('@').first.toLowerCase();
     // Strip non-alphanumeric characters except underscores.
-    final cleaned = local.replaceAll(RegExp(r'[^a-z0-9_]'), '');
+    final cleaned = local.replaceAll(RegExp('[^a-z0-9_]'), '');
     return cleaned.length >= 3 ? cleaned : null;
   }
 

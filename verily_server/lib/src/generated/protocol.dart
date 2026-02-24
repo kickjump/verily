@@ -40,13 +40,12 @@ import 'package:verily_server/src/generated/place_search_result.dart' as _i25;
 import 'package:verily_server/src/generated/location.dart' as _i26;
 import 'package:verily_server/src/generated/reward.dart' as _i27;
 import 'package:verily_server/src/generated/user_reward.dart' as _i28;
-import 'package:verily_server/src/services/reward_service.dart' as _i29;
-import 'package:verily_server/src/generated/reward_pool.dart' as _i30;
-import 'package:verily_server/src/generated/reward_distribution.dart' as _i31;
-import 'package:verily_server/src/generated/solana_wallet.dart' as _i32;
-import 'package:verily_server/src/generated/action_submission.dart' as _i33;
-import 'package:verily_server/src/generated/user_follow.dart' as _i34;
-import 'package:verily_server/src/generated/user_profile.dart' as _i35;
+import 'package:verily_server/src/generated/reward_pool.dart' as _i29;
+import 'package:verily_server/src/generated/reward_distribution.dart' as _i30;
+import 'package:verily_server/src/generated/solana_wallet.dart' as _i31;
+import 'package:verily_server/src/generated/action_submission.dart' as _i32;
+import 'package:verily_server/src/generated/user_follow.dart' as _i33;
+import 'package:verily_server/src/generated/user_profile.dart' as _i34;
 export 'action.dart';
 export 'action_category.dart';
 export 'action_step.dart';
@@ -1882,41 +1881,35 @@ class Protocol extends _i1.SerializationManagerServer {
       return (data as List).map((e) => deserialize<_i28.UserReward>(e)).toList()
           as T;
     }
-    if (t == List<_i29.LeaderboardEntry>) {
+    if (t == List<_i29.RewardPool>) {
+      return (data as List).map((e) => deserialize<_i29.RewardPool>(e)).toList()
+          as T;
+    }
+    if (t == List<_i30.RewardDistribution>) {
       return (data as List)
-              .map((e) => deserialize<_i29.LeaderboardEntry>(e))
+              .map((e) => deserialize<_i30.RewardDistribution>(e))
               .toList()
           as T;
     }
-    if (t == List<_i30.RewardPool>) {
-      return (data as List).map((e) => deserialize<_i30.RewardPool>(e)).toList()
-          as T;
-    }
-    if (t == List<_i31.RewardDistribution>) {
+    if (t == List<_i31.SolanaWallet>) {
       return (data as List)
-              .map((e) => deserialize<_i31.RewardDistribution>(e))
+              .map((e) => deserialize<_i31.SolanaWallet>(e))
               .toList()
           as T;
     }
-    if (t == List<_i32.SolanaWallet>) {
+    if (t == List<_i32.ActionSubmission>) {
       return (data as List)
-              .map((e) => deserialize<_i32.SolanaWallet>(e))
+              .map((e) => deserialize<_i32.ActionSubmission>(e))
               .toList()
           as T;
     }
-    if (t == List<_i33.ActionSubmission>) {
-      return (data as List)
-              .map((e) => deserialize<_i33.ActionSubmission>(e))
-              .toList()
+    if (t == List<_i33.UserFollow>) {
+      return (data as List).map((e) => deserialize<_i33.UserFollow>(e)).toList()
           as T;
     }
-    if (t == List<_i34.UserFollow>) {
-      return (data as List).map((e) => deserialize<_i34.UserFollow>(e)).toList()
-          as T;
-    }
-    if (t == List<_i35.UserProfile>) {
+    if (t == List<_i34.UserProfile>) {
       return (data as List)
-              .map((e) => deserialize<_i35.UserProfile>(e))
+              .map((e) => deserialize<_i34.UserProfile>(e))
               .toList()
           as T;
     }

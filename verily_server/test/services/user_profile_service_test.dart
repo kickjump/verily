@@ -5,8 +5,6 @@
 // test pure logic with no database dependency.
 
 import 'package:test/test.dart';
-import 'package:serverpod/serverpod.dart';
-import 'package:verily_core/verily_core.dart';
 
 // These imports will resolve once `serverpod generate` has been run:
 // import 'package:verily_server/src/generated/protocol.dart';
@@ -101,7 +99,7 @@ void main() {
     String? usernameFromEmail(String? email) {
       if (email == null || !email.contains('@')) return null;
       final local = email.split('@').first.toLowerCase();
-      final cleaned = local.replaceAll(RegExp(r'[^a-z0-9_]'), '');
+      final cleaned = local.replaceAll(RegExp('[^a-z0-9_]'), '');
       return cleaned.length >= 3 ? cleaned : null;
     }
 
@@ -189,13 +187,6 @@ void main() {
     // tearDown(() async {
     //   await session.close();
     // });
-
-    final testAuthUserId = UuidValue.fromString(
-      'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee',
-    );
-    final otherAuthUserId = UuidValue.fromString(
-      '11111111-2222-3333-4444-555555555555',
-    );
 
     group('getOrCreate()', () {
       test(

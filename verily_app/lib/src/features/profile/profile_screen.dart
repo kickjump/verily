@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
 /// Screen showing the current user's profile with stats, actions, and badges.
@@ -22,11 +23,11 @@ class ProfileScreen extends HookConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.edit_outlined),
-            onPressed: () => context.push('/profile/edit'),
+            onPressed: () => context.push(RouteNames.editProfilePath),
           ),
           IconButton(
             icon: const Icon(Icons.settings_outlined),
-            onPressed: () => context.push('/settings'),
+            onPressed: () => context.push(RouteNames.settingsPath),
           ),
         ],
       ),
@@ -123,19 +124,19 @@ class _StatsBar extends HookWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _StatItem(
+          const _StatItem(
             count: '12',
             label: 'Created',
             icon: Icons.add_circle_outline,
           ),
           Container(width: 1, height: 32, color: colorScheme.outlineVariant),
-          _StatItem(
+          const _StatItem(
             count: '28',
             label: 'Completed',
             icon: Icons.check_circle_outline,
           ),
           Container(width: 1, height: 32, color: colorScheme.outlineVariant),
-          _StatItem(
+          const _StatItem(
             count: '7',
             label: 'Badges',
             icon: Icons.military_tech_outlined,
@@ -207,7 +208,9 @@ class _ActionsTab extends HookWidget {
         return Padding(
           padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
           child: VCard(
-            onTap: () => context.push('/actions/$index'),
+            onTap: () => context.push(
+              RouteNames.actionDetailPath.replaceFirst(':actionId', '$index'),
+            ),
             padding: const EdgeInsets.all(SpacingTokens.md),
             child: Row(
               children: [
@@ -346,7 +349,7 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(color: color, child: tabBar);
+    return ColoredBox(color: color, child: tabBar);
   }
 
   @override

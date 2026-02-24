@@ -148,10 +148,11 @@ Widget buildShellApp({String initialLocation = RouteNames.feedPath}) {
             const Scaffold(body: Center(child: Text('Create Action'))),
       ),
       GoRoute(
-        path: '/actions/:id',
+        path: RouteNames.actionDetailPath,
+        name: RouteNames.actionDetail,
         builder: (_, state) => Scaffold(
           body: Center(
-            child: Text('Action Detail ${state.pathParameters["id"]}'),
+            child: Text('Action Detail ${state.pathParameters["actionId"]}'),
           ),
         ),
       ),
@@ -270,6 +271,7 @@ class LoginPage {
 
   /// Navigate to the register screen by tapping the "Sign Up" link.
   Future<void> tapRegisterLink() async {
+    await tester.ensureVisible(registerLink);
     await tester.tap(registerLink);
     await tester.pumpAndSettle();
   }
@@ -321,12 +323,14 @@ class RegisterPage {
 
   /// Navigate back to the login screen by tapping the "Log In" link.
   Future<void> tapLoginLink() async {
+    await tester.ensureVisible(loginLink);
     await tester.tap(loginLink);
     await tester.pumpAndSettle();
   }
 
   /// Navigate back using the AppBar back button.
   Future<void> tapBackButton() async {
+    await tester.ensureVisible(backButton);
     await tester.tap(backButton);
     await tester.pumpAndSettle();
   }
@@ -385,7 +389,7 @@ class ProfilePage {
   final WidgetTester tester;
 
   /// The app bar title.
-  Finder get appBarTitle => find.text('Profile');
+  Finder get appBarTitle => find.widgetWithText(AppBar, 'Profile');
 
   /// The edit profile icon button in the app bar.
   Finder get editButton => find.byIcon(Icons.edit_outlined);
@@ -400,7 +404,7 @@ class ProfilePage {
   Finder get username => find.text('@johndoe');
 
   /// The stats bar (the VCard containing Created/Completed/Badges stats).
-  Finder get statsBar => find.text('Created');
+  Finder get statsBar => find.byIcon(Icons.add_circle_outline);
 
   /// The "Created" stat count.
   Finder get createdCount => find.text('12');
@@ -412,10 +416,10 @@ class ProfilePage {
   Finder get badgesCount => find.text('7');
 
   /// The "Actions" tab.
-  Finder get actionsTab => find.text('Actions');
+  Finder get actionsTab => find.widgetWithText(Tab, 'Actions');
 
   /// The "Badges" tab.
-  Finder get badgesTab => find.text('Badges');
+  Finder get badgesTab => find.widgetWithText(Tab, 'Badges');
 
   /// Tap the edit profile button.
   Future<void> tapEditButton() async {
