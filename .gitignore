@@ -68,6 +68,7 @@ build/
 .temp/
 .tmp/
 .screenshots/
+.example-ui/
 
 # Lock files — only keep pubspec.lock for the app package
 pubspec.lock
@@ -77,3 +78,7 @@ pubspec.lock
 local.properties
 
 .eget/bin/
+
+# Node.js / Pulumi infra
+node_modules/
+infra/dist/

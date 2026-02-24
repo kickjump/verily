@@ -28,6 +28,13 @@ in
     EGET_CONFIG = "${config.env.DEVENV_ROOT}/.eget/.eget.toml";
   };
 
+  enterShell = ''
+    # Map PULUMI_TOKEN (from ~/.env.dotfiles) to the variable Pulumi expects.
+    if [ -n "''${PULUMI_TOKEN:-}" ] && [ -z "''${PULUMI_ACCESS_TOKEN:-}" ]; then
+      export PULUMI_ACCESS_TOKEN="$PULUMI_TOKEN"
+    fi
+  '';
+
   dotenv.disableHint = true;
 
   git-hooks = {
@@ -156,6 +163,30 @@ in
       description = "The knope executable for changeset and release management.";
       binary = "bash";
     };
+    "pulumi" = {
+      exec = ''
+        set -e
+        $DEVENV_ROOT/.eget/bin/pulumi $@
+      '';
+      description = "The Pulumi CLI for infrastructure management.";
+      binary = "bash";
+    };
+    "esc" = {
+      exec = ''
+        set -e
+        $DEVENV_ROOT/.eget/bin/esc $@
+      '';
+      description = "The Pulumi ESC CLI for secrets and configuration.";
+      binary = "bash";
+    };
+    "pnpm" = {
+      exec = ''
+        set -e
+        $DEVENV_ROOT/.eget/bin/pnpm $@
+      '';
+      description = "The pnpm package manager for the infra workspace.";
+      binary = "bash";
+    };
     "melos" = {
       exec = ''
         set -e
@@ -175,8 +206,36 @@ in
         set -e
         install:eget
         install:dart
+        install:infra
       '';
       description = "Run all install scripts.";
+      binary = "bash";
+    };
+    "install:infra" = {
+      exec = ''
+        set -e
+        cd "$DEVENV_ROOT/infra"
+        pnpm install --frozen-lockfile 2>/dev/null || pnpm install
+      '';
+      description = "Install infra (Pulumi) dependencies with pnpm.";
+      binary = "bash";
+    };
+    "infra:preview" = {
+      exec = ''
+        set -e
+        cd "$DEVENV_ROOT/infra"
+        pulumi preview --stack "''${1:-staging}" "''${@:2}"
+      '';
+      description = "Preview Pulumi infrastructure changes.";
+      binary = "bash";
+    };
+    "infra:up" = {
+      exec = ''
+        set -e
+        cd "$DEVENV_ROOT/infra"
+        pulumi up --stack "''${1:-staging}" "''${@:2}"
+      '';
+      description = "Deploy Pulumi infrastructure changes.";
       binary = "bash";
     };
     "install:dart" = {
