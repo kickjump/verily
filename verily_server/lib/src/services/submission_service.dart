@@ -72,8 +72,10 @@ class SubmissionService {
               t.status.equals(VerificationStatus.passed.value),
         );
 
-        final completedSteps =
-            priorSubmissions.map((s) => s.stepNumber).whereType<int>().toSet();
+        final completedSteps = priorSubmissions
+            .map((s) => s.stepNumber)
+            .whereType<int>()
+            .toSet();
 
         for (var i = 1; i < stepNumber; i++) {
           if (!completedSteps.contains(i)) {
@@ -287,8 +289,10 @@ class SubmissionService {
           t.status.equals(VerificationStatus.passed.value),
     );
 
-    final completedSteps =
-        passedSubmissions.map((s) => s.stepNumber).whereType<int>().toSet();
+    final completedSteps = passedSubmissions
+        .map((s) => s.stepNumber)
+        .whereType<int>()
+        .toSet();
 
     for (var i = 1; i <= action.totalSteps!; i++) {
       if (!completedSteps.contains(i)) return false;

@@ -35,9 +35,7 @@ void main() {
       expect(feedPage.trendingTab, findsOneWidget);
     });
 
-    testWidgets('can switch between Nearby and Trending tabs', (
-      tester,
-    ) async {
+    testWidgets('can switch between Nearby and Trending tabs', (tester) async {
       await tester.pumpWidget(buildShellApp());
       await tester.pumpAndSettle();
 

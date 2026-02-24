@@ -21,8 +21,8 @@ Add to `verily_server/config/passwords.yaml`:
 
 ```yaml
 development:
-  xClientId: 'YOUR_X_CLIENT_ID'
-  xClientSecret: 'YOUR_X_CLIENT_SECRET'
+  xClientId: "YOUR_X_CLIENT_ID"
+  xClientSecret: "YOUR_X_CLIENT_SECRET"
 ```
 
 ### Implementation Steps
@@ -51,8 +51,8 @@ Add to `verily_server/config/passwords.yaml`:
 
 ```yaml
 development:
-  facebookAppId: 'YOUR_FACEBOOK_APP_ID'
-  facebookAppSecret: 'YOUR_FACEBOOK_APP_SECRET'
+  facebookAppId: "YOUR_FACEBOOK_APP_ID"
+  facebookAppSecret: "YOUR_FACEBOOK_APP_SECRET"
 ```
 
 ### Implementation Steps

@@ -13,9 +13,7 @@ class VCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final card = Card(
-      child: padding != null
-          ? Padding(padding: padding!, child: child)
-          : child,
+      child: padding != null ? Padding(padding: padding!, child: child) : child,
     );
 
     if (onTap != null) {

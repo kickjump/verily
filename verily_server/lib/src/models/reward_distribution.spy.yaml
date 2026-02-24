@@ -4,14 +4,14 @@ fields:
   rewardPoolId:
     type: int
     relation:
-      parentTable: reward_pool
+      parent: reward_pool
       onDelete: cascade
   recipientId:
     type: UuidValue
   submissionId:
     type: int
     relation:
-      parentTable: action_submission
+      parent: action_submission
       onDelete: cascade
   amount:
     type: double

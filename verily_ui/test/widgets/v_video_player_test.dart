@@ -18,9 +18,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: VVideoPlayer(onPlay: () => played = true),
-          ),
+          home: Scaffold(body: VVideoPlayer(onPlay: () => played = true)),
         ),
       );
 
@@ -37,9 +35,7 @@ void main() {
         ),
       );
 
-      final aspectRatio = tester.widget<AspectRatio>(
-        find.byType(AspectRatio),
-      );
+      final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
       expect(aspectRatio.aspectRatio, closeTo(4 / 3, 0.01));
     });
 
@@ -48,9 +44,7 @@ void main() {
         const MaterialApp(home: Scaffold(body: VVideoPlayer())),
       );
 
-      final aspectRatio = tester.widget<AspectRatio>(
-        find.byType(AspectRatio),
-      );
+      final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
       expect(aspectRatio.aspectRatio, closeTo(16 / 9, 0.01));
     });
 

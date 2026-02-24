@@ -103,8 +103,7 @@ class UserProfileScreen extends HookConsumerWidget {
                                   ? null
                                   : toggleFollow,
                               child: const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.check, size: 18),
                                   SizedBox(width: SpacingTokens.xs),
@@ -118,8 +117,7 @@ class UserProfileScreen extends HookConsumerWidget {
                                   ? null
                                   : toggleFollow,
                               child: const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.person_add_outlined, size: 18),
                                   SizedBox(width: SpacingTokens.xs),
@@ -227,10 +225,7 @@ class _PublicActionsTab extends HookWidget {
               children: [
                 Row(
                   children: [
-                    VBadgeChip(
-                      label: 'Fitness',
-                      icon: Icons.category_outlined,
-                    ),
+                    VBadgeChip(label: 'Fitness', icon: Icons.category_outlined),
                     const Spacer(),
                     VBadgeChip(
                       label: 'Completed',

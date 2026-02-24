@@ -13,21 +13,18 @@ import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('RegisterScreen', () {
-    late List<Override> overrides;
-
-    setUp(() {
-      overrides = [
-        authProvider.overrideWith(() {
-          return _FakeAuth();
-        }),
-      ];
-    });
+    ProviderContainer buildContainer() {
+      return ProviderContainer(
+        overrides: [
+          authProvider.overrideWith(() {
+            return _FakeAuth();
+          }),
+        ],
+      );
+    }
 
     Future<void> pumpRegisterScreen(WidgetTester tester) async {
-      await tester.pumpApp(
-        const RegisterScreen(),
-        container: ProviderContainer(overrides: overrides),
-      );
+      await tester.pumpApp(const RegisterScreen(), container: buildContainer());
     }
 
     testWidgets('renders email text field', (tester) async {

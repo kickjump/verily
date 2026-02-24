@@ -10,6 +10,7 @@ resolution: workspace
 
 dependencies:
   google_generative_ai: ^0.4.6
+  http: ^1.2.0
   logging: ^1.3.0
   verily_core:
     path: ../verily_core

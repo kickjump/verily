@@ -4,7 +4,7 @@ fields:
   submissionId:
     type: int
     relation:
-      parentTable: action_submission
+      parent: action_submission
       onDelete: cascade
   passed:
     type: bool

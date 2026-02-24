@@ -26,7 +26,14 @@ void main() {
         ),
       );
 
-      final paddingWidget = tester.widget<Padding>(find.byType(Padding).first);
+      final paddingFinder = find.descendant(
+        of: find.byType(VCard),
+        matching: find.byWidgetPredicate(
+          (widget) => widget is Padding && widget.padding == testPadding,
+        ),
+      );
+      expect(paddingFinder, findsOneWidget);
+      final paddingWidget = tester.widget<Padding>(paddingFinder);
       expect(paddingWidget.padding, equals(testPadding));
     });
 

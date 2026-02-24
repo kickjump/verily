@@ -156,6 +156,7 @@ The project uses [knope](https://knope.tech) for **changeset-only** version mana
 ## Expanded Marketplace Features
 
 ### Solana Integration
+
 - Reward pools can be funded with SOL, SPL tokens, or NFTs
 - Users can create custodial wallets or link external Solana wallets
 - `SolanaService` handles wallet management and reward distribution
@@ -164,12 +165,14 @@ The project uses [knope](https://knope.tech) for **changeset-only** version mana
 - Server stores only public keys; private key management via KMS in production
 
 ### AI Action Creation
+
 - `AiActionService` uses Gemini to generate structured actions from natural language
 - Text input → title, description, type, verification criteria, category, location
 - Also generates step breakdowns for sequential actions
 - `AiActionEndpoint` exposes generate, generateCriteria, generateSteps
 
 ### Reward Pools
+
 - `RewardPool` model tracks funded reward pools on actions
 - Supports SOL, SPL token, NFT, and points reward types
 - Per-person distribution with 5% platform fee
@@ -178,6 +181,7 @@ The project uses [knope](https://knope.tech) for **changeset-only** version mana
 - `RewardPoolEndpoint` exposes CRUD and distribution queries
 
 ### Device Attestation
+
 - `AttestationChallenge` generates visual nonces for video recording
 - Nonces displayed as overlay, verified by Gemini in video
 - Play Integrity (Android) and App Attest (iOS) verification stubs
@@ -185,6 +189,7 @@ The project uses [knope](https://knope.tech) for **changeset-only** version mana
 - `AttestationEndpoint` exposes createChallenge and submitAttestation
 
 ### New Server Models
+
 - `SolanaWallet` — user wallet (custodial or external)
 - `RewardPool` — funded reward pool on an action
 - `RewardDistribution` — individual distribution record
@@ -192,6 +197,7 @@ The project uses [knope](https://knope.tech) for **changeset-only** version mana
 - `DeviceAttestation` — platform attestation record
 
 ### New App Screens
+
 - `WalletScreen` — view balances, tokens, NFTs, activity
 - `WalletSetupScreen` — onboarding wallet creation
 - `CreateRewardPoolScreen` — fund an action with rewards

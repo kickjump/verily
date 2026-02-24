@@ -281,9 +281,7 @@ class _BadgeCard extends HookWidget {
             child: Icon(
               badge.icon,
               size: 28,
-              color: badge.isEarned
-                  ? badge.color
-                  : colorScheme.outlineVariant,
+              color: badge.isEarned ? badge.color : colorScheme.outlineVariant,
             ),
           ),
           const SizedBox(height: SpacingTokens.sm),
@@ -341,9 +339,7 @@ class _BadgeDetailSheet extends HookWidget {
             child: Icon(
               badge.icon,
               size: 44,
-              color: badge.isEarned
-                  ? badge.color
-                  : colorScheme.outlineVariant,
+              color: badge.isEarned ? badge.color : colorScheme.outlineVariant,
             ),
           ),
           const SizedBox(height: SpacingTokens.md),
@@ -372,10 +368,7 @@ class _BadgeDetailSheet extends HookWidget {
           ],
           if (!badge.isEarned) ...[
             const SizedBox(height: SpacingTokens.md),
-            VBadgeChip(
-              label: 'Not yet earned',
-              icon: Icons.lock_outlined,
-            ),
+            VBadgeChip(label: 'Not yet earned', icon: Icons.lock_outlined),
           ],
           const SizedBox(height: SpacingTokens.lg),
         ],

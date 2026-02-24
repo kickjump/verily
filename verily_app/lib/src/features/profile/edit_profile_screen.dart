@@ -17,7 +17,8 @@ class EditProfileScreen extends HookConsumerWidget {
     final usernameController = useTextEditingController(text: 'johndoe');
     final displayNameController = useTextEditingController(text: 'John Doe');
     final bioController = useTextEditingController(
-      text: 'Fitness enthusiast and community builder. '
+      text:
+          'Fitness enthusiast and community builder. '
           'Love completing real-world challenges!',
     );
     final isSaving = useState(false);
@@ -25,20 +26,17 @@ class EditProfileScreen extends HookConsumerWidget {
     final formKey = useMemoized(GlobalKey<FormState>.new);
 
     // Track changes
-    useEffect(
-      () {
-        void listener() => hasChanges.value = true;
-        usernameController.addListener(listener);
-        displayNameController.addListener(listener);
-        bioController.addListener(listener);
-        return () {
-          usernameController.removeListener(listener);
-          displayNameController.removeListener(listener);
-          bioController.removeListener(listener);
-        };
-      },
-      [usernameController, displayNameController, bioController],
-    );
+    useEffect(() {
+      void listener() => hasChanges.value = true;
+      usernameController.addListener(listener);
+      displayNameController.addListener(listener);
+      bioController.addListener(listener);
+      return () {
+        usernameController.removeListener(listener);
+        displayNameController.removeListener(listener);
+        bioController.removeListener(listener);
+      };
+    }, [usernameController, displayNameController, bioController]);
 
     Future<void> saveProfile() async {
       if (!(formKey.currentState?.validate() ?? false)) return;

@@ -14,10 +14,7 @@ void main() {
 
       // Step 1 (Basic Information) should be visible by default.
       expect(find.text('Title'), findsOneWidget);
-      expect(
-        find.text('e.g., Do 20 push-ups in the park'),
-        findsOneWidget,
-      );
+      expect(find.text('e.g., Do 20 push-ups in the park'), findsOneWidget);
     });
 
     testWidgets('renders step 1 description field', (tester) async {

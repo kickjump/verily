@@ -14,6 +14,6 @@ class SeedEndpoint extends Endpoint {
   /// Seeds the database with default actions and their associated
   /// categories, steps, and rewards.
   Future<void> seedDefaultActions(Session session) async {
-    return SeedService.seedDefaultActions(session);
+    return SeedService.seedAll(session);
   }
 }

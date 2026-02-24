@@ -14,12 +14,12 @@ fields:
   locationId:
     type: int?
     relation:
-      parentTable: location
+      parent: location
       onDelete: setNull
   categoryId:
     type: int?
     relation:
-      parentTable: action_category
+      parent: action_category
       onDelete: setNull
   totalSteps:
     type: int?

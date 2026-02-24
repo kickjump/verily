@@ -13,17 +13,17 @@ class RewardEndpoint extends Endpoint {
 
   /// Lists all rewards associated with a given action.
   Future<List<Reward>> listByAction(Session session, int actionId) async {
-    return RewardService.listByAction(session, actionId);
+    return RewardService.findRewardsByAction(session, actionId: actionId);
   }
 
   /// Lists all rewards earned by the authenticated user.
   Future<List<UserReward>> listByUser(Session session) async {
-    final authId = session.authenticated!.userId;
-    return RewardService.listByUser(session, authId);
+    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    return RewardService.findUserRewards(session, userId: authId);
   }
 
   /// Retrieves the leaderboard of users ranked by total reward points.
-  Future<List<UserReward>> getLeaderboard(Session session) async {
+  Future<List<LeaderboardEntry>> getLeaderboard(Session session) async {
     return RewardService.getLeaderboard(session);
   }
 }

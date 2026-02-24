@@ -30,9 +30,7 @@ class LoginScreen extends HookConsumerWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: SpacingTokens.lg,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.lg),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 400),
               child: Column(
@@ -104,7 +102,9 @@ class LoginScreen extends HookConsumerWidget {
                     onPressed: isLoading
                         ? null
                         : () {
-                            ref.read(authProvider.notifier).login(
+                            ref
+                                .read(authProvider.notifier)
+                                .login(
                                   email: emailController.text.trim(),
                                   password: passwordController.text,
                                 );
@@ -195,8 +195,7 @@ class LoginScreen extends HookConsumerWidget {
                                 Text(
                                   'X',
                                   style: theme.textTheme.labelLarge?.copyWith(
-                                    color: colorScheme.onSurface
-                                        .withAlpha(100),
+                                    color: colorScheme.onSurface.withAlpha(100),
                                   ),
                                 ),
                               ],
@@ -218,8 +217,7 @@ class LoginScreen extends HookConsumerWidget {
                                 Text(
                                   'Facebook',
                                   style: theme.textTheme.labelLarge?.copyWith(
-                                    color: colorScheme.onSurface
-                                        .withAlpha(100),
+                                    color: colorScheme.onSurface.withAlpha(100),
                                   ),
                                 ),
                               ],
@@ -232,8 +230,9 @@ class LoginScreen extends HookConsumerWidget {
                   const SizedBox(height: SpacingTokens.lg),
 
                   // Register link
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Text(
                         "Don't have an account?",

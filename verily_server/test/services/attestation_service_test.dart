@@ -51,32 +51,52 @@ void main() {
 
   group('AttestationService (database operations)', () {
     group('createChallenge()', () {
-      test('creates a challenge with correct expiry', () async {
-        // final challenge = await AttestationService.createChallenge(session, ...);
-        // expect(challenge.nonce.length, 6);
-        // expect(challenge.used, isFalse);
-        // expect(challenge.expiresAt.isAfter(DateTime.now()), isTrue);
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'creates a challenge with correct expiry',
+        () async {
+          // final challenge = await AttestationService.createChallenge(session, ...);
+          // expect(challenge.nonce.length, 6);
+          // expect(challenge.used, isFalse);
+          // expect(challenge.expiresAt.isAfter(DateTime.now()), isTrue);
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('expires old unused challenges', () async {
-        // Create two challenges for the same user+action
-        // First one should be marked as used
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'expires old unused challenges',
+        () async {
+          // Create two challenges for the same user+action
+          // First one should be marked as used
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
 
     group('consumeChallenge()', () {
-      test('marks challenge as used', () async {
-        // final challenge = await AttestationService.consumeChallenge(session, nonce: nonce);
-        // expect(challenge.used, isTrue);
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'marks challenge as used',
+        () async {
+          // final challenge = await AttestationService.consumeChallenge(session, nonce: nonce);
+          // expect(challenge.used, isTrue);
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('throws on expired challenge', () async {
-        // Create a challenge with past expiry
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'throws on expired challenge',
+        () async {
+          // Create a challenge with past expiry
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('throws on already-used challenge', () async {
-        // Consume, then try to consume again
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'throws on already-used challenge',
+        () async {
+          // Consume, then try to consume again
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
   });
 }

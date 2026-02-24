@@ -16,8 +16,18 @@ class SubmissionEndpoint extends Endpoint {
     Session session,
     ActionSubmission submission,
   ) async {
-    final authId = session.authenticated!.userId;
-    return SubmissionService.create(session, submission, authId);
+    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    return SubmissionService.create(
+      session,
+      actionId: submission.actionId,
+      performerId: authId,
+      videoUrl: submission.videoUrl,
+      stepNumber: submission.stepNumber,
+      videoDurationSeconds: submission.videoDurationSeconds,
+      deviceMetadata: submission.deviceMetadata,
+      latitude: submission.latitude,
+      longitude: submission.longitude,
+    );
   }
 
   /// Lists all submissions for a given action.
@@ -25,18 +35,18 @@ class SubmissionEndpoint extends Endpoint {
     Session session,
     int actionId,
   ) async {
-    return SubmissionService.listByAction(session, actionId);
+    return SubmissionService.findByAction(session, actionId: actionId);
   }
 
   /// Lists all submissions by the authenticated performer.
   Future<List<ActionSubmission>> listByPerformer(Session session) async {
-    final authId = session.authenticated!.userId;
-    return SubmissionService.listByPerformer(session, authId);
+    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    return SubmissionService.findByPerformer(session, performerId: authId);
   }
 
   /// Retrieves a single submission by its ID.
   Future<ActionSubmission?> get(Session session, int id) async {
-    return SubmissionService.get(session, id);
+    return SubmissionService.findById(session, id);
   }
 
   /// Gets the sequential progress for a multi-step action.
@@ -47,7 +57,12 @@ class SubmissionEndpoint extends Endpoint {
     Session session,
     int actionId,
   ) async {
-    final authId = session.authenticated!.userId;
-    return SubmissionService.getSequentialProgress(session, actionId, authId);
+    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    // Fetch all submissions for this action, then filter by performer.
+    final submissions = await SubmissionService.findByAction(
+      session,
+      actionId: actionId,
+    );
+    return submissions.where((s) => s.performerId == authId).toList();
   }
 }

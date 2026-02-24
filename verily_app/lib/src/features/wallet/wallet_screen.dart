@@ -36,29 +36,25 @@ class WalletScreen extends HookConsumerWidget {
                     Text(
                       'Total Balance',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.6),
-                          ),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       '0.00 SOL',
-                      style:
-                          Theme.of(context).textTheme.headlineLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                      style: Theme.of(context).textTheme.headlineLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       '\$0.00 USD',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.6),
-                          ),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
+                      ),
                     ),
                   ],
                 ),
@@ -108,19 +104,15 @@ class WalletScreen extends HookConsumerWidget {
             color: Theme.of(context).colorScheme.outline,
           ),
           const SizedBox(height: 16),
-          Text(
-            'No tokens yet',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          Text('No tokens yet', style: Theme.of(context).textTheme.bodyLarge),
           const SizedBox(height: 8),
           Text(
             'Complete actions to earn token rewards',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.6),
-                ),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
+            ),
           ),
         ],
       ),
@@ -138,19 +130,15 @@ class WalletScreen extends HookConsumerWidget {
             color: Theme.of(context).colorScheme.outline,
           ),
           const SizedBox(height: 16),
-          Text(
-            'No NFTs yet',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          Text('No NFTs yet', style: Theme.of(context).textTheme.bodyLarge),
           const SizedBox(height: 8),
           Text(
             'Earn NFT badges by completing actions',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.6),
-                ),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
+            ),
           ),
         ],
       ),
@@ -168,10 +156,7 @@ class WalletScreen extends HookConsumerWidget {
             color: Theme.of(context).colorScheme.outline,
           ),
           const SizedBox(height: 16),
-          Text(
-            'No activity yet',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          Text('No activity yet', style: Theme.of(context).textTheme.bodyLarge),
         ],
       ),
     );

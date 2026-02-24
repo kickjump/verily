@@ -170,14 +170,41 @@ class LocationService {
 
     // Sort by distance ascending.
     nearby.sort((a, b) {
-      final distA =
-          _haversineDistance(latitude, longitude, a.latitude, a.longitude);
-      final distB =
-          _haversineDistance(latitude, longitude, b.latitude, b.longitude);
+      final distA = _haversineDistance(
+        latitude,
+        longitude,
+        a.latitude,
+        a.longitude,
+      );
+      final distB = _haversineDistance(
+        latitude,
+        longitude,
+        b.latitude,
+        b.longitude,
+      );
       return distA.compareTo(distB);
     });
 
     return nearby.take(limit).toList();
+  }
+
+  /// Finds locations within a lat/lng bounding box (for map viewport queries).
+  static Future<List<Location>> findInBoundingBox(
+    Session session, {
+    required double southLat,
+    required double westLng,
+    required double northLat,
+    required double eastLng,
+    int limit = 100,
+  }) async {
+    // Simple bbox filter. For production, use PostGIS ST_MakeEnvelope.
+    return Location.db.find(
+      session,
+      where: (t) =>
+          t.latitude.between(southLat, northLat) &
+          t.longitude.between(westLng, eastLng),
+      limit: limit,
+    );
   }
 
   /// Checks whether a given point is within the radius of a specific location.
@@ -261,7 +288,8 @@ class LocationService {
   ) {
     final dLat = _toRadians(lat2 - lat1);
     final dLon = _toRadians(lon2 - lon1);
-    final a = _sinSquared(dLat / 2) +
+    final a =
+        _sinSquared(dLat / 2) +
         math.cos(_toRadians(lat1)) *
             math.cos(_toRadians(lat2)) *
             _sinSquared(dLon / 2);

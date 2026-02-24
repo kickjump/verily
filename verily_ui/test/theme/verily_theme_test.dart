@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:verily_ui/verily_ui.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() {
+    GoogleFonts.config.allowRuntimeFetching = false;
+  });
+
   group('VerilyTheme', () {
     test('light theme uses Material 3', () {
       final theme = VerilyTheme.light;
@@ -47,7 +54,10 @@ void main() {
       final lightTheme = VerilyTheme.light;
       final darkTheme = VerilyTheme.dark;
 
-      expect(lightTheme.colorScheme.primary, equals(expectedLightScheme.primary));
+      expect(
+        lightTheme.colorScheme.primary,
+        equals(expectedLightScheme.primary),
+      );
       expect(darkTheme.colorScheme.primary, equals(expectedDarkScheme.primary));
     });
 
@@ -61,10 +71,7 @@ void main() {
 
     test('dark theme has correct scaffold background color', () {
       final theme = VerilyTheme.dark;
-      expect(
-        theme.scaffoldBackgroundColor,
-        equals(ColorTokens.backgroundDark),
-      );
+      expect(theme.scaffoldBackgroundColor, equals(ColorTokens.backgroundDark));
     });
 
     test('themes have card theme with correct border radius', () {

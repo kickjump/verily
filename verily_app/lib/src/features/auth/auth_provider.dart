@@ -51,10 +51,7 @@ class Auth extends _$Auth {
   }
 
   /// Attempts to log in with the provided [email] and [password].
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password}) async {
     state = const AuthLoading();
     try {
       // TODO: Integrate with Serverpod auth.

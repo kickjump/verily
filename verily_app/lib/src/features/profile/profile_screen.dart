@@ -39,10 +39,7 @@ class ProfileScreen extends HookConsumerWidget {
                 child: Column(
                   children: [
                     // Avatar
-                    const VAvatar(
-                      initials: 'JD',
-                      radius: 48,
-                    ),
+                    const VAvatar(initials: 'JD', radius: 48),
                     const SizedBox(height: SpacingTokens.md),
 
                     // Display name
@@ -224,9 +221,7 @@ class _ActionsTab extends HookWidget {
                     borderRadius: BorderRadius.circular(RadiusTokens.sm),
                   ),
                   child: Icon(
-                    isCreated
-                        ? Icons.edit_note
-                        : Icons.task_alt,
+                    isCreated ? Icons.edit_note : Icons.task_alt,
                     color: isCreated
                         ? ColorTokens.primary
                         : ColorTokens.success,
@@ -258,10 +253,7 @@ class _ActionsTab extends HookWidget {
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.chevron_right,
-                  color: colorScheme.onSurfaceVariant,
-                ),
+                Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
               ],
             ),
           ),

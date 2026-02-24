@@ -35,7 +35,7 @@ Add the API key to `verily_server/config/passwords.yaml`:
 ```yaml
 development:
   # ... existing keys ...
-  geminiApiKey: 'YOUR_API_KEY_HERE'
+  geminiApiKey: "YOUR_API_KEY_HERE"
 ```
 
 ### 5. Rate Limits & Billing

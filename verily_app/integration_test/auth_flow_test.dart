@@ -99,9 +99,7 @@ void main() {
       expect(loginPage.loginButton, findsOneWidget);
     });
 
-    testWidgets('can navigate back to login using back button', (
-      tester,
-    ) async {
+    testWidgets('can navigate back to login using back button', (tester) async {
       // Start at login, then push to register (matching real app flow).
       await tester.pumpWidget(buildAuthApp());
       await tester.pumpAndSettle();

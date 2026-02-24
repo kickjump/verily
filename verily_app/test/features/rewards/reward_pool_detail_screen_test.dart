@@ -6,25 +6,19 @@ import 'package:verily_test_utils/verily_test_utils.dart';
 void main() {
   group('RewardPoolDetailScreen', () {
     testWidgets('renders app bar with title', (tester) async {
-      await tester.pumpApp(
-        const RewardPoolDetailScreen(poolId: '1'),
-      );
+      await tester.pumpApp(const RewardPoolDetailScreen(poolId: '1'));
 
       expect(find.text('Reward Pool'), findsOneWidget);
     });
 
     testWidgets('shows status badge', (tester) async {
-      await tester.pumpApp(
-        const RewardPoolDetailScreen(poolId: '1'),
-      );
+      await tester.pumpApp(const RewardPoolDetailScreen(poolId: '1'));
 
       expect(find.text('Active'), findsOneWidget);
     });
 
     testWidgets('shows pool info rows', (tester) async {
-      await tester.pumpApp(
-        const RewardPoolDetailScreen(poolId: '1'),
-      );
+      await tester.pumpApp(const RewardPoolDetailScreen(poolId: '1'));
 
       expect(find.text('Status'), findsOneWidget);
       expect(find.text('Type'), findsOneWidget);
@@ -34,27 +28,21 @@ void main() {
     });
 
     testWidgets('shows distribution progress', (tester) async {
-      await tester.pumpApp(
-        const RewardPoolDetailScreen(poolId: '1'),
-      );
+      await tester.pumpApp(const RewardPoolDetailScreen(poolId: '1'));
 
       expect(find.text('Distribution Progress'), findsOneWidget);
       expect(find.text('15% distributed'), findsOneWidget);
     });
 
     testWidgets('shows recent distributions section', (tester) async {
-      await tester.pumpApp(
-        const RewardPoolDetailScreen(poolId: '1'),
-      );
+      await tester.pumpApp(const RewardPoolDetailScreen(poolId: '1'));
 
       expect(find.text('Recent Distributions'), findsOneWidget);
       expect(find.text('No distributions yet'), findsOneWidget);
     });
 
     testWidgets('has overflow menu with cancel option', (tester) async {
-      await tester.pumpApp(
-        const RewardPoolDetailScreen(poolId: '1'),
-      );
+      await tester.pumpApp(const RewardPoolDetailScreen(poolId: '1'));
 
       // Find the popup menu button
       expect(find.byType(PopupMenuButton<String>), findsOneWidget);

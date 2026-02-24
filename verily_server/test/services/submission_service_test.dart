@@ -7,6 +7,7 @@
 // 3. Generated protocol code from `serverpod generate`
 
 import 'package:test/test.dart';
+import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
 // These imports will resolve once `serverpod generate` has been run:
@@ -21,10 +22,12 @@ void main() {
   // Shared test data
   // ---------------------------------------------------------------------------
 
-  final testCreatorId =
-      UuidValue.fromString('aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee');
-  final performerId =
-      UuidValue.fromString('11111111-2222-3333-4444-555555555555');
+  final testCreatorId = UuidValue.fromString(
+    'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee',
+  );
+  final performerId = UuidValue.fromString(
+    '11111111-2222-3333-4444-555555555555',
+  );
   const testVideoUrl = 'https://storage.example.com/video.mp4';
 
   group('SubmissionService', () {
@@ -75,71 +78,87 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('create()', () {
-      test('creates a submission for a one-off action', () async {
-        // final submission = await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // expect(submission.id, isNotNull);
-        // expect(submission.actionId, equals(oneOffAction.id));
-        // expect(submission.performerId, equals(performerId));
-        // expect(submission.videoUrl, equals(testVideoUrl));
-        // expect(submission.status, equals(VerificationStatus.pending.value));
-        // expect(submission.createdAt, isNotNull);
-        // expect(submission.updatedAt, isNotNull);
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'creates a submission for a one-off action',
+        () async {
+          // final submission = await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // expect(submission.id, isNotNull);
+          // expect(submission.actionId, equals(oneOffAction.id));
+          // expect(submission.performerId, equals(performerId));
+          // expect(submission.videoUrl, equals(testVideoUrl));
+          // expect(submission.status, equals(VerificationStatus.pending.value));
+          // expect(submission.createdAt, isNotNull);
+          // expect(submission.updatedAt, isNotNull);
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('creates a submission with optional metadata', () async {
-        // final submission = await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        //   videoDurationSeconds: 30.5,
-        //   deviceMetadata: '{"platform": "ios", "version": "17.0"}',
-        //   latitude: 51.5074,
-        //   longitude: -0.1278,
-        // );
-        //
-        // expect(submission.videoDurationSeconds, equals(30.5));
-        // expect(submission.deviceMetadata, contains('ios'));
-        // expect(submission.latitude, closeTo(51.5074, 0.001));
-        // expect(submission.longitude, closeTo(-0.1278, 0.001));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'creates a submission with optional metadata',
+        () async {
+          // final submission = await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          //   videoDurationSeconds: 30.5,
+          //   deviceMetadata: '{"platform": "ios", "version": "17.0"}',
+          //   latitude: 51.5074,
+          //   longitude: -0.1278,
+          // );
+          //
+          // expect(submission.videoDurationSeconds, equals(30.5));
+          // expect(submission.deviceMetadata, contains('ios'));
+          // expect(submission.latitude, closeTo(51.5074, 0.001));
+          // expect(submission.longitude, closeTo(-0.1278, 0.001));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('throws NotFoundException for non-existent action', () async {
-        // expect(
-        //   () => SubmissionService.create(
-        //     session,
-        //     actionId: 99999,
-        //     performerId: performerId,
-        //     videoUrl: testVideoUrl,
-        //   ),
-        //   throwsA(isA<NotFoundException>()),
-        // );
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'throws NotFoundException for non-existent action',
+        () async {
+          // expect(
+          //   () => SubmissionService.create(
+          //     session,
+          //     actionId: 99999,
+          //     performerId: performerId,
+          //     videoUrl: testVideoUrl,
+          //   ),
+          //   throwsA(isA<NotFoundException>()),
+          // );
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('throws ValidationException for inactive action', () async {
-        // // Archive the action first.
-        // await ActionService.archive(
-        //   session,
-        //   id: oneOffAction.id!,
-        //   callerId: testCreatorId,
-        // );
-        //
-        // expect(
-        //   () => SubmissionService.create(
-        //     session,
-        //     actionId: oneOffAction.id!,
-        //     performerId: performerId,
-        //     videoUrl: testVideoUrl,
-        //   ),
-        //   throwsA(isA<ValidationException>()),
-        // );
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'throws ValidationException for inactive action',
+        () async {
+          // // Archive the action first.
+          // await ActionService.archive(
+          //   session,
+          //   id: oneOffAction.id!,
+          //   callerId: testCreatorId,
+          // );
+          //
+          // expect(
+          //   () => SubmissionService.create(
+          //     session,
+          //     actionId: oneOffAction.id!,
+          //     performerId: performerId,
+          //     videoUrl: testVideoUrl,
+          //   ),
+          //   throwsA(isA<ValidationException>()),
+          // );
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
       test(
         'throws ValidationException when stepNumber missing for sequential',
@@ -158,18 +177,22 @@ void main() {
         skip: 'Requires serverpod_test database session',
       );
 
-      test('creates submission for step 1 of sequential action', () async {
-        // final submission = await SubmissionService.create(
-        //   session,
-        //   actionId: sequentialAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        //   stepNumber: 1,
-        // );
-        //
-        // expect(submission.stepNumber, equals(1));
-        // expect(submission.status, equals(VerificationStatus.pending.value));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'creates submission for step 1 of sequential action',
+        () async {
+          // final submission = await SubmissionService.create(
+          //   session,
+          //   actionId: sequentialAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          //   stepNumber: 1,
+          // );
+          //
+          // expect(submission.stepNumber, equals(1));
+          // expect(submission.status, equals(VerificationStatus.pending.value));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
       test(
         'throws NotFoundException for non-existent step number',
@@ -232,40 +255,44 @@ void main() {
         skip: 'Requires serverpod_test database session',
       );
 
-      test('throws ValidationException when max performers reached', () async {
-        // Create action with maxPerformers=1.
-        // final limitedAction = await ActionService.create(
-        //   session,
-        //   title: 'Limited',
-        //   description: 'desc',
-        //   creatorId: testCreatorId,
-        //   actionType: ActionType.oneOff.value,
-        //   verificationCriteria: 'criteria',
-        //   maxPerformers: 1,
-        // );
-        //
-        // // First performer submits.
-        // await SubmissionService.create(
-        //   session,
-        //   actionId: limitedAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // // Second performer should be blocked.
-        // final secondPerformer = UuidValue.fromString(
-        //   '22222222-3333-4444-5555-666666666666',
-        // );
-        // expect(
-        //   () => SubmissionService.create(
-        //     session,
-        //     actionId: limitedAction.id!,
-        //     performerId: secondPerformer,
-        //     videoUrl: testVideoUrl,
-        //   ),
-        //   throwsA(isA<ValidationException>()),
-        // );
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'throws ValidationException when max performers reached',
+        () async {
+          // Create action with maxPerformers=1.
+          // final limitedAction = await ActionService.create(
+          //   session,
+          //   title: 'Limited',
+          //   description: 'desc',
+          //   creatorId: testCreatorId,
+          //   actionType: ActionType.oneOff.value,
+          //   verificationCriteria: 'criteria',
+          //   maxPerformers: 1,
+          // );
+          //
+          // // First performer submits.
+          // await SubmissionService.create(
+          //   session,
+          //   actionId: limitedAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // // Second performer should be blocked.
+          // final secondPerformer = UuidValue.fromString(
+          //   '22222222-3333-4444-5555-666666666666',
+          // );
+          // expect(
+          //   () => SubmissionService.create(
+          //     session,
+          //     actionId: limitedAction.id!,
+          //     performerId: secondPerformer,
+          //     videoUrl: testVideoUrl,
+          //   ),
+          //   throwsA(isA<ValidationException>()),
+          // );
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
 
     // -------------------------------------------------------------------------
@@ -273,24 +300,32 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('findById()', () {
-      test('returns existing submission', () async {
-        // final created = await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // final found = await SubmissionService.findById(session, created.id!);
-        // expect(found.id, equals(created.id));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'returns existing submission',
+        () async {
+          // final created = await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // final found = await SubmissionService.findById(session, created.id!);
+          // expect(found.id, equals(created.id));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('throws NotFoundException for non-existent id', () async {
-        // expect(
-        //   () => SubmissionService.findById(session, 99999),
-        //   throwsA(isA<NotFoundException>()),
-        // );
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'throws NotFoundException for non-existent id',
+        () async {
+          // expect(
+          //   () => SubmissionService.findById(session, 99999),
+          //   throwsA(isA<NotFoundException>()),
+          // );
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
 
     // -------------------------------------------------------------------------
@@ -298,104 +333,128 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('status transitions', () {
-      test('updateStatus changes status to valid value', () async {
-        // final created = await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // final updated = await SubmissionService.updateStatus(
-        //   session,
-        //   id: created.id!,
-        //   status: VerificationStatus.processing.value,
-        // );
-        //
-        // expect(updated.status, equals('processing'));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'updateStatus changes status to valid value',
+        () async {
+          // final created = await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // final updated = await SubmissionService.updateStatus(
+          //   session,
+          //   id: created.id!,
+          //   status: VerificationStatus.processing.value,
+          // );
+          //
+          // expect(updated.status, equals('processing'));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('updateStatus throws for invalid status value', () async {
-        // final created = await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // expect(
-        //   () => SubmissionService.updateStatus(
-        //     session,
-        //     id: created.id!,
-        //     status: 'invalid_status',
-        //   ),
-        //   throwsA(isA<ArgumentError>()),
-        // );
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'updateStatus throws for invalid status value',
+        () async {
+          // final created = await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // expect(
+          //   () => SubmissionService.updateStatus(
+          //     session,
+          //     id: created.id!,
+          //     status: 'invalid_status',
+          //   ),
+          //   throwsA(isA<ArgumentError>()),
+          // );
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('markProcessing sets status to processing', () async {
-        // final created = await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // final updated = await SubmissionService.markProcessing(
-        //   session,
-        //   id: created.id!,
-        // );
-        //
-        // expect(updated.status, equals(VerificationStatus.processing.value));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'markProcessing sets status to processing',
+        () async {
+          // final created = await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // final updated = await SubmissionService.markProcessing(
+          //   session,
+          //   id: created.id!,
+          // );
+          //
+          // expect(updated.status, equals(VerificationStatus.processing.value));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('markPassed sets status to passed', () async {
-        // final created = await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // final updated = await SubmissionService.markPassed(
-        //   session,
-        //   id: created.id!,
-        // );
-        //
-        // expect(updated.status, equals(VerificationStatus.passed.value));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'markPassed sets status to passed',
+        () async {
+          // final created = await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // final updated = await SubmissionService.markPassed(
+          //   session,
+          //   id: created.id!,
+          // );
+          //
+          // expect(updated.status, equals(VerificationStatus.passed.value));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('markFailed sets status to failed', () async {
-        // final created = await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // final updated = await SubmissionService.markFailed(
-        //   session,
-        //   id: created.id!,
-        // );
-        //
-        // expect(updated.status, equals(VerificationStatus.failed.value));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'markFailed sets status to failed',
+        () async {
+          // final created = await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // final updated = await SubmissionService.markFailed(
+          //   session,
+          //   id: created.id!,
+          // );
+          //
+          // expect(updated.status, equals(VerificationStatus.failed.value));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('markError sets status to error', () async {
-        // final created = await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // final updated = await SubmissionService.markError(
-        //   session,
-        //   id: created.id!,
-        // );
-        //
-        // expect(updated.status, equals(VerificationStatus.error.value));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'markError sets status to error',
+        () async {
+          // final created = await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // final updated = await SubmissionService.markError(
+          //   session,
+          //   id: created.id!,
+          // );
+          //
+          // expect(updated.status, equals(VerificationStatus.error.value));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
 
     // -------------------------------------------------------------------------
@@ -403,24 +462,28 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('findByAction()', () {
-      test('returns submissions for a specific action', () async {
-        // await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // final results = await SubmissionService.findByAction(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        // );
-        //
-        // expect(results, isNotEmpty);
-        // for (final s in results) {
-        //   expect(s.actionId, equals(oneOffAction.id));
-        // }
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'returns submissions for a specific action',
+        () async {
+          // await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // final results = await SubmissionService.findByAction(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          // );
+          //
+          // expect(results, isNotEmpty);
+          // for (final s in results) {
+          //   expect(s.actionId, equals(oneOffAction.id));
+          // }
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
       test('filters by status', () async {
         // final results = await SubmissionService.findByAction(
@@ -436,24 +499,28 @@ void main() {
     });
 
     group('findByPerformer()', () {
-      test('returns submissions for a specific performer', () async {
-        // await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // final results = await SubmissionService.findByPerformer(
-        //   session,
-        //   performerId: performerId,
-        // );
-        //
-        // expect(results, isNotEmpty);
-        // for (final s in results) {
-        //   expect(s.performerId, equals(performerId));
-        // }
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'returns submissions for a specific performer',
+        () async {
+          // await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // final results = await SubmissionService.findByPerformer(
+          //   session,
+          //   performerId: performerId,
+          // );
+          //
+          // expect(results, isNotEmpty);
+          // for (final s in results) {
+          //   expect(s.performerId, equals(performerId));
+          // }
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
 
     // -------------------------------------------------------------------------
@@ -461,43 +528,55 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('countPending()', () {
-      test('returns count of pending submissions', () async {
-        // await SubmissionService.create(
-        //   session,
-        //   actionId: oneOffAction.id!,
-        //   performerId: performerId,
-        //   videoUrl: testVideoUrl,
-        // );
-        //
-        // final count = await SubmissionService.countPending(session);
-        // expect(count, greaterThanOrEqualTo(1));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'returns count of pending submissions',
+        () async {
+          // await SubmissionService.create(
+          //   session,
+          //   actionId: oneOffAction.id!,
+          //   performerId: performerId,
+          //   videoUrl: testVideoUrl,
+          // );
+          //
+          // final count = await SubmissionService.countPending(session);
+          // expect(count, greaterThanOrEqualTo(1));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
 
     group('fetchPendingBatch()', () {
-      test('returns batch of pending submissions', () async {
-        // final batch = await SubmissionService.fetchPendingBatch(
-        //   session,
-        //   batchSize: 5,
-        // );
-        //
-        // expect(batch.length, lessThanOrEqualTo(5));
-        // for (final s in batch) {
-        //   expect(s.status, equals(VerificationStatus.pending.value));
-        // }
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'returns batch of pending submissions',
+        () async {
+          // final batch = await SubmissionService.fetchPendingBatch(
+          //   session,
+          //   batchSize: 5,
+          // );
+          //
+          // expect(batch.length, lessThanOrEqualTo(5));
+          // for (final s in batch) {
+          //   expect(s.status, equals(VerificationStatus.pending.value));
+          // }
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('returns submissions ordered by createdAt ascending', () async {
-        // final batch = await SubmissionService.fetchPendingBatch(session);
-        //
-        // for (var i = 1; i < batch.length; i++) {
-        //   expect(
-        //     batch[i].createdAt.isAfter(batch[i - 1].createdAt) ||
-        //         batch[i].createdAt.isAtSameMomentAs(batch[i - 1].createdAt),
-        //     isTrue,
-        //   );
-        // }
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'returns submissions ordered by createdAt ascending',
+        () async {
+          // final batch = await SubmissionService.fetchPendingBatch(session);
+          //
+          // for (var i = 1; i < batch.length; i++) {
+          //   expect(
+          //     batch[i].createdAt.isAfter(batch[i - 1].createdAt) ||
+          //         batch[i].createdAt.isAtSameMomentAs(batch[i - 1].createdAt),
+          //     isTrue,
+          //   );
+          // }
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
 
     // -------------------------------------------------------------------------
@@ -505,68 +584,84 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('hasCompletedAllSteps()', () {
-      test('returns false when no steps are completed', () async {
-        // final result = await SubmissionService.hasCompletedAllSteps(
-        //   session,
-        //   actionId: sequentialAction.id!,
-        //   performerId: performerId,
-        // );
-        //
-        // expect(result, isFalse);
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'returns false when no steps are completed',
+        () async {
+          // final result = await SubmissionService.hasCompletedAllSteps(
+          //   session,
+          //   actionId: sequentialAction.id!,
+          //   performerId: performerId,
+          // );
+          //
+          // expect(result, isFalse);
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('returns false when only some steps are completed', () async {
-        // // Complete step 1 and 2 only (action has 3 steps).
-        // for (var i = 1; i <= 2; i++) {
-        //   final sub = await SubmissionService.create(
-        //     session,
-        //     actionId: sequentialAction.id!,
-        //     performerId: performerId,
-        //     videoUrl: testVideoUrl,
-        //     stepNumber: i,
-        //   );
-        //   await SubmissionService.markPassed(session, id: sub.id!);
-        // }
-        //
-        // final result = await SubmissionService.hasCompletedAllSteps(
-        //   session,
-        //   actionId: sequentialAction.id!,
-        //   performerId: performerId,
-        // );
-        //
-        // expect(result, isFalse);
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'returns false when only some steps are completed',
+        () async {
+          // // Complete step 1 and 2 only (action has 3 steps).
+          // for (var i = 1; i <= 2; i++) {
+          //   final sub = await SubmissionService.create(
+          //     session,
+          //     actionId: sequentialAction.id!,
+          //     performerId: performerId,
+          //     videoUrl: testVideoUrl,
+          //     stepNumber: i,
+          //   );
+          //   await SubmissionService.markPassed(session, id: sub.id!);
+          // }
+          //
+          // final result = await SubmissionService.hasCompletedAllSteps(
+          //   session,
+          //   actionId: sequentialAction.id!,
+          //   performerId: performerId,
+          // );
+          //
+          // expect(result, isFalse);
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('returns true when all steps are completed', () async {
-        // for (var i = 1; i <= 3; i++) {
-        //   final sub = await SubmissionService.create(
-        //     session,
-        //     actionId: sequentialAction.id!,
-        //     performerId: performerId,
-        //     videoUrl: testVideoUrl,
-        //     stepNumber: i,
-        //   );
-        //   await SubmissionService.markPassed(session, id: sub.id!);
-        // }
-        //
-        // final result = await SubmissionService.hasCompletedAllSteps(
-        //   session,
-        //   actionId: sequentialAction.id!,
-        //   performerId: performerId,
-        // );
-        //
-        // expect(result, isTrue);
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'returns true when all steps are completed',
+        () async {
+          // for (var i = 1; i <= 3; i++) {
+          //   final sub = await SubmissionService.create(
+          //     session,
+          //     actionId: sequentialAction.id!,
+          //     performerId: performerId,
+          //     videoUrl: testVideoUrl,
+          //     stepNumber: i,
+          //   );
+          //   await SubmissionService.markPassed(session, id: sub.id!);
+          // }
+          //
+          // final result = await SubmissionService.hasCompletedAllSteps(
+          //   session,
+          //   actionId: sequentialAction.id!,
+          //   performerId: performerId,
+          // );
+          //
+          // expect(result, isTrue);
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('returns false for non-existent action', () async {
-        // final result = await SubmissionService.hasCompletedAllSteps(
-        //   session,
-        //   actionId: 99999,
-        //   performerId: performerId,
-        // );
-        //
-        // expect(result, isFalse);
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'returns false for non-existent action',
+        () async {
+          // final result = await SubmissionService.hasCompletedAllSteps(
+          //   session,
+          //   actionId: 99999,
+          //   performerId: performerId,
+          // );
+          //
+          // expect(result, isFalse);
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
   });
 

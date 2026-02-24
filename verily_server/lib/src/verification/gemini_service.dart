@@ -37,10 +37,7 @@ class GeminiService {
     }
 
     try {
-      final model = GenerativeModel(
-        model: _modelName,
-        apiKey: apiKey,
-      );
+      final model = GenerativeModel(model: _modelName, apiKey: apiKey);
 
       final prompt = _buildPrompt(
         actionTitle: actionTitle,
@@ -96,7 +93,7 @@ class GeminiService {
   }) {
     final locationContext = latitude != null && longitude != null
         ? '\n\nExpected location: lat=$latitude, lng=$longitude. '
-            'If the video contains GPS metadata, verify it matches.'
+              'If the video contains GPS metadata, verify it matches.'
         : '';
 
     return '''

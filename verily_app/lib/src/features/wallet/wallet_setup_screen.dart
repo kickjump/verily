@@ -12,9 +12,7 @@ class WalletSetupScreen extends HookConsumerWidget {
     final isCreating = useState(false);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Set Up Wallet'),
-      ),
+      appBar: AppBar(title: const Text('Set Up Wallet')),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -33,9 +31,9 @@ class WalletSetupScreen extends HookConsumerWidget {
             // Title
             Text(
               'Your Verily Wallet',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
@@ -46,11 +44,10 @@ class WalletSetupScreen extends HookConsumerWidget {
               'for completing actions. You can also link an existing '
               'Solana wallet.',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.7),
-                  ),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.7),
+              ),
               textAlign: TextAlign.center,
             ),
 

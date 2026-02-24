@@ -3,12 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 /// A themed avatar widget that displays a user image or initials.
 class VAvatar extends HookWidget {
-  const VAvatar({
-    this.imageUrl,
-    this.initials,
-    this.radius = 24,
-    super.key,
-  });
+  const VAvatar({this.imageUrl, this.initials, this.radius = 24, super.key});
 
   final String? imageUrl;
   final String? initials;

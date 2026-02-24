@@ -52,14 +52,10 @@ class RewardPoolService {
       throw ValidationException('Per-person amount must be positive');
     }
     if (perPersonAmount > totalAmount) {
-      throw ValidationException(
-        'Per-person amount cannot exceed total amount',
-      );
+      throw ValidationException('Per-person amount cannot exceed total amount');
     }
     if (platformFeePercent < 0 || platformFeePercent > 50) {
-      throw ValidationException(
-        'Platform fee must be between 0% and 50%',
-      );
+      throw ValidationException('Platform fee must be between 0% and 50%');
     }
 
     // SPL token transfers require a mint address.

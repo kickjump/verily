@@ -9,8 +9,9 @@ void main() {
       await tester.pumpApp(const EditProfileScreen());
     }
 
-    testWidgets('renders Username field with pre-populated value',
-        (tester) async {
+    testWidgets('renders Username field with pre-populated value', (
+      tester,
+    ) async {
       await pumpEditProfileScreen(tester);
 
       expect(find.text('Username'), findsOneWidget);
@@ -18,8 +19,9 @@ void main() {
       expect(find.text('johndoe'), findsOneWidget);
     });
 
-    testWidgets('renders Display Name field with pre-populated value',
-        (tester) async {
+    testWidgets('renders Display Name field with pre-populated value', (
+      tester,
+    ) async {
       await pumpEditProfileScreen(tester);
 
       expect(find.text('Display Name'), findsOneWidget);

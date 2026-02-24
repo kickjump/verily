@@ -1,5 +1,4 @@
 import 'package:serverpod/serverpod.dart';
-import 'package:verily_core/verily_core.dart';
 
 import '../generated/protocol.dart';
 import '../services/attestation_service.dart';
@@ -20,8 +19,7 @@ class AttestationEndpoint extends Endpoint {
     Session session,
     int actionId,
   ) async {
-    final userId =
-        UuidValue.fromString(session.authenticated!.userId.toString());
+    final userId = UuidValue.fromString(session.authenticated!.userIdentifier);
     return AttestationService.createChallenge(
       session,
       userId: userId,

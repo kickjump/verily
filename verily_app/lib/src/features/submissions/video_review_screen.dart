@@ -62,9 +62,7 @@ class VideoReviewScreen extends HookConsumerWidget {
 
           // Video metadata
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: SpacingTokens.md,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.md),
             child: VCard(
               padding: const EdgeInsets.all(SpacingTokens.md),
               child: Column(

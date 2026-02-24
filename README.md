@@ -30,14 +30,14 @@ All packages → verily_lints (dev dependency)
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
+| Layer    | Technology                                                              |
+| -------- | ----------------------------------------------------------------------- |
 | Frontend | Flutter (latest stable), Riverpod + Flutter Hooks, GoRouter, Material 3 |
-| Backend | Serverpod 3.3.1, PostgreSQL 16 + PostGIS, Redis |
-| AI | Gemini 2.0 Flash for video verification |
-| Code Gen | Freezed, Riverpod Generator, Serverpod Generate |
-| CI/CD | GitHub Actions, devenv (Nix), dprint, Knope |
-| Testing | Patrol (E2E), Flutter Test (widget), Dart Test (unit) |
+| Backend  | Serverpod 3.3.1, PostgreSQL 16 + PostGIS, Redis                         |
+| AI       | Gemini 2.0 Flash for video verification                                 |
+| Code Gen | Freezed, Riverpod Generator, Serverpod Generate                         |
+| CI/CD    | GitHub Actions, devenv (Nix), dprint, Knope                             |
+| Testing  | Patrol (E2E), Flutter Test (widget), Dart Test (unit)                   |
 
 ## Prerequisites
 
@@ -168,12 +168,12 @@ Create `verily_server/config/passwords.yaml` (gitignored):
 
 ```yaml
 development:
-  database: 'changeme'
-  redis: 'changeme'
-  serviceSecret: 'your-secret'
-  emailSecretHashPepper: 'your-pepper'
-  jwtHmacSha512PrivateKey: 'your-jwt-key-at-least-32-chars'
-  jwtRefreshTokenHashPepper: 'your-refresh-pepper'
+  database: "changeme"
+  redis: "changeme"
+  serviceSecret: "your-secret"
+  emailSecretHashPepper: "your-pepper"
+  jwtHmacSha512PrivateKey: "your-jwt-key-at-least-32-chars"
+  jwtRefreshTokenHashPepper: "your-refresh-pepper"
   # Optional: geminiApiKey: 'your-gemini-api-key'
 ```
 

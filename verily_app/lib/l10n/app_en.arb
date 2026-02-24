@@ -718,5 +718,38 @@
   "@locationServiceDisabled": { "description": "Message when location services are off." },
 
   "locationUpdating": "Updating location…",
-  "@locationUpdating": { "description": "Status while fetching location." }
+  "@locationUpdating": { "description": "Status while fetching location." },
+
+
+  "mapTabLabel": "Map",
+  "@mapTabLabel": { "description": "Map tab label in bottom navigation." },
+
+  "searchPlacesHint": "Search places...",
+  "@searchPlacesHint": { "description": "Hint text for the map search bar." },
+
+  "useMyLocation": "Use my current location",
+  "@useMyLocation": { "description": "Button to center map on user location." },
+
+  "distanceSliderLabel": "{distance} km",
+  "@distanceSliderLabel": {
+    "description": "Label showing current distance radius on slider.",
+    "placeholders": {
+      "distance": { "type": "String" }
+    }
+  },
+
+  "noActionsNearby": "No actions nearby. Try zooming out.",
+  "@noActionsNearby": { "description": "Empty state when no actions visible on map." },
+
+  "locationPickerTitle": "Pick a location",
+  "@locationPickerTitle": { "description": "Title for the location picker screen." },
+
+  "confirmLocation": "Confirm Location",
+  "@confirmLocation": { "description": "Button to confirm selected location." },
+
+  "recenter": "Re-center",
+  "@recenter": { "description": "Tooltip for the re-center floating action button." },
+
+  "viewDetails": "View Details",
+  "@viewDetails": { "description": "Button to navigate to action detail from map." }
 }

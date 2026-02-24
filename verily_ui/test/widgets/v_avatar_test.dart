@@ -31,9 +31,7 @@ void main() {
         ),
       );
 
-      final avatar = tester.widget<CircleAvatar>(
-        find.byType(CircleAvatar),
-      );
+      final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
       expect(avatar.radius, equals(40));
     });
 
@@ -44,9 +42,7 @@ void main() {
         ),
       );
 
-      final avatar = tester.widget<CircleAvatar>(
-        find.byType(CircleAvatar),
-      );
+      final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
       expect(avatar.radius, equals(24));
     });
   });

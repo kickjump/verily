@@ -185,8 +185,9 @@ class _ActionFeedCard extends HookWidget {
                   backgroundColor: index.isEven
                       ? ColorTokens.primary.withAlpha(30)
                       : ColorTokens.tertiary.withAlpha(30),
-                  foregroundColor:
-                      index.isEven ? ColorTokens.primary : ColorTokens.tertiary,
+                  foregroundColor: index.isEven
+                      ? ColorTokens.primary
+                      : ColorTokens.tertiary,
                 ),
                 const Spacer(),
                 Icon(

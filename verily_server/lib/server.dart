@@ -36,9 +36,7 @@ Future<void> run(List<String> args) async {
 
   // Initialize authentication services.
   pod.initializeAuthServices(
-    tokenManagerBuilders: [
-      JwtConfigFromPasswords(),
-    ],
+    tokenManagerBuilders: [JwtConfigFromPasswords()],
     identityProviderBuilders: [
       EmailIdpConfigFromPasswords(
         sendRegistrationVerificationCode: _sendRegistrationCode,

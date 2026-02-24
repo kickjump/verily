@@ -27,8 +27,7 @@ enum VerificationStatus {
   static VerificationStatus fromValue(String value) {
     return VerificationStatus.values.firstWhere(
       (status) => status.value == value,
-      orElse: () =>
-          throw ArgumentError('Unknown VerificationStatus: $value'),
+      orElse: () => throw ArgumentError('Unknown VerificationStatus: $value'),
     );
   }
 }
