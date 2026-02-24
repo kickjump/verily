@@ -16,26 +16,29 @@ import '../endpoints/action_endpoint.dart' as _i3;
 import '../endpoints/action_step_endpoint.dart' as _i4;
 import '../endpoints/ai_action_endpoint.dart' as _i5;
 import '../endpoints/attestation_endpoint.dart' as _i6;
-import '../endpoints/geocoding_endpoint.dart' as _i7;
-import '../endpoints/location_endpoint.dart' as _i8;
-import '../endpoints/reward_endpoint.dart' as _i9;
-import '../endpoints/reward_pool_endpoint.dart' as _i10;
-import '../endpoints/seed_endpoint.dart' as _i11;
-import '../endpoints/solana_endpoint.dart' as _i12;
-import '../endpoints/submission_endpoint.dart' as _i13;
-import '../endpoints/user_follow_endpoint.dart' as _i14;
-import '../endpoints/user_profile_endpoint.dart' as _i15;
-import '../endpoints/verification_endpoint.dart' as _i16;
-import 'package:verily_server/src/generated/action_category.dart' as _i17;
-import 'package:verily_server/src/generated/action.dart' as _i18;
-import 'package:verily_server/src/generated/action_step.dart' as _i19;
-import 'package:verily_server/src/generated/location.dart' as _i20;
-import 'package:verily_server/src/generated/action_submission.dart' as _i21;
-import 'package:verily_server/src/generated/user_profile.dart' as _i22;
+import '../endpoints/auth_apple_endpoint.dart' as _i7;
+import '../endpoints/auth_email_endpoint.dart' as _i8;
+import '../endpoints/auth_google_endpoint.dart' as _i9;
+import '../endpoints/geocoding_endpoint.dart' as _i10;
+import '../endpoints/location_endpoint.dart' as _i11;
+import '../endpoints/reward_endpoint.dart' as _i12;
+import '../endpoints/reward_pool_endpoint.dart' as _i13;
+import '../endpoints/seed_endpoint.dart' as _i14;
+import '../endpoints/solana_endpoint.dart' as _i15;
+import '../endpoints/submission_endpoint.dart' as _i16;
+import '../endpoints/user_follow_endpoint.dart' as _i17;
+import '../endpoints/user_profile_endpoint.dart' as _i18;
+import '../endpoints/verification_endpoint.dart' as _i19;
+import 'package:verily_server/src/generated/action_category.dart' as _i20;
+import 'package:verily_server/src/generated/action.dart' as _i21;
+import 'package:verily_server/src/generated/action_step.dart' as _i22;
+import 'package:verily_server/src/generated/location.dart' as _i23;
+import 'package:verily_server/src/generated/action_submission.dart' as _i24;
+import 'package:verily_server/src/generated/user_profile.dart' as _i25;
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
-    as _i23;
+    as _i26;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
-    as _i24;
+    as _i27;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -71,61 +74,79 @@ class Endpoints extends _i1.EndpointDispatch {
           'attestation',
           null,
         ),
-      'geocoding': _i7.GeocodingEndpoint()
+      'authApple': _i7.AuthAppleEndpoint()
+        ..initialize(
+          server,
+          'authApple',
+          null,
+        ),
+      'authEmail': _i8.AuthEmailEndpoint()
+        ..initialize(
+          server,
+          'authEmail',
+          null,
+        ),
+      'authGoogle': _i9.AuthGoogleEndpoint()
+        ..initialize(
+          server,
+          'authGoogle',
+          null,
+        ),
+      'geocoding': _i10.GeocodingEndpoint()
         ..initialize(
           server,
           'geocoding',
           null,
         ),
-      'location': _i8.LocationEndpoint()
+      'location': _i11.LocationEndpoint()
         ..initialize(
           server,
           'location',
           null,
         ),
-      'reward': _i9.RewardEndpoint()
+      'reward': _i12.RewardEndpoint()
         ..initialize(
           server,
           'reward',
           null,
         ),
-      'rewardPool': _i10.RewardPoolEndpoint()
+      'rewardPool': _i13.RewardPoolEndpoint()
         ..initialize(
           server,
           'rewardPool',
           null,
         ),
-      'seed': _i11.SeedEndpoint()
+      'seed': _i14.SeedEndpoint()
         ..initialize(
           server,
           'seed',
           null,
         ),
-      'solana': _i12.SolanaEndpoint()
+      'solana': _i15.SolanaEndpoint()
         ..initialize(
           server,
           'solana',
           null,
         ),
-      'submission': _i13.SubmissionEndpoint()
+      'submission': _i16.SubmissionEndpoint()
         ..initialize(
           server,
           'submission',
           null,
         ),
-      'userFollow': _i14.UserFollowEndpoint()
+      'userFollow': _i17.UserFollowEndpoint()
         ..initialize(
           server,
           'userFollow',
           null,
         ),
-      'userProfile': _i15.UserProfileEndpoint()
+      'userProfile': _i18.UserProfileEndpoint()
         ..initialize(
           server,
           'userProfile',
           null,
         ),
-      'verification': _i16.VerificationEndpoint()
+      'verification': _i19.VerificationEndpoint()
         ..initialize(
           server,
           'verification',
@@ -152,7 +173,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'category': _i1.ParameterDescription(
               name: 'category',
-              type: _i1.getType<_i17.ActionCategory>(),
+              type: _i1.getType<_i20.ActionCategory>(),
               nullable: false,
             ),
           },
@@ -198,7 +219,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'action': _i1.ParameterDescription(
               name: 'action',
-              type: _i1.getType<_i18.Action>(),
+              type: _i1.getType<_i21.Action>(),
               nullable: false,
             ),
           },
@@ -349,7 +370,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'action': _i1.ParameterDescription(
               name: 'action',
-              type: _i1.getType<_i18.Action>(),
+              type: _i1.getType<_i21.Action>(),
               nullable: false,
             ),
           },
@@ -401,7 +422,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'actionStep': _i1.ParameterDescription(
               name: 'actionStep',
-              type: _i1.getType<_i19.ActionStep>(),
+              type: _i1.getType<_i22.ActionStep>(),
               nullable: false,
             ),
           },
@@ -439,7 +460,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'actionStep': _i1.ParameterDescription(
               name: 'actionStep',
-              type: _i1.getType<_i19.ActionStep>(),
+              type: _i1.getType<_i22.ActionStep>(),
               nullable: false,
             ),
           },
@@ -629,6 +650,287 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['authApple'] = _i1.EndpointConnector(
+      name: 'authApple',
+      endpoint: endpoints['authApple']!,
+      methodConnectors: {
+        'login': _i1.MethodConnector(
+          name: 'login',
+          params: {
+            'identityToken': _i1.ParameterDescription(
+              name: 'identityToken',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'authorizationCode': _i1.ParameterDescription(
+              name: 'authorizationCode',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'isNativeApplePlatformSignIn': _i1.ParameterDescription(
+              name: 'isNativeApplePlatformSignIn',
+              type: _i1.getType<bool>(),
+              nullable: false,
+            ),
+            'firstName': _i1.ParameterDescription(
+              name: 'firstName',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+            'lastName': _i1.ParameterDescription(
+              name: 'lastName',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['authApple'] as _i7.AuthAppleEndpoint).login(
+                    session,
+                    identityToken: params['identityToken'],
+                    authorizationCode: params['authorizationCode'],
+                    isNativeApplePlatformSignIn:
+                        params['isNativeApplePlatformSignIn'],
+                    firstName: params['firstName'],
+                    lastName: params['lastName'],
+                  ),
+        ),
+        'hasAccount': _i1.MethodConnector(
+          name: 'hasAccount',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authApple'] as _i7.AuthAppleEndpoint)
+                  .hasAccount(session),
+        ),
+      },
+    );
+    connectors['authEmail'] = _i1.EndpointConnector(
+      name: 'authEmail',
+      endpoint: endpoints['authEmail']!,
+      methodConnectors: {
+        'login': _i1.MethodConnector(
+          name: 'login',
+          params: {
+            'email': _i1.ParameterDescription(
+              name: 'email',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'password': _i1.ParameterDescription(
+              name: 'password',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['authEmail'] as _i8.AuthEmailEndpoint).login(
+                    session,
+                    email: params['email'],
+                    password: params['password'],
+                  ),
+        ),
+        'startRegistration': _i1.MethodConnector(
+          name: 'startRegistration',
+          params: {
+            'email': _i1.ParameterDescription(
+              name: 'email',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authEmail'] as _i8.AuthEmailEndpoint)
+                  .startRegistration(
+                    session,
+                    email: params['email'],
+                  ),
+        ),
+        'verifyRegistrationCode': _i1.MethodConnector(
+          name: 'verifyRegistrationCode',
+          params: {
+            'accountRequestId': _i1.ParameterDescription(
+              name: 'accountRequestId',
+              type: _i1.getType<_i1.UuidValue>(),
+              nullable: false,
+            ),
+            'verificationCode': _i1.ParameterDescription(
+              name: 'verificationCode',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authEmail'] as _i8.AuthEmailEndpoint)
+                  .verifyRegistrationCode(
+                    session,
+                    accountRequestId: params['accountRequestId'],
+                    verificationCode: params['verificationCode'],
+                  ),
+        ),
+        'finishRegistration': _i1.MethodConnector(
+          name: 'finishRegistration',
+          params: {
+            'registrationToken': _i1.ParameterDescription(
+              name: 'registrationToken',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'password': _i1.ParameterDescription(
+              name: 'password',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authEmail'] as _i8.AuthEmailEndpoint)
+                  .finishRegistration(
+                    session,
+                    registrationToken: params['registrationToken'],
+                    password: params['password'],
+                  ),
+        ),
+        'startPasswordReset': _i1.MethodConnector(
+          name: 'startPasswordReset',
+          params: {
+            'email': _i1.ParameterDescription(
+              name: 'email',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authEmail'] as _i8.AuthEmailEndpoint)
+                  .startPasswordReset(
+                    session,
+                    email: params['email'],
+                  ),
+        ),
+        'verifyPasswordResetCode': _i1.MethodConnector(
+          name: 'verifyPasswordResetCode',
+          params: {
+            'passwordResetRequestId': _i1.ParameterDescription(
+              name: 'passwordResetRequestId',
+              type: _i1.getType<_i1.UuidValue>(),
+              nullable: false,
+            ),
+            'verificationCode': _i1.ParameterDescription(
+              name: 'verificationCode',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authEmail'] as _i8.AuthEmailEndpoint)
+                  .verifyPasswordResetCode(
+                    session,
+                    passwordResetRequestId: params['passwordResetRequestId'],
+                    verificationCode: params['verificationCode'],
+                  ),
+        ),
+        'finishPasswordReset': _i1.MethodConnector(
+          name: 'finishPasswordReset',
+          params: {
+            'finishPasswordResetToken': _i1.ParameterDescription(
+              name: 'finishPasswordResetToken',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'newPassword': _i1.ParameterDescription(
+              name: 'newPassword',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authEmail'] as _i8.AuthEmailEndpoint)
+                  .finishPasswordReset(
+                    session,
+                    finishPasswordResetToken:
+                        params['finishPasswordResetToken'],
+                    newPassword: params['newPassword'],
+                  ),
+        ),
+        'hasAccount': _i1.MethodConnector(
+          name: 'hasAccount',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authEmail'] as _i8.AuthEmailEndpoint)
+                  .hasAccount(session),
+        ),
+      },
+    );
+    connectors['authGoogle'] = _i1.EndpointConnector(
+      name: 'authGoogle',
+      endpoint: endpoints['authGoogle']!,
+      methodConnectors: {
+        'login': _i1.MethodConnector(
+          name: 'login',
+          params: {
+            'idToken': _i1.ParameterDescription(
+              name: 'idToken',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'accessToken': _i1.ParameterDescription(
+              name: 'accessToken',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['authGoogle'] as _i9.AuthGoogleEndpoint).login(
+                    session,
+                    idToken: params['idToken'],
+                    accessToken: params['accessToken'],
+                  ),
+        ),
+        'hasAccount': _i1.MethodConnector(
+          name: 'hasAccount',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authGoogle'] as _i9.AuthGoogleEndpoint)
+                  .hasAccount(session),
+        ),
+      },
+    );
     connectors['geocoding'] = _i1.EndpointConnector(
       name: 'geocoding',
       endpoint: endpoints['geocoding']!,
@@ -656,7 +958,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['geocoding'] as _i7.GeocodingEndpoint)
+              ) async => (endpoints['geocoding'] as _i10.GeocodingEndpoint)
                   .searchPlaces(
                     session,
                     params['query'],
@@ -682,7 +984,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['geocoding'] as _i7.GeocodingEndpoint)
+              ) async => (endpoints['geocoding'] as _i10.GeocodingEndpoint)
                   .reverseGeocode(
                     session,
                     params['lat'],
@@ -700,7 +1002,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'location': _i1.ParameterDescription(
               name: 'location',
-              type: _i1.getType<_i20.Location>(),
+              type: _i1.getType<_i23.Location>(),
               nullable: false,
             ),
           },
@@ -708,10 +1010,11 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['location'] as _i8.LocationEndpoint).create(
-                session,
-                params['location'],
-              ),
+              ) async =>
+                  (endpoints['location'] as _i11.LocationEndpoint).create(
+                    session,
+                    params['location'],
+                  ),
         ),
         'searchNearby': _i1.MethodConnector(
           name: 'searchNearby',
@@ -737,7 +1040,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['location'] as _i8.LocationEndpoint).searchNearby(
+                  (endpoints['location'] as _i11.LocationEndpoint).searchNearby(
                     session,
                     params['lat'],
                     params['lng'],
@@ -757,7 +1060,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['location'] as _i8.LocationEndpoint).get(
+              ) async => (endpoints['location'] as _i11.LocationEndpoint).get(
                 session,
                 params['id'],
               ),
@@ -782,7 +1085,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['reward'] as _i9.RewardEndpoint).listByAction(
+                  (endpoints['reward'] as _i12.RewardEndpoint).listByAction(
                     session,
                     params['actionId'],
                   ),
@@ -794,9 +1097,8 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['reward'] as _i9.RewardEndpoint).listByUser(
-                session,
-              ),
+              ) async => (endpoints['reward'] as _i12.RewardEndpoint)
+                  .listByUser(session),
         ),
         'getLeaderboard': _i1.MethodConnector(
           name: 'getLeaderboard',
@@ -805,7 +1107,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['reward'] as _i9.RewardEndpoint)
+              ) async => (endpoints['reward'] as _i12.RewardEndpoint)
                   .getLeaderboard(session),
         ),
       },
@@ -858,7 +1160,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['rewardPool'] as _i10.RewardPoolEndpoint).create(
+                  (endpoints['rewardPool'] as _i13.RewardPoolEndpoint).create(
                     session,
                     params['actionId'],
                     params['rewardType'],
@@ -883,7 +1185,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['rewardPool'] as _i10.RewardPoolEndpoint).get(
+                  (endpoints['rewardPool'] as _i13.RewardPoolEndpoint).get(
                     session,
                     params['poolId'],
                   ),
@@ -901,7 +1203,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rewardPool'] as _i10.RewardPoolEndpoint)
+              ) async => (endpoints['rewardPool'] as _i13.RewardPoolEndpoint)
                   .listByAction(
                     session,
                     params['actionId'],
@@ -914,7 +1216,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rewardPool'] as _i10.RewardPoolEndpoint)
+              ) async => (endpoints['rewardPool'] as _i13.RewardPoolEndpoint)
                   .listByCreator(session),
         ),
         'cancel': _i1.MethodConnector(
@@ -931,7 +1233,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['rewardPool'] as _i10.RewardPoolEndpoint).cancel(
+                  (endpoints['rewardPool'] as _i13.RewardPoolEndpoint).cancel(
                     session,
                     params['poolId'],
                   ),
@@ -949,7 +1251,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rewardPool'] as _i10.RewardPoolEndpoint)
+              ) async => (endpoints['rewardPool'] as _i13.RewardPoolEndpoint)
                   .getDistributions(
                     session,
                     params['poolId'],
@@ -968,7 +1270,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['seed'] as _i11.SeedEndpoint)
+              ) async => (endpoints['seed'] as _i14.SeedEndpoint)
                   .seedDefaultActions(session),
         ),
       },
@@ -991,7 +1293,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['solana'] as _i12.SolanaEndpoint).createWallet(
+                  (endpoints['solana'] as _i15.SolanaEndpoint).createWallet(
                     session,
                     label: params['label'],
                   ),
@@ -1015,7 +1317,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['solana'] as _i12.SolanaEndpoint).linkWallet(
+                  (endpoints['solana'] as _i15.SolanaEndpoint).linkWallet(
                     session,
                     params['publicKey'],
                     label: params['label'],
@@ -1028,7 +1330,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['solana'] as _i12.SolanaEndpoint)
+              ) async => (endpoints['solana'] as _i15.SolanaEndpoint)
                   .getWallets(session),
         ),
         'setDefaultWallet': _i1.MethodConnector(
@@ -1045,7 +1347,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['solana'] as _i12.SolanaEndpoint).setDefaultWallet(
+                  (endpoints['solana'] as _i15.SolanaEndpoint).setDefaultWallet(
                     session,
                     params['walletId'],
                   ),
@@ -1057,7 +1359,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['solana'] as _i12.SolanaEndpoint)
+              ) async => (endpoints['solana'] as _i15.SolanaEndpoint)
                   .getBalance(session),
         ),
       },
@@ -1071,7 +1373,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'submission': _i1.ParameterDescription(
               name: 'submission',
-              type: _i1.getType<_i21.ActionSubmission>(),
+              type: _i1.getType<_i24.ActionSubmission>(),
               nullable: false,
             ),
           },
@@ -1080,7 +1382,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['submission'] as _i13.SubmissionEndpoint).create(
+                  (endpoints['submission'] as _i16.SubmissionEndpoint).create(
                     session,
                     params['submission'],
                   ),
@@ -1098,7 +1400,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['submission'] as _i13.SubmissionEndpoint)
+              ) async => (endpoints['submission'] as _i16.SubmissionEndpoint)
                   .listByAction(
                     session,
                     params['actionId'],
@@ -1111,7 +1413,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['submission'] as _i13.SubmissionEndpoint)
+              ) async => (endpoints['submission'] as _i16.SubmissionEndpoint)
                   .listByPerformer(session),
         ),
         'get': _i1.MethodConnector(
@@ -1128,7 +1430,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['submission'] as _i13.SubmissionEndpoint).get(
+                  (endpoints['submission'] as _i16.SubmissionEndpoint).get(
                     session,
                     params['id'],
                   ),
@@ -1146,7 +1448,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['submission'] as _i13.SubmissionEndpoint)
+              ) async => (endpoints['submission'] as _i16.SubmissionEndpoint)
                   .getSequentialProgress(
                     session,
                     params['actionId'],
@@ -1172,7 +1474,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userFollow'] as _i14.UserFollowEndpoint).follow(
+                  (endpoints['userFollow'] as _i17.UserFollowEndpoint).follow(
                     session,
                     params['userId'],
                   ),
@@ -1191,7 +1493,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userFollow'] as _i14.UserFollowEndpoint).unfollow(
+                  (endpoints['userFollow'] as _i17.UserFollowEndpoint).unfollow(
                     session,
                     params['userId'],
                   ),
@@ -1209,7 +1511,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userFollow'] as _i14.UserFollowEndpoint)
+              ) async => (endpoints['userFollow'] as _i17.UserFollowEndpoint)
                   .listFollowers(
                     session,
                     params['userId'],
@@ -1228,7 +1530,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userFollow'] as _i14.UserFollowEndpoint)
+              ) async => (endpoints['userFollow'] as _i17.UserFollowEndpoint)
                   .listFollowing(
                     session,
                     params['userId'],
@@ -1247,7 +1549,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userFollow'] as _i14.UserFollowEndpoint)
+              ) async => (endpoints['userFollow'] as _i17.UserFollowEndpoint)
                   .isFollowing(
                     session,
                     params['userId'],
@@ -1264,7 +1566,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'profile': _i1.ParameterDescription(
               name: 'profile',
-              type: _i1.getType<_i22.UserProfile>(),
+              type: _i1.getType<_i25.UserProfile>(),
               nullable: false,
             ),
           },
@@ -1273,7 +1575,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userProfile'] as _i15.UserProfileEndpoint).create(
+                  (endpoints['userProfile'] as _i18.UserProfileEndpoint).create(
                     session,
                     params['profile'],
                   ),
@@ -1285,7 +1587,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i15.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i18.UserProfileEndpoint)
                   .get(session),
         ),
         'getByUsername': _i1.MethodConnector(
@@ -1301,7 +1603,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i15.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i18.UserProfileEndpoint)
                   .getByUsername(
                     session,
                     params['username'],
@@ -1312,7 +1614,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'profile': _i1.ParameterDescription(
               name: 'profile',
-              type: _i1.getType<_i22.UserProfile>(),
+              type: _i1.getType<_i25.UserProfile>(),
               nullable: false,
             ),
           },
@@ -1321,7 +1623,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userProfile'] as _i15.UserProfileEndpoint).update(
+                  (endpoints['userProfile'] as _i18.UserProfileEndpoint).update(
                     session,
                     params['profile'],
                   ),
@@ -1340,7 +1642,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userProfile'] as _i15.UserProfileEndpoint).search(
+                  (endpoints['userProfile'] as _i18.UserProfileEndpoint).search(
                     session,
                     params['query'],
                   ),
@@ -1365,7 +1667,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['verification'] as _i16.VerificationEndpoint)
+                  (endpoints['verification'] as _i19.VerificationEndpoint)
                       .getBySubmission(
                         session,
                         params['submissionId'],
@@ -1385,7 +1687,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['verification'] as _i16.VerificationEndpoint)
+                  (endpoints['verification'] as _i19.VerificationEndpoint)
                       .retryVerification(
                         session,
                         params['submissionId'],
@@ -1393,9 +1695,9 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth_idp'] = _i23.Endpoints()
+    modules['serverpod_auth_idp'] = _i26.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i24.Endpoints()
+    modules['serverpod_auth_core'] = _i27.Endpoints()
       ..initializeEndpoints(server);
   }
 }

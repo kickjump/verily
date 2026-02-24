@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:verily_app/src/features/auth/auth_gateway.dart';
 
 part 'auth_provider.g.dart';
 
@@ -54,11 +55,14 @@ class Auth extends _$Auth {
   Future<void> login({required String email, required String password}) async {
     state = const AuthLoading();
     try {
-      // TODO: Integrate with Serverpod auth.
-      await Future<void>.delayed(const Duration(seconds: 1));
-      state = Authenticated(userId: 'user_1', email: email);
+      final profile = await ref
+          .read(authGatewayProvider)
+          .loginWithEmail(email: email, password: password);
+      if (!ref.mounted) return;
+      state = Authenticated(userId: profile.userId, email: profile.email);
     } on Exception catch (e) {
       debugPrint('Login failed: $e');
+      if (!ref.mounted) return;
       state = const Unauthenticated();
     }
   }
@@ -70,11 +74,13 @@ class Auth extends _$Auth {
   }) async {
     state = const AuthLoading();
     try {
-      // TODO: Integrate with Serverpod auth registration.
+      // TODO(auth): Replace with the full email verification flow.
       await Future<void>.delayed(const Duration(seconds: 1));
+      if (!ref.mounted) return;
       state = Authenticated(userId: 'user_new', email: email);
     } on Exception catch (e) {
       debugPrint('Registration failed: $e');
+      if (!ref.mounted) return;
       state = const Unauthenticated();
     }
   }
@@ -83,14 +89,12 @@ class Auth extends _$Auth {
   Future<void> loginWithGoogle() async {
     state = const AuthLoading();
     try {
-      // TODO: Integrate with Google Sign-In via Serverpod IDP.
-      await Future<void>.delayed(const Duration(seconds: 1));
-      state = const Authenticated(
-        userId: 'google_user',
-        email: 'user@gmail.com',
-      );
+      final profile = await ref.read(authGatewayProvider).loginWithGoogle();
+      if (!ref.mounted) return;
+      state = Authenticated(userId: profile.userId, email: profile.email);
     } on Exception catch (e) {
       debugPrint('Google login failed: $e');
+      if (!ref.mounted) return;
       state = const Unauthenticated();
     }
   }
@@ -99,14 +103,12 @@ class Auth extends _$Auth {
   Future<void> loginWithApple() async {
     state = const AuthLoading();
     try {
-      // TODO: Integrate with Apple Sign-In via Serverpod IDP.
-      await Future<void>.delayed(const Duration(seconds: 1));
-      state = const Authenticated(
-        userId: 'apple_user',
-        email: 'user@icloud.com',
-      );
+      final profile = await ref.read(authGatewayProvider).loginWithApple();
+      if (!ref.mounted) return;
+      state = Authenticated(userId: profile.userId, email: profile.email);
     } on Exception catch (e) {
       debugPrint('Apple login failed: $e');
+      if (!ref.mounted) return;
       state = const Unauthenticated();
     }
   }
@@ -115,11 +117,12 @@ class Auth extends _$Auth {
   Future<void> logout() async {
     state = const AuthLoading();
     try {
-      // TODO: Integrate with Serverpod auth logout.
-      await Future<void>.delayed(const Duration(milliseconds: 300));
+      await ref.read(authGatewayProvider).logout();
+      if (!ref.mounted) return;
       state = const Unauthenticated();
     } on Exception catch (e) {
       debugPrint('Logout failed: $e');
+      if (!ref.mounted) return;
       state = const Unauthenticated();
     }
   }
@@ -127,11 +130,16 @@ class Auth extends _$Auth {
   /// Checks whether the user has an existing authenticated session.
   Future<void> _checkAuth() async {
     try {
-      // TODO: Check Serverpod session token validity.
-      await Future<void>.delayed(const Duration(milliseconds: 500));
-      state = const Unauthenticated();
+      final gateway = ref.read(authGatewayProvider);
+      await gateway.initializeSession();
+      final profile = await gateway.getCurrentProfile();
+      if (!ref.mounted) return;
+      state = profile == null
+          ? const Unauthenticated()
+          : Authenticated(userId: profile.userId, email: profile.email);
     } on Exception catch (e) {
       debugPrint('Auth check failed: $e');
+      if (!ref.mounted) return;
       state = const Unauthenticated();
     }
   }
