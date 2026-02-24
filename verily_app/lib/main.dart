@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/l10n/app_localizations.dart';
+import 'package:verily_app/src/app/providers/theme_mode_provider.dart';
 import 'package:verily_app/src/logging/app_logging.dart';
-import 'package:verily_app/src/providers/theme_mode_provider.dart';
 import 'package:verily_app/src/routing/app_router.dart';
 import 'package:verily_ui/verily_ui.dart';
 

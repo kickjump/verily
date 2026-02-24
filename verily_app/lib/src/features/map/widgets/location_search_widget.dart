@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verily_app/src/providers/geocoding_providers.dart';
+import 'package:verily_app/src/features/map/providers/geocoding_providers.dart';
 import 'package:verily_ui/verily_ui.dart';
 
 /// Search bar that queries the Mapbox geocoding endpoint with debouncing.
