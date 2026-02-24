@@ -17,6 +17,7 @@ devenv.local.yaml
 build/
 .packages
 .pub/
+**/.flutter-plugins-dependencies
 
 # Generated — do NOT ignore *.g.dart or *.freezed.dart (constitution: committed)
 
