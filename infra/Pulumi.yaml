@@ -1,0 +1,14 @@
+name: verily-infra
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+    packagemanager: pnpm
+description: Infrastructure for the Verily real-world action verification platform.
+config:
+  verily-infra:domain:
+    description: The base domain for the deployment (e.g. verily.fun).
+  verily-infra:cloud:
+    description: Cloud provider to deploy to — "aws" or "gcp".
+  verily-infra:environment:
+    description: Deployment environment — "staging" or "production".

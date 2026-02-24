@@ -33,6 +33,7 @@
     "**/.devenv*/**",
     "**/.direnv/**",
     "**/node_modules/**",
+    "infra/dist/**",
     "**/*.g.dart",
     "**/*.freezed.dart",
     "**/generated_protocol/**",
@@ -42,9 +43,12 @@
     "**/Pods/",
     "**/test_tools/serverpod_test_tools.dart",
     "pubspec.lock",
-    "**/pubspec.lock"
+    "**/pubspec.lock",
+    "**/pnpm-lock.yaml"
   ],
+  "typescript": {},
   "plugins": [
+    "https://plugins.dprint.dev/typescript-0.95.15.wasm",
     "https://plugins.dprint.dev/json-0.21.1.wasm",
     "https://plugins.dprint.dev/markdown-0.21.1.wasm",
     "https://plugins.dprint.dev/toml-0.7.0.wasm",
