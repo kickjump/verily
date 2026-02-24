@@ -55,8 +55,7 @@ TestGeminiResponse parseResponse(String responseText) {
     return TestGeminiResponse(
       passed: json['passed'] as bool? ?? false,
       confidenceScore: (json['confidenceScore'] as num?)?.toDouble() ?? 0,
-      analysisText:
-          json['analysisText'] as String? ?? 'No analysis provided.',
+      analysisText: json['analysisText'] as String? ?? 'No analysis provided.',
       spoofingDetected: json['spoofingDetected'] as bool? ?? false,
       structuredResult: jsonStr,
       modelUsed: modelName,
@@ -85,7 +84,7 @@ String buildPrompt({
 }) {
   final locationContext = latitude != null && longitude != null
       ? '\n\nExpected location: lat=$latitude, lng=$longitude. '
-          'If the video contains GPS metadata, verify it matches.'
+            'If the video contains GPS metadata, verify it matches.'
       : '';
 
   return '''
@@ -353,8 +352,7 @@ void main() {
 
     group('malformed JSON', () {
       test('falls back for completely non-JSON text', () {
-        const responseText =
-            'I apologize, but I cannot analyze this video.';
+        const responseText = 'I apologize, but I cannot analyze this video.';
 
         final result = parseResponse(responseText);
 
@@ -543,7 +541,8 @@ Here is my analysis:
     group('edge cases', () {
       test('handles very long analysis text', () {
         final longText = 'A' * 10000;
-        final responseText = '''
+        final responseText =
+            '''
 {
   "passed": true,
   "confidenceScore": 0.9,
@@ -653,8 +652,7 @@ Here is my analysis:
       final prompt = buildPrompt(
         actionTitle: 'Test',
         actionDescription: 'desc',
-        verificationCriteria:
-            'Must show full range of motion for each rep',
+        verificationCriteria: 'Must show full range of motion for each rep',
       );
 
       expect(prompt, contains('Must show full range of motion'));

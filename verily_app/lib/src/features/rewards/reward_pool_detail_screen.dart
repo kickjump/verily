@@ -5,10 +5,7 @@ import 'package:verily_ui/verily_ui.dart';
 
 /// Screen showing details of a reward pool and its distributions.
 class RewardPoolDetailScreen extends HookConsumerWidget {
-  const RewardPoolDetailScreen({
-    required this.poolId,
-    super.key,
-  });
+  const RewardPoolDetailScreen({required this.poolId, super.key});
 
   final String poolId;
 
@@ -25,10 +22,7 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
               }
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'cancel',
-                child: Text('Cancel Pool'),
-              ),
+              const PopupMenuItem(value: 'cancel', child: Text('Cancel Pool')),
             ],
           ),
         ],
@@ -53,7 +47,8 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
                         ),
                         const VBadgeChip(
                           label: 'Active',
-                          color: Colors.green,
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white,
                         ),
                       ],
                     ),
@@ -84,8 +79,9 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
                     const SizedBox(height: 12),
                     LinearProgressIndicator(
                       value: 0.15,
-                      backgroundColor:
-                          Theme.of(context).colorScheme.surfaceContainerHighest,
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerHighest,
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -111,11 +107,10 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
                 child: Text(
                   'No distributions yet',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withValues(alpha: 0.6),
-                      ),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.6),
+                  ),
                 ),
               ),
             ),
@@ -134,17 +129,16 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.6),
-                ),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
+            ),
           ),
           Text(
             value,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
         ],
       ),

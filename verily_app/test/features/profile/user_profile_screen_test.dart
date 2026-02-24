@@ -6,9 +6,7 @@ import 'package:verily_test_utils/verily_test_utils.dart';
 void main() {
   group('UserProfileScreen', () {
     Future<void> pumpUserProfileScreen(WidgetTester tester) async {
-      await tester.pumpApp(
-        const UserProfileScreen(userId: 'abc123'),
-      );
+      await tester.pumpApp(const UserProfileScreen(userId: 'abc123'));
     }
 
     testWidgets('renders Follow button for non-followed user', (tester) async {

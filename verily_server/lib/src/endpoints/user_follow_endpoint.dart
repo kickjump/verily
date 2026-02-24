@@ -13,14 +13,22 @@ class UserFollowEndpoint extends Endpoint {
 
   /// Follows another user.
   Future<UserFollow> follow(Session session, UuidValue userId) async {
-    final authId = session.authenticated!.userId;
-    return UserFollowService.follow(session, authId, userId);
+    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    return UserFollowService.follow(
+      session,
+      followerId: authId,
+      followedId: userId,
+    );
   }
 
   /// Unfollows another user.
   Future<void> unfollow(Session session, UuidValue userId) async {
-    final authId = session.authenticated!.userId;
-    return UserFollowService.unfollow(session, authId, userId);
+    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    return UserFollowService.unfollow(
+      session,
+      followerId: authId,
+      followedId: userId,
+    );
   }
 
   /// Lists all followers of a user.
@@ -28,7 +36,7 @@ class UserFollowEndpoint extends Endpoint {
     Session session,
     UuidValue userId,
   ) async {
-    return UserFollowService.listFollowers(session, userId);
+    return UserFollowService.getFollowers(session, userId: userId);
   }
 
   /// Lists all users that a user is following.
@@ -36,12 +44,16 @@ class UserFollowEndpoint extends Endpoint {
     Session session,
     UuidValue userId,
   ) async {
-    return UserFollowService.listFollowing(session, userId);
+    return UserFollowService.getFollowing(session, userId: userId);
   }
 
   /// Checks whether the authenticated user is following a given user.
   Future<bool> isFollowing(Session session, UuidValue userId) async {
-    final authId = session.authenticated!.userId;
-    return UserFollowService.isFollowing(session, authId, userId);
+    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    return UserFollowService.isFollowing(
+      session,
+      followerId: authId,
+      followedId: userId,
+    );
   }
 }

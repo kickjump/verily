@@ -73,8 +73,10 @@ class AttestationService {
       createdAt: now,
     );
 
-    final inserted =
-        await AttestationChallenge.db.insertRow(session, challenge);
+    final inserted = await AttestationChallenge.db.insertRow(
+      session,
+      challenge,
+    );
     _log.info(
       'Created attestation challenge for user $userId, '
       'action $actionId: $nonce',
@@ -178,10 +180,7 @@ class AttestationService {
       platform: 'ios',
       attestationType: AttestationType.appAttest.value,
       verified: true, // TODO: Actually verify
-      rawResult: jsonEncode({
-        'keyId': keyId,
-        'stub': true,
-      }),
+      rawResult: jsonEncode({'keyId': keyId, 'stub': true}),
       createdAt: DateTime.now().toUtc(),
     );
 

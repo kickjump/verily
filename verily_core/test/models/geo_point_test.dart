@@ -88,10 +88,7 @@ void main() {
       });
 
       test('points with completely different coordinates are not equal', () {
-        final sanFrancisco = GeoPoint(
-          latitude: 37.7749,
-          longitude: -122.4194,
-        );
+        final sanFrancisco = GeoPoint(latitude: 37.7749, longitude: -122.4194);
         final london = GeoPoint(latitude: 51.5074, longitude: -0.1278);
 
         expect(sanFrancisco, isNot(equals(london)));

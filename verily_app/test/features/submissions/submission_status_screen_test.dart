@@ -7,7 +7,10 @@ void main() {
   group('SubmissionStatusScreen', () {
     Future<void> pumpSubmissionStatusScreen(WidgetTester tester) async {
       await tester.pumpApp(
-        const SubmissionStatusScreen(actionId: 'test_action_1'),
+        const SubmissionStatusScreen(
+          actionId: 'test_action_1',
+          simulateVerification: false,
+        ),
       );
     }
 
@@ -45,16 +48,18 @@ void main() {
       expect(find.text('Result'), findsOneWidget);
     });
 
-    testWidgets('renders circular progress indicator for pending state',
-        (tester) async {
+    testWidgets('renders circular progress indicator for pending state', (
+      tester,
+    ) async {
       await pumpSubmissionStatusScreen(tester);
 
       // In pending and processing states, a CircularProgressIndicator shows.
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('does not show action buttons in pending state',
-        (tester) async {
+    testWidgets('does not show action buttons in pending state', (
+      tester,
+    ) async {
       await pumpSubmissionStatusScreen(tester);
 
       // "Back to Feed" and "Try Again" buttons only show after verification.
@@ -62,8 +67,9 @@ void main() {
       expect(find.text('Try Again'), findsNothing);
     });
 
-    testWidgets('does not render confidence score in pending state',
-        (tester) async {
+    testWidgets('does not render confidence score in pending state', (
+      tester,
+    ) async {
       await pumpSubmissionStatusScreen(tester);
 
       // Confidence score and AI analysis only show after verification completes.

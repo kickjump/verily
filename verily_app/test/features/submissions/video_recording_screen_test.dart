@@ -29,8 +29,9 @@ void main() {
       expect(find.byType(GestureDetector), findsWidgets);
     });
 
-    testWidgets('renders GPS status indicator showing GPS Ready',
-        (tester) async {
+    testWidgets('renders GPS status indicator showing GPS Ready', (
+      tester,
+    ) async {
       await pumpVideoRecordingScreen(tester);
 
       // Default state has GPS signal.
@@ -55,10 +56,7 @@ void main() {
 
       // The info box is visible before recording starts.
       expect(find.byIcon(Icons.info_outline), findsOneWidget);
-      expect(
-        find.textContaining('Record a clear video'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Record a clear video'), findsOneWidget);
     });
 
     testWidgets('has black background', (tester) async {

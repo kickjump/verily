@@ -45,10 +45,7 @@ class ActionCategoryService {
 
   /// Returns all categories ordered by [sortOrder].
   static Future<List<ActionCategory>> listAll(Session session) async {
-    return ActionCategory.db.find(
-      session,
-      orderBy: (t) => t.sortOrder,
-    );
+    return ActionCategory.db.find(session, orderBy: (t) => t.sortOrder);
   }
 
   /// Finds a category by its primary key [id].
@@ -119,10 +116,20 @@ class ActionCategoryService {
   /// This is intended to be called during server startup or seeding.
   static Future<void> ensureDefaults(Session session) async {
     const defaults = [
-      ('Fitness', 'Physical exercise and movement challenges', 'fitness_center', 0),
+      (
+        'Fitness',
+        'Physical exercise and movement challenges',
+        'fitness_center',
+        0,
+      ),
       ('Social', 'Challenges involving interaction with others', 'people', 1),
       ('Creative', 'Artistic and creative challenges', 'palette', 2),
-      ('Wellness', 'Mental health and well-being challenges', 'self_improvement', 3),
+      (
+        'Wellness',
+        'Mental health and well-being challenges',
+        'self_improvement',
+        3,
+      ),
     ];
 
     for (final (name, description, iconName, sortOrder) in defaults) {

@@ -5,10 +5,7 @@ import 'package:verily_ui/verily_ui.dart';
 
 /// Screen for creating a reward pool for an action.
 class CreateRewardPoolScreen extends HookConsumerWidget {
-  const CreateRewardPoolScreen({
-    required this.actionId,
-    super.key,
-  });
+  const CreateRewardPoolScreen({required this.actionId, super.key});
 
   final String actionId;
 
@@ -23,19 +20,14 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
     final expiryDate = useState<DateTime?>(null);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Reward Pool'),
-      ),
+      appBar: AppBar(title: const Text('Create Reward Pool')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Reward type selector
-            Text(
-              'Reward Type',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('Reward Type', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             SegmentedButton<String>(
               segments: const [

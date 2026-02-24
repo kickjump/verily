@@ -39,10 +39,7 @@ class VBadgeChip extends HookWidget {
             Icon(icon, size: 14, color: fg),
             const SizedBox(width: SpacingTokens.xs),
           ],
-          Text(
-            label,
-            style: theme.textTheme.labelSmall?.copyWith(color: fg),
-          ),
+          Text(label, style: theme.textTheme.labelSmall?.copyWith(color: fg)),
         ],
       ),
     );

@@ -63,10 +63,7 @@ class RewardService {
     Session session, {
     required int actionId,
   }) async {
-    return Reward.db.find(
-      session,
-      where: (t) => t.actionId.equals(actionId),
-    );
+    return Reward.db.find(session, where: (t) => t.actionId.equals(actionId));
   }
 
   /// Deletes a reward by id.
@@ -174,8 +171,7 @@ class RewardService {
   }) async {
     final count = await UserReward.db.count(
       session,
-      where: (t) =>
-          t.userId.equals(userId) & t.rewardId.equals(rewardId),
+      where: (t) => t.userId.equals(userId) & t.rewardId.equals(rewardId),
     );
     return count > 0;
   }

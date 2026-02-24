@@ -6,7 +6,7 @@ fields:
   actionId:
     type: int
     relation:
-      parentTable: action
+      parent: action
       onDelete: cascade
   nonce:
     type: String

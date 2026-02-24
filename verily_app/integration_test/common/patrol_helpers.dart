@@ -66,12 +66,35 @@ Widget buildAuthApp({String initialLocation = RouteNames.loginPath}) {
   );
 
   return ProviderScope(
-    overrides: [authProvider.overrideWith((_) => const Unauthenticated())],
+    overrides: [authProvider.overrideWith(_IntegrationTestAuth.new)],
     child: MaterialApp.router(
       theme: ThemeData.light(useMaterial3: true),
       routerConfig: router,
     ),
   );
+}
+
+class _IntegrationTestAuth extends Auth {
+  @override
+  AuthState build() => const Unauthenticated();
+
+  @override
+  Future<void> login({required String email, required String password}) async {}
+
+  @override
+  Future<void> loginWithGoogle() async {}
+
+  @override
+  Future<void> loginWithApple() async {}
+
+  @override
+  Future<void> logout() async {}
+
+  @override
+  Future<void> register({
+    required String email,
+    required String password,
+  }) async {}
 }
 
 /// Builds the main shell app with bottom navigation for tab testing.
@@ -221,8 +244,7 @@ class LoginPage {
   Finder get registerLink => find.widgetWithText(TextButton, 'Sign Up');
 
   /// The Google social login button.
-  Finder get googleButton =>
-      find.widgetWithText(OutlinedButton, 'Google');
+  Finder get googleButton => find.widgetWithText(OutlinedButton, 'Google');
 
   /// The Apple social login button.
   Finder get appleButton => find.widgetWithText(OutlinedButton, 'Apple');
@@ -418,16 +440,13 @@ class MainShellPage {
   Finder get navigationBar => find.byType(NavigationBar);
 
   /// The Feed tab in the bottom navigation.
-  Finder get feedTab =>
-      _destination(Icons.home, Icons.home_outlined);
+  Finder get feedTab => _destination(Icons.home, Icons.home_outlined);
 
   /// The Search tab in the bottom navigation.
-  Finder get searchTab =>
-      _destination(Icons.search, Icons.search_outlined);
+  Finder get searchTab => _destination(Icons.search, Icons.search_outlined);
 
   /// The Profile tab in the bottom navigation.
-  Finder get profileTab =>
-      _destination(Icons.person, Icons.person_outline);
+  Finder get profileTab => _destination(Icons.person, Icons.person_outline);
 
   /// Tap the Feed tab.
   Future<void> tapFeedTab() async {

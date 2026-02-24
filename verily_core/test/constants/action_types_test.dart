@@ -45,10 +45,7 @@ void main() {
       });
 
       test('throws ArgumentError for empty string', () {
-        expect(
-          () => ActionType.fromValue(''),
-          throwsA(isA<ArgumentError>()),
-        );
+        expect(() => ActionType.fromValue(''), throwsA(isA<ArgumentError>()));
       });
 
       test('is case-sensitive', () {

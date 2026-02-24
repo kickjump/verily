@@ -13,23 +13,18 @@ import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('LoginScreen', () {
-    // Override the authProvider so it starts in Unauthenticated state
-    // instead of AuthLoading (which would show loading spinners).
-    late List<Override> overrides;
-
-    setUp(() {
-      overrides = [
-        authProvider.overrideWith(() {
-          return _FakeAuth();
-        }),
-      ];
-    });
+    ProviderContainer buildContainer() {
+      return ProviderContainer(
+        overrides: [
+          authProvider.overrideWith(() {
+            return _FakeAuth();
+          }),
+        ],
+      );
+    }
 
     Future<void> pumpLoginScreen(WidgetTester tester) async {
-      await tester.pumpApp(
-        const LoginScreen(),
-        container: ProviderContainer(overrides: overrides),
-      );
+      await tester.pumpApp(const LoginScreen(), container: buildContainer());
     }
 
     testWidgets('renders email text field', (tester) async {
@@ -75,8 +70,9 @@ void main() {
       expect(find.text('Sign Up'), findsOneWidget);
     });
 
-    testWidgets('shows disabled X button with Coming soon tooltip',
-        (tester) async {
+    testWidgets('shows disabled X button with Coming soon tooltip', (
+      tester,
+    ) async {
       await pumpLoginScreen(tester);
 
       // The X button should be present but disabled (onPressed: null)
@@ -84,8 +80,9 @@ void main() {
       expect(find.byIcon(Icons.close), findsOneWidget);
     });
 
-    testWidgets('shows disabled Facebook button with Coming soon tooltip',
-        (tester) async {
+    testWidgets('shows disabled Facebook button with Coming soon tooltip', (
+      tester,
+    ) async {
       await pumpLoginScreen(tester);
 
       expect(find.text('Facebook'), findsOneWidget);

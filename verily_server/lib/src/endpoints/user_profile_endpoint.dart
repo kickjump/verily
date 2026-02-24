@@ -13,29 +13,38 @@ class UserProfileEndpoint extends Endpoint {
 
   /// Creates a new user profile for the authenticated user.
   Future<UserProfile> create(Session session, UserProfile profile) async {
-    final authId = session.authenticated!.userId;
-    return UserProfileService.create(session, profile, authId);
+    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    return UserProfileService.getOrCreate(session, authUserId: authId);
   }
 
   /// Retrieves the authenticated user's profile.
   Future<UserProfile?> get(Session session) async {
-    final authId = session.authenticated!.userId;
-    return UserProfileService.get(session, authId);
+    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    return UserProfileService.findByAuthUserId(session, authId);
   }
 
   /// Retrieves a user profile by username.
   Future<UserProfile?> getByUsername(Session session, String username) async {
-    return UserProfileService.getByUsername(session, username);
+    return UserProfileService.findByUsername(session, username);
   }
 
   /// Updates the authenticated user's profile.
   Future<UserProfile> update(Session session, UserProfile profile) async {
-    final authId = session.authenticated!.userId;
-    return UserProfileService.update(session, profile, authId);
+    final authId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    return UserProfileService.update(
+      session,
+      authUserId: authId,
+      username: profile.username,
+      displayName: profile.displayName,
+      bio: profile.bio,
+      avatarUrl: profile.avatarUrl,
+      isPublic: profile.isPublic,
+      socialLinks: profile.socialLinks,
+    );
   }
 
   /// Searches for user profiles by a query string.
   Future<List<UserProfile>> search(Session session, String query) async {
-    return UserProfileService.search(session, query);
+    return UserProfileService.search(session, query: query);
   }
 }

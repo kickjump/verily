@@ -13,7 +13,14 @@ class LocationEndpoint extends Endpoint {
 
   /// Creates a new location.
   Future<Location> create(Session session, Location location) async {
-    return LocationService.create(session, location);
+    return LocationService.create(
+      session,
+      name: location.name,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      radiusMeters: location.radiusMeters,
+      address: location.address,
+    );
   }
 
   /// Searches for locations near a geographic coordinate.
@@ -23,11 +30,16 @@ class LocationEndpoint extends Endpoint {
     double lng,
     double radiusMeters,
   ) async {
-    return LocationService.searchNearby(session, lat, lng, radiusMeters);
+    return LocationService.findNearby(
+      session,
+      latitude: lat,
+      longitude: lng,
+      radiusMeters: radiusMeters,
+    );
   }
 
   /// Retrieves a single location by its ID.
   Future<Location?> get(Session session, int id) async {
-    return LocationService.get(session, id);
+    return LocationService.findById(session, id);
   }
 }

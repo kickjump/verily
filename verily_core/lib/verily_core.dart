@@ -11,4 +11,5 @@ export 'src/logging/log_entry.dart';
 export 'src/logging/log_formatter.dart';
 export 'src/logging/v_logger.dart';
 export 'src/models/ai_generated_action.dart';
+export 'src/models/bounding_box.dart';
 export 'src/models/geo_point.dart';

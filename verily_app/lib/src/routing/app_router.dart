@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:verily_app/src/logging/navigation_observer.dart';
@@ -65,6 +66,17 @@ GoRouter appRouter(AppRouterRef ref) {
                 path: RouteNames.searchPath,
                 name: RouteNames.search,
                 builder: (context, state) => _placeholder('Search'),
+              ),
+            ],
+          ),
+
+          // Map tab
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.mapPath,
+                name: RouteNames.map,
+                builder: (context, state) => _placeholder('Map'),
               ),
             ],
           ),
@@ -209,8 +221,8 @@ GoRouter appRouter(AppRouterRef ref) {
   );
 }
 
-/// Scaffold that hosts the [NavigationBar] for the three bottom tabs.
-class _ShellScaffold extends StatelessWidget {
+/// Scaffold that hosts the [NavigationBar] for the bottom tabs.
+class _ShellScaffold extends HookWidget {
   const _ShellScaffold({required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
@@ -237,6 +249,11 @@ class _ShellScaffold extends StatelessWidget {
             icon: Icon(Icons.search_outlined),
             selectedIcon: Icon(Icons.search),
             label: 'Search',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.map_outlined),
+            selectedIcon: Icon(Icons.map),
+            label: 'Map',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline),

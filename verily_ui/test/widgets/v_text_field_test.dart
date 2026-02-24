@@ -55,9 +55,7 @@ void main() {
 
     testWidgets('obscureText hides text', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(body: VTextField(obscureText: true)),
-        ),
+        const MaterialApp(home: Scaffold(body: VTextField(obscureText: true))),
       );
 
       final textField = tester.widget<TextField>(find.byType(TextField));

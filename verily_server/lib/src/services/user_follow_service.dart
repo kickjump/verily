@@ -145,10 +145,7 @@ class UserFollowService {
   }) async {
     final followers = await countFollowers(session, userId: userId);
     final following = await countFollowing(session, userId: userId);
-    return FollowCounts(
-      followers: followers,
-      following: following,
-    );
+    return FollowCounts(followers: followers, following: following);
   }
 
   /// Returns the UUIDs of all users that [userId] follows.
@@ -209,10 +206,7 @@ class UserFollowService {
 
 /// Follower and following counts for a user.
 class FollowCounts {
-  FollowCounts({
-    required this.followers,
-    required this.following,
-  });
+  FollowCounts({required this.followers, required this.following});
 
   final int followers;
   final int following;

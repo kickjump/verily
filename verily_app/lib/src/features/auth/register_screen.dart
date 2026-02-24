@@ -61,9 +61,7 @@ class RegisterScreen extends HookConsumerWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: SpacingTokens.lg,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.lg),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 400),
               child: Form(
@@ -80,14 +78,14 @@ class RegisterScreen extends HookConsumerWidget {
                           stepNumber: 1,
                           label: 'Credentials',
                           isActive: true,
-                          isCompleted: currentStep.value ==
-                              _RegisterStep.verification,
+                          isCompleted:
+                              currentStep.value == _RegisterStep.verification,
                         ),
                         Expanded(
                           child: Container(
                             height: 2,
-                            color: currentStep.value ==
-                                    _RegisterStep.verification
+                            color:
+                                currentStep.value == _RegisterStep.verification
                                 ? ColorTokens.primary
                                 : colorScheme.outlineVariant,
                           ),
@@ -95,8 +93,8 @@ class RegisterScreen extends HookConsumerWidget {
                         _StepIndicator(
                           stepNumber: 2,
                           label: 'Verify',
-                          isActive: currentStep.value ==
-                              _RegisterStep.verification,
+                          isActive:
+                              currentStep.value == _RegisterStep.verification,
                           isCompleted: false,
                         ),
                       ],
@@ -190,8 +188,7 @@ class RegisterScreen extends HookConsumerWidget {
                         onPressed: isLoading
                             ? null
                             : () {
-                                if (formKey.currentState?.validate() ??
-                                    false) {
+                                if (formKey.currentState?.validate() ?? false) {
                                   // TODO: Send verification email via Serverpod.
                                   currentStep.value =
                                       _RegisterStep.verification;
@@ -201,8 +198,7 @@ class RegisterScreen extends HookConsumerWidget {
                       ),
                     ],
 
-                    if (currentStep.value ==
-                        _RegisterStep.verification) ...[
+                    if (currentStep.value == _RegisterStep.verification) ...[
                       // Verification instructions
                       Icon(
                         Icons.mark_email_read_outlined,
@@ -245,7 +241,9 @@ class RegisterScreen extends HookConsumerWidget {
                             ? null
                             : () {
                                 // TODO: Verify code, then register.
-                                ref.read(authProvider.notifier).register(
+                                ref
+                                    .read(authProvider.notifier)
+                                    .register(
                                       email: emailController.text.trim(),
                                       password: passwordController.text,
                                     );
@@ -268,8 +266,9 @@ class RegisterScreen extends HookConsumerWidget {
                     const SizedBox(height: SpacingTokens.lg),
 
                     // Login link
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
                           'Already have an account?',
@@ -278,9 +277,7 @@ class RegisterScreen extends HookConsumerWidget {
                           ),
                         ),
                         VTextButton(
-                          onPressed: isLoading
-                              ? null
-                              : () => context.pop(),
+                          onPressed: isLoading ? null : () => context.pop(),
                           child: const Text('Log In'),
                         ),
                       ],
@@ -319,8 +316,8 @@ class _StepIndicator extends HookWidget {
     final bgColor = isCompleted
         ? ColorTokens.success
         : isActive
-            ? ColorTokens.primary
-            : colorScheme.surfaceContainerHighest;
+        ? ColorTokens.primary
+        : colorScheme.surfaceContainerHighest;
     final fgColor = (isActive || isCompleted)
         ? Colors.white
         : colorScheme.onSurfaceVariant;

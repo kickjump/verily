@@ -20,10 +20,8 @@ const _devServerUrl = 'http://localhost:8080/';
 Client serverpodClient(ServerpodClientRef ref) {
   final sessionManager = SessionManager(caller: FlutterConnectivityMonitor());
 
-  final client = Client(
-    _devServerUrl,
-    authenticationKeyManager: sessionManager,
-  )..connectivityMonitor = FlutterConnectivityMonitor();
+  final client = Client(_devServerUrl, authenticationKeyManager: sessionManager)
+    ..connectivityMonitor = FlutterConnectivityMonitor();
 
   ref.onDispose(client.close);
 

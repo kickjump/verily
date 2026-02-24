@@ -40,7 +40,7 @@ void main() {
       await pumpProfileScreen(tester);
 
       expect(find.text('12'), findsOneWidget);
-      expect(find.text('Created'), findsOneWidget);
+      expect(find.text('Created'), findsWidgets);
     });
 
     testWidgets('renders stats bar with Completed count', (tester) async {

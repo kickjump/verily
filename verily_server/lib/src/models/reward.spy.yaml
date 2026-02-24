@@ -14,7 +14,7 @@ fields:
   actionId:
     type: int
     relation:
-      parentTable: action
+      parent: action
       onDelete: cascade
 indexes:
   reward_action_id_idx:

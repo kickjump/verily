@@ -4,7 +4,7 @@ fields:
   actionId:
     type: int
     relation:
-      parentTable: action
+      parent: action
       onDelete: cascade
   performerId:
     type: UuidValue

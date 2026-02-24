@@ -124,9 +124,7 @@ class SettingsScreen extends HookConsumerWidget {
           // Danger zone
           const SizedBox(height: SpacingTokens.md),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: SpacingTokens.md,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.md),
             child: VFilledButton(
               onPressed: () {
                 _showLogoutConfirmation(context, ref);
@@ -204,10 +202,7 @@ class _SectionTitle extends HookWidget {
 
 /// Theme mode selector tile with radio-like options.
 class _ThemeModeTile extends HookWidget {
-  const _ThemeModeTile({
-    required this.currentMode,
-    required this.onChanged,
-  });
+  const _ThemeModeTile({required this.currentMode, required this.onChanged});
 
   final ThemeMode currentMode;
   final ValueChanged<ThemeMode> onChanged;
@@ -233,15 +228,9 @@ class _ThemeModeTile extends HookWidget {
         children: [
           Row(
             children: [
-              Icon(
-                Icons.palette_outlined,
-                color: colorScheme.onSurfaceVariant,
-              ),
+              Icon(Icons.palette_outlined, color: colorScheme.onSurfaceVariant),
               const SizedBox(width: SpacingTokens.md),
-              Text(
-                'Theme',
-                style: theme.textTheme.bodyLarge,
-              ),
+              Text('Theme', style: theme.textTheme.bodyLarge),
             ],
           ),
           const SizedBox(height: SpacingTokens.sm),
@@ -263,8 +252,7 @@ class _ThemeModeTile extends HookWidget {
                         vertical: SpacingTokens.sm,
                       ),
                       decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(RadiusTokens.sm),
+                        borderRadius: BorderRadius.circular(RadiusTokens.sm),
                         border: Border.all(
                           color: isSelected
                               ? ColorTokens.primary

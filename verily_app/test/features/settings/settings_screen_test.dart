@@ -13,21 +13,27 @@ import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('SettingsScreen', () {
-    late List<Override> overrides;
-
-    setUp(() {
-      overrides = [
-        authProvider.overrideWith(() {
-          return _FakeAuth();
-        }),
-      ];
-    });
+    ProviderContainer buildContainer() {
+      return ProviderContainer(
+        overrides: [
+          authProvider.overrideWith(() {
+            return _FakeAuth();
+          }),
+        ],
+      );
+    }
 
     Future<void> pumpSettingsScreen(WidgetTester tester) async {
-      await tester.pumpApp(
-        const SettingsScreen(),
-        container: ProviderContainer(overrides: overrides),
+      await tester.pumpApp(const SettingsScreen(), container: buildContainer());
+    }
+
+    Future<void> scrollTo(WidgetTester tester, Finder finder) async {
+      await tester.scrollUntilVisible(
+        finder,
+        300,
+        scrollable: find.byType(Scrollable).first,
       );
+      await tester.pumpAndSettle();
     }
 
     testWidgets('renders Settings app bar title', (tester) async {
@@ -80,6 +86,7 @@ void main() {
 
     testWidgets('renders About section', (tester) async {
       await pumpSettingsScreen(tester);
+      await scrollTo(tester, find.text('About Verily'));
 
       expect(find.text('About'), findsOneWidget);
       expect(find.text('About Verily'), findsOneWidget);
@@ -88,31 +95,36 @@ void main() {
 
     testWidgets('renders Terms of Service tile', (tester) async {
       await pumpSettingsScreen(tester);
+      await scrollTo(tester, find.text('Terms of Service'));
 
       expect(find.text('Terms of Service'), findsOneWidget);
     });
 
     testWidgets('renders Privacy Policy tile', (tester) async {
       await pumpSettingsScreen(tester);
+      await scrollTo(tester, find.text('Privacy Policy'));
 
       expect(find.text('Privacy Policy'), findsOneWidget);
     });
 
     testWidgets('renders Open Source Licenses tile', (tester) async {
       await pumpSettingsScreen(tester);
+      await scrollTo(tester, find.text('Open Source Licenses'));
 
       expect(find.text('Open Source Licenses'), findsOneWidget);
     });
 
     testWidgets('renders Log Out button', (tester) async {
       await pumpSettingsScreen(tester);
+      await scrollTo(tester, find.text('Log Out'));
 
       expect(find.text('Log Out'), findsOneWidget);
       expect(find.byIcon(Icons.logout), findsOneWidget);
     });
 
-    testWidgets('renders toggle switches for notifications and privacy',
-        (tester) async {
+    testWidgets('renders toggle switches for notifications and privacy', (
+      tester,
+    ) async {
       await pumpSettingsScreen(tester);
 
       // There should be 3 SwitchListTile widgets:

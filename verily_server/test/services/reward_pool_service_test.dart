@@ -38,37 +38,61 @@ void main() {
 
   group('RewardPoolService (database operations)', () {
     group('create()', () {
-      test('creates a pool with correct initial state', () async {
-        // final pool = await RewardPoolService.create(session, ...);
-        // expect(pool.status, PoolStatus.active.value);
-        // expect(pool.remainingAmount, equals(pool.totalAmount));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'creates a pool with correct initial state',
+        () async {
+          // final pool = await RewardPoolService.create(session, ...);
+          // expect(pool.status, PoolStatus.active.value);
+          // expect(pool.remainingAmount, equals(pool.totalAmount));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('throws if action does not exist', () async {
-        // expect(() => RewardPoolService.create(session, actionId: 9999, ...),
-        //   throwsA(isA<NotFoundException>()));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'throws if action does not exist',
+        () async {
+          // expect(() => RewardPoolService.create(session, actionId: 9999, ...),
+          //   throwsA(isA<NotFoundException>()));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('throws if not action creator', () async {
-        // expect(() => RewardPoolService.create(session, creatorId: otherUser, ...),
-        //   throwsA(isA<ForbiddenException>()));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'throws if not action creator',
+        () async {
+          // expect(() => RewardPoolService.create(session, creatorId: otherUser, ...),
+          //   throwsA(isA<ForbiddenException>()));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
 
     group('cancel()', () {
-      test('sets status to cancelled', () async {
-        // final cancelled = await RewardPoolService.cancel(session, poolId: id, userId: creator);
-        // expect(cancelled.status, PoolStatus.cancelled.value);
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'sets status to cancelled',
+        () async {
+          // final cancelled = await RewardPoolService.cancel(session, poolId: id, userId: creator);
+          // expect(cancelled.status, PoolStatus.cancelled.value);
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('throws if not the creator', () async {
-        // expect(() => RewardPoolService.cancel(session, poolId: id, userId: other),
-        //   throwsA(isA<ForbiddenException>()));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'throws if not the creator',
+        () async {
+          // expect(() => RewardPoolService.cancel(session, poolId: id, userId: other),
+          //   throwsA(isA<ForbiddenException>()));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('throws if pool is not active', () async {
-        // Pool already depleted
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'throws if pool is not active',
+        () async {
+          // Pool already depleted
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
   });
 }

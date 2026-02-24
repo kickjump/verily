@@ -23,8 +23,9 @@ class SeedService {
   ///
   /// This is a well-known UUID that identifies the "system" user. It does not
   /// correspond to a real authentication user.
-  static final systemCreatorId =
-      UuidValue.fromString('00000000-0000-0000-0000-000000000000');
+  static final systemCreatorId = UuidValue.fromString(
+    '00000000-0000-0000-0000-000000000000',
+  );
 
   /// Runs all seed operations: categories first, then actions with rewards.
   static Future<void> seedAll(Session session) async {

@@ -79,11 +79,8 @@ void main() {
 
       test('warning() with error and stack trace does not throw', () {
         expect(
-          () => logger.warning(
-            'warning',
-            Exception('test'),
-            StackTrace.current,
-          ),
+          () =>
+              logger.warning('warning', Exception('test'), StackTrace.current),
           returnsNormally,
         );
       });
@@ -101,11 +98,7 @@ void main() {
 
       test('severe() with error and stack trace does not throw', () {
         expect(
-          () => logger.severe(
-            'severe',
-            Exception('test'),
-            StackTrace.current,
-          ),
+          () => logger.severe('severe', Exception('test'), StackTrace.current),
           returnsNormally,
         );
       });

@@ -13,7 +13,7 @@ class ActionCategoryEndpoint extends Endpoint {
 
   /// Lists all action categories, ordered by sort order.
   Future<List<ActionCategory>> list(Session session) async {
-    return ActionCategoryService.list(session);
+    return ActionCategoryService.listAll(session);
   }
 
   /// Creates a new action category.
@@ -21,11 +21,17 @@ class ActionCategoryEndpoint extends Endpoint {
     Session session,
     ActionCategory category,
   ) async {
-    return ActionCategoryService.create(session, category);
+    return ActionCategoryService.create(
+      session,
+      name: category.name,
+      sortOrder: category.sortOrder,
+      description: category.description,
+      iconName: category.iconName,
+    );
   }
 
   /// Retrieves a single action category by its ID.
   Future<ActionCategory?> get(Session session, int id) async {
-    return ActionCategoryService.get(session, id);
+    return ActionCategoryService.findById(session, id);
   }
 }

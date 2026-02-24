@@ -27,17 +27,14 @@ class SearchScreen extends HookConsumerWidget {
       'Creative',
     ];
 
-    useEffect(
-      () {
-        void listener() {
-          searchQuery.value = searchController.text;
-        }
+    useEffect(() {
+      void listener() {
+        searchQuery.value = searchController.text;
+      }
 
-        searchController.addListener(listener);
-        return () => searchController.removeListener(listener);
-      },
-      [searchController],
-    );
+      searchController.addListener(listener);
+      return () => searchController.removeListener(listener);
+    }, [searchController]);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,32 +59,34 @@ class SearchScreen extends HookConsumerWidget {
           // Category filter chips
           SizedBox(
             height: 56,
-            child: ListView.separated(
+            child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(
                 horizontal: SpacingTokens.md,
                 vertical: SpacingTokens.sm,
               ),
-              itemCount: categories.length,
-              separatorBuilder: (_, __) =>
-                  const SizedBox(width: SpacingTokens.sm),
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                final isSelected = (category == 'All' &&
-                        selectedCategory.value == null) ||
-                    selectedCategory.value == category;
-
-                return FilterChip(
-                  selected: isSelected,
-                  label: Text(category),
-                  onSelected: (selected) {
-                    selectedCategory.value =
-                        (selected && category != 'All') ? category : null;
-                  },
-                  selectedColor: ColorTokens.primary.withAlpha(30),
-                  checkmarkColor: ColorTokens.primary,
-                );
-              },
+              child: Row(
+                children: [
+                  for (final entry in categories.asMap().entries) ...[
+                    if (entry.key > 0) const SizedBox(width: SpacingTokens.sm),
+                    FilterChip(
+                      selected:
+                          (entry.value == 'All' &&
+                              selectedCategory.value == null) ||
+                          selectedCategory.value == entry.value,
+                      label: Text(entry.value),
+                      onSelected: (selected) {
+                        selectedCategory.value =
+                            (selected && entry.value != 'All')
+                            ? entry.value
+                            : null;
+                      },
+                      selectedColor: ColorTokens.primary.withAlpha(30),
+                      checkmarkColor: ColorTokens.primary,
+                    ),
+                  ],
+                ],
+              ),
             ),
           ),
           const Divider(height: 1),
@@ -188,10 +187,7 @@ class _SearchResultCard extends HookWidget {
               color: ColorTokens.primary.withAlpha(20),
               borderRadius: BorderRadius.circular(RadiusTokens.sm),
             ),
-            child: Icon(
-              Icons.assignment_outlined,
-              color: ColorTokens.primary,
-            ),
+            child: Icon(Icons.assignment_outlined, color: ColorTokens.primary),
           ),
           const SizedBox(width: SpacingTokens.md),
 
@@ -211,10 +207,7 @@ class _SearchResultCard extends HookWidget {
                 const SizedBox(height: SpacingTokens.xs),
                 Row(
                   children: [
-                    VBadgeChip(
-                      label: 'Fitness',
-                      icon: Icons.category_outlined,
-                    ),
+                    VBadgeChip(label: 'Fitness', icon: Icons.category_outlined),
                     const SizedBox(width: SpacingTokens.sm),
                     Text(
                       '${(index + 1) * 25} pts',
@@ -230,10 +223,7 @@ class _SearchResultCard extends HookWidget {
           ),
 
           // Arrow
-          Icon(
-            Icons.chevron_right,
-            color: colorScheme.onSurfaceVariant,
-          ),
+          Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
         ],
       ),
     );

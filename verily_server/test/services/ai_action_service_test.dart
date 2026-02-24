@@ -10,7 +10,8 @@ void main() {
         'title': 'Do 20 Star Jumps',
         'description': 'Complete 20 star jumps in one go',
         'actionType': 'oneOff',
-        'verificationCriteria': 'Show 20 complete star jumps with arms above head',
+        'verificationCriteria':
+            'Show 20 complete star jumps with arms above head',
         'suggestedCategory': 'Fitness',
         'suggestedTags': ['fitness', 'exercise'],
       };
@@ -83,9 +84,7 @@ void main() {
         },
       ];
 
-      final steps = jsonList
-          .map((e) => AiGeneratedStep.fromJson(e))
-          .toList();
+      final steps = jsonList.map((e) => AiGeneratedStep.fromJson(e)).toList();
 
       expect(steps.length, 2);
       expect(steps[0].stepNumber, 1);
@@ -94,7 +93,8 @@ void main() {
     });
 
     test('handles markdown-wrapped JSON', () {
-      const wrapped = '```json\n{"title":"Test","description":"Test desc","actionType":"oneOff","verificationCriteria":"Verify","suggestedCategory":"Fitness","suggestedTags":[]}\n```';
+      const wrapped =
+          '```json\n{"title":"Test","description":"Test desc","actionType":"oneOff","verificationCriteria":"Verify","suggestedCategory":"Fitness","suggestedTags":[]}\n```';
 
       var jsonStr = wrapped.trim();
       if (jsonStr.startsWith('```')) {

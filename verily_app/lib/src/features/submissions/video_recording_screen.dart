@@ -21,25 +21,22 @@ class VideoRecordingScreen extends HookConsumerWidget {
     final hasGpsSignal = useState(true);
 
     // Recording timer
-    useEffect(
-      () {
-        if (!isRecording.value) return null;
+    useEffect(() {
+      if (!isRecording.value) return null;
 
-        final stopwatch = Stopwatch()..start();
-        Future<void> tick() async {
-          while (isRecording.value) {
-            await Future<void>.delayed(const Duration(seconds: 1));
-            if (isRecording.value) {
-              elapsedSeconds.value = stopwatch.elapsed.inSeconds;
-            }
+      final stopwatch = Stopwatch()..start();
+      Future<void> tick() async {
+        while (isRecording.value) {
+          await Future<void>.delayed(const Duration(seconds: 1));
+          if (isRecording.value) {
+            elapsedSeconds.value = stopwatch.elapsed.inSeconds;
           }
         }
+      }
 
-        tick();
-        return stopwatch.stop;
-      },
-      [isRecording.value],
-    );
+      tick();
+      return stopwatch.stop;
+    }, [isRecording.value]);
 
     String formatTime(int seconds) {
       final mins = (seconds ~/ 60).toString().padLeft(2, '0');
@@ -99,9 +96,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
                     // Close button
                     IconButton(
                       icon: const Icon(Icons.close, color: Colors.white),
-                      onPressed: isRecording.value
-                          ? null
-                          : () => context.pop(),
+                      onPressed: isRecording.value ? null : () => context.pop(),
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.black45,
                       ),
@@ -116,8 +111,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.black45,
-                        borderRadius:
-                            BorderRadius.circular(RadiusTokens.xl),
+                        borderRadius: BorderRadius.circular(RadiusTokens.xl),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -181,8 +175,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
                       ),
                       decoration: BoxDecoration(
                         color: ColorTokens.error.withAlpha(200),
-                        borderRadius:
-                            BorderRadius.circular(RadiusTokens.xl),
+                        borderRadius: BorderRadius.circular(RadiusTokens.xl),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -224,14 +217,11 @@ class VideoRecordingScreen extends HookConsumerWidget {
                     // Action info
                     if (!isRecording.value)
                       Container(
-                        margin: const EdgeInsets.only(
-                          bottom: SpacingTokens.lg,
-                        ),
+                        margin: const EdgeInsets.only(bottom: SpacingTokens.lg),
                         padding: const EdgeInsets.all(SpacingTokens.md),
                         decoration: BoxDecoration(
                           color: Colors.black54,
-                          borderRadius:
-                              BorderRadius.circular(RadiusTokens.md),
+                          borderRadius: BorderRadius.circular(RadiusTokens.md),
                         ),
                         child: Row(
                           children: [
@@ -246,8 +236,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
                                 'Record a clear video showing you '
                                 'completing the action. GPS location '
                                 'will be captured automatically.',
-                                style:
-                                    theme.textTheme.bodySmall?.copyWith(
+                                style: theme.textTheme.bodySmall?.copyWith(
                                   color: Colors.white70,
                                 ),
                               ),
@@ -262,9 +251,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
                         if (isRecording.value) {
                           // Stop recording and navigate to review
                           isRecording.value = false;
-                          context.push(
-                            '/submissions/review/$actionId',
-                          );
+                          context.push('/submissions/review/$actionId');
                         } else {
                           // Start recording
                           elapsedSeconds.value = 0;
@@ -276,10 +263,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
                         height: 80,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 4,
-                          ),
+                          border: Border.all(color: Colors.white, width: 4),
                         ),
                         child: Center(
                           child: AnimatedContainer(

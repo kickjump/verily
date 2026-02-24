@@ -8,10 +8,7 @@ void main() {
       await tester.pumpApp(const WalletSetupScreen());
 
       expect(find.text('Your Verily Wallet'), findsOneWidget);
-      expect(
-        find.textContaining('Create a wallet to receive'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Create a wallet to receive'), findsOneWidget);
     });
 
     testWidgets('shows create wallet button', (tester) async {

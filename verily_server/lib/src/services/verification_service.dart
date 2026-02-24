@@ -204,6 +204,5 @@ class VerificationStats {
   final int failedCount;
   final int spoofingDetectedCount;
 
-  double get passRate =>
-      totalCount > 0 ? passedCount / totalCount : 0.0;
+  double get passRate => totalCount > 0 ? passedCount / totalCount : 0.0;
 }

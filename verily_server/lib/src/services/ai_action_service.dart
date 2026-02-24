@@ -40,11 +40,12 @@ class AiActionService {
 
       final locationCtx = latitude != null && longitude != null
           ? '\nUser location: lat=$latitude, lng=$longitude. '
-              'If the description mentions a place, suggest coordinates near '
-              'the user\'s location.'
+                'If the description mentions a place, suggest coordinates near '
+                'the user\'s location.'
           : '';
 
-      final prompt = '''
+      final prompt =
+          '''
 You are an action creation AI for the Verily platform. Your job is to transform
 a natural language description into a structured action that can be verified
 via video.
@@ -122,7 +123,8 @@ Respond with ONLY valid JSON, no markdown formatting.
     try {
       final model = GenerativeModel(model: _modelName, apiKey: apiKey);
 
-      final prompt = '''
+      final prompt =
+          '''
 Generate specific, measurable verification criteria for this action that can
 be verified by watching a video:
 
@@ -163,7 +165,8 @@ Respond with ONLY the verification criteria text (2-4 sentences), no JSON.
     try {
       final model = GenerativeModel(model: _modelName, apiKey: apiKey);
 
-      final prompt = '''
+      final prompt =
+          '''
 Generate $numberOfSteps progressive steps for this sequential action challenge:
 
 Title: $actionTitle

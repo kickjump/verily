@@ -22,8 +22,7 @@ class SolanaService {
 
   /// The Solana cluster RPC URL. Reads from passwords.yaml.
   static String _getRpcUrl(Session session) {
-    return session.passwords['solanaRpcUrl'] ??
-        'https://api.devnet.solana.com';
+    return session.passwords['solanaRpcUrl'] ?? 'https://api.devnet.solana.com';
   }
 
   // ---------------------------------------------------------------------------
@@ -84,9 +83,7 @@ class SolanaService {
   }) async {
     // Validate the public key format (base58, 32-44 chars).
     if (publicKey.length < 32 || publicKey.length > 44) {
-      throw ValidationException(
-        'Invalid Solana public key format',
-      );
+      throw ValidationException('Invalid Solana public key format');
     }
 
     // Check for duplicate.
@@ -274,8 +271,10 @@ class SolanaService {
       createdAt: DateTime.now().toUtc(),
     );
 
-    final inserted =
-        await RewardDistribution.db.insertRow(session, distribution);
+    final inserted = await RewardDistribution.db.insertRow(
+      session,
+      distribution,
+    );
 
     // Deduct from pool.
     pool.remainingAmount -= pool.perPersonAmount;
@@ -336,8 +335,9 @@ class SolanaService {
       session,
       where: (t) =>
           t.status.equals(PoolStatus.active.value) &
-          t.expiresAt.notEquals(null) &
-          t.expiresAt <= now,
+              t.expiresAt.notEquals(null) &
+              t.expiresAt <=
+          now,
     );
 
     for (final pool in expiredPools) {
@@ -368,8 +368,7 @@ class SolanaService {
 
   /// Generates a placeholder base58 public key for development.
   static String _generatePlaceholderPublicKey() {
-    const chars =
-        '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
     final random = Random.secure();
     return List.generate(44, (_) => chars[random.nextInt(chars.length)]).join();
   }

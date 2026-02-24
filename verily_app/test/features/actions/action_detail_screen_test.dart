@@ -6,9 +6,7 @@ import 'package:verily_test_utils/verily_test_utils.dart';
 void main() {
   group('ActionDetailScreen', () {
     Future<void> pumpActionDetailScreen(WidgetTester tester) async {
-      await tester.pumpApp(
-        const ActionDetailScreen(actionId: 'test_action_1'),
-      );
+      await tester.pumpApp(const ActionDetailScreen(actionId: 'test_action_1'));
     }
 
     testWidgets('renders action title placeholder', (tester) async {

@@ -67,34 +67,54 @@ void main() {
 
   group('SolanaService (database operations)', () {
     group('createCustodialWallet()', () {
-      test('creates a wallet for a user', () async {
-        // await SolanaService.createCustodialWallet(session, userId: userId);
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'creates a wallet for a user',
+        () async {
+          // await SolanaService.createCustodialWallet(session, userId: userId);
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('first wallet is set as default', () async {
-        // final wallet = await SolanaService.createCustodialWallet(...);
-        // expect(wallet.isDefault, isTrue);
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'first wallet is set as default',
+        () async {
+          // final wallet = await SolanaService.createCustodialWallet(...);
+          // expect(wallet.isDefault, isTrue);
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
 
     group('linkExternalWallet()', () {
-      test('validates public key format', () async {
-        // Short key should fail validation
-        // expect(() => SolanaService.linkExternalWallet(..., publicKey: 'abc'),
-        //   throwsA(isA<ValidationException>()));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'validates public key format',
+        () async {
+          // Short key should fail validation
+          // expect(() => SolanaService.linkExternalWallet(..., publicKey: 'abc'),
+          //   throwsA(isA<ValidationException>()));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
 
     group('distributeReward()', () {
-      test('deducts from pool remaining amount', () async {
-        // await SolanaService.distributeReward(...);
-        // final pool = await RewardPool.db.findById(session, poolId);
-        // expect(pool.remainingAmount, lessThan(originalAmount));
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'deducts from pool remaining amount',
+        () async {
+          // await SolanaService.distributeReward(...);
+          // final pool = await RewardPool.db.findById(session, poolId);
+          // expect(pool.remainingAmount, lessThan(originalAmount));
+        },
+        skip: 'Requires serverpod_test database session',
+      );
 
-      test('marks pool as depleted when empty', () async {
-        // Distribute until pool is empty
-      }, skip: 'Requires serverpod_test database session');
+      test(
+        'marks pool as depleted when empty',
+        () async {
+          // Distribute until pool is empty
+        },
+        skip: 'Requires serverpod_test database session',
+      );
     });
   });
 }

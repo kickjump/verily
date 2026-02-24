@@ -10,8 +10,14 @@ void main() {
     });
 
     test('fromValue returns correct enum', () {
-      expect(AttestationType.fromValue('play_integrity'), AttestationType.playIntegrity);
-      expect(AttestationType.fromValue('app_attest'), AttestationType.appAttest);
+      expect(
+        AttestationType.fromValue('play_integrity'),
+        AttestationType.playIntegrity,
+      );
+      expect(
+        AttestationType.fromValue('app_attest'),
+        AttestationType.appAttest,
+      );
       expect(AttestationType.fromValue('none'), AttestationType.none);
     });
 

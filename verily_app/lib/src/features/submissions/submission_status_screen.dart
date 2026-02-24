@@ -7,10 +7,17 @@ import 'package:verily_ui/verily_ui.dart';
 
 /// Screen showing the verification status and result of a submission.
 class SubmissionStatusScreen extends HookConsumerWidget {
-  const SubmissionStatusScreen({required this.actionId, super.key});
+  const SubmissionStatusScreen({
+    required this.actionId,
+    this.simulateVerification = true,
+    super.key,
+  });
 
   /// The action this submission belongs to.
   final String actionId;
+
+  /// Whether to simulate status progression automatically.
+  final bool simulateVerification;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,33 +30,32 @@ class SubmissionStatusScreen extends HookConsumerWidget {
     final analysisText = useState('');
 
     // Simulate verification flow.
-    useEffect(
-      () {
-        var cancelled = false;
+    useEffect(() {
+      if (!simulateVerification) return null;
 
-        Future<void> simulateVerification() async {
-          // Pending -> Processing
-          await Future<void>.delayed(const Duration(seconds: 2));
-          if (cancelled) return;
-          status.value = VerificationStatus.processing;
+      var cancelled = false;
 
-          // Processing -> Result
-          await Future<void>.delayed(const Duration(seconds: 3));
-          if (cancelled) return;
-          status.value = VerificationStatus.passed;
-          confidenceScore.value = 0.94;
-          analysisText.value =
-              'The video clearly shows the performer completing 20 push-ups '
-              'in a park environment. Proper form was maintained throughout. '
-              'GPS location matches the required area. '
-              'No spoofing or manipulation detected.';
-        }
+      Future<void> runSimulation() async {
+        // Pending -> Processing
+        await Future<void>.delayed(const Duration(seconds: 2));
+        if (cancelled) return;
+        status.value = VerificationStatus.processing;
 
-        simulateVerification();
-        return () => cancelled = true;
-      },
-      [],
-    );
+        // Processing -> Result
+        await Future<void>.delayed(const Duration(seconds: 3));
+        if (cancelled) return;
+        status.value = VerificationStatus.passed;
+        confidenceScore.value = 0.94;
+        analysisText.value =
+            'The video clearly shows the performer completing 20 push-ups '
+            'in a park environment. Proper form was maintained throughout. '
+            'GPS location matches the required area. '
+            'No spoofing or manipulation detected.';
+      }
+
+      runSimulation();
+      return () => cancelled = true;
+    }, []);
 
     return Scaffold(
       appBar: AppBar(
@@ -112,11 +118,12 @@ class SubmissionStatusScreen extends HookConsumerWidget {
                           VBadgeChip(
                             label:
                                 '${(confidenceScore.value * 100).toStringAsFixed(0)}%',
-                            backgroundColor:
-                                _confidenceColor(confidenceScore.value)
-                                    .withAlpha(30),
-                            foregroundColor:
-                                _confidenceColor(confidenceScore.value),
+                            backgroundColor: _confidenceColor(
+                              confidenceScore.value,
+                            ).withAlpha(30),
+                            foregroundColor: _confidenceColor(
+                              confidenceScore.value,
+                            ),
                           ),
                         ],
                       ),
@@ -124,14 +131,11 @@ class SubmissionStatusScreen extends HookConsumerWidget {
 
                       // Progress bar
                       ClipRRect(
-                        borderRadius:
-                            BorderRadius.circular(RadiusTokens.sm),
+                        borderRadius: BorderRadius.circular(RadiusTokens.sm),
                         child: LinearProgressIndicator(
                           value: confidenceScore.value,
-                          backgroundColor:
-                              colorScheme.surfaceContainerHighest,
-                          color:
-                              _confidenceColor(confidenceScore.value),
+                          backgroundColor: colorScheme.surfaceContainerHighest,
+                          color: _confidenceColor(confidenceScore.value),
                           minHeight: 8,
                         ),
                       ),
@@ -211,8 +215,7 @@ class SubmissionStatusScreen extends HookConsumerWidget {
         'Congratulations! Your submission has been verified.',
       VerificationStatus.failed =>
         'Your submission did not meet the verification criteria.',
-      VerificationStatus.error =>
-        'Something went wrong. Please try again.',
+      VerificationStatus.error => 'Something went wrong. Please try again.',
     };
   }
 
@@ -247,7 +250,8 @@ class _StatusIcon extends HookWidget {
       VerificationStatus.error => ColorTokens.error,
     };
 
-    final showSpinner = status == VerificationStatus.pending ||
+    final showSpinner =
+        status == VerificationStatus.pending ||
         status == VerificationStatus.processing;
 
     return SizedBox(
@@ -355,8 +359,8 @@ class _ProgressStep extends HookWidget {
     final color = isCompleted
         ? ColorTokens.success
         : isActive
-            ? ColorTokens.primary
-            : colorScheme.outlineVariant;
+        ? ColorTokens.primary
+        : colorScheme.outlineVariant;
 
     return Column(
       children: [
@@ -370,11 +374,7 @@ class _ProgressStep extends HookWidget {
                 : Colors.transparent,
             border: Border.all(color: color, width: 2),
           ),
-          child: Icon(
-            isCompleted ? Icons.check : icon,
-            size: 18,
-            color: color,
-          ),
+          child: Icon(isCompleted ? Icons.check : icon, size: 18, color: color),
         ),
         const SizedBox(height: SpacingTokens.xs),
         Text(
@@ -383,8 +383,7 @@ class _ProgressStep extends HookWidget {
             color: (isCompleted || isActive)
                 ? colorScheme.onSurface
                 : colorScheme.onSurfaceVariant,
-            fontWeight:
-                isActive ? FontWeight.w600 : FontWeight.normal,
+            fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
           ),
         ),
       ],

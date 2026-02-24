@@ -1,5 +1,4 @@
 import 'package:serverpod/serverpod.dart';
-import 'package:verily_core/verily_core.dart';
 
 import '../generated/protocol.dart';
 import '../services/solana_service.dart';
@@ -13,12 +12,8 @@ class SolanaEndpoint extends Endpoint {
   bool get requireLogin => true;
 
   /// Creates a custodial wallet for the authenticated user.
-  Future<SolanaWallet> createWallet(
-    Session session, {
-    String? label,
-  }) async {
-    final userId =
-        UuidValue.fromString(session.authenticated!.userId.toString());
+  Future<SolanaWallet> createWallet(Session session, {String? label}) async {
+    final userId = UuidValue.fromString(session.authenticated!.userIdentifier);
     return SolanaService.createCustodialWallet(
       session,
       userId: userId,
@@ -32,8 +27,7 @@ class SolanaEndpoint extends Endpoint {
     String publicKey, {
     String? label,
   }) async {
-    final userId =
-        UuidValue.fromString(session.authenticated!.userId.toString());
+    final userId = UuidValue.fromString(session.authenticated!.userIdentifier);
     return SolanaService.linkExternalWallet(
       session,
       userId: userId,
@@ -44,18 +38,13 @@ class SolanaEndpoint extends Endpoint {
 
   /// Lists all wallets for the authenticated user.
   Future<List<SolanaWallet>> getWallets(Session session) async {
-    final userId =
-        UuidValue.fromString(session.authenticated!.userId.toString());
+    final userId = UuidValue.fromString(session.authenticated!.userIdentifier);
     return SolanaService.getUserWallets(session, userId: userId);
   }
 
   /// Sets a wallet as the user's default for receiving rewards.
-  Future<SolanaWallet> setDefaultWallet(
-    Session session,
-    int walletId,
-  ) async {
-    final userId =
-        UuidValue.fromString(session.authenticated!.userId.toString());
+  Future<SolanaWallet> setDefaultWallet(Session session, int walletId) async {
+    final userId = UuidValue.fromString(session.authenticated!.userIdentifier);
     return SolanaService.setDefaultWallet(
       session,
       userId: userId,
@@ -65,10 +54,11 @@ class SolanaEndpoint extends Endpoint {
 
   /// Gets the SOL balance of the user's default wallet.
   Future<double> getBalance(Session session) async {
-    final userId =
-        UuidValue.fromString(session.authenticated!.userId.toString());
-    final wallet =
-        await SolanaService.getDefaultWallet(session, userId: userId);
+    final userId = UuidValue.fromString(session.authenticated!.userIdentifier);
+    final wallet = await SolanaService.getDefaultWallet(
+      session,
+      userId: userId,
+    );
     if (wallet == null) return 0;
     return SolanaService.getBalance(session, publicKey: wallet.publicKey);
   }

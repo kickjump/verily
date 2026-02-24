@@ -6,9 +6,7 @@ import 'package:verily_test_utils/verily_test_utils.dart';
 void main() {
   group('VideoReviewScreen', () {
     Future<void> pumpVideoReviewScreen(WidgetTester tester) async {
-      await tester.pumpApp(
-        const VideoReviewScreen(actionId: 'test_action_1'),
-      );
+      await tester.pumpApp(const VideoReviewScreen(actionId: 'test_action_1'));
     }
 
     testWidgets('renders Review Video app bar title', (tester) async {

@@ -11,9 +11,15 @@ void main() {
     });
 
     test('fromValue returns correct enum', () {
-      expect(DistributionStatus.fromValue('pending'), DistributionStatus.pending);
+      expect(
+        DistributionStatus.fromValue('pending'),
+        DistributionStatus.pending,
+      );
       expect(DistributionStatus.fromValue('sent'), DistributionStatus.sent);
-      expect(DistributionStatus.fromValue('confirmed'), DistributionStatus.confirmed);
+      expect(
+        DistributionStatus.fromValue('confirmed'),
+        DistributionStatus.confirmed,
+      );
       expect(DistributionStatus.fromValue('failed'), DistributionStatus.failed);
     });
 

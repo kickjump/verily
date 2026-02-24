@@ -25,47 +25,47 @@ Verily is a two-sided marketplace for real-world action verification with blockc
 
 **New Model: `SolanaWallet` (.spy.yaml)**
 
-| Field | Type | Description |
-|-------|------|-------------|
-| id | int (PK) | Auto-increment |
-| userId | UuidValue | FK to auth user |
-| publicKey | String | Solana public key (base58) |
-| walletType | String | `custodial` or `external` |
-| isDefault | bool | Default wallet for rewards |
-| label | String? | User-defined label |
-| createdAt | DateTime | |
+| Field      | Type      | Description                |
+| ---------- | --------- | -------------------------- |
+| id         | int (PK)  | Auto-increment             |
+| userId     | UuidValue | FK to auth user            |
+| publicKey  | String    | Solana public key (base58) |
+| walletType | String    | `custodial` or `external`  |
+| isDefault  | bool      | Default wallet for rewards |
+| label      | String?   | User-defined label         |
+| createdAt  | DateTime  |                            |
 
 **New Model: `RewardPool` (.spy.yaml)**
 
-| Field | Type | Description |
-|-------|------|-------------|
-| id | int (PK) | Auto-increment |
-| actionId | int | FK to action |
-| creatorId | UuidValue | Who funded the pool |
-| rewardType | String | `sol`, `spl_token`, `nft`, `points` |
-| tokenMintAddress | String? | SPL token mint (null for SOL/points) |
-| totalAmount | double | Total pool size |
-| remainingAmount | double | Remaining to distribute |
-| perPersonAmount | double | Amount per verified performer |
-| maxRecipients | int? | Cap on total recipients |
-| expiresAt | DateTime? | Pool expiration |
-| platformFeePercent | double | Marketplace cut (default 5%) |
-| status | String | `active`, `depleted`, `expired`, `cancelled` |
-| fundingTxSignature | String? | On-chain funding tx |
-| createdAt | DateTime | |
+| Field              | Type      | Description                                  |
+| ------------------ | --------- | -------------------------------------------- |
+| id                 | int (PK)  | Auto-increment                               |
+| actionId           | int       | FK to action                                 |
+| creatorId          | UuidValue | Who funded the pool                          |
+| rewardType         | String    | `sol`, `spl_token`, `nft`, `points`          |
+| tokenMintAddress   | String?   | SPL token mint (null for SOL/points)         |
+| totalAmount        | double    | Total pool size                              |
+| remainingAmount    | double    | Remaining to distribute                      |
+| perPersonAmount    | double    | Amount per verified performer                |
+| maxRecipients      | int?      | Cap on total recipients                      |
+| expiresAt          | DateTime? | Pool expiration                              |
+| platformFeePercent | double    | Marketplace cut (default 5%)                 |
+| status             | String    | `active`, `depleted`, `expired`, `cancelled` |
+| fundingTxSignature | String?   | On-chain funding tx                          |
+| createdAt          | DateTime  |                                              |
 
 **New Model: `RewardDistribution` (.spy.yaml)**
 
-| Field | Type | Description |
-|-------|------|-------------|
-| id | int (PK) | Auto-increment |
-| rewardPoolId | int | FK to reward_pool |
-| recipientId | UuidValue | User who earned it |
-| submissionId | int | FK to action_submission |
-| amount | double | Amount distributed |
-| txSignature | String? | On-chain tx signature |
-| status | String | `pending`, `sent`, `confirmed`, `failed` |
-| createdAt | DateTime | |
+| Field        | Type      | Description                              |
+| ------------ | --------- | ---------------------------------------- |
+| id           | int (PK)  | Auto-increment                           |
+| rewardPoolId | int       | FK to reward_pool                        |
+| recipientId  | UuidValue | User who earned it                       |
+| submissionId | int       | FK to action_submission                  |
+| amount       | double    | Amount distributed                       |
+| txSignature  | String?   | On-chain tx signature                    |
+| status       | String    | `pending`, `sent`, `confirmed`, `failed` |
+| createdAt    | DateTime  |                                          |
 
 **SolanaService Methods:**
 
@@ -106,24 +106,24 @@ class SolanaService {
 
 **SolanaEndpoint:**
 
-| Method | Description |
-|--------|-------------|
-| `createWallet()` | Create custodial wallet for authenticated user |
-| `linkWallet(publicKey)` | Link external wallet |
-| `getWallets()` | List user's wallets |
-| `setDefaultWallet(walletId)` | Set default reward wallet |
-| `getBalance()` | Get default wallet balance |
+| Method                       | Description                                    |
+| ---------------------------- | ---------------------------------------------- |
+| `createWallet()`             | Create custodial wallet for authenticated user |
+| `linkWallet(publicKey)`      | Link external wallet                           |
+| `getWallets()`               | List user's wallets                            |
+| `setDefaultWallet(walletId)` | Set default reward wallet                      |
+| `getBalance()`               | Get default wallet balance                     |
 
 **RewardPoolEndpoint:**
 
-| Method | Description |
-|--------|-------------|
+| Method                              | Description                   |
+| ----------------------------------- | ----------------------------- |
 | `create(actionId, rewardType, ...)` | Create and fund a reward pool |
-| `get(poolId)` | Get pool details |
-| `listByAction(actionId)` | List pools for an action |
-| `listByCreator()` | List pools created by user |
-| `cancel(poolId)` | Cancel and refund remaining |
-| `getDistributions(poolId)` | List all distributions |
+| `get(poolId)`                       | Get pool details              |
+| `listByAction(actionId)`            | List pools for an action      |
+| `listByCreator()`                   | List pools created by user    |
+| `cancel(poolId)`                    | Cancel and refund remaining   |
+| `getDistributions(poolId)`          | List all distributions        |
 
 ### 1.3 Frontend API — Solana Providers
 
@@ -149,12 +149,12 @@ Future<List<RewardDistribution>> rewardDistributions(ref, {required int poolId})
 
 ### 1.4 Frontend Screens
 
-| Screen | Purpose |
-|--------|---------|
-| `WalletScreen` | View balances, manage wallets, link external |
-| `CreateRewardPoolScreen` | Fund action with SOL/tokens/NFT rewards |
-| `RewardPoolDetailScreen` | View pool status, distributions |
-| `WalletSetupScreen` | Initial wallet creation during onboarding |
+| Screen                   | Purpose                                      |
+| ------------------------ | -------------------------------------------- |
+| `WalletScreen`           | View balances, manage wallets, link external |
+| `CreateRewardPoolScreen` | Fund action with SOL/tokens/NFT rewards      |
+| `RewardPoolDetailScreen` | View pool status, distributions              |
+| `WalletSetupScreen`      | Initial wallet creation during onboarding    |
 
 ---
 
@@ -238,12 +238,12 @@ class AiGeneratedStep with _$AiGeneratedStep {
 
 **AiActionEndpoint:**
 
-| Method | Description |
-|--------|-------------|
-| `generate(description, lat?, lng?)` | Generate action from text |
-| `generateCriteria(title, description)` | Generate verification criteria |
-| `suggestLocations(description, lat, lng)` | Suggest nearby locations |
-| `generateSteps(title, description, count)` | Generate sequential steps |
+| Method                                     | Description                    |
+| ------------------------------------------ | ------------------------------ |
+| `generate(description, lat?, lng?)`        | Generate action from text      |
+| `generateCriteria(title, description)`     | Generate verification criteria |
+| `suggestLocations(description, lat, lng)`  | Suggest nearby locations       |
+| `generateSteps(title, description, count)` | Generate sequential steps      |
 
 ### 2.2 Frontend — AI Action Creation Flow
 
@@ -307,35 +307,35 @@ class AttestationService {
 
 **New Model: `AttestationChallenge` (.spy.yaml)**
 
-| Field | Type | Description |
-|-------|------|-------------|
-| id | int (PK) | |
-| userId | UuidValue | |
-| actionId | int | |
-| nonce | String | Random 6-char code |
-| visualNonce | String? | Color/shape description for video |
-| expiresAt | DateTime | 5 minutes from creation |
-| used | bool | Whether challenge was consumed |
-| createdAt | DateTime | |
+| Field       | Type      | Description                       |
+| ----------- | --------- | --------------------------------- |
+| id          | int (PK)  |                                   |
+| userId      | UuidValue |                                   |
+| actionId    | int       |                                   |
+| nonce       | String    | Random 6-char code                |
+| visualNonce | String?   | Color/shape description for video |
+| expiresAt   | DateTime  | 5 minutes from creation           |
+| used        | bool      | Whether challenge was consumed    |
+| createdAt   | DateTime  |                                   |
 
 **New Model: `DeviceAttestation` (.spy.yaml)**
 
-| Field | Type | Description |
-|-------|------|-------------|
-| id | int (PK) | |
-| submissionId | int | FK to action_submission |
-| platform | String | `ios` or `android` |
-| attestationType | String | `play_integrity` or `app_attest` |
-| verified | bool | |
-| rawResult | String? | JSON attestation response |
-| createdAt | DateTime | |
+| Field           | Type     | Description                      |
+| --------------- | -------- | -------------------------------- |
+| id              | int (PK) |                                  |
+| submissionId    | int      | FK to action_submission          |
+| platform        | String   | `ios` or `android`               |
+| attestationType | String   | `play_integrity` or `app_attest` |
+| verified        | bool     |                                  |
+| rawResult       | String?  | JSON attestation response        |
+| createdAt       | DateTime |                                  |
 
 **AttestationEndpoint:**
 
-| Method | Description |
-|--------|-------------|
-| `createChallenge(actionId)` | Get nonce for recording session |
-| `submitAttestation(submissionId, token, platform)` | Submit platform attestation |
+| Method                                             | Description                     |
+| -------------------------------------------------- | ------------------------------- |
+| `createChallenge(actionId)`                        | Get nonce for recording session |
+| `submitAttestation(submissionId, token, platform)` | Submit platform attestation     |
 
 ### 3.2 Frontend — Attestation Flow
 
@@ -390,19 +390,19 @@ class AttestationManager extends _$AttestationManager {
 
 Add fields to existing model:
 
-| New Field | Type | Description |
-|-----------|------|-------------|
-| attestationChallengeId | int? | FK to attestation_challenge |
-| attestationVerified | bool? | Platform attestation passed |
-| nonceVerified | bool? | Visual nonce found in video |
+| New Field              | Type  | Description                 |
+| ---------------------- | ----- | --------------------------- |
+| attestationChallengeId | int?  | FK to attestation_challenge |
+| attestationVerified    | bool? | Platform attestation passed |
+| nonceVerified          | bool? | Visual nonce found in video |
 
 ### 4.3 Updated VerificationResult Model
 
 Add fields:
 
-| New Field | Type | Description |
-|-----------|------|-------------|
-| nonceDetected | bool? | Whether nonce was seen |
+| New Field         | Type    | Description                 |
+| ----------------- | ------- | --------------------------- |
+| nonceDetected     | bool?   | Whether nonce was seen      |
 | attestationStatus | String? | Platform attestation status |
 
 ---
@@ -411,13 +411,13 @@ Add fields:
 
 ### 5.1 Reward Types
 
-| Type | Description | Backend | Blockchain |
-|------|-------------|---------|------------|
-| `points` | Platform points (leaderboard) | Database only | No |
-| `badge` | Achievement badge | Database + optional NFT | Optional |
-| `sol` | SOL transfer | Database + on-chain | Yes |
-| `spl_token` | SPL token transfer | Database + on-chain | Yes |
-| `nft` | NFT mint | Database + on-chain | Yes |
+| Type        | Description                   | Backend                 | Blockchain |
+| ----------- | ----------------------------- | ----------------------- | ---------- |
+| `points`    | Platform points (leaderboard) | Database only           | No         |
+| `badge`     | Achievement badge             | Database + optional NFT | Optional   |
+| `sol`       | SOL transfer                  | Database + on-chain     | Yes        |
+| `spl_token` | SPL token transfer            | Database + on-chain     | Yes        |
+| `nft`       | NFT mint                      | Database + on-chain     | Yes        |
 
 ### 5.2 Reward Distribution Flow
 
@@ -445,67 +445,67 @@ Verification passes
 
 ### 6.1 New Endpoints
 
-| Endpoint | Auth | Methods |
-|----------|------|---------|
-| `SolanaEndpoint` | Required | createWallet, linkWallet, getWallets, setDefaultWallet, getBalance |
-| `RewardPoolEndpoint` | Required | create, get, listByAction, listByCreator, cancel, getDistributions |
-| `AiActionEndpoint` | Required | generate, generateCriteria, suggestLocations, generateSteps |
-| `AttestationEndpoint` | Required | createChallenge, submitAttestation |
+| Endpoint              | Auth     | Methods                                                            |
+| --------------------- | -------- | ------------------------------------------------------------------ |
+| `SolanaEndpoint`      | Required | createWallet, linkWallet, getWallets, setDefaultWallet, getBalance |
+| `RewardPoolEndpoint`  | Required | create, get, listByAction, listByCreator, cancel, getDistributions |
+| `AiActionEndpoint`    | Required | generate, generateCriteria, suggestLocations, generateSteps        |
+| `AttestationEndpoint` | Required | createChallenge, submitAttestation                                 |
 
 ### 6.2 New Models (Serverpod .spy.yaml)
 
-| Model | Table |
-|-------|-------|
-| `SolanaWallet` | `solana_wallet` |
-| `RewardPool` | `reward_pool` |
-| `RewardDistribution` | `reward_distribution` |
+| Model                  | Table                   |
+| ---------------------- | ----------------------- |
+| `SolanaWallet`         | `solana_wallet`         |
+| `RewardPool`           | `reward_pool`           |
+| `RewardDistribution`   | `reward_distribution`   |
 | `AttestationChallenge` | `attestation_challenge` |
-| `DeviceAttestation` | `device_attestation` |
+| `DeviceAttestation`    | `device_attestation`    |
 
 ### 6.3 New Core Models (Freezed)
 
-| Model | Package |
-|-------|---------|
-| `AiGeneratedAction` | verily_core |
-| `AiGeneratedLocation` | verily_core |
-| `AiGeneratedStep` | verily_core |
-| `SuggestedLocation` | verily_core |
-| `RewardType` enum | verily_core |
-| `PoolStatus` enum | verily_core |
+| Model                     | Package     |
+| ------------------------- | ----------- |
+| `AiGeneratedAction`       | verily_core |
+| `AiGeneratedLocation`     | verily_core |
+| `AiGeneratedStep`         | verily_core |
+| `SuggestedLocation`       | verily_core |
+| `RewardType` enum         | verily_core |
+| `PoolStatus` enum         | verily_core |
 | `DistributionStatus` enum | verily_core |
-| `AttestationType` enum | verily_core |
+| `AttestationType` enum    | verily_core |
 
 ### 6.4 New Services
 
-| Service | Responsibility |
-|---------|---------------|
-| `SolanaService` | Wallet ops, token transfers, NFT minting |
-| `RewardPoolService` | Pool lifecycle, distribution logic |
-| `AiActionService` | Gemini-powered action generation |
+| Service              | Responsibility                            |
+| -------------------- | ----------------------------------------- |
+| `SolanaService`      | Wallet ops, token transfers, NFT minting  |
+| `RewardPoolService`  | Pool lifecycle, distribution logic        |
+| `AiActionService`    | Gemini-powered action generation          |
 | `AttestationService` | Challenge creation, platform verification |
 
 ### 6.5 New Flutter Providers
 
-| Provider | Type |
-|----------|------|
-| `userWalletsProvider` | AsyncNotifier |
-| `walletBalanceProvider` | Future (family) |
-| `actionRewardPoolsProvider` | Future (family) |
-| `aiActionGeneratorProvider` | AsyncNotifier |
-| `attestationManagerProvider` | AsyncNotifier |
+| Provider                     | Type            |
+| ---------------------------- | --------------- |
+| `userWalletsProvider`        | AsyncNotifier   |
+| `walletBalanceProvider`      | Future (family) |
+| `actionRewardPoolsProvider`  | Future (family) |
+| `aiActionGeneratorProvider`  | AsyncNotifier   |
+| `attestationManagerProvider` | AsyncNotifier   |
 
 ### 6.6 New/Updated Flutter Screens
 
-| Screen | Status |
-|--------|--------|
-| `WalletScreen` | New |
-| `WalletSetupScreen` | New |
-| `CreateRewardPoolScreen` | New |
-| `RewardPoolDetailScreen` | New |
-| Updated `CreateActionScreen` | AI generation flow |
-| Updated `VideoRecordingScreen` | Nonce overlay, attestation |
-| Updated `SubmissionStatusScreen` | Reward distribution status |
-| Updated `ProfileScreen` | Wallet balance, token rewards |
+| Screen                           | Status                        |
+| -------------------------------- | ----------------------------- |
+| `WalletScreen`                   | New                           |
+| `WalletSetupScreen`              | New                           |
+| `CreateRewardPoolScreen`         | New                           |
+| `RewardPoolDetailScreen`         | New                           |
+| Updated `CreateActionScreen`     | AI generation flow            |
+| Updated `VideoRecordingScreen`   | Nonce overlay, attestation    |
+| Updated `SubmissionStatusScreen` | Reward distribution status    |
+| Updated `ProfileScreen`          | Wallet balance, token rewards |
 
 ---
 

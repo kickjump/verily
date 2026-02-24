@@ -218,10 +218,7 @@ void main() {
         expect(lines, hasLength(3));
         expect(lines[0], contains('fatal error'));
         expect(lines[1], equals('  error: OutOfMemoryError'));
-        expect(
-          lines[2],
-          equals('  stackTrace: #0 main (file:///app.dart:42)'),
-        );
+        expect(lines[2], equals('  stackTrace: #0 main (file:///app.dart:42)'));
       });
     });
   });

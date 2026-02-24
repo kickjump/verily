@@ -17,10 +17,7 @@ void main() {
   final container = ProviderContainer();
 
   runApp(
-    UncontrolledProviderScope(
-      container: container,
-      child: const VerilyApp(),
-    ),
+    UncontrolledProviderScope(container: container, child: const VerilyApp()),
   );
 }
 

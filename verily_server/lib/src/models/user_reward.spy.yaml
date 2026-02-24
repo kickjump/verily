@@ -6,12 +6,12 @@ fields:
   rewardId:
     type: int
     relation:
-      parentTable: reward
+      parent: reward
       onDelete: cascade
   submissionId:
     type: int?
     relation:
-      parentTable: action_submission
+      parent: action_submission
       onDelete: setNull
   earnedAt:
     type: DateTime

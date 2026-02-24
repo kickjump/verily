@@ -3,6 +3,7 @@ import 'package:verily_core/verily_core.dart';
 
 import '../exceptions/server_exceptions.dart';
 import '../generated/protocol.dart';
+import 'location_service.dart';
 
 /// Business logic for creating, reading, updating, and deleting actions.
 ///
@@ -34,10 +35,9 @@ class ActionService {
     // Validate action type.
     final type = ActionType.fromValue(actionType);
 
-    if (type == ActionType.sequential && (totalSteps == null || totalSteps < 1)) {
-      throw ValidationException(
-        'Sequential actions must have totalSteps >= 1',
-      );
+    if (type == ActionType.sequential &&
+        (totalSteps == null || totalSteps < 1)) {
+      throw ValidationException('Sequential actions must have totalSteps >= 1');
     }
 
     final now = DateTime.now().toUtc();
@@ -204,6 +204,63 @@ class ActionService {
     _log.info('Deleted action id=$id');
   }
 
+  /// Finds active actions with a location within [radiusMeters] of the given
+  /// point.
+  static Future<List<Action>> listNearby(
+    Session session, {
+    required double latitude,
+    required double longitude,
+    required double radiusMeters,
+    int limit = 50,
+  }) async {
+    final nearbyLocations = await LocationService.findNearby(
+      session,
+      latitude: latitude,
+      longitude: longitude,
+      radiusMeters: radiusMeters,
+    );
+    final locationIds = nearbyLocations.map((l) => l.id!).toList();
+    if (locationIds.isEmpty) return [];
+
+    return Action.db.find(
+      session,
+      where: (t) =>
+          t.status.equals('active') & t.locationId.inSet(locationIds.toSet()),
+      limit: limit,
+      orderBy: (t) => t.createdAt,
+      orderDescending: true,
+    );
+  }
+
+  /// Finds active actions with locations inside the given bounding box.
+  static Future<List<Action>> listInBoundingBox(
+    Session session, {
+    required double southLat,
+    required double westLng,
+    required double northLat,
+    required double eastLng,
+    int limit = 100,
+  }) async {
+    final locations = await LocationService.findInBoundingBox(
+      session,
+      southLat: southLat,
+      westLng: westLng,
+      northLat: northLat,
+      eastLng: eastLng,
+    );
+    final locationIds = locations.map((l) => l.id!).toList();
+    if (locationIds.isEmpty) return [];
+
+    return Action.db.find(
+      session,
+      where: (t) =>
+          t.status.equals('active') & t.locationId.inSet(locationIds.toSet()),
+      limit: limit,
+      orderBy: (t) => t.createdAt,
+      orderDescending: true,
+    );
+  }
+
   /// Verifies that [callerId] matches the action's [creatorId].
   ///
   /// Throws [ForbiddenException] when they do not match.
@@ -215,10 +272,7 @@ class ActionService {
 
   /// Counts the total number of active actions.
   static Future<int> countActive(Session session) async {
-    return Action.db.count(
-      session,
-      where: (t) => t.status.equals('active'),
-    );
+    return Action.db.count(session, where: (t) => t.status.equals('active'));
   }
 
   /// Returns the actions created by a specific user.
