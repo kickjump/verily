@@ -1,3 +1,5 @@
+// ignore_for_file: experimental_member_use
+
 import 'package:uuid/uuid.dart';
 
 /// A single entry on the leaderboard.
