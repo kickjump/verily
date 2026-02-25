@@ -147,16 +147,17 @@ class HomeScreen extends HookConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            'Active Action',
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w800,
+                          Expanded(
+                            child: Text(
+                              'Active Action',
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                           ),
-                          const Spacer(),
                           TextButton(
                             onPressed: activeActionController.clear,
-                            child: const Text('Clear active action'),
+                            child: const Text('Clear'),
                           ),
                         ],
                       ),
@@ -171,9 +172,13 @@ class HomeScreen extends HookConsumerWidget {
                         children: [
                           const Icon(Icons.near_me_outlined, size: 18),
                           const SizedBox(width: SpacingTokens.xs),
-                          Text(
-                            '${activeAction.distanceFromNextLocation} to ${activeAction.nextLocationLabel}',
-                            style: theme.textTheme.bodyMedium,
+                          Expanded(
+                            child: Text(
+                              '${activeAction.distanceFromNextLocation} to ${activeAction.nextLocationLabel}',
+                              style: theme.textTheme.bodyMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
