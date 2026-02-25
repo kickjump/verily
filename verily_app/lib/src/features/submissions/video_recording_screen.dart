@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
 /// Screen for recording video proof of an action.
@@ -250,7 +251,12 @@ class VideoRecordingScreen extends HookConsumerWidget {
                         if (isRecording.value) {
                           // Stop recording and navigate to review
                           isRecording.value = false;
-                          context.push('/submissions/review/$actionId');
+                          context.push(
+                            RouteNames.videoReviewPath.replaceFirst(
+                              ':actionId',
+                              actionId,
+                            ),
+                          );
                         } else {
                           // Start recording
                           elapsedSeconds.value = 0;

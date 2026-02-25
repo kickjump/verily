@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
 /// Screen showing the full details of an action.
@@ -202,7 +203,9 @@ class ActionDetailScreen extends HookConsumerWidget {
             ),
             const SizedBox(height: SpacingTokens.sm),
             VCard(
-              onTap: () => context.push('/profile/user/creator_1'),
+              onTap: () => context.push(
+                RouteNames.userProfilePath.replaceFirst(':userId', 'creator_1'),
+              ),
               padding: const EdgeInsets.all(SpacingTokens.md),
               child: Row(
                 children: [
@@ -258,7 +261,9 @@ class ActionDetailScreen extends HookConsumerWidget {
           padding: const EdgeInsets.all(SpacingTokens.md),
           child: VFilledButton(
             isLoading: isLoading.value,
-            onPressed: () => context.push('/submissions/record/$actionId'),
+            onPressed: () => context.push(
+              RouteNames.videoRecordingPath.replaceFirst(':actionId', actionId),
+            ),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

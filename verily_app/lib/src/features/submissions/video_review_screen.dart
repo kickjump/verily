@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
 /// Screen for reviewing a recorded video before submitting.
@@ -21,7 +22,9 @@ class VideoReviewScreen extends HookConsumerWidget {
         // TODO: Upload video to Serverpod and create submission.
         await Future<void>.delayed(const Duration(seconds: 2));
         if (context.mounted) {
-          context.go('/submissions/status/$actionId');
+          context.go(
+            RouteNames.submissionStatusPath.replaceFirst(':actionId', actionId),
+          );
         }
       } on Exception {
         isSubmitting.value = false;
