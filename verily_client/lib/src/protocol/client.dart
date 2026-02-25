@@ -8,6 +8,8 @@
 // ignore_for_file: type_literal_in_constant_pattern
 // ignore_for_file: use_super_parameters
 // ignore_for_file: invalid_use_of_internal_member
+// ignore_for_file: experimental_member_use
+// ignore_for_file: inference_failure_on_function_return_type
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
@@ -18,21 +20,21 @@ import 'package:verily_client/src/protocol/action_step.dart' as _i5;
 import 'package:verily_core/src/models/ai_generated_action.dart' as _i6;
 import 'package:verily_client/src/protocol/attestation_challenge.dart' as _i7;
 import 'package:verily_client/src/protocol/device_attestation.dart' as _i8;
-import 'package:verily_client/src/protocol/place_search_result.dart' as _i9;
-import 'package:verily_client/src/protocol/location.dart' as _i10;
-import 'package:verily_client/src/protocol/reward.dart' as _i11;
-import 'package:verily_client/src/protocol/user_reward.dart' as _i12;
-import 'package:verily_client/src/protocol/reward_pool.dart' as _i13;
-import 'package:verily_client/src/protocol/reward_distribution.dart' as _i14;
-import 'package:verily_client/src/protocol/solana_wallet.dart' as _i15;
-import 'package:verily_client/src/protocol/action_submission.dart' as _i16;
-import 'package:verily_client/src/protocol/user_follow.dart' as _i17;
-import 'package:verily_client/src/protocol/user_profile.dart' as _i18;
-import 'package:verily_client/src/protocol/verification_result.dart' as _i19;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
-    as _i20;
+    as _i9;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
-    as _i21;
+    as _i10;
+import 'package:verily_client/src/protocol/place_search_result.dart' as _i11;
+import 'package:verily_client/src/protocol/location.dart' as _i12;
+import 'package:verily_client/src/protocol/reward.dart' as _i13;
+import 'package:verily_client/src/protocol/user_reward.dart' as _i14;
+import 'package:verily_client/src/protocol/reward_pool.dart' as _i15;
+import 'package:verily_client/src/protocol/reward_distribution.dart' as _i16;
+import 'package:verily_client/src/protocol/solana_wallet.dart' as _i17;
+import 'package:verily_client/src/protocol/action_submission.dart' as _i18;
+import 'package:verily_client/src/protocol/user_follow.dart' as _i19;
+import 'package:verily_client/src/protocol/user_profile.dart' as _i20;
+import 'package:verily_client/src/protocol/verification_result.dart' as _i21;
 import 'protocol.dart' as _i22;
 
 /// Endpoint for managing action categories.
@@ -273,6 +275,229 @@ class EndpointAttestation extends _i1.EndpointRef {
   );
 }
 
+/// Concrete Apple auth endpoint for Serverpod IDP.
+/// {@category Endpoint}
+class EndpointAuthApple extends _i9.EndpointAppleIdpBase {
+  EndpointAuthApple(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'authApple';
+
+  /// Signs in a user with their Apple account.
+  ///
+  /// If no user exists yet linked to the Apple-provided identifier, a new one
+  /// will be created (without any `Scope`s). Further their provided name and
+  /// email (if any) will be used for the `UserProfile` which will be linked to
+  /// their `AuthUser`.
+  ///
+  /// Returns a session for the user upon successful login.
+  @override
+  _i2.Future<_i10.AuthSuccess> login({
+    required String identityToken,
+    required String authorizationCode,
+    required bool isNativeApplePlatformSignIn,
+    String? firstName,
+    String? lastName,
+  }) => caller.callServerEndpoint<_i10.AuthSuccess>('authApple', 'login', {
+    'identityToken': identityToken,
+    'authorizationCode': authorizationCode,
+    'isNativeApplePlatformSignIn': isNativeApplePlatformSignIn,
+    'firstName': firstName,
+    'lastName': lastName,
+  });
+
+  @override
+  _i2.Future<bool> hasAccount() =>
+      caller.callServerEndpoint<bool>('authApple', 'hasAccount', {});
+}
+
+/// Concrete email/password auth endpoint for Serverpod IDP.
+/// {@category Endpoint}
+class EndpointAuthEmail extends _i9.EndpointEmailIdpBase {
+  EndpointAuthEmail(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'authEmail';
+
+  /// Logs in the user and returns a new session.
+  ///
+  /// Throws an [EmailAccountLoginException] in case of errors, with reason:
+  /// - [EmailAccountLoginExceptionReason.invalidCredentials] if the email or
+  ///   password is incorrect.
+  /// - [EmailAccountLoginExceptionReason.tooManyAttempts] if there have been
+  ///   too many failed login attempts.
+  ///
+  /// Throws an [AuthUserBlockedException] if the auth user is blocked.
+  @override
+  _i2.Future<_i10.AuthSuccess> login({
+    required String email,
+    required String password,
+  }) => caller.callServerEndpoint<_i10.AuthSuccess>('authEmail', 'login', {
+    'email': email,
+    'password': password,
+  });
+
+  /// Starts the registration for a new user account with an email-based login
+  /// associated to it.
+  ///
+  /// Upon successful completion of this method, an email will have been
+  /// sent to [email] with a verification link, which the user must open to
+  /// complete the registration.
+  ///
+  /// Always returns a account request ID, which can be used to complete the
+  /// registration. If the email is already registered, the returned ID will not
+  /// be valid.
+  @override
+  _i2.Future<_i1.UuidValue> startRegistration({required String email}) =>
+      caller.callServerEndpoint<_i1.UuidValue>(
+        'authEmail',
+        'startRegistration',
+        {'email': email},
+      );
+
+  /// Verifies an account request code and returns a token
+  /// that can be used to complete the account creation.
+  ///
+  /// Throws an [EmailAccountRequestException] in case of errors, with reason:
+  /// - [EmailAccountRequestExceptionReason.expired] if the account request has
+  ///   already expired.
+  /// - [EmailAccountRequestExceptionReason.policyViolation] if the password
+  ///   does not comply with the password policy.
+  /// - [EmailAccountRequestExceptionReason.invalid] if no request exists
+  ///   for the given [accountRequestId] or [verificationCode] is invalid.
+  @override
+  _i2.Future<String> verifyRegistrationCode({
+    required _i1.UuidValue accountRequestId,
+    required String verificationCode,
+  }) =>
+      caller.callServerEndpoint<String>('authEmail', 'verifyRegistrationCode', {
+        'accountRequestId': accountRequestId,
+        'verificationCode': verificationCode,
+      });
+
+  /// Completes a new account registration, creating a new auth user with a
+  /// profile and attaching the given email account to it.
+  ///
+  /// Throws an [EmailAccountRequestException] in case of errors, with reason:
+  /// - [EmailAccountRequestExceptionReason.expired] if the account request has
+  ///   already expired.
+  /// - [EmailAccountRequestExceptionReason.policyViolation] if the password
+  ///   does not comply with the password policy.
+  /// - [EmailAccountRequestExceptionReason.invalid] if the [registrationToken]
+  ///   is invalid.
+  ///
+  /// Throws an [AuthUserBlockedException] if the auth user is blocked.
+  ///
+  /// Returns a session for the newly created user.
+  @override
+  _i2.Future<_i10.AuthSuccess> finishRegistration({
+    required String registrationToken,
+    required String password,
+  }) => caller.callServerEndpoint<_i10.AuthSuccess>(
+    'authEmail',
+    'finishRegistration',
+    {'registrationToken': registrationToken, 'password': password},
+  );
+
+  /// Requests a password reset for [email].
+  ///
+  /// If the email address is registered, an email with reset instructions will
+  /// be send out. If the email is unknown, this method will have no effect.
+  ///
+  /// Always returns a password reset request ID, which can be used to complete
+  /// the reset. If the email is not registered, the returned ID will not be
+  /// valid.
+  ///
+  /// Throws an [EmailAccountPasswordResetException] in case of errors, with reason:
+  /// - [EmailAccountPasswordResetExceptionReason.tooManyAttempts] if the user has
+  ///   made too many attempts trying to request a password reset.
+  ///
+  @override
+  _i2.Future<_i1.UuidValue> startPasswordReset({required String email}) =>
+      caller.callServerEndpoint<_i1.UuidValue>(
+        'authEmail',
+        'startPasswordReset',
+        {'email': email},
+      );
+
+  /// Verifies a password reset code and returns a finishPasswordResetToken
+  /// that can be used to finish the password reset.
+  ///
+  /// Throws an [EmailAccountPasswordResetException] in case of errors, with reason:
+  /// - [EmailAccountPasswordResetExceptionReason.expired] if the password reset
+  ///   request has already expired.
+  /// - [EmailAccountPasswordResetExceptionReason.tooManyAttempts] if the user has
+  ///   made too many attempts trying to verify the password reset.
+  /// - [EmailAccountPasswordResetExceptionReason.invalid] if no request exists
+  ///   for the given [passwordResetRequestId] or [verificationCode] is invalid.
+  ///
+  /// If multiple steps are required to complete the password reset, this endpoint
+  /// should be overridden to return credentials for the next step instead
+  /// of the credentials for setting the password.
+  @override
+  _i2.Future<String> verifyPasswordResetCode({
+    required _i1.UuidValue passwordResetRequestId,
+    required String verificationCode,
+  }) => caller
+      .callServerEndpoint<String>('authEmail', 'verifyPasswordResetCode', {
+        'passwordResetRequestId': passwordResetRequestId,
+        'verificationCode': verificationCode,
+      });
+
+  /// Completes a password reset request by setting a new password.
+  ///
+  /// The [verificationCode] returned from [verifyPasswordResetCode] is used to
+  /// validate the password reset request.
+  ///
+  /// Throws an [EmailAccountPasswordResetException] in case of errors, with reason:
+  /// - [EmailAccountPasswordResetExceptionReason.expired] if the password reset
+  ///   request has already expired.
+  /// - [EmailAccountPasswordResetExceptionReason.policyViolation] if the new
+  ///   password does not comply with the password policy.
+  /// - [EmailAccountPasswordResetExceptionReason.invalid] if no request exists
+  ///   for the given [passwordResetRequestId] or [verificationCode] is invalid.
+  ///
+  /// Throws an [AuthUserBlockedException] if the auth user is blocked.
+  @override
+  _i2.Future<void> finishPasswordReset({
+    required String finishPasswordResetToken,
+    required String newPassword,
+  }) => caller.callServerEndpoint<void>('authEmail', 'finishPasswordReset', {
+    'finishPasswordResetToken': finishPasswordResetToken,
+    'newPassword': newPassword,
+  });
+
+  @override
+  _i2.Future<bool> hasAccount() =>
+      caller.callServerEndpoint<bool>('authEmail', 'hasAccount', {});
+}
+
+/// Concrete Google auth endpoint for Serverpod IDP.
+/// {@category Endpoint}
+class EndpointAuthGoogle extends _i9.EndpointGoogleIdpBase {
+  EndpointAuthGoogle(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'authGoogle';
+
+  /// Validates a Google ID token and either logs in the associated user or
+  /// creates a new user account if the Google account ID is not yet known.
+  ///
+  /// If a new user is created an associated [UserProfile] is also created.
+  @override
+  _i2.Future<_i10.AuthSuccess> login({
+    required String idToken,
+    required String? accessToken,
+  }) => caller.callServerEndpoint<_i10.AuthSuccess>('authGoogle', 'login', {
+    'idToken': idToken,
+    'accessToken': accessToken,
+  });
+
+  @override
+  _i2.Future<bool> hasAccount() =>
+      caller.callServerEndpoint<bool>('authGoogle', 'hasAccount', {});
+}
+
 /// Endpoint for geocoding operations using Mapbox.
 ///
 /// Acts as a server-side proxy so that the Mapbox access token is never
@@ -288,11 +513,11 @@ class EndpointGeocoding extends _i1.EndpointRef {
   ///
   /// Optionally biases results toward [proximityLat]/[proximityLng] when
   /// provided.
-  _i2.Future<List<_i9.PlaceSearchResult>> searchPlaces(
+  _i2.Future<List<_i11.PlaceSearchResult>> searchPlaces(
     String query,
     double? proximityLat,
     double? proximityLng,
-  ) => caller.callServerEndpoint<List<_i9.PlaceSearchResult>>(
+  ) => caller.callServerEndpoint<List<_i11.PlaceSearchResult>>(
     'geocoding',
     'searchPlaces',
     {
@@ -303,8 +528,8 @@ class EndpointGeocoding extends _i1.EndpointRef {
   );
 
   /// Reverse-geocodes a coordinate to the nearest place.
-  _i2.Future<_i9.PlaceSearchResult?> reverseGeocode(double lat, double lng) =>
-      caller.callServerEndpoint<_i9.PlaceSearchResult?>(
+  _i2.Future<_i11.PlaceSearchResult?> reverseGeocode(double lat, double lng) =>
+      caller.callServerEndpoint<_i11.PlaceSearchResult?>(
         'geocoding',
         'reverseGeocode',
         {'lat': lat, 'lng': lng},
@@ -323,25 +548,25 @@ class EndpointLocation extends _i1.EndpointRef {
   String get name => 'location';
 
   /// Creates a new location.
-  _i2.Future<_i10.Location> create(_i10.Location location) =>
-      caller.callServerEndpoint<_i10.Location>('location', 'create', {
+  _i2.Future<_i12.Location> create(_i12.Location location) =>
+      caller.callServerEndpoint<_i12.Location>('location', 'create', {
         'location': location,
       });
 
   /// Searches for locations near a geographic coordinate.
-  _i2.Future<List<_i10.Location>> searchNearby(
+  _i2.Future<List<_i12.Location>> searchNearby(
     double lat,
     double lng,
     double radiusMeters,
-  ) => caller.callServerEndpoint<List<_i10.Location>>(
+  ) => caller.callServerEndpoint<List<_i12.Location>>(
     'location',
     'searchNearby',
     {'lat': lat, 'lng': lng, 'radiusMeters': radiusMeters},
   );
 
   /// Retrieves a single location by its ID.
-  _i2.Future<_i10.Location> get(int id) =>
-      caller.callServerEndpoint<_i10.Location>('location', 'get', {'id': id});
+  _i2.Future<_i12.Location> get(int id) =>
+      caller.callServerEndpoint<_i12.Location>('location', 'get', {'id': id});
 }
 
 /// Endpoint for managing rewards and leaderboards.
@@ -356,18 +581,18 @@ class EndpointReward extends _i1.EndpointRef {
   String get name => 'reward';
 
   /// Lists all rewards associated with a given action.
-  _i2.Future<List<_i11.Reward>> listByAction(int actionId) =>
-      caller.callServerEndpoint<List<_i11.Reward>>('reward', 'listByAction', {
+  _i2.Future<List<_i13.Reward>> listByAction(int actionId) =>
+      caller.callServerEndpoint<List<_i13.Reward>>('reward', 'listByAction', {
         'actionId': actionId,
       });
 
   /// Lists all rewards earned by the authenticated user.
-  _i2.Future<List<_i12.UserReward>> listByUser() => caller
-      .callServerEndpoint<List<_i12.UserReward>>('reward', 'listByUser', {});
+  _i2.Future<List<_i14.UserReward>> listByUser() => caller
+      .callServerEndpoint<List<_i14.UserReward>>('reward', 'listByUser', {});
 
   /// Retrieves the leaderboard of users ranked by total reward points.
-  _i2.Future<List<_i12.UserReward>> getLeaderboard() =>
-      caller.callServerEndpoint<List<_i12.UserReward>>(
+  _i2.Future<List<_i14.UserReward>> getLeaderboard() =>
+      caller.callServerEndpoint<List<_i14.UserReward>>(
         'reward',
         'getLeaderboard',
         {},
@@ -386,7 +611,7 @@ class EndpointRewardPool extends _i1.EndpointRef {
   String get name => 'rewardPool';
 
   /// Creates a new reward pool for an action.
-  _i2.Future<_i13.RewardPool> create(
+  _i2.Future<_i15.RewardPool> create(
     int actionId,
     String rewardType,
     double totalAmount,
@@ -394,7 +619,7 @@ class EndpointRewardPool extends _i1.EndpointRef {
     String? tokenMintAddress,
     int? maxRecipients,
     DateTime? expiresAt,
-  }) => caller.callServerEndpoint<_i13.RewardPool>('rewardPool', 'create', {
+  }) => caller.callServerEndpoint<_i15.RewardPool>('rewardPool', 'create', {
     'actionId': actionId,
     'rewardType': rewardType,
     'totalAmount': totalAmount,
@@ -405,36 +630,36 @@ class EndpointRewardPool extends _i1.EndpointRef {
   });
 
   /// Gets a reward pool by id.
-  _i2.Future<_i13.RewardPool> get(int poolId) =>
-      caller.callServerEndpoint<_i13.RewardPool>('rewardPool', 'get', {
+  _i2.Future<_i15.RewardPool> get(int poolId) =>
+      caller.callServerEndpoint<_i15.RewardPool>('rewardPool', 'get', {
         'poolId': poolId,
       });
 
   /// Lists all reward pools for an action.
-  _i2.Future<List<_i13.RewardPool>> listByAction(int actionId) =>
-      caller.callServerEndpoint<List<_i13.RewardPool>>(
+  _i2.Future<List<_i15.RewardPool>> listByAction(int actionId) =>
+      caller.callServerEndpoint<List<_i15.RewardPool>>(
         'rewardPool',
         'listByAction',
         {'actionId': actionId},
       );
 
   /// Lists all reward pools created by the authenticated user.
-  _i2.Future<List<_i13.RewardPool>> listByCreator() =>
-      caller.callServerEndpoint<List<_i13.RewardPool>>(
+  _i2.Future<List<_i15.RewardPool>> listByCreator() =>
+      caller.callServerEndpoint<List<_i15.RewardPool>>(
         'rewardPool',
         'listByCreator',
         {},
       );
 
   /// Cancels a reward pool (only the creator can cancel).
-  _i2.Future<_i13.RewardPool> cancel(int poolId) =>
-      caller.callServerEndpoint<_i13.RewardPool>('rewardPool', 'cancel', {
+  _i2.Future<_i15.RewardPool> cancel(int poolId) =>
+      caller.callServerEndpoint<_i15.RewardPool>('rewardPool', 'cancel', {
         'poolId': poolId,
       });
 
   /// Lists all distributions from a reward pool.
-  _i2.Future<List<_i14.RewardDistribution>> getDistributions(int poolId) =>
-      caller.callServerEndpoint<List<_i14.RewardDistribution>>(
+  _i2.Future<List<_i16.RewardDistribution>> getDistributions(int poolId) =>
+      caller.callServerEndpoint<List<_i16.RewardDistribution>>(
         'rewardPool',
         'getDistributions',
         {'poolId': poolId},
@@ -471,25 +696,25 @@ class EndpointSolana extends _i1.EndpointRef {
   String get name => 'solana';
 
   /// Creates a custodial wallet for the authenticated user.
-  _i2.Future<_i15.SolanaWallet> createWallet({String? label}) =>
-      caller.callServerEndpoint<_i15.SolanaWallet>('solana', 'createWallet', {
+  _i2.Future<_i17.SolanaWallet> createWallet({String? label}) =>
+      caller.callServerEndpoint<_i17.SolanaWallet>('solana', 'createWallet', {
         'label': label,
       });
 
   /// Links an external Solana wallet.
-  _i2.Future<_i15.SolanaWallet> linkWallet(String publicKey, {String? label}) =>
-      caller.callServerEndpoint<_i15.SolanaWallet>('solana', 'linkWallet', {
+  _i2.Future<_i17.SolanaWallet> linkWallet(String publicKey, {String? label}) =>
+      caller.callServerEndpoint<_i17.SolanaWallet>('solana', 'linkWallet', {
         'publicKey': publicKey,
         'label': label,
       });
 
   /// Lists all wallets for the authenticated user.
-  _i2.Future<List<_i15.SolanaWallet>> getWallets() => caller
-      .callServerEndpoint<List<_i15.SolanaWallet>>('solana', 'getWallets', {});
+  _i2.Future<List<_i17.SolanaWallet>> getWallets() => caller
+      .callServerEndpoint<List<_i17.SolanaWallet>>('solana', 'getWallets', {});
 
   /// Sets a wallet as the user's default for receiving rewards.
-  _i2.Future<_i15.SolanaWallet> setDefaultWallet(int walletId) =>
-      caller.callServerEndpoint<_i15.SolanaWallet>(
+  _i2.Future<_i17.SolanaWallet> setDefaultWallet(int walletId) =>
+      caller.callServerEndpoint<_i17.SolanaWallet>(
         'solana',
         'setDefaultWallet',
         {'walletId': walletId},
@@ -512,30 +737,30 @@ class EndpointSubmission extends _i1.EndpointRef {
   String get name => 'submission';
 
   /// Creates a new submission for an action.
-  _i2.Future<_i16.ActionSubmission> create(_i16.ActionSubmission submission) =>
-      caller.callServerEndpoint<_i16.ActionSubmission>('submission', 'create', {
+  _i2.Future<_i18.ActionSubmission> create(_i18.ActionSubmission submission) =>
+      caller.callServerEndpoint<_i18.ActionSubmission>('submission', 'create', {
         'submission': submission,
       });
 
   /// Lists all submissions for a given action.
-  _i2.Future<List<_i16.ActionSubmission>> listByAction(int actionId) =>
-      caller.callServerEndpoint<List<_i16.ActionSubmission>>(
+  _i2.Future<List<_i18.ActionSubmission>> listByAction(int actionId) =>
+      caller.callServerEndpoint<List<_i18.ActionSubmission>>(
         'submission',
         'listByAction',
         {'actionId': actionId},
       );
 
   /// Lists all submissions by the authenticated performer.
-  _i2.Future<List<_i16.ActionSubmission>> listByPerformer() =>
-      caller.callServerEndpoint<List<_i16.ActionSubmission>>(
+  _i2.Future<List<_i18.ActionSubmission>> listByPerformer() =>
+      caller.callServerEndpoint<List<_i18.ActionSubmission>>(
         'submission',
         'listByPerformer',
         {},
       );
 
   /// Retrieves a single submission by its ID.
-  _i2.Future<_i16.ActionSubmission> get(int id) =>
-      caller.callServerEndpoint<_i16.ActionSubmission>('submission', 'get', {
+  _i2.Future<_i18.ActionSubmission> get(int id) =>
+      caller.callServerEndpoint<_i18.ActionSubmission>('submission', 'get', {
         'id': id,
       });
 
@@ -543,8 +768,8 @@ class EndpointSubmission extends _i1.EndpointRef {
   ///
   /// Returns the list of submissions representing the performer's progress
   /// through each step of the action.
-  _i2.Future<List<_i16.ActionSubmission>> getSequentialProgress(int actionId) =>
-      caller.callServerEndpoint<List<_i16.ActionSubmission>>(
+  _i2.Future<List<_i18.ActionSubmission>> getSequentialProgress(int actionId) =>
+      caller.callServerEndpoint<List<_i18.ActionSubmission>>(
         'submission',
         'getSequentialProgress',
         {'actionId': actionId},
@@ -563,8 +788,8 @@ class EndpointUserFollow extends _i1.EndpointRef {
   String get name => 'userFollow';
 
   /// Follows another user.
-  _i2.Future<_i17.UserFollow> follow(_i1.UuidValue userId) =>
-      caller.callServerEndpoint<_i17.UserFollow>('userFollow', 'follow', {
+  _i2.Future<_i19.UserFollow> follow(_i1.UuidValue userId) =>
+      caller.callServerEndpoint<_i19.UserFollow>('userFollow', 'follow', {
         'userId': userId,
       });
 
@@ -573,16 +798,16 @@ class EndpointUserFollow extends _i1.EndpointRef {
       .callServerEndpoint<void>('userFollow', 'unfollow', {'userId': userId});
 
   /// Lists all followers of a user.
-  _i2.Future<List<_i17.UserFollow>> listFollowers(_i1.UuidValue userId) =>
-      caller.callServerEndpoint<List<_i17.UserFollow>>(
+  _i2.Future<List<_i19.UserFollow>> listFollowers(_i1.UuidValue userId) =>
+      caller.callServerEndpoint<List<_i19.UserFollow>>(
         'userFollow',
         'listFollowers',
         {'userId': userId},
       );
 
   /// Lists all users that a user is following.
-  _i2.Future<List<_i17.UserFollow>> listFollowing(_i1.UuidValue userId) =>
-      caller.callServerEndpoint<List<_i17.UserFollow>>(
+  _i2.Future<List<_i19.UserFollow>> listFollowing(_i1.UuidValue userId) =>
+      caller.callServerEndpoint<List<_i19.UserFollow>>(
         'userFollow',
         'listFollowing',
         {'userId': userId},
@@ -607,32 +832,32 @@ class EndpointUserProfile extends _i1.EndpointRef {
   String get name => 'userProfile';
 
   /// Creates a new user profile for the authenticated user.
-  _i2.Future<_i18.UserProfile> create(_i18.UserProfile profile) =>
-      caller.callServerEndpoint<_i18.UserProfile>('userProfile', 'create', {
+  _i2.Future<_i20.UserProfile> create(_i20.UserProfile profile) =>
+      caller.callServerEndpoint<_i20.UserProfile>('userProfile', 'create', {
         'profile': profile,
       });
 
   /// Retrieves the authenticated user's profile.
-  _i2.Future<_i18.UserProfile> get() =>
-      caller.callServerEndpoint<_i18.UserProfile>('userProfile', 'get', {});
+  _i2.Future<_i20.UserProfile> get() =>
+      caller.callServerEndpoint<_i20.UserProfile>('userProfile', 'get', {});
 
   /// Retrieves a user profile by username.
-  _i2.Future<_i18.UserProfile?> getByUsername(String username) =>
-      caller.callServerEndpoint<_i18.UserProfile?>(
+  _i2.Future<_i20.UserProfile?> getByUsername(String username) =>
+      caller.callServerEndpoint<_i20.UserProfile?>(
         'userProfile',
         'getByUsername',
         {'username': username},
       );
 
   /// Updates the authenticated user's profile.
-  _i2.Future<_i18.UserProfile> update(_i18.UserProfile profile) =>
-      caller.callServerEndpoint<_i18.UserProfile>('userProfile', 'update', {
+  _i2.Future<_i20.UserProfile> update(_i20.UserProfile profile) =>
+      caller.callServerEndpoint<_i20.UserProfile>('userProfile', 'update', {
         'profile': profile,
       });
 
   /// Searches for user profiles by a query string.
-  _i2.Future<List<_i18.UserProfile>> search(String query) =>
-      caller.callServerEndpoint<List<_i18.UserProfile>>(
+  _i2.Future<List<_i20.UserProfile>> search(String query) =>
+      caller.callServerEndpoint<List<_i20.UserProfile>>(
         'userProfile',
         'search',
         {'query': query},
@@ -651,8 +876,8 @@ class EndpointVerification extends _i1.EndpointRef {
   String get name => 'verification';
 
   /// Retrieves the verification result for a given submission.
-  _i2.Future<_i19.VerificationResult?> getBySubmission(int submissionId) =>
-      caller.callServerEndpoint<_i19.VerificationResult?>(
+  _i2.Future<_i21.VerificationResult?> getBySubmission(int submissionId) =>
+      caller.callServerEndpoint<_i21.VerificationResult?>(
         'verification',
         'getBySubmission',
         {'submissionId': submissionId},
@@ -663,8 +888,8 @@ class EndpointVerification extends _i1.EndpointRef {
   /// This re-triggers the verification pipeline, which may be useful if
   /// the initial verification encountered an error or produced unexpected
   /// results.
-  _i2.Future<_i19.VerificationResult> retryVerification(int submissionId) =>
-      caller.callServerEndpoint<_i19.VerificationResult>(
+  _i2.Future<_i21.VerificationResult> retryVerification(int submissionId) =>
+      caller.callServerEndpoint<_i21.VerificationResult>(
         'verification',
         'retryVerification',
         {'submissionId': submissionId},
@@ -673,13 +898,13 @@ class EndpointVerification extends _i1.EndpointRef {
 
 class Modules {
   Modules(Client client) {
-    auth_idp = _i20.Caller(client);
-    auth_core = _i21.Caller(client);
+    auth_idp = _i9.Caller(client);
+    auth_core = _i10.Caller(client);
   }
 
-  late final _i20.Caller auth_idp;
+  late final _i9.Caller auth_idp;
 
-  late final _i21.Caller auth_core;
+  late final _i10.Caller auth_core;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -711,6 +936,9 @@ class Client extends _i1.ServerpodClientShared {
     actionStep = EndpointActionStep(this);
     aiAction = EndpointAiAction(this);
     attestation = EndpointAttestation(this);
+    authApple = EndpointAuthApple(this);
+    authEmail = EndpointAuthEmail(this);
+    authGoogle = EndpointAuthGoogle(this);
     geocoding = EndpointGeocoding(this);
     location = EndpointLocation(this);
     reward = EndpointReward(this);
@@ -733,6 +961,12 @@ class Client extends _i1.ServerpodClientShared {
   late final EndpointAiAction aiAction;
 
   late final EndpointAttestation attestation;
+
+  late final EndpointAuthApple authApple;
+
+  late final EndpointAuthEmail authEmail;
+
+  late final EndpointAuthGoogle authGoogle;
 
   late final EndpointGeocoding geocoding;
 
@@ -763,6 +997,9 @@ class Client extends _i1.ServerpodClientShared {
     'actionStep': actionStep,
     'aiAction': aiAction,
     'attestation': attestation,
+    'authApple': authApple,
+    'authEmail': authEmail,
+    'authGoogle': authGoogle,
     'geocoding': geocoding,
     'location': location,
     'reward': reward,

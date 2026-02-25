@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:serverpod_auth_idp_flutter/serverpod_auth_idp_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'package:verily_client/verily_client.dart';
 
@@ -16,7 +17,8 @@ const _devServerUrl = 'http://localhost:8080/';
 @Riverpod(keepAlive: true)
 Client serverpodClient(Ref ref) {
   final client = Client(_devServerUrl)
-    ..connectivityMonitor = FlutterConnectivityMonitor();
+    ..connectivityMonitor = FlutterConnectivityMonitor()
+    ..authSessionManager = FlutterAuthSessionManager();
 
   ref.onDispose(client.close);
 

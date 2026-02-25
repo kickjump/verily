@@ -25,6 +25,21 @@ aiAction:
 attestation:
   - createChallenge:
   - submitAttestation:
+authApple:
+  - login:
+  - hasAccount:
+authEmail:
+  - login:
+  - startRegistration:
+  - verifyRegistrationCode:
+  - finishRegistration:
+  - startPasswordReset:
+  - verifyPasswordResetCode:
+  - finishPasswordReset:
+  - hasAccount:
+authGoogle:
+  - login:
+  - hasAccount:
 geocoding:
   - searchPlaces:
   - reverseGeocode:

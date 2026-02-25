@@ -398,7 +398,7 @@ class ActionSubmissionTable extends _i1.Table<int?> {
   late final _i1.ColumnDateTime updatedAt;
 
   @override
-  List<_i1.Column<dynamic>> get columns => [
+  List<_i1.Column> get columns => [
     id,
     actionId,
     performerId,

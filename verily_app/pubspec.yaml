@@ -44,6 +44,8 @@ dependencies:
   # Serverpod
   serverpod_auth_idp_flutter: 3.3.1
   serverpod_flutter: 3.3.1
+  google_sign_in: 7.2.0
+  sign_in_with_apple: 7.0.1
 
   # Device capabilities
   camera: 0.11.1
