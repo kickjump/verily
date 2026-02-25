@@ -9,25 +9,16 @@ part of 'app_router.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 /// Provides the application [GoRouter].
-///
-/// Auth redirect logic checks the session manager and pushes unauthenticated
-/// users to the login screen.
 
 @ProviderFor(appRouter)
 final appRouterProvider = AppRouterProvider._();
 
 /// Provides the application [GoRouter].
-///
-/// Auth redirect logic checks the session manager and pushes unauthenticated
-/// users to the login screen.
 
 final class AppRouterProvider
     extends $FunctionalProvider<GoRouter, GoRouter, GoRouter>
     with $Provider<GoRouter> {
   /// Provides the application [GoRouter].
-  ///
-  /// Auth redirect logic checks the session manager and pushes unauthenticated
-  /// users to the login screen.
   AppRouterProvider._()
     : super(
         from: null,
@@ -61,4 +52,4 @@ final class AppRouterProvider
   }
 }
 
-String _$appRouterHash() => r'49cce6d936bb9d4098fe038fc3d754ee74f3c102';
+String _$appRouterHash() => r'395326ea2cc0d7165117c6c33b3505e4309176b6';
