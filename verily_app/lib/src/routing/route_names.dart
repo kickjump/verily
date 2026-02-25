@@ -39,6 +39,9 @@ abstract final class RouteNames {
   // Submission flow
   // ---------------------------------------------------------------------------
 
+  /// Quick verification capture flow from center tab.
+  static const String verifyCapture = 'verifyCapture';
+
   /// Video recording screen.
   static const String videoRecording = 'videoRecording';
 
@@ -99,9 +102,10 @@ abstract final class RouteNames {
   static const String registerPath = '/register';
   static const String actionDetailPath = '/action/:actionId';
   static const String createActionPath = '/action/create';
-  static const String videoRecordingPath = '/submission/:actionId/record';
-  static const String videoReviewPath = '/submission/:actionId/review';
-  static const String submissionStatusPath = '/submission/:submissionId/status';
+  static const String verifyCapturePath = '/verify';
+  static const String videoRecordingPath = '/submissions/:actionId/record';
+  static const String videoReviewPath = '/submissions/:actionId/review';
+  static const String submissionStatusPath = '/submissions/:actionId/status';
   static const String editProfilePath = '/profile/edit';
   static const String userProfilePath = '/user/:userId';
   static const String walletPath = '/wallet';
