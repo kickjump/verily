@@ -1,8 +1,69 @@
+import 'package:serverpod/serverpod.dart';
 import 'package:test/test.dart';
 import 'package:verily_core/verily_core.dart';
+import 'package:verily_server/src/services/verification/attestation_service.dart';
 
 void main() {
   group('AttestationService (pure logic)', () {
+    test('stub mode defaults by run mode', () {
+      expect(
+        AttestationService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.development,
+        ),
+        isTrue,
+      );
+      expect(
+        AttestationService.shouldAllowStubMode(runMode: ServerpodRunMode.test),
+        isTrue,
+      );
+      expect(
+        AttestationService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.staging,
+        ),
+        isTrue,
+      );
+      expect(
+        AttestationService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.production,
+        ),
+        isFalse,
+      );
+    });
+
+    test('stub mode override accepts truthy and falsy values', () {
+      expect(
+        AttestationService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.production,
+          configuredValue: 'on',
+        ),
+        isTrue,
+      );
+      expect(
+        AttestationService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.staging,
+          configuredValue: 'false',
+        ),
+        isFalse,
+      );
+    });
+
+    test('invalid override falls back to run mode default', () {
+      expect(
+        AttestationService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.production,
+          configuredValue: 'maybe',
+        ),
+        isFalse,
+      );
+      expect(
+        AttestationService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.development,
+          configuredValue: 'maybe',
+        ),
+        isTrue,
+      );
+    });
+
     test('nonce characters are unambiguous', () {
       // Nonce uses chars that are hard to confuse visually
       const nonceChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
