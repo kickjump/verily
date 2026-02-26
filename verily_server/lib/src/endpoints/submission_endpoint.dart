@@ -1,13 +1,17 @@
 import 'package:serverpod/serverpod.dart';
+import 'package:verily_core/verily_core.dart';
 
 import 'package:verily_server/src/generated/protocol.dart';
 import 'package:verily_server/src/services/submission_service.dart';
+import 'package:verily_server/src/services/verification/submission_verification_orchestrator.dart';
 
 /// Endpoint for managing action submissions.
 ///
 /// All methods require authentication. Submissions represent a performer's
 /// attempt to complete an action, including video evidence for verification.
 class SubmissionEndpoint extends Endpoint {
+  static final _log = VLogger('SubmissionEndpoint');
+
   @override
   bool get requireLogin => true;
 
@@ -17,7 +21,7 @@ class SubmissionEndpoint extends Endpoint {
     ActionSubmission submission,
   ) async {
     final authId = _authenticatedUserId(session);
-    return SubmissionService.create(
+    final created = await SubmissionService.create(
       session,
       actionId: submission.actionId,
       performerId: authId,
@@ -28,6 +32,23 @@ class SubmissionEndpoint extends Endpoint {
       latitude: submission.latitude,
       longitude: submission.longitude,
     );
+
+    // Keep submission creation resilient: verification failures should not
+    // prevent users from creating a submission record.
+    try {
+      await SubmissionVerificationOrchestrator.processSubmission(
+        session,
+        submissionId: created.id!,
+      );
+    } on Exception catch (error, stackTrace) {
+      _log.warning(
+        'Submission ${created.id} created, but verification failed to run',
+        error,
+        stackTrace,
+      );
+    }
+
+    return created;
   }
 
   /// Lists all submissions for a given action.

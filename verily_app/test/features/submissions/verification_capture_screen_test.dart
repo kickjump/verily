@@ -80,18 +80,19 @@ void main() {
     ) async {
       final container = ProviderContainer();
       addTearDown(container.dispose);
-      container.read(activeActionControllerProvider.notifier).activeAction =
-          const ActiveAction(
-            actionId: '101',
-            title: 'Record 20 push-ups at a local park',
-            nextLocationLabel: 'Memorial Park Track',
-            distanceFromNextLocation: '0.4 mi',
-            verificationChecklist: [
-              'Show your full body in frame while doing all reps.',
-              'Capture ambient park audio from start to finish.',
-              'Pan camera to the track sign before ending recording.',
-            ],
-          );
+      container
+          .read(activeActionControllerProvider.notifier)
+          .activeAction = const ActiveAction(
+        actionId: '101',
+        title: 'Record 20 push-ups at a local park',
+        nextLocationLabel: 'Memorial Park Track',
+        distanceFromNextLocation: '0.4 mi',
+        verificationChecklist: [
+          'Show your full body in frame while doing all reps.',
+          'Capture ambient park audio from start to finish.',
+          'Pan camera to the track sign before ending recording.',
+        ],
+      );
 
       await pumpScreen(tester, container: container);
 

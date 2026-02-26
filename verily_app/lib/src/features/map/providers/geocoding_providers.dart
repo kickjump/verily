@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
+import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
 import 'package:verily_client/verily_client.dart';
 
 part 'geocoding_providers.g.dart';
@@ -14,7 +15,7 @@ Future<List<PlaceSearchResult>> placeSearch(
 ) async {
   if (query.trim().isEmpty) return [];
 
-  final client = Client('http://localhost:8080/')
+  final client = Client(resolveServerUrl())
     ..connectivityMonitor = FlutterConnectivityMonitor();
   return client.geocoding.searchPlaces(query, lat, lng);
 }
