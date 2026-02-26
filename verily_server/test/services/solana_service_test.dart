@@ -1,8 +1,65 @@
+import 'package:serverpod/serverpod.dart';
 import 'package:test/test.dart';
 import 'package:verily_core/verily_core.dart';
+import 'package:verily_server/src/services/wallet/solana_service.dart';
 
 void main() {
   group('SolanaService (pure logic)', () {
+    test('stub mode defaults by run mode', () {
+      expect(
+        SolanaService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.development,
+        ),
+        isTrue,
+      );
+      expect(
+        SolanaService.shouldAllowStubMode(runMode: ServerpodRunMode.test),
+        isTrue,
+      );
+      expect(
+        SolanaService.shouldAllowStubMode(runMode: ServerpodRunMode.staging),
+        isTrue,
+      );
+      expect(
+        SolanaService.shouldAllowStubMode(runMode: ServerpodRunMode.production),
+        isFalse,
+      );
+    });
+
+    test('stub mode override accepts truthy and falsy values', () {
+      expect(
+        SolanaService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.production,
+          configuredValue: 'true',
+        ),
+        isTrue,
+      );
+      expect(
+        SolanaService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.development,
+          configuredValue: 'off',
+        ),
+        isFalse,
+      );
+    });
+
+    test('invalid override falls back to run mode default', () {
+      expect(
+        SolanaService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.production,
+          configuredValue: 'maybe',
+        ),
+        isFalse,
+      );
+      expect(
+        SolanaService.shouldAllowStubMode(
+          runMode: ServerpodRunMode.staging,
+          configuredValue: 'maybe',
+        ),
+        isTrue,
+      );
+    });
+
     test('RewardType enum has SOL value', () {
       expect(RewardType.sol.value, 'sol');
     });
