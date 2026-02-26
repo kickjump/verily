@@ -20,6 +20,10 @@ class AttestationService {
   AttestationService._();
 
   static final _log = VLogger('AttestationService');
+  static const _allowStubModePasswordKey = 'attestationAllowStubMode';
+  static const _truthyValues = {'1', 'true', 'yes', 'y', 'on'};
+  static const _falsyValues = {'0', 'false', 'no', 'n', 'off'};
+  static const _boolLikeValues = {..._truthyValues, ..._falsyValues};
 
   /// How long a challenge nonce is valid (5 minutes).
   static const _challengeTtl = Duration(minutes: 5);
@@ -130,6 +134,8 @@ class AttestationService {
     required int submissionId,
     required String integrityToken,
   }) async {
+    _requireStubMode(session, operation: 'Play Integrity verification');
+
     // TODO: Call Google Play Integrity API to verify token:
     // POST https://playintegrity.googleapis.com/v1/{packageName}:decodeIntegrityToken
     // With the integrityToken in the request body.
@@ -166,6 +172,13 @@ class AttestationService {
     required String attestationObject,
     required String keyId,
   }) async {
+    final trimmedKeyId = keyId.trim();
+    if (trimmedKeyId.isEmpty) {
+      throw ValidationException('keyId is required for App Attest');
+    }
+
+    _requireStubMode(session, operation: 'App Attest verification');
+
     // TODO: Verify Apple App Attest:
     // 1. Decode CBOR attestation object
     // 2. Verify x5c certificate chain against Apple root CA
@@ -180,7 +193,7 @@ class AttestationService {
       platform: 'ios',
       attestationType: AttestationType.appAttest.value,
       verified: true, // TODO: Actually verify
-      rawResult: jsonEncode({'keyId': keyId, 'stub': true}),
+      rawResult: jsonEncode({'keyId': trimmedKeyId, 'stub': true}),
       createdAt: DateTime.now().toUtc(),
     );
 
@@ -217,5 +230,54 @@ class AttestationService {
   static String _generateVisualNonceDescription(String nonce) {
     return 'Display the code "$nonce" on screen during your recording. '
         'Hold it up so it is clearly visible in the video.';
+  }
+
+  /// Determines if attestation stub verification is allowed for this run mode.
+  ///
+  /// If [configuredValue] is provided, it overrides the default:
+  /// - truthy values: `1`, `true`, `yes`, `y`, `on`
+  /// - falsy values: `0`, `false`, `no`, `n`, `off`
+  ///
+  /// Without an override, stubs are allowed outside production only.
+  static bool shouldAllowStubMode({
+    required String runMode,
+    String? configuredValue,
+  }) {
+    final normalized = configuredValue?.trim().toLowerCase();
+    if (normalized != null && normalized.isNotEmpty) {
+      if (_truthyValues.contains(normalized)) return true;
+      if (_falsyValues.contains(normalized)) return false;
+    }
+
+    return runMode != ServerpodRunMode.production;
+  }
+
+  static bool _allowStubMode(Session session) {
+    final configured = session.passwords[_allowStubModePasswordKey];
+    final normalized = configured?.trim().toLowerCase();
+    if (normalized != null &&
+        normalized.isNotEmpty &&
+        !_boolLikeValues.contains(normalized)) {
+      _log.warning(
+        'Invalid value for $_allowStubModePasswordKey: "$configured". '
+        'Expected one of: ${_boolLikeValues.join(', ')}.',
+      );
+    }
+
+    return shouldAllowStubMode(
+      runMode: session.server.runMode,
+      configuredValue: configured,
+    );
+  }
+
+  static void _requireStubMode(Session session, {required String operation}) {
+    if (_allowStubMode(session)) return;
+
+    throw ValidationException(
+      'Attestation stub mode for $operation is disabled for run mode '
+      '"${session.server.runMode}" until real platform attestation '
+      'integration is configured. For temporary non-production testing, set '
+      '$_allowStubModePasswordKey: true in passwords.yaml.',
+    );
   }
 }
