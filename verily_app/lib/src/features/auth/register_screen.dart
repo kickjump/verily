@@ -30,6 +30,7 @@ class RegisterScreen extends HookConsumerWidget {
     final obscurePassword = useState(true);
     final obscureConfirm = useState(true);
     final currentStep = useState(_RegisterStep.credentials);
+    final accountRequestId = useState<Object?>(null);
     final formKey = useMemoized(GlobalKey<FormState>.new);
     final authState = ref.watch(authProvider);
     final isLoading = authState is AuthLoading;
@@ -191,11 +192,30 @@ class RegisterScreen extends HookConsumerWidget {
                         isLoading: isLoading,
                         onPressed: isLoading
                             ? null
-                            : () {
+                            : () async {
                                 if (formKey.currentState?.validate() ?? false) {
-                                  // TODO: Send verification email via Serverpod.
-                                  currentStep.value =
-                                      _RegisterStep.verification;
+                                  try {
+                                    final requestId = await ref
+                                        .read(authProvider.notifier)
+                                        .startRegistration(
+                                          email: emailController.text.trim(),
+                                        );
+                                    if (!context.mounted) return;
+                                    accountRequestId.value = requestId;
+                                    verificationCodeController.clear();
+                                    currentStep.value =
+                                        _RegisterStep.verification;
+                                  } on Exception {
+                                    if (!context.mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Unable to send verification code. '
+                                          'Please try again.',
+                                        ),
+                                      ),
+                                    );
+                                  }
                                 }
                               },
                         child: const Text('Continue'),
@@ -243,14 +263,52 @@ class RegisterScreen extends HookConsumerWidget {
                         isLoading: isLoading,
                         onPressed: isLoading
                             ? null
-                            : () {
-                                // TODO: Verify code, then register.
-                                ref
-                                    .read(authProvider.notifier)
-                                    .register(
-                                      email: emailController.text.trim(),
-                                      password: passwordController.text,
-                                    );
+                            : () async {
+                                final verificationCode =
+                                    verificationCodeController.text.trim();
+                                if (verificationCode.isEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Enter the verification code.',
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                final requestId = accountRequestId.value;
+                                if (requestId == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Verification session expired. '
+                                        'Request a new code.',
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                try {
+                                  await ref
+                                      .read(authProvider.notifier)
+                                      .register(
+                                        accountRequestId: requestId,
+                                        verificationCode: verificationCode,
+                                        password: passwordController.text,
+                                      );
+                                } on Exception {
+                                  if (!context.mounted) return;
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Verification failed. '
+                                        'Check the code and try again.',
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
                         child: const Text('Create Account'),
                       ),
@@ -260,8 +318,34 @@ class RegisterScreen extends HookConsumerWidget {
                       VTextButton(
                         onPressed: isLoading
                             ? null
-                            : () {
-                                // TODO: Resend verification code.
+                            : () async {
+                                try {
+                                  final requestId = await ref
+                                      .read(authProvider.notifier)
+                                      .startRegistration(
+                                        email: emailController.text.trim(),
+                                      );
+                                  if (!context.mounted) return;
+                                  accountRequestId.value = requestId;
+                                  verificationCodeController.clear();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'A new verification code was sent.',
+                                      ),
+                                    ),
+                                  );
+                                } on Exception {
+                                  if (!context.mounted) return;
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Unable to resend code. '
+                                        'Please try again.',
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
                         child: const Text('Resend Code'),
                       ),

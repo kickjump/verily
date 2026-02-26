@@ -34,6 +34,21 @@ abstract interface class AuthGateway {
     required String password,
   });
 
+  /// Starts email registration and returns the account request identifier.
+  Future<Object> startEmailRegistration({required String email});
+
+  /// Verifies an email registration code and returns the registration token.
+  Future<String> verifyEmailRegistrationCode({
+    required Object accountRequestId,
+    required String verificationCode,
+  });
+
+  /// Completes email registration and signs the user in.
+  Future<AuthProfile> finishEmailRegistration({
+    required String registrationToken,
+    required String password,
+  });
+
   /// Signs in using Google IDP.
   Future<AuthProfile> loginWithGoogle();
 
@@ -87,6 +102,39 @@ class ServerpodAuthGateway implements AuthGateway {
   }) async {
     final authSuccess = await _client.authEmail.login(
       email: email,
+      password: password,
+    );
+    await _client.auth.updateSignedInUser(authSuccess);
+    return _requireCurrentProfile();
+  }
+
+  @override
+  Future<Object> startEmailRegistration({required String email}) {
+    return _client.authEmail.startRegistration(email: email);
+  }
+
+  @override
+  Future<String> verifyEmailRegistrationCode({
+    required Object accountRequestId,
+    required String verificationCode,
+  }) {
+    return _client.authEmail.caller.callServerEndpoint<String>(
+      'authEmail',
+      'verifyRegistrationCode',
+      {
+        'accountRequestId': accountRequestId,
+        'verificationCode': verificationCode,
+      },
+    );
+  }
+
+  @override
+  Future<AuthProfile> finishEmailRegistration({
+    required String registrationToken,
+    required String password,
+  }) async {
+    final authSuccess = await _client.authEmail.finishRegistration(
+      registrationToken: registrationToken,
       password: password,
     );
     await _client.auth.updateSignedInUser(authSuccess);

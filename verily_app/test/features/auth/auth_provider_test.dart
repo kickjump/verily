@@ -67,6 +67,62 @@ void main() {
       expect(container.read(authProvider), isA<Unauthenticated>());
       expect(gateway.appleLoginCalls, 1);
     });
+
+    test('startRegistration returns account request id', () async {
+      const expectedRequestId = 'request-1';
+      final gateway = _FakeAuthGateway(
+        currentProfile: null,
+        accountRequestId: expectedRequestId,
+      );
+      final container = ProviderContainer(
+        overrides: [authGatewayProvider.overrideWith((ref) => gateway)],
+      );
+      addTearDown(container.dispose);
+
+      await _waitForSettledAuthState(container);
+      expect(container.read(authProvider), isA<Unauthenticated>());
+
+      final requestId = await container
+          .read(authProvider.notifier)
+          .startRegistration(email: 'new@example.com');
+
+      expect(requestId, expectedRequestId);
+      expect(gateway.startRegistrationCalls, 1);
+      expect(container.read(authProvider), isA<Unauthenticated>());
+    });
+
+    test('register verifies code and authenticates the user', () async {
+      final gateway = _FakeAuthGateway(
+        currentProfile: null,
+        registrationProfile: (
+          userId: 'registered-user',
+          email: 'registered@example.com',
+        ),
+      );
+      final container = ProviderContainer(
+        overrides: [authGatewayProvider.overrideWith((ref) => gateway)],
+      );
+      addTearDown(container.dispose);
+
+      await _waitForSettledAuthState(container);
+      expect(container.read(authProvider), isA<Unauthenticated>());
+
+      await container
+          .read(authProvider.notifier)
+          .register(
+            accountRequestId: 'request-123',
+            verificationCode: '123456',
+            password: 'password123',
+          );
+
+      final state = container.read(authProvider);
+      expect(state, isA<Authenticated>());
+      final authenticated = state as Authenticated;
+      expect(authenticated.userId, 'registered-user');
+      expect(authenticated.email, 'registered@example.com');
+      expect(gateway.verifyRegistrationCalls, 1);
+      expect(gateway.finishRegistrationCalls, 1);
+    });
   });
 }
 
@@ -87,15 +143,35 @@ final class _FakeAuthGateway implements AuthGateway {
     required this.currentProfile,
     this.googleProfile,
     this.throwOnAppleLogin = false,
+    this.accountRequestId = 'request-default',
+    this.registrationProfile,
   });
 
   final AuthProfile? currentProfile;
   final AuthProfile? googleProfile;
   final bool throwOnAppleLogin;
+  final Object accountRequestId;
+  final AuthProfile? registrationProfile;
 
   int initializeCalls = 0;
   int googleLoginCalls = 0;
   int appleLoginCalls = 0;
+  int startRegistrationCalls = 0;
+  int verifyRegistrationCalls = 0;
+  int finishRegistrationCalls = 0;
+
+  @override
+  Future<AuthProfile> finishEmailRegistration({
+    required String registrationToken,
+    required String password,
+  }) async {
+    finishRegistrationCalls += 1;
+    if (registrationToken.isEmpty || password.isEmpty) {
+      throw ArgumentError('Registration token and password must be non-empty.');
+    }
+    return registrationProfile ??
+        (userId: 'registered-user', email: 'registered@example.com');
+  }
 
   @override
   Future<AuthProfile?> getCurrentProfile() async => currentProfile;
@@ -131,4 +207,19 @@ final class _FakeAuthGateway implements AuthGateway {
 
   @override
   Future<void> logout() async {}
+
+  @override
+  Future<Object> startEmailRegistration({required String email}) async {
+    startRegistrationCalls += 1;
+    return accountRequestId;
+  }
+
+  @override
+  Future<String> verifyEmailRegistrationCode({
+    required Object accountRequestId,
+    required String verificationCode,
+  }) async {
+    verifyRegistrationCalls += 1;
+    return 'registration-token';
+  }
 }
