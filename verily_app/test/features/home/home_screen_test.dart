@@ -50,7 +50,9 @@ void main() {
       await pumpHomeScreen(tester);
 
       expect(find.text('Active Action'), findsNothing);
-      await tester.tap(find.byIcon(Icons.playlist_add_check_circle_outlined).first);
+      await tester.tap(
+        find.byIcon(Icons.playlist_add_check_circle_outlined).first,
+      );
       await tester.pump();
 
       expect(find.text('Active Action'), findsOneWidget);

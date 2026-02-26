@@ -45,13 +45,19 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      container.read(activeActionControllerProvider.notifier).toggle(firstAction);
+      container
+          .read(activeActionControllerProvider.notifier)
+          .toggle(firstAction);
       expect(container.read(activeActionControllerProvider)?.actionId, '101');
 
-      container.read(activeActionControllerProvider.notifier).toggle(firstAction);
+      container
+          .read(activeActionControllerProvider.notifier)
+          .toggle(firstAction);
       expect(container.read(activeActionControllerProvider), isNull);
 
-      container.read(activeActionControllerProvider.notifier).toggle(secondAction);
+      container
+          .read(activeActionControllerProvider.notifier)
+          .toggle(secondAction);
       expect(container.read(activeActionControllerProvider)?.actionId, '102');
     });
   });
