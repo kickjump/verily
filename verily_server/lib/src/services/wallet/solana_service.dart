@@ -19,6 +19,10 @@ class SolanaService {
   SolanaService._();
 
   static final _log = VLogger('SolanaService');
+  static const _allowStubModePasswordKey = 'solanaAllowStubMode';
+  static const _truthyValues = {'1', 'true', 'yes', 'y', 'on'};
+  static const _falsyValues = {'0', 'false', 'no', 'n', 'off'};
+  static const _boolLikeValues = {..._truthyValues, ..._falsyValues};
 
   // ---------------------------------------------------------------------------
   // Wallet management
@@ -33,6 +37,8 @@ class SolanaService {
     required UuidValue userId,
     String? label,
   }) async {
+    _requireStubMode(session, operation: 'custodial wallet generation');
+
     // TODO: Replace with actual solana_kit keypair generation:
     // final keyPair = generateKeyPair();
     // final publicKey = getAddressFromPublicKey(keyPair.publicKey);
@@ -176,6 +182,8 @@ class SolanaService {
     Session session, {
     required String publicKey,
   }) async {
+    _requireStubMode(session, operation: 'SOL balance lookup');
+
     // TODO: Integrate with solana_kit RPC:
     // final rpc = createSolanaRpc(_getRpcUrl(session));
     // final balance = await rpc.getBalance(Address.fromBase58(publicKey)).send();
@@ -190,6 +198,8 @@ class SolanaService {
     required String publicKey,
     required String mintAddress,
   }) async {
+    _requireStubMode(session, operation: 'SPL token balance lookup');
+
     // TODO: Integrate with solana_kit RPC for SPL token balance
     _log.info(
       'getTokenBalance called for $publicKey, mint $mintAddress (stub)',
@@ -210,6 +220,8 @@ class SolanaService {
     required UuidValue recipientId,
     required int submissionId,
   }) async {
+    _requireStubMode(session, operation: 'reward distribution');
+
     final pool = await RewardPool.db.findById(session, rewardPoolId);
     if (pool == null) {
       throw NotFoundException('Reward pool $rewardPoolId not found');
@@ -310,6 +322,8 @@ class SolanaService {
     required int actionId,
     required String metadataUri,
   }) async {
+    _requireStubMode(session, operation: 'NFT badge minting');
+
     // TODO: Integrate with solana_kit for Metaplex NFT minting
     _log.info(
       'mintBadgeNft called for user $recipientId, action $actionId (stub)',
@@ -369,5 +383,54 @@ class SolanaService {
     const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
     final random = Random.secure();
     return List.generate(44, (_) => chars[random.nextInt(chars.length)]).join();
+  }
+
+  /// Determines if Solana stub behavior is allowed for this run mode.
+  ///
+  /// If [configuredValue] is provided, it overrides the default:
+  /// - truthy values: `1`, `true`, `yes`, `y`, `on`
+  /// - falsy values: `0`, `false`, `no`, `n`, `off`
+  ///
+  /// Without an override, stubs are allowed outside production only.
+  static bool shouldAllowStubMode({
+    required String runMode,
+    String? configuredValue,
+  }) {
+    final normalized = configuredValue?.trim().toLowerCase();
+    if (normalized != null && normalized.isNotEmpty) {
+      if (_truthyValues.contains(normalized)) return true;
+      if (_falsyValues.contains(normalized)) return false;
+    }
+
+    return runMode != ServerpodRunMode.production;
+  }
+
+  static bool _allowStubMode(Session session) {
+    final configured = session.passwords[_allowStubModePasswordKey];
+    final normalized = configured?.trim().toLowerCase();
+    if (normalized != null &&
+        normalized.isNotEmpty &&
+        !_boolLikeValues.contains(normalized)) {
+      _log.warning(
+        'Invalid value for $_allowStubModePasswordKey: "$configured". '
+        'Expected one of: ${_boolLikeValues.join(', ')}.',
+      );
+    }
+
+    return shouldAllowStubMode(
+      runMode: session.server.runMode,
+      configuredValue: configured,
+    );
+  }
+
+  static void _requireStubMode(Session session, {required String operation}) {
+    if (_allowStubMode(session)) return;
+
+    throw ValidationException(
+      'Solana $operation is disabled for run mode "${session.server.runMode}" '
+      'until real on-chain integration is configured. '
+      'For temporary non-production testing, set '
+      '$_allowStubModePasswordKey: true in passwords.yaml.',
+    );
   }
 }
