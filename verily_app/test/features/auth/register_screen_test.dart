@@ -113,7 +113,8 @@ class _FakeAuth extends Auth {
 
   @override
   Future<void> register({
-    required String email,
+    required Object accountRequestId,
+    required String verificationCode,
     required String password,
   }) async {}
 }

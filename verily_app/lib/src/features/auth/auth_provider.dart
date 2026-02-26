@@ -68,20 +68,47 @@ class Auth extends _$Auth {
   }
 
   /// Attempts to register a new account with the provided credentials.
+  Future<Object> startRegistration({required String email}) async {
+    state = const AuthLoading();
+    try {
+      final accountRequestId = await ref
+          .read(authGatewayProvider)
+          .startEmailRegistration(email: email);
+      if (!ref.mounted) return accountRequestId;
+      state = const Unauthenticated();
+      return accountRequestId;
+    } on Exception catch (e) {
+      debugPrint('Registration start failed: $e');
+      if (!ref.mounted) rethrow;
+      state = const Unauthenticated();
+      rethrow;
+    }
+  }
+
+  /// Verifies email ownership and completes account registration.
   Future<void> register({
-    required String email,
+    required Object accountRequestId,
+    required String verificationCode,
     required String password,
   }) async {
     state = const AuthLoading();
     try {
-      // TODO(auth): Replace with the full email verification flow.
-      await Future<void>.delayed(const Duration(seconds: 1));
+      final gateway = ref.read(authGatewayProvider);
+      final registrationToken = await gateway.verifyEmailRegistrationCode(
+        accountRequestId: accountRequestId,
+        verificationCode: verificationCode,
+      );
+      final profile = await gateway.finishEmailRegistration(
+        registrationToken: registrationToken,
+        password: password,
+      );
       if (!ref.mounted) return;
-      state = Authenticated(userId: 'user_new', email: email);
+      state = Authenticated(userId: profile.userId, email: profile.email);
     } on Exception catch (e) {
       debugPrint('Registration failed: $e');
       if (!ref.mounted) return;
       state = const Unauthenticated();
+      rethrow;
     }
   }
 
