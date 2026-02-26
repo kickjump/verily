@@ -1,13 +1,11 @@
 import * as aws from "@pulumi/aws";
 import * as pulumi from "@pulumi/pulumi";
 
-import { apiHost, appHost, baseTags, domain, insightsHost, storageHost } from "../config.js";
+import { baseTags, domain, storageHost } from "../config.js";
 
 export interface DnsArgs {
-  albDnsName: pulumi.Output<string>;
-  albZoneId: pulumi.Output<string>;
-  cdnDomainName: pulumi.Output<string>;
-  cdnHostedZoneId: pulumi.Output<string>;
+  cdnDomainName: pulumi.Input<string>;
+  cdnHostedZoneId: pulumi.Input<string>;
 }
 
 export interface DnsOutputs {
@@ -68,57 +66,6 @@ export class Dns extends pulumi.ComponentResource implements DnsOutputs {
       {
         certificateArn: certificate.arn,
         validationRecordFqdns: validationRecords.apply((records) => records.map((r) => r.fqdn)),
-      },
-      { parent: this },
-    );
-
-    new aws.route53.Record(
-      `${name}-api-record`,
-      {
-        zoneId: zone.zoneId,
-        name: apiHost,
-        type: "A",
-        aliases: [
-          {
-            name: args.albDnsName,
-            zoneId: args.albZoneId,
-            evaluateTargetHealth: true,
-          },
-        ],
-      },
-      { parent: this },
-    );
-
-    new aws.route53.Record(
-      `${name}-app-record`,
-      {
-        zoneId: zone.zoneId,
-        name: appHost,
-        type: "A",
-        aliases: [
-          {
-            name: args.albDnsName,
-            zoneId: args.albZoneId,
-            evaluateTargetHealth: true,
-          },
-        ],
-      },
-      { parent: this },
-    );
-
-    new aws.route53.Record(
-      `${name}-insights-record`,
-      {
-        zoneId: zone.zoneId,
-        name: insightsHost,
-        type: "A",
-        aliases: [
-          {
-            name: args.albDnsName,
-            zoneId: args.albZoneId,
-            evaluateTargetHealth: true,
-          },
-        ],
       },
       { parent: this },
     );
