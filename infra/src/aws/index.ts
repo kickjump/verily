@@ -2,7 +2,16 @@ import * as aws from "@pulumi/aws";
 import * as awsx from "@pulumi/awsx";
 import * as pulumi from "@pulumi/pulumi";
 
-import { apiHost, appHost, baseTags, dbPassword, environment, insightsHost, redisPassword } from "../config.js";
+import {
+  apiHost,
+  appHost,
+  baseTags,
+  dbPassword,
+  environment,
+  insightsHost,
+  redisPassword,
+  serverImageUri,
+} from "../config.js";
 import type { DeploymentOutputs } from "../types.js";
 import { Cache } from "./cache.js";
 import { Compute } from "./compute.js";
@@ -38,10 +47,8 @@ export function deployAws(): DeploymentOutputs {
   const cloudfrontHostedZoneId = "Z2FDTNDATAQYW2";
 
   const dns = new Dns(`${prefix}-dns`, {
-    albDnsName: pulumi.output("placeholder.elb.amazonaws.com"),
-    albZoneId: pulumi.output("Z1H1FL5HABSF5"),
     cdnDomainName: storage.cdnDomainName,
-    cdnHostedZoneId: pulumi.output(cloudfrontHostedZoneId),
+    cdnHostedZoneId: cloudfrontHostedZoneId,
   });
 
   const albSg = new aws.ec2.SecurityGroup(`${prefix}-alb-sg`, {
@@ -81,7 +88,7 @@ export function deployAws(): DeploymentOutputs {
       protocol: "HTTP",
       targetType: "ip",
       healthCheck: {
-        path: "/health",
+        path: "/readyz",
         protocol: "HTTP",
         healthyThreshold: 2,
         unhealthyThreshold: 3,
@@ -129,8 +136,48 @@ export function deployAws(): DeploymentOutputs {
     redisHost: cache.host,
     redisPort: cache.port,
     redisPassword: redisPassword,
+    imageUri: serverImageUri ?? undefined,
     targetGroupArn: alb.defaultTargetGroup.arn,
     albSecurityGroupId: albSg.id,
+  });
+
+  new aws.route53.Record(`${prefix}-api-record`, {
+    zoneId: dns.zoneId,
+    name: apiHost,
+    type: "A",
+    aliases: [
+      {
+        name: alb.loadBalancer.dnsName,
+        zoneId: alb.loadBalancer.zoneId,
+        evaluateTargetHealth: true,
+      },
+    ],
+  });
+
+  new aws.route53.Record(`${prefix}-app-record`, {
+    zoneId: dns.zoneId,
+    name: appHost,
+    type: "A",
+    aliases: [
+      {
+        name: alb.loadBalancer.dnsName,
+        zoneId: alb.loadBalancer.zoneId,
+        evaluateTargetHealth: true,
+      },
+    ],
+  });
+
+  new aws.route53.Record(`${prefix}-insights-record`, {
+    zoneId: dns.zoneId,
+    name: insightsHost,
+    type: "A",
+    aliases: [
+      {
+        name: alb.loadBalancer.dnsName,
+        zoneId: alb.loadBalancer.zoneId,
+        evaluateTargetHealth: true,
+      },
+    ],
   });
 
   return {

@@ -1,7 +1,7 @@
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 
-import { apiHost, appHost, dbPassword, environment, insightsHost } from "../config.js";
+import { apiHost, appHost, dbPassword, environment, insightsHost, serverImageUri } from "../config.js";
 import type { DeploymentOutputs } from "../types.js";
 import { Cache } from "./cache.js";
 import { Compute } from "./compute.js";
@@ -37,6 +37,7 @@ export function deployGcp(): DeploymentOutputs {
     dbPassword,
     redisHost: cache.host,
     redisPort: cache.port,
+    imageUri: serverImageUri ?? undefined,
   });
 
   // ---------------------------------------------------------------------------

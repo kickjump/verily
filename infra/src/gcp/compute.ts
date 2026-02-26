@@ -17,6 +17,7 @@ export interface ComputeArgs {
   dbPassword: pulumi.Input<string>;
   redisHost: pulumi.Input<string>;
   redisPort: pulumi.Input<number>;
+  imageUri?: pulumi.Input<string>;
 }
 
 export interface ComputeOutputs {
@@ -66,6 +67,8 @@ export class Compute extends pulumi.ComponentResource implements ComputeOutputs 
       { parent: this },
     );
 
+    const containerImage = args.imageUri ?? pulumi.interpolate`${this.artifactRegistryUrl}/serverpod:latest`;
+
     const service = new gcp.cloudrunv2.Service(
       `${name}-service`,
       {
@@ -83,7 +86,7 @@ export class Compute extends pulumi.ComponentResource implements ComputeOutputs 
           },
           containers: [
             {
-              image: "us-docker.pkg.dev/cloudrun/container/hello",
+              image: containerImage,
               ports: { containerPort: 8080 },
               resources: {
                 limits: {

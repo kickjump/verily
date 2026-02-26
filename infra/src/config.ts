@@ -51,6 +51,7 @@ export const serverCpu = config.getNumber("serverCpu") ?? 512;
 export const serverMemory = config.getNumber("serverMemory") ?? 1024;
 export const minCapacity = config.getNumber("minCapacity") ?? 1;
 export const maxCapacity = config.getNumber("maxCapacity") ?? 4;
+export const serverImageUri = config.get("serverImageUri");
 
 // ---------------------------------------------------------------------------
 // Tags applied to every resource
