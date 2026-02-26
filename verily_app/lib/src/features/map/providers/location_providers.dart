@@ -1,6 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
+import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
 import 'package:verily_client/verily_client.dart';
 import 'package:verily_core/verily_core.dart';
 
@@ -40,7 +41,7 @@ Stream<Position> userLocation(Ref ref) async* {
 /// Fetches actions visible within a map bounding box.
 @riverpod
 Future<List<Action>> actionsInBoundingBox(Ref ref, BoundingBox bbox) async {
-  final client = Client('http://localhost:8080/')
+  final client = Client(resolveServerUrl())
     ..connectivityMonitor = FlutterConnectivityMonitor();
   return client.action.listInBoundingBox(
     bbox.southLat,
@@ -58,7 +59,7 @@ Future<List<Action>> nearbyActions(
   double lng,
   double radiusMeters,
 ) async {
-  final client = Client('http://localhost:8080/')
+  final client = Client(resolveServerUrl())
     ..connectivityMonitor = FlutterConnectivityMonitor();
   return client.action.listNearby(lat, lng, radiusMeters);
 }
