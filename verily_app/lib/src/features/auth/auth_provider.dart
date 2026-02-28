@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:verily_app/src/analytics/posthog_analytics.dart';
 import 'package:verily_app/src/features/auth/auth_gateway.dart';
 
 part 'auth_provider.g.dart';
@@ -82,7 +83,9 @@ class Auth extends _$Auth {
           .read(authGatewayProvider)
           .loginWithEmail(email: email, password: password);
       if (!ref.mounted) return;
-      state = Authenticated(userId: profile.userId, email: profile.email);
+      final auth = Authenticated(userId: profile.userId, email: profile.email);
+      state = auth;
+      _identifyPosthog(auth);
     } on Exception catch (e) {
       debugPrint('Login failed: $e');
       if (!ref.mounted) return;
@@ -126,7 +129,9 @@ class Auth extends _$Auth {
         password: password,
       );
       if (!ref.mounted) return;
-      state = Authenticated(userId: profile.userId, email: profile.email);
+      final auth = Authenticated(userId: profile.userId, email: profile.email);
+      state = auth;
+      _identifyPosthog(auth);
     } on Exception catch (e) {
       debugPrint('Registration failed: $e');
       if (!ref.mounted) return;
@@ -141,7 +146,9 @@ class Auth extends _$Auth {
     try {
       final profile = await ref.read(authGatewayProvider).loginWithGoogle();
       if (!ref.mounted) return;
-      state = Authenticated(userId: profile.userId, email: profile.email);
+      final auth = Authenticated(userId: profile.userId, email: profile.email);
+      state = auth;
+      _identifyPosthog(auth);
     } on Exception catch (e) {
       debugPrint('Google login failed: $e');
       if (!ref.mounted) return;
@@ -155,7 +162,9 @@ class Auth extends _$Auth {
     try {
       final profile = await ref.read(authGatewayProvider).loginWithApple();
       if (!ref.mounted) return;
-      state = Authenticated(userId: profile.userId, email: profile.email);
+      final auth = Authenticated(userId: profile.userId, email: profile.email);
+      state = auth;
+      _identifyPosthog(auth);
     } on Exception catch (e) {
       debugPrint('Apple login failed: $e');
       if (!ref.mounted) return;
@@ -174,11 +183,13 @@ class Auth extends _$Auth {
           .read(authGatewayProvider)
           .loginWithWallet(publicKey: publicKey);
       if (!ref.mounted) return;
-      state = Authenticated(
+      final auth = Authenticated(
         userId: profile.userId,
         email: profile.email,
         walletAddress: publicKey,
       );
+      state = auth;
+      _identifyPosthog(auth);
     } on Exception catch (e) {
       debugPrint('Wallet login failed: $e');
       if (!ref.mounted) return;
@@ -191,6 +202,7 @@ class Auth extends _$Auth {
     state = const AuthLoading();
     try {
       await ref.read(authGatewayProvider).logout();
+      _resetPosthog();
       if (!ref.mounted) return;
       state = const Unauthenticated();
     } on Exception catch (e) {
@@ -200,6 +212,20 @@ class Auth extends _$Auth {
     }
   }
 
+  void _identifyPosthog(Authenticated auth) {
+    final posthog = ref.read(posthogInstanceProvider);
+    posthog?.identifyUser(
+      userId: auth.userId,
+      email: auth.email,
+      walletAddress: auth.walletAddress,
+    );
+  }
+
+  void _resetPosthog() {
+    final posthog = ref.read(posthogInstanceProvider);
+    posthog?.clearUser();
+  }
+
   /// Checks whether the user has an existing authenticated session.
   Future<void> _checkAuth() async {
     try {
@@ -207,9 +233,16 @@ class Auth extends _$Auth {
       await gateway.initializeSession();
       final profile = await gateway.getCurrentProfile();
       if (!ref.mounted) return;
-      state = profile == null
-          ? const Unauthenticated()
-          : Authenticated(userId: profile.userId, email: profile.email);
+      if (profile == null) {
+        state = const Unauthenticated();
+      } else {
+        final auth = Authenticated(
+          userId: profile.userId,
+          email: profile.email,
+        );
+        state = auth;
+        _identifyPosthog(auth);
+      }
     } on Exception catch (e) {
       debugPrint('Auth check failed: $e');
       if (!ref.mounted) return;

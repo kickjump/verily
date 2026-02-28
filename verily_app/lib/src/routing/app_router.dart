@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:verily_app/src/analytics/posthog_analytics.dart';
 import 'package:verily_app/src/features/actions/action_detail_screen.dart';
 import 'package:verily_app/src/features/actions/ai_create_action_screen.dart';
 import 'package:verily_app/src/features/actions/create_action_screen.dart';
@@ -35,7 +37,10 @@ GoRouter appRouter(Ref ref) {
   return GoRouter(
     initialLocation: RouteNames.feedPath,
     debugLogDiagnostics: true,
-    observers: [NavigationObserver()],
+    observers: [
+      NavigationObserver(),
+      if (isPosthogConfigured) PosthogObserver(),
+    ],
     redirect: (context, state) {
       final isOnAuthRoute =
           state.matchedLocation == RouteNames.loginPath ||

@@ -1,6 +1,8 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:serverpod/serverpod.dart';
+import 'package:solana_kit/solana_kit.dart' as solana;
 import 'package:verily_core/verily_core.dart';
 
 import 'package:verily_server/src/exceptions/server_exceptions.dart';
@@ -23,6 +25,31 @@ class SolanaService {
   static const _truthyValues = {'1', 'true', 'yes', 'y', 'on'};
   static const _falsyValues = {'0', 'false', 'no', 'n', 'off'};
   static const _boolLikeValues = {..._truthyValues, ..._falsyValues};
+
+  // ---------------------------------------------------------------------------
+  // Signature verification
+  // ---------------------------------------------------------------------------
+
+  /// Verifies an Ed25519 signature against a message and public key.
+  ///
+  /// Used for wallet-based authentication: the client signs a server-issued
+  /// challenge with their private key, and the server verifies ownership.
+  static bool verifySignature({
+    required String publicKey,
+    required Uint8List signature,
+    required Uint8List message,
+  }) {
+    try {
+      final pubKeyBytes = solana.getPublicKeyFromAddress(
+        solana.address(publicKey),
+      );
+      final sigBytes = solana.signatureBytes(signature);
+      return solana.verifySignature(pubKeyBytes, sigBytes, message);
+    } on Exception catch (e) {
+      _log.warning('Signature verification failed: $e');
+      return false;
+    }
+  }
 
   // ---------------------------------------------------------------------------
   // Wallet management

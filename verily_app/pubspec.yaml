@@ -66,6 +66,9 @@ dependencies:
   flutter_map_marker_cluster: 8.2.2
   latlong2: 0.9.1
 
+  # Analytics
+  posthog_flutter: 5.15.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
