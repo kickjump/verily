@@ -579,9 +579,14 @@ class _AiReviewView extends HookConsumerWidget {
                         runSpacing: SpacingTokens.sm,
                         children: action.suggestedTags
                             .map(
-                              (tag) => Chip(
-                                label: Text(tag),
-                                visualDensity: VisualDensity.compact,
+                              (tag) => VBadgeChip(
+                                label: tag,
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.primaryContainer,
+                                foregroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
                               ),
                             )
                             .toList(),
