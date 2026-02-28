@@ -28,3 +28,5 @@ export const databaseHost = outputs.then((o) => o.databaseHost);
 export const redisHost = outputs.then((o) => o.redisHost);
 export const imageRepositoryUrl = outputs.then((o) => o.imageRepositoryUrl);
 export const storageBucket = outputs.then((o) => o.storageBucket);
+export const recommendationEventQueue = outputs.then((o) => o.recommendationEventQueue);
+export const recommendationScorerEndpoint = outputs.then((o) => o.recommendationScorerEndpoint);

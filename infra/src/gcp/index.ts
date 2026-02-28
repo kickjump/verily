@@ -8,6 +8,7 @@ import { Compute } from "./compute.js";
 import { Database } from "./database.js";
 import { Dns } from "./dns.js";
 import { Network } from "./network.js";
+import { Recommendation } from "./recommendation.js";
 import { Storage } from "./storage.js";
 
 const gcpConfig = new pulumi.Config("gcp");
@@ -115,6 +116,17 @@ export function deployGcp(): DeploymentOutputs {
     loadBalancingScheme: "EXTERNAL",
   });
 
+  const recommendation = new Recommendation(`${prefix}-rec`, {
+    networkSelfLink: network.networkSelfLink,
+    redisHost: cache.host,
+    redisPort: cache.port,
+    dbConnectionName: database.connectionName,
+    dbHost: database.privateIpAddress,
+    dbName: database.dbName,
+    dbUser: database.dbUser,
+    dbPassword,
+  });
+
   return {
     apiUrl: pulumi.interpolate`https://${apiHost}`,
     appUrl: pulumi.interpolate`https://${appHost}`,
@@ -123,5 +135,7 @@ export function deployGcp(): DeploymentOutputs {
     redisHost: cache.host,
     imageRepositoryUrl: compute.artifactRegistryUrl,
     storageBucket: storage.bucketName,
+    recommendationEventQueue: recommendation.eventTopicId,
+    recommendationScorerEndpoint: recommendation.scorerFunctionUrl,
   };
 }

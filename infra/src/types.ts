@@ -19,4 +19,8 @@ export interface DeploymentOutputs {
   imageRepositoryUrl: pulumi.Output<string>;
   /** File storage bucket name. */
   storageBucket: pulumi.Output<string>;
+  /** Recommendation event queue URL (SQS) or topic ID (Pub/Sub). */
+  recommendationEventQueue: pulumi.Output<string>;
+  /** Recommendation scorer function ARN (Lambda) or URL (Cloud Function). */
+  recommendationScorerEndpoint: pulumi.Output<string>;
 }
