@@ -98,14 +98,14 @@ class SettingsScreen extends HookConsumerWidget {
             icon: Icons.description_outlined,
             title: 'Terms of Service',
             onTap: () {
-              // TODO: Navigate to Terms of Service.
+              // TODO(ifiokjr): Navigate to Terms of Service.
             },
           ),
           _SettingsNavTile(
             icon: Icons.privacy_tip_outlined,
             title: 'Privacy Policy',
             onTap: () {
-              // TODO: Navigate to Privacy Policy.
+              // TODO(ifiokjr): Navigate to Privacy Policy.
             },
           ),
           _SettingsNavTile(

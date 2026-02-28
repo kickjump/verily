@@ -109,7 +109,7 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
               onChanged: (value) {
                 hasExpiry.value = value;
                 if (value) {
-                  // TODO: Show date picker
+                  // TODO(ifiokjr): Show date picker
                 }
               },
             ),
@@ -142,7 +142,7 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
             // Create button
             VFilledButton(
               onPressed: () {
-                // TODO: Validate inputs and call RewardPoolEndpoint.create()
+                // TODO(ifiokjr): Validate inputs and call RewardPoolEndpoint.create()
               },
               child: const Text('Fund & Create Pool'),
             ),

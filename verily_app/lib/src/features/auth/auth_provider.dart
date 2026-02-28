@@ -16,6 +16,7 @@ sealed class AuthState {
 }
 
 /// The user is authenticated.
+@immutable
 class Authenticated extends AuthState {
   const Authenticated({
     required this.userId,

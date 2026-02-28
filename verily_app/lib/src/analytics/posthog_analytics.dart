@@ -19,8 +19,8 @@ bool get isPosthogConfigured => _posthogApiKey.isNotEmpty;
 
 /// Initializes the PostHog SDK.
 ///
-/// Must be called once during app startup, before [runApp].
-/// No-ops if [_posthogApiKey] is empty (e.g. in tests or local dev).
+/// Must be called once during app startup, before `runApp`.
+/// No-ops if the PostHog API key is empty (e.g. in tests or local dev).
 Future<void> initPosthog() async {
   if (!isPosthogConfigured) {
     VLogger('PostHog').info(
@@ -30,10 +30,10 @@ Future<void> initPosthog() async {
     return;
   }
 
-  final config = PostHogConfig(_posthogApiKey);
-  config.host = _posthogHost;
-  config.captureApplicationLifecycleEvents = true;
-  config.debug = kDebugMode;
+  final config = PostHogConfig(_posthogApiKey)
+    ..host = _posthogHost
+    ..captureApplicationLifecycleEvents = true
+    ..debug = kDebugMode;
 
   await Posthog().setup(config);
   VLogger('PostHog').info('PostHog initialized (host: $_posthogHost)');

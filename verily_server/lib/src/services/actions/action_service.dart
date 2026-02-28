@@ -113,7 +113,7 @@ class ActionService {
     int limit = 50,
     int offset = 0,
   }) async {
-    // TODO: Use generated where-clause builders once `serverpod generate` runs.
+    // TODO(ifiokjr): Use generated where-clause builders once `serverpod generate` runs.
     // For now we build a manual filter using the generated Action.t table.
     final where = Action.t.id.notEquals(null);
 
@@ -145,7 +145,7 @@ class ActionService {
     required String query,
     int limit = 20,
   }) async {
-    // TODO: Replace with full-text search or ILIKE once generated column
+    // TODO(ifiokjr): Replace with full-text search or ILIKE once generated column
     // references are available.
     final lowerQuery = query.toLowerCase();
     final all = await Action.db.find(
@@ -209,8 +209,9 @@ class ActionService {
     final action = await findById(session, id);
     _verifyOwnership(action, callerId);
 
-    action.status = 'archived';
-    action.updatedAt = DateTime.now().toUtc();
+    action
+      ..status = 'archived'
+      ..updatedAt = DateTime.now().toUtc();
     return Action.db.updateRow(session, action);
   }
 
@@ -230,7 +231,7 @@ class ActionService {
     _log.info('Deleted action id=$id');
   }
 
-  /// Verifies that [callerId] matches the action's [creatorId].
+  /// Verifies that [callerId] matches the action's `creatorId`.
   ///
   /// Throws [ForbiddenException] when they do not match.
   static void _verifyOwnership(Action action, UuidValue callerId) {

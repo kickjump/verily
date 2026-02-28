@@ -192,9 +192,9 @@ class SubmissionService {
     // Validate the status value.
     VerificationStatus.fromValue(status);
 
-    final submission = await findById(session, id);
-    submission.status = status;
-    submission.updatedAt = DateTime.now().toUtc();
+    final submission = await findById(session, id)
+      ..status = status
+      ..updatedAt = DateTime.now().toUtc();
 
     final updated = await ActionSubmission.db.updateRow(session, submission);
     _log.info('Submission id=$id status updated to $status');
@@ -305,7 +305,7 @@ class SubmissionService {
     Session session, {
     required int actionId,
   }) async {
-    // TODO: Replace with a raw SQL `COUNT(DISTINCT performer_id)` query for
+    // TODO(ifiokjr): Replace with a raw SQL `COUNT(DISTINCT performer_id)` query for
     // efficiency once raw query support is finalized.
     final submissions = await ActionSubmission.db.find(
       session,

@@ -72,8 +72,6 @@ abstract final class GradientTokens {
   );
 
   static const LinearGradient accentPill = LinearGradient(
-    begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
     colors: [Color(0xFFFFE37A), Color(0xFFFFC93A)],
   );
 }

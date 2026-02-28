@@ -136,7 +136,7 @@ class AttestationService {
   }) async {
     _requireStubMode(session, operation: 'Play Integrity verification');
 
-    // TODO: Call Google Play Integrity API to verify token:
+    // TODO(ifiokjr): Call Google Play Integrity API to verify token:
     // POST https://playintegrity.googleapis.com/v1/{packageName}:decodeIntegrityToken
     // With the integrityToken in the request body.
     //
@@ -154,7 +154,8 @@ class AttestationService {
       submissionId: submissionId,
       platform: 'android',
       attestationType: AttestationType.playIntegrity.value,
-      verified: true, // TODO: Actually verify
+      // TODO(ifiokjr): Actually verify
+      verified: true,
       rawResult: jsonEncode({'token': integrityToken, 'stub': true}),
       createdAt: DateTime.now().toUtc(),
     );
@@ -179,7 +180,7 @@ class AttestationService {
 
     _requireStubMode(session, operation: 'App Attest verification');
 
-    // TODO: Verify Apple App Attest:
+    // TODO(ifiokjr): Verify Apple App Attest:
     // 1. Decode CBOR attestation object
     // 2. Verify x5c certificate chain against Apple root CA
     // 3. Verify nonce in attestation matches our challenge
@@ -192,7 +193,8 @@ class AttestationService {
       submissionId: submissionId,
       platform: 'ios',
       attestationType: AttestationType.appAttest.value,
-      verified: true, // TODO: Actually verify
+      // TODO(ifiokjr): Actually verify
+      verified: true,
       rawResult: jsonEncode({'keyId': trimmedKeyId, 'stub': true}),
       createdAt: DateTime.now().toUtc(),
     );

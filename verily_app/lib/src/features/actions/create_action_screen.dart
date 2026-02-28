@@ -416,7 +416,7 @@ class _StepVerification extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // TODO: Replace with real categories from provider.
+    // TODO(ifiokjr): Replace with real categories from provider.
     final categories = [
       'Fitness',
       'Environment',

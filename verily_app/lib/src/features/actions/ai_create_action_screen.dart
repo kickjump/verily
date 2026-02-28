@@ -38,10 +38,7 @@ class AiCreateActionScreen extends HookConsumerWidget {
         ],
       ),
       body: generatedAction != null
-          ? _AiReviewView(
-              action: generatedAction,
-              onEdit: () => aiNotifier.reset(),
-            )
+          ? _AiReviewView(action: generatedAction, onEdit: aiNotifier.reset)
           : Padding(
               padding: const EdgeInsets.all(SpacingTokens.md),
               child: Column(
@@ -162,7 +159,7 @@ class AiCreateActionScreen extends HookConsumerWidget {
                           onPressed: () {
                             // Toggle speech-to-text
                             isListening.value = !isListening.value;
-                            // TODO: Wire to speech_to_text plugin
+                            // TODO(ifiokjr): Wire to speech_to_text plugin
                           },
                         ),
                       ),

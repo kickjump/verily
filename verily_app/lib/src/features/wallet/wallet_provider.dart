@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
 import 'package:verily_client/verily_client.dart';
@@ -44,8 +43,9 @@ class WalletManager extends _$WalletManager {
       final wallet = await client.solana.createWallet(label: label);
       state = AsyncData(wallet);
       // Invalidate wallet list and balance to refresh.
-      ref.invalidate(userWalletsProvider);
-      ref.invalidate(walletBalanceProvider);
+      ref
+        ..invalidate(userWalletsProvider)
+        ..invalidate(walletBalanceProvider);
     } on Exception catch (e, st) {
       state = AsyncError(e, st);
     }
@@ -61,8 +61,9 @@ class WalletManager extends _$WalletManager {
       final client = ref.read(serverpodClientProvider);
       final wallet = await client.solana.linkWallet(publicKey, label: label);
       state = AsyncData(wallet);
-      ref.invalidate(userWalletsProvider);
-      ref.invalidate(walletBalanceProvider);
+      ref
+        ..invalidate(userWalletsProvider)
+        ..invalidate(walletBalanceProvider);
     } on Exception catch (e, st) {
       state = AsyncError(e, st);
     }
@@ -75,8 +76,9 @@ class WalletManager extends _$WalletManager {
       final client = ref.read(serverpodClientProvider);
       final wallet = await client.solana.setDefaultWallet(walletId);
       state = AsyncData(wallet);
-      ref.invalidate(userWalletsProvider);
-      ref.invalidate(walletBalanceProvider);
+      ref
+        ..invalidate(userWalletsProvider)
+        ..invalidate(walletBalanceProvider);
     } on Exception catch (e, st) {
       state = AsyncError(e, st);
     }

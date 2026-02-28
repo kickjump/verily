@@ -113,7 +113,7 @@ class LocationService {
 
   /// Deletes a location by id.
   ///
-  /// Actions referencing this location will have their [locationId] set to
+  /// Actions referencing this location will have their `locationId` set to
   /// null via the `onDelete: setNull` relation.
   static Future<void> delete(Session session, int id) async {
     final location = await findById(session, id);
@@ -138,7 +138,7 @@ class LocationService {
   }) async {
     _validateCoordinates(latitude, longitude);
 
-    // TODO: When PostGIS extension is enabled, use a raw SQL query with
+    // TODO(ifiokjr): When PostGIS extension is enabled, use a raw SQL query with
     // ST_DWithin for accurate results on a sphere:
     //
     // SELECT *
@@ -158,32 +158,32 @@ class LocationService {
     // fetches all rows first, so it should be replaced with PostGIS for
     // production at scale.
     final all = await Location.db.find(session);
-    final nearby = all.where((loc) {
-      final distance = _haversineDistance(
-        latitude,
-        longitude,
-        loc.latitude,
-        loc.longitude,
-      );
-      return distance <= radiusMeters;
-    }).toList();
-
-    // Sort by distance ascending.
-    nearby.sort((a, b) {
-      final distA = _haversineDistance(
-        latitude,
-        longitude,
-        a.latitude,
-        a.longitude,
-      );
-      final distB = _haversineDistance(
-        latitude,
-        longitude,
-        b.latitude,
-        b.longitude,
-      );
-      return distA.compareTo(distB);
-    });
+    final nearby =
+        all.where((loc) {
+            final distance = _haversineDistance(
+              latitude,
+              longitude,
+              loc.latitude,
+              loc.longitude,
+            );
+            return distance <= radiusMeters;
+          }).toList()
+          // Sort by distance ascending.
+          ..sort((a, b) {
+            final distA = _haversineDistance(
+              latitude,
+              longitude,
+              a.latitude,
+              a.longitude,
+            );
+            final distB = _haversineDistance(
+              latitude,
+              longitude,
+              b.latitude,
+              b.longitude,
+            );
+            return distA.compareTo(distB);
+          });
 
     return nearby.take(limit).toList();
   }
@@ -191,7 +191,7 @@ class LocationService {
   /// Checks whether a given point is within the radius of a specific location.
   ///
   /// Returns `true` if the distance between the point and the location's
-  /// center is less than or equal to the location's [radiusMeters].
+  /// center is less than or equal to the location's `radiusMeters`.
   static Future<bool> isWithinLocation(
     Session session, {
     required int locationId,

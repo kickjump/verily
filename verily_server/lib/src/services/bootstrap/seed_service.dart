@@ -19,7 +19,7 @@ class SeedService {
 
   static final _log = VLogger('SeedService');
 
-  /// The [creatorId] used for system-created seed data.
+  /// The `creatorId` used for system-created seed data.
   ///
   /// This is a well-known UUID that identifies the "system" user. It does not
   /// correspond to a real authentication user.

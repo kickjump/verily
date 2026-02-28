@@ -13,6 +13,8 @@ class ThemeModeNotifier extends _$ThemeModeNotifier {
   material.ThemeMode build() => material.ThemeMode.system;
 
   /// Updates the theme mode preference.
+  // Riverpod notifiers expose methods, not setters.
+  // ignore: use_setters_to_change_properties
   void setThemeMode(material.ThemeMode mode) {
     state = mode;
   }

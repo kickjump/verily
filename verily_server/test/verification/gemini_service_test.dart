@@ -60,7 +60,7 @@ TestGeminiResponse parseResponse(String responseText) {
       structuredResult: jsonStr,
       modelUsed: modelName,
     );
-  } catch (e) {
+  } on Exception {
     return TestGeminiResponse(
       passed: false,
       confidenceScore: 0,
@@ -620,7 +620,8 @@ Here is my analysis:
 
         expect(result.structuredResult, isNotNull);
         // Should be parseable JSON.
-        final parsed = jsonDecode(result.structuredResult!);
+        final parsed =
+            jsonDecode(result.structuredResult!) as Map<String, dynamic>;
         expect(parsed['passed'], isTrue);
       });
     });
@@ -844,7 +845,7 @@ Here is my analysis:
   group('Confidence threshold integration', () {
     /// Replicates the logic from VerificationService.createFromGeminiResponse:
     /// passed = confidenceScore >= 0.7 && !spoofingDetected
-    bool shouldPass(double confidence, bool spoofing) {
+    bool shouldPass(double confidence, {required bool spoofing}) {
       return confidence >= 0.7 && !spoofing;
     }
 
@@ -861,7 +862,7 @@ Here is my analysis:
       final parsed = parseResponse(responseText);
       final wouldPass = shouldPass(
         parsed.confidenceScore,
-        parsed.spoofingDetected,
+        spoofing: parsed.spoofingDetected,
       );
 
       expect(wouldPass, isTrue);
@@ -880,7 +881,7 @@ Here is my analysis:
       final parsed = parseResponse(responseText);
       final wouldPass = shouldPass(
         parsed.confidenceScore,
-        parsed.spoofingDetected,
+        spoofing: parsed.spoofingDetected,
       );
 
       expect(wouldPass, isFalse);
@@ -900,7 +901,7 @@ Here is my analysis:
       final parsed = parseResponse(responseText);
       final wouldPass = shouldPass(
         parsed.confidenceScore,
-        parsed.spoofingDetected,
+        spoofing: parsed.spoofingDetected,
       );
 
       expect(wouldPass, isFalse);
@@ -919,7 +920,7 @@ Here is my analysis:
       final parsed = parseResponse(responseText);
       final wouldPass = shouldPass(
         parsed.confidenceScore,
-        parsed.spoofingDetected,
+        spoofing: parsed.spoofingDetected,
       );
 
       expect(wouldPass, isTrue);
@@ -938,7 +939,7 @@ Here is my analysis:
       final parsed = parseResponse(responseText);
       final wouldPass = shouldPass(
         parsed.confidenceScore,
-        parsed.spoofingDetected,
+        spoofing: parsed.spoofingDetected,
       );
 
       expect(wouldPass, isFalse);
@@ -950,7 +951,7 @@ Here is my analysis:
       final parsed = parseResponse(responseText);
       final wouldPass = shouldPass(
         parsed.confidenceScore,
-        parsed.spoofingDetected,
+        spoofing: parsed.spoofingDetected,
       );
 
       expect(wouldPass, isFalse);

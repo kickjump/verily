@@ -71,13 +71,14 @@ class SubmissionVerificationOrchestrator {
                 VerificationService.passingConfidenceThreshold &&
             !geminiResponse.spoofingDetected;
 
-        existing.passed = passed;
-        existing.confidenceScore = geminiResponse.confidenceScore;
-        existing.analysisText = geminiResponse.analysisText;
-        existing.spoofingDetected = geminiResponse.spoofingDetected;
-        existing.structuredResult = geminiResponse.structuredResult;
-        existing.modelUsed = geminiResponse.modelUsed;
-        existing.createdAt = DateTime.now().toUtc();
+        existing
+          ..passed = passed
+          ..confidenceScore = geminiResponse.confidenceScore
+          ..analysisText = geminiResponse.analysisText
+          ..spoofingDetected = geminiResponse.spoofingDetected
+          ..structuredResult = geminiResponse.structuredResult
+          ..modelUsed = geminiResponse.modelUsed
+          ..createdAt = DateTime.now().toUtc();
 
         final updated = await VerificationResult.db.updateRow(
           session,

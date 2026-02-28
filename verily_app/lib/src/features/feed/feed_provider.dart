@@ -2,7 +2,6 @@
 // ignore_for_file: experimental_member_use
 
 import 'package:flutter/foundation.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
 import 'package:verily_client/verily_client.dart';
@@ -26,6 +25,8 @@ class FeedFilterNotifier extends _$FeedFilterNotifier {
   @override
   FeedFilter build() => FeedFilter.nearby;
 
+  // Riverpod notifiers expose methods, not setters.
+  // ignore: use_setters_to_change_properties
   void select(FeedFilter filter) => state = filter;
 }
 
@@ -45,13 +46,13 @@ Future<List<Action>> feedActions(Ref ref) async {
     // Apply client-side filtering based on the selected filter.
     switch (filter) {
       case FeedFilter.nearby:
-        // TODO: Sort by distance once PostGIS queries are wired up.
+        // TODO(ifiokjr): Sort by distance once PostGIS queries are wired up.
         return actions;
       case FeedFilter.quick:
         // Filter for one-off actions (quick to complete).
         return actions.where((a) => a.actionType == 'one_off').toList();
       case FeedFilter.highReward:
-        // TODO: Sort by reward pool amount once reward pools are loaded.
+        // TODO(ifiokjr): Sort by reward pool amount once reward pools are loaded.
         return actions;
       case FeedFilter.all:
         return actions;

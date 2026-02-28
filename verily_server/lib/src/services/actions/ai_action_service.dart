@@ -126,7 +126,7 @@ Respond with ONLY valid JSON, no markdown formatting.
       }
 
       return _parseActionResponse(text);
-    } catch (e, stack) {
+    } on Exception catch (e, stack) {
       _log.severe('AI action generation error', e, stack);
       return null;
     }
@@ -170,7 +170,7 @@ Respond with ONLY the verification criteria text (2-4 sentences), no JSON.
 
       final response = await model.generateContent([Content.text(prompt)]);
       return response.text?.trim();
-    } catch (e, stack) {
+    } on Exception catch (e, stack) {
       _log.severe('AI verification criteria generation error', e, stack);
       return null;
     }
@@ -224,7 +224,7 @@ Respond with ONLY valid JSON, no markdown formatting.
 
       if (text == null || text.isEmpty) return null;
       return _parseStepsResponse(text);
-    } catch (e, stack) {
+    } on Exception catch (e, stack) {
       _log.severe('AI step generation error', e, stack);
       return null;
     }
@@ -245,7 +245,7 @@ Respond with ONLY valid JSON, no markdown formatting.
 
       final json = jsonDecode(jsonStr) as Map<String, dynamic>;
       return AiGeneratedAction.fromJson(json);
-    } catch (e) {
+    } on Exception catch (e) {
       _log.warning('Failed to parse AI action response: $e');
       return null;
     }
@@ -264,7 +264,7 @@ Respond with ONLY valid JSON, no markdown formatting.
       return jsonList
           .map((e) => AiGeneratedStep.fromJson(e as Map<String, dynamic>))
           .toList();
-    } catch (e) {
+    } on Exception catch (e) {
       _log.warning('Failed to parse AI steps response: $e');
       return null;
     }

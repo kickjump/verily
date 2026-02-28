@@ -43,7 +43,7 @@ class ActionCategoryService {
     return inserted;
   }
 
-  /// Returns all categories ordered by [sortOrder].
+  /// Returns all categories ordered by `sortOrder`.
   static Future<List<ActionCategory>> listAll(Session session) async {
     return ActionCategory.db.find(session, orderBy: (t) => t.sortOrder);
   }
@@ -103,7 +103,7 @@ class ActionCategoryService {
 
   /// Deletes a category by its primary key [id].
   ///
-  /// Actions referencing this category will have their [categoryId] set to
+  /// Actions referencing this category will have their `categoryId` set to
   /// null due to the `onDelete: setNull` relation.
   static Future<void> delete(Session session, int id) async {
     final category = await findById(session, id);

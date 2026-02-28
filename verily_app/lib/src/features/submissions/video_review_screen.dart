@@ -19,7 +19,7 @@ class VideoReviewScreen extends HookConsumerWidget {
     Future<void> submitVideo() async {
       isSubmitting.value = true;
       try {
-        // TODO: Upload video to Serverpod and create submission.
+        // TODO(ifiokjr): Upload video to Serverpod and create submission.
         await Future<void>.delayed(const Duration(seconds: 2));
         if (context.mounted) {
           context.go(
@@ -52,7 +52,7 @@ class VideoReviewScreen extends HookConsumerWidget {
             child: VVideoPlayer(
               aspectRatio: 9 / 16,
               onPlay: () {
-                // TODO: Play the recorded video.
+                // TODO(ifiokjr): Play the recorded video.
               },
             ),
           ),

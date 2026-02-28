@@ -132,8 +132,9 @@ class WalletScreen extends HookConsumerWidget {
                                   icon: Icons.refresh,
                                   label: 'Refresh',
                                   onTap: () {
-                                    ref.invalidate(walletBalanceProvider);
-                                    ref.invalidate(userWalletsProvider);
+                                    ref
+                                      ..invalidate(walletBalanceProvider)
+                                      ..invalidate(userWalletsProvider);
                                   },
                                 ),
                               ],
@@ -268,7 +269,7 @@ class WalletScreen extends HookConsumerWidget {
                                             const SizedBox(
                                               width: SpacingTokens.xs,
                                             ),
-                                            VBadgeChip(label: 'Default'),
+                                            const VBadgeChip(label: 'Default'),
                                           ],
                                         ],
                                       ),
@@ -493,8 +494,7 @@ class WalletScreen extends HookConsumerWidget {
   }
 
   void _showReceiveDialog(BuildContext context, WidgetRef ref) {
-    final walletsAsync = ref.read(userWalletsProvider);
-    walletsAsync.whenData((wallets) {
+    ref.read(userWalletsProvider).whenData((wallets) {
       final defaultWallet = wallets.where((w) => w.isDefault).firstOrNull;
       if (defaultWallet == null) return;
 

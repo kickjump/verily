@@ -1,8 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-// ignore: experimental_member_use
-import 'package:serverpod_client/serverpod_client.dart' show UuidValue;
 import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
 import 'package:verily_client/verily_client.dart';
 
@@ -51,8 +48,9 @@ class CreateAction extends _$CreateAction {
         habitFrequencyPerWeek: habitFrequencyPerWeek,
         habitTotalRequired: habitTotalRequired,
         tags: tags?.join(','),
+        // Serverpod models require UuidValue which is marked experimental.
         // ignore: experimental_member_use
-        creatorId: UuidValue.nil, // Server overrides from session
+        creatorId: UuidValue.fromString('00000000-0000-0000-0000-000000000000'),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );

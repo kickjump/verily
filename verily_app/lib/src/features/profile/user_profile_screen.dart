@@ -19,12 +19,12 @@ class UserProfileScreen extends HookConsumerWidget {
     final isFollowing = useState(false);
     final isLoadingFollow = useState(false);
 
-    // TODO: Fetch real user profile from provider using userId.
+    // TODO(ifiokjr): Fetch real user profile from provider using userId.
 
     Future<void> toggleFollow() async {
       isLoadingFollow.value = true;
       try {
-        // TODO: Follow/unfollow via Serverpod.
+        // TODO(ifiokjr): Follow/unfollow via Serverpod.
         await Future<void>.delayed(const Duration(milliseconds: 500));
         isFollowing.value = !isFollowing.value;
       } on Exception {
@@ -45,7 +45,7 @@ class UserProfileScreen extends HookConsumerWidget {
           IconButton(
             icon: const Icon(Icons.more_vert),
             onPressed: () {
-              // TODO: Show report / block options.
+              // TODO(ifiokjr): Show report / block options.
             },
           ),
         ],
@@ -210,7 +210,7 @@ class _PublicActionsTab extends HookWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    // TODO: Replace with real data from provider.
+    // TODO(ifiokjr): Replace with real data from provider.
     return ListView.builder(
       padding: const EdgeInsets.all(SpacingTokens.md),
       itemCount: 6,
@@ -267,7 +267,7 @@ class _PublicBadgesTab extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // TODO: Replace with real data from provider.
+    // TODO(ifiokjr): Replace with real data from provider.
     final badges = [
       ('First Action', Icons.stars_outlined, ColorTokens.secondary),
       ('Team Player', Icons.groups_outlined, ColorTokens.tertiary),

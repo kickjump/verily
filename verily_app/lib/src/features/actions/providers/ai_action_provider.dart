@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
 import 'package:verily_core/verily_core.dart';

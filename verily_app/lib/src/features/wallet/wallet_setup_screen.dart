@@ -59,7 +59,7 @@ class WalletSetupScreen extends HookConsumerWidget {
                   ? null
                   : () {
                       isCreating.value = true;
-                      // TODO: Call SolanaEndpoint.createWallet()
+                      // TODO(ifiokjr): Call SolanaEndpoint.createWallet()
                       // Then navigate to wallet screen
                     },
               child: isCreating.value
@@ -75,7 +75,7 @@ class WalletSetupScreen extends HookConsumerWidget {
             // Link existing wallet
             VOutlinedButton(
               onPressed: () {
-                // TODO: Show dialog to enter public key
+                // TODO(ifiokjr): Show dialog to enter public key
               },
               child: const Text('Link Existing Wallet'),
             ),
@@ -85,7 +85,7 @@ class WalletSetupScreen extends HookConsumerWidget {
             // Skip for now
             VTextButton(
               onPressed: () {
-                // TODO: Navigate to feed, skip wallet setup
+                // TODO(ifiokjr): Navigate to feed, skip wallet setup
               },
               child: const Text('Skip for now'),
             ),

@@ -187,7 +187,7 @@ class RewardService {
     Session session, {
     int limit = 50,
   }) async {
-    // TODO: For production, replace with a raw SQL query that JOINs
+    // TODO(ifiokjr): For production, replace with a raw SQL query that JOINs
     // user_reward with reward and GROUP BY userId, SUM(pointValue),
     // for much better performance:
     //
