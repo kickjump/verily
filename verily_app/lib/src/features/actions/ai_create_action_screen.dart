@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/actions/providers/ai_action_provider.dart';
+import 'package:verily_app/src/features/actions/providers/create_action_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_core/verily_core.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -40,11 +41,6 @@ class AiCreateActionScreen extends HookConsumerWidget {
           ? _AiReviewView(
               action: generatedAction,
               onEdit: () => aiNotifier.reset(),
-              onConfirm: () {
-                // Navigate to the manual create screen with pre-filled data
-                // For now, we show success and go back
-                context.push(RouteNames.createActionPath);
-              },
             )
           : Padding(
               padding: const EdgeInsets.all(SpacingTokens.md),
@@ -217,21 +213,47 @@ class AiCreateActionScreen extends HookConsumerWidget {
 }
 
 /// Shows the AI-generated action for review before creating.
-class _AiReviewView extends HookWidget {
-  const _AiReviewView({
-    required this.action,
-    required this.onEdit,
-    required this.onConfirm,
-  });
+class _AiReviewView extends HookConsumerWidget {
+  const _AiReviewView({required this.action, required this.onEdit});
 
   final AiGeneratedAction action;
   final VoidCallback onEdit;
-  final VoidCallback onConfirm;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final createState = ref.watch(createActionProvider);
+    final isSubmitting = createState.isLoading;
+
+    Future<void> onConfirm() async {
+      final created = await ref
+          .read(createActionProvider.notifier)
+          .submit(
+            title: action.title,
+            description: action.description,
+            actionType: action.actionType,
+            verificationCriteria: action.verificationCriteria,
+            category: action.suggestedCategory,
+            tags: action.suggestedTags,
+            locationName: action.suggestedLocation?.name,
+            locationLat: action.suggestedLocation?.latitude,
+            locationLng: action.suggestedLocation?.longitude,
+            locationRadius: action.suggestedLocation?.suggestedRadiusMeters,
+            stepOrdering: action.stepOrdering,
+            totalSteps: action.suggestedSteps,
+            habitDurationDays: action.habitDurationDays,
+            habitFrequencyPerWeek: action.habitFrequencyPerWeek,
+            habitTotalRequired: action.habitTotalRequired,
+            maxPerformers: action.suggestedMaxPerformers,
+          );
+      if (created != null && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Action created successfully!')),
+        );
+        context.go(RouteNames.feedPath);
+      }
+    }
 
     return Column(
       children: [
@@ -467,7 +489,8 @@ class _AiReviewView extends HookWidget {
                 Expanded(
                   flex: 2,
                   child: VFilledButton(
-                    onPressed: onConfirm,
+                    isLoading: isSubmitting,
+                    onPressed: isSubmitting ? null : onConfirm,
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

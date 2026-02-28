@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
+import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_ui/verily_ui.dart';
 
 /// Main feed screen showing nearby and trending actions.
@@ -12,14 +14,7 @@ class FeedScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tabController = useTabController(initialLength: 2);
-    final isRefreshing = useState(false);
-
-    Future<void> onRefresh() async {
-      isRefreshing.value = true;
-      // TODO: Refresh feed data from Serverpod.
-      await Future<void>.delayed(const Duration(seconds: 1));
-      isRefreshing.value = false;
-    }
+    final actionsAsync = ref.watch(feedActionsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -31,9 +26,7 @@ class FeedScreen extends HookConsumerWidget {
           ),
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {
-              // TODO: Navigate to notifications.
-            },
+            onPressed: () {},
           ),
         ],
         bottom: TabBar(
@@ -49,7 +42,8 @@ class FeedScreen extends HookConsumerWidget {
         children: [
           // Nearby tab
           _FeedList(
-            onRefresh: onRefresh,
+            actionsAsync: actionsAsync,
+            onRefresh: () => ref.invalidate(feedActionsProvider),
             emptyIcon: Icons.location_on_outlined,
             emptyTitle: 'No actions nearby',
             emptySubtitle: 'Enable location to see actions around you',
@@ -57,7 +51,8 @@ class FeedScreen extends HookConsumerWidget {
 
           // Trending tab
           _FeedList(
-            onRefresh: onRefresh,
+            actionsAsync: actionsAsync,
+            onRefresh: () => ref.invalidate(feedActionsProvider),
             emptyIcon: Icons.trending_up,
             emptyTitle: 'No trending actions',
             emptySubtitle: 'Check back later for popular actions',
@@ -76,13 +71,15 @@ class FeedScreen extends HookConsumerWidget {
 /// A scrollable, pull-to-refresh list of action cards.
 class _FeedList extends HookWidget {
   const _FeedList({
+    required this.actionsAsync,
     required this.onRefresh,
     required this.emptyIcon,
     required this.emptyTitle,
     required this.emptySubtitle,
   });
 
-  final Future<void> Function() onRefresh;
+  final AsyncValue<List<vc.Action>> actionsAsync;
+  final VoidCallback onRefresh;
   final IconData emptyIcon;
   final String emptyTitle;
   final String emptySubtitle;
@@ -92,82 +89,91 @@ class _FeedList extends HookWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    // TODO: Replace with real data from provider.
-    final hasData = useState(true);
-
-    if (!hasData.value) {
-      return Center(
+    return actionsAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, _) => Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(emptyIcon, size: 64, color: colorScheme.onSurfaceVariant),
+            Icon(Icons.error_outline, size: 64, color: colorScheme.error),
             const SizedBox(height: SpacingTokens.md),
             Text(
-              emptyTitle,
+              'Failed to load actions',
               style: theme.textTheme.titleMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
+                color: colorScheme.error,
               ),
             ),
-            const SizedBox(height: SpacingTokens.xs),
-            Text(
-              emptySubtitle,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ),
+            const SizedBox(height: SpacingTokens.md),
+            FilledButton(onPressed: onRefresh, child: const Text('Retry')),
           ],
         ),
-      );
-    }
-
-    return RefreshIndicator(
-      onRefresh: onRefresh,
-      child: ListView.builder(
-        padding: const EdgeInsets.all(SpacingTokens.md),
-        itemCount: 10,
-        itemBuilder: (context, index) => _ActionFeedCard(index: index),
       ),
+      data: (actions) {
+        if (actions.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(emptyIcon, size: 64, color: colorScheme.onSurfaceVariant),
+                const SizedBox(height: SpacingTokens.md),
+                Text(
+                  emptyTitle,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(height: SpacingTokens.xs),
+                Text(
+                  emptySubtitle,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return RefreshIndicator(
+          onRefresh: () async => onRefresh(),
+          child: ListView.builder(
+            padding: const EdgeInsets.all(SpacingTokens.md),
+            itemCount: actions.length,
+            itemBuilder: (context, index) =>
+                _ActionFeedCard(action: actions[index]),
+          ),
+        );
+      },
     );
   }
 }
 
 /// A single action card displayed in the feed.
 class _ActionFeedCard extends HookWidget {
-  const _ActionFeedCard({required this.index});
+  const _ActionFeedCard({required this.action});
 
-  final int index;
+  final vc.Action action;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    // Placeholder data. TODO: Replace with real action model.
-    final categories = [
-      'Fitness',
-      'Environment',
-      'Community',
-      'Education',
-      'Wellness',
-    ];
-    final titles = [
-      'Do 20 push-ups in the park',
-      'Pick up litter on your street',
-      'Help a neighbor carry groceries',
-      'Read a chapter of a book aloud',
-      'Meditate for 10 minutes outdoors',
-      'Plant a tree in your garden',
-      'Run a full mile without stopping',
-      'Teach someone a new skill',
-      'Clean a public bench',
-      'Do yoga in the morning sun',
-    ];
+    final typeLabel = switch (action.actionType) {
+      'one_off' => 'One-Off',
+      'sequential' => 'Sequential',
+      'habit' => 'Habit',
+      _ => action.actionType,
+    };
+    final typeColor = action.actionType == 'one_off'
+        ? ColorTokens.primary
+        : ColorTokens.tertiary;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
       child: VCard(
         onTap: () => context.push(
-          RouteNames.actionDetailPath.replaceFirst(':actionId', '$index'),
+          RouteNames.actionDetailPath.replaceFirst(':actionId', '${action.id}'),
         ),
         padding: const EdgeInsets.all(SpacingTokens.md),
         child: Column(
@@ -182,39 +188,18 @@ class _ActionFeedCard extends HookWidget {
                     spacing: SpacingTokens.sm,
                     runSpacing: SpacingTokens.xs,
                     children: [
+                      if (action.tags != null && action.tags!.isNotEmpty)
+                        VBadgeChip(
+                          label: action.tags!.split(',').first.trim(),
+                          icon: Icons.category_outlined,
+                        ),
                       VBadgeChip(
-                        label: categories[index % categories.length],
-                        icon: Icons.category_outlined,
-                      ),
-                      VBadgeChip(
-                        label: index.isEven ? 'One-Off' : 'Sequential',
-                        backgroundColor: index.isEven
-                            ? ColorTokens.primary.withAlpha(30)
-                            : ColorTokens.tertiary.withAlpha(30),
-                        foregroundColor: index.isEven
-                            ? ColorTokens.primary
-                            : ColorTokens.tertiary,
+                        label: typeLabel,
+                        backgroundColor: typeColor.withAlpha(30),
+                        foregroundColor: typeColor,
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(width: SpacingTokens.sm),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.location_on_outlined,
-                      size: 16,
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                    const SizedBox(width: SpacingTokens.xs),
-                    Text(
-                      '${(index + 1) * 0.3} mi',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
@@ -222,7 +207,7 @@ class _ActionFeedCard extends HookWidget {
 
             // Title
             Text(
-              titles[index % titles.length],
+              action.title,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -231,8 +216,7 @@ class _ActionFeedCard extends HookWidget {
 
             // Description excerpt
             Text(
-              'Complete this action and submit a video for AI verification '
-              'to earn rewards and badges.',
+              action.description,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),
@@ -241,18 +225,27 @@ class _ActionFeedCard extends HookWidget {
             ),
             const SizedBox(height: SpacingTokens.sm),
 
-            // Footer: creator and reward
+            // Footer: tags and type
             Row(
               children: [
-                VAvatar(initials: 'U${index % 5}', radius: 12),
-                const SizedBox(width: SpacingTokens.xs),
-                Text(
-                  'user_$index',
-                  style: theme.textTheme.labelSmall?.copyWith(
+                if (action.tags != null && action.tags!.isNotEmpty) ...[
+                  Icon(
+                    Icons.label_outline,
+                    size: 14,
                     color: colorScheme.onSurfaceVariant,
                   ),
-                ),
-                const Spacer(),
+                  const SizedBox(width: SpacingTokens.xs),
+                  Expanded(
+                    child: Text(
+                      action.tags!.split(',').take(3).join(', '),
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ] else
+                  const Spacer(),
                 const Icon(
                   Icons.emoji_events_outlined,
                   size: 16,
@@ -260,7 +253,7 @@ class _ActionFeedCard extends HookWidget {
                 ),
                 const SizedBox(width: SpacingTokens.xs),
                 Text(
-                  '${(index + 1) * 50} pts',
+                  'Earn rewards',
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: ColorTokens.secondary,
                     fontWeight: FontWeight.bold,

@@ -118,4 +118,4 @@ final class FeedActionsProvider
   }
 }
 
-String _$feedActionsHash() => r'578477917e3111acbbb8345defb68b832d3792ee';
+String _$feedActionsHash() => r'ac129b759067543547ef6ecd9cdb10bc9b7309b6';

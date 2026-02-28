@@ -3,7 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/actions/providers/active_action_provider.dart';
+import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
+import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_ui/verily_ui.dart';
 
 /// Primary home experience with personalized action discovery.
@@ -24,48 +26,9 @@ class HomeScreen extends HookConsumerWidget {
         ? 0.0
         : _locationProgressFromDistance(activeAction.distanceFromNextLocation);
 
+    final actionsAsync = ref.watch(feedActionsProvider);
+
     const filters = ['Nearby', 'Quick', 'High Reward'];
-    const featuredActions = [
-      _ActionPreview(
-        id: '101',
-        title: 'Record 20 push-ups at a local park',
-        subtitle: 'Fitness',
-        distance: '0.4 mi',
-        reward: '120 pts',
-        nextLocationLabel: 'Memorial Park Track',
-        verificationChecklist: [
-          'Show your full body in frame while doing all reps.',
-          'Capture ambient park audio from start to finish.',
-          'Pan camera to the track sign before ending recording.',
-        ],
-      ),
-      _ActionPreview(
-        id: '102',
-        title: 'Capture a 30s cleanup clip on your street',
-        subtitle: 'Environment',
-        distance: '0.8 mi',
-        reward: '95 pts',
-        nextLocationLabel: 'Oak Street Corner',
-        verificationChecklist: [
-          'Record litter before and after cleanup.',
-          'Keep gloves and collection bag visible in video.',
-          'Show street name sign in the first 10 seconds.',
-        ],
-      ),
-      _ActionPreview(
-        id: '103',
-        title: 'Film a 1 minute kindness action',
-        subtitle: 'Community',
-        distance: '1.1 mi',
-        reward: '140 pts',
-        nextLocationLabel: 'Community Center Entrance',
-        verificationChecklist: [
-          'Clearly show the positive interaction in one take.',
-          'Capture consent-friendly angle with no private details.',
-          'Show the community center sign before wrapping up.',
-        ],
-      ),
-    ];
 
     final isDark = theme.brightness == Brightness.dark;
     final onBackground = isDark ? Colors.white : ColorTokens.ink;
@@ -133,7 +96,7 @@ class HomeScreen extends HookConsumerWidget {
                         ),
                         const SizedBox(width: SpacingTokens.xs),
                         Text(
-                          'Austin, TX',
+                          'Nearby',
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: onBackground,
                             fontWeight: FontWeight.w700,
@@ -223,11 +186,18 @@ class HomeScreen extends HookConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: SpacingTokens.lg),
-                      const Row(
+                      Row(
                         children: [
-                          _StatPill(label: 'Verified', value: '42'),
-                          SizedBox(width: SpacingTokens.sm),
-                          _StatPill(label: 'Streak', value: '7 days'),
+                          _StatPill(
+                            label: 'Available',
+                            value: actionsAsync.when(
+                              data: (actions) => '${actions.length}',
+                              loading: () => '...',
+                              error: (_, __) => '0',
+                            ),
+                          ),
+                          const SizedBox(width: SpacingTokens.sm),
+                          const _StatPill(label: 'Streak', value: '0 days'),
                         ],
                       ),
                       const SizedBox(height: SpacingTokens.md),
@@ -254,7 +224,12 @@ class HomeScreen extends HookConsumerWidget {
                             const SizedBox(width: SpacingTokens.xs),
                             Expanded(
                               child: Text(
-                                '3 active action zones within 1 mile',
+                                actionsAsync.when(
+                                  data: (actions) =>
+                                      '${actions.length} active actions available',
+                                  loading: () => 'Loading actions...',
+                                  error: (_, __) => 'Could not load actions',
+                                ),
                                 style: theme.textTheme.labelMedium?.copyWith(
                                   color: onBackgroundMuted,
                                   fontWeight: FontWeight.w600,
@@ -303,7 +278,17 @@ class HomeScreen extends HookConsumerWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(RadiusTokens.md),
                       ),
-                      onSelected: (_) => selectedFilter.value = filter,
+                      onSelected: (_) {
+                        selectedFilter.value = filter;
+                        final feedFilter = switch (filter) {
+                          'Quick' => FeedFilter.quick,
+                          'High Reward' => FeedFilter.highReward,
+                          _ => FeedFilter.nearby,
+                        };
+                        ref
+                            .read(feedFilterProvider.notifier)
+                            .select(feedFilter);
+                      },
                     ),
                 ],
               ),
@@ -452,27 +437,52 @@ class HomeScreen extends HookConsumerWidget {
                 ),
               ),
             ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 236,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: SpacingTokens.lg,
+          // Featured actions carousel — from server data
+          actionsAsync.when(
+            loading: () => const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 236,
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            ),
+            error: (_, __) =>
+                const SliverToBoxAdapter(child: SizedBox(height: 236)),
+            data: (actions) => SliverToBoxAdapter(
+              child: SizedBox(
+                height: 236,
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: SpacingTokens.lg,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final action = actions[index];
+                    final isActive = activeAction?.actionId == '${action.id}';
+                    return _FeaturedActionCard(
+                      action: action,
+                      isActive: isActive,
+                      onToggleActive: () {
+                        final criteria = action.verificationCriteria
+                            .split('\n')
+                            .where((l) => l.trim().isNotEmpty)
+                            .map((l) => l.replaceFirst(RegExp(r'^[-•]\s*'), ''))
+                            .toList();
+                        activeActionController.toggle(
+                          ActiveAction(
+                            actionId: '${action.id}',
+                            title: action.title,
+                            nextLocationLabel: 'Nearby',
+                            distanceFromNextLocation: 'Nearby',
+                            verificationChecklist: criteria,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (_, __) =>
+                      const SizedBox(width: SpacingTokens.md),
+                  itemCount: actions.length.clamp(0, 5),
                 ),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final action = featuredActions[index];
-                  return _FeaturedActionCard(
-                    action: action,
-                    isActive: activeAction?.actionId == action.id,
-                    onToggleActive: () {
-                      activeActionController.toggle(action.toActiveAction());
-                    },
-                  );
-                },
-                separatorBuilder: (_, __) =>
-                    const SizedBox(width: SpacingTokens.md),
-                itemCount: featuredActions.length,
               ),
             ),
           ),
@@ -485,7 +495,7 @@ class HomeScreen extends HookConsumerWidget {
                 SpacingTokens.sm,
               ),
               child: Text(
-                'Nearby right now',
+                'All actions',
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w700,
                   color: onBackground,
@@ -493,110 +503,151 @@ class HomeScreen extends HookConsumerWidget {
               ),
             ),
           ),
-          SliverList.builder(
-            itemCount: featuredActions.length,
-            itemBuilder: (context, index) {
-              final action = featuredActions[index];
-              final isActive = activeAction?.actionId == action.id;
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  SpacingTokens.lg,
-                  0,
-                  SpacingTokens.lg,
-                  SpacingTokens.sm,
+          // List of all actions — from server data
+          actionsAsync.when(
+            loading: () => const SliverToBoxAdapter(
+              child: Center(child: CircularProgressIndicator()),
+            ),
+            error: (_, __) => SliverToBoxAdapter(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(SpacingTokens.lg),
+                  child: FilledButton(
+                    onPressed: () => ref.invalidate(feedActionsProvider),
+                    child: const Text('Retry'),
+                  ),
                 ),
-                child: VCard(
-                  onTap: () {
-                    context.push(
-                      RouteNames.actionDetailPath.replaceFirst(
-                        ':actionId',
-                        action.id,
-                      ),
-                    );
-                  },
-                  padding: const EdgeInsets.all(SpacingTokens.md),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(RadiusTokens.md),
-                          gradient: const LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Color(0xFF194A95), Color(0xFF10346A)],
+              ),
+            ),
+            data: (actions) => SliverList.builder(
+              itemCount: actions.length,
+              itemBuilder: (context, index) {
+                final action = actions[index];
+                final isActive = activeAction?.actionId == '${action.id}';
+                final typeLabel = switch (action.actionType) {
+                  'one_off' => 'One-Off',
+                  'sequential' => 'Sequential',
+                  'habit' => 'Habit',
+                  _ => action.actionType,
+                };
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    SpacingTokens.lg,
+                    0,
+                    SpacingTokens.lg,
+                    SpacingTokens.sm,
+                  ),
+                  child: VCard(
+                    onTap: () {
+                      context.push(
+                        RouteNames.actionDetailPath.replaceFirst(
+                          ':actionId',
+                          '${action.id}',
+                        ),
+                      );
+                    },
+                    padding: const EdgeInsets.all(SpacingTokens.md),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              RadiusTokens.md,
+                            ),
+                            gradient: const LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Color(0xFF194A95), Color(0xFF10346A)],
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.verified_outlined,
+                            color: Colors.white,
                           ),
                         ),
-                        child: const Icon(
-                          Icons.verified_outlined,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(width: SpacingTokens.md),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              action.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w700,
+                        const SizedBox(width: SpacingTokens.md),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                action.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: SpacingTokens.xs),
-                            Text(
-                              '${action.subtitle} • ${action.distance}',
-                              style: theme.textTheme.bodySmall,
-                            ),
-                          ],
+                              const SizedBox(height: SpacingTokens.xs),
+                              Text(
+                                '${action.tags?.split(',').first.trim() ?? typeLabel} • ${"Anywhere"}',
+                                style: theme.textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: SpacingTokens.sm),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          VBadgeChip(label: action.reward),
-                          const SizedBox(height: SpacingTokens.xs),
-                          TextButton.icon(
-                            key: Key('home_list_setActive_${action.id}'),
-                            onPressed: () {
-                              activeActionController.toggle(
-                                action.toActiveAction(),
-                              );
-                            },
-                            icon: Icon(
-                              isActive
-                                  ? Icons.check_circle
-                                  : Icons.playlist_add_check_circle_outlined,
-                              size: 16,
-                            ),
-                            label: Text(isActive ? 'Active' : 'Set Active'),
-                            style: TextButton.styleFrom(
-                              foregroundColor: isActive
-                                  ? theme.colorScheme.primary
-                                  : theme.colorScheme.onSurfaceVariant,
-                              backgroundColor: isActive
-                                  ? theme.colorScheme.primaryContainer
-                                        .withValues(alpha: 0.42)
-                                  : theme.colorScheme.surfaceContainerHighest
-                                        .withValues(alpha: 0.55),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  RadiusTokens.md,
+                        const SizedBox(width: SpacingTokens.sm),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            VBadgeChip(label: typeLabel),
+                            const SizedBox(height: SpacingTokens.xs),
+                            TextButton.icon(
+                              key: Key('home_list_setActive_${action.id}'),
+                              onPressed: () {
+                                final criteria = action.verificationCriteria
+                                    .split('\n')
+                                    .where((l) => l.trim().isNotEmpty)
+                                    .map(
+                                      (l) => l.replaceFirst(
+                                        RegExp(r'^[-•]\s*'),
+                                        '',
+                                      ),
+                                    )
+                                    .toList();
+                                activeActionController.toggle(
+                                  ActiveAction(
+                                    actionId: '${action.id}',
+                                    title: action.title,
+                                    nextLocationLabel: 'Nearby',
+                                    distanceFromNextLocation: 'Nearby',
+                                    verificationChecklist: criteria,
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                isActive
+                                    ? Icons.check_circle
+                                    : Icons.playlist_add_check_circle_outlined,
+                                size: 16,
+                              ),
+                              label: Text(isActive ? 'Active' : 'Set Active'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: isActive
+                                    ? theme.colorScheme.primary
+                                    : theme.colorScheme.onSurfaceVariant,
+                                backgroundColor: isActive
+                                    ? theme.colorScheme.primaryContainer
+                                          .withValues(alpha: 0.42)
+                                    : theme.colorScheme.surfaceContainerHighest
+                                          .withValues(alpha: 0.55),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    RadiusTokens.md,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -675,7 +726,7 @@ class _FeaturedActionCard extends HookWidget {
     required this.onToggleActive,
   });
 
-  final _ActionPreview action;
+  final vc.Action action;
   final bool isActive;
   final VoidCallback onToggleActive;
 
@@ -685,12 +736,22 @@ class _FeaturedActionCard extends HookWidget {
     final colorScheme = theme.colorScheme;
     final rewardColor = colorScheme.secondary;
 
+    final typeLabel = switch (action.actionType) {
+      'one_off' => 'One-Off',
+      'sequential' => 'Sequential',
+      'habit' => 'Habit',
+      _ => action.actionType,
+    };
+
     return SizedBox(
       width: 280,
       child: VCard(
         onTap: () {
           context.push(
-            RouteNames.actionDetailPath.replaceFirst(':actionId', action.id),
+            RouteNames.actionDetailPath.replaceFirst(
+              ':actionId',
+              '${action.id}',
+            ),
           );
         },
         padding: const EdgeInsets.all(SpacingTokens.md),
@@ -736,10 +797,12 @@ class _FeaturedActionCard extends HookWidget {
             const SizedBox(height: SpacingTokens.sm),
             Row(
               children: [
-                VBadgeChip(label: action.subtitle),
+                VBadgeChip(
+                  label: action.tags?.split(',').first.trim() ?? typeLabel,
+                ),
                 const Spacer(),
                 Text(
-                  action.distance,
+                  'Anywhere',
                   style: theme.textTheme.labelMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
@@ -761,7 +824,7 @@ class _FeaturedActionCard extends HookWidget {
                 Icon(Icons.emoji_events_outlined, size: 18, color: rewardColor),
                 const SizedBox(width: SpacingTokens.xs),
                 Text(
-                  action.reward,
+                  'Earn rewards',
                   style: theme.textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                     color: colorScheme.onSurface,
@@ -866,36 +929,6 @@ class _StatPill extends HookWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _ActionPreview {
-  const _ActionPreview({
-    required this.id,
-    required this.title,
-    required this.subtitle,
-    required this.distance,
-    required this.reward,
-    required this.nextLocationLabel,
-    required this.verificationChecklist,
-  });
-
-  final String id;
-  final String title;
-  final String subtitle;
-  final String distance;
-  final String reward;
-  final String nextLocationLabel;
-  final List<String> verificationChecklist;
-
-  ActiveAction toActiveAction() {
-    return ActiveAction(
-      actionId: id,
-      title: title,
-      nextLocationLabel: nextLocationLabel,
-      distanceFromNextLocation: distance,
-      verificationChecklist: verificationChecklist,
     );
   }
 }

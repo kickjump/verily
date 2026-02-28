@@ -43,7 +43,14 @@ class CreateAction extends _$CreateAction {
         actionType: actionType,
         verificationCriteria: verificationCriteria,
         status: 'active',
+        maxPerformers: maxPerformers,
+        locationRadius: locationRadius,
+        stepOrdering: stepOrdering,
         totalSteps: totalSteps ?? 1,
+        habitDurationDays: habitDurationDays,
+        habitFrequencyPerWeek: habitFrequencyPerWeek,
+        habitTotalRequired: habitTotalRequired,
+        tags: tags?.join(','),
         // ignore: experimental_member_use
         creatorId: UuidValue.nil, // Server overrides from session
         createdAt: DateTime.now(),
