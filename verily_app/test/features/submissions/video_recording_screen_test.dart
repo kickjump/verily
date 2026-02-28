@@ -15,7 +15,7 @@ void main() {
       await pumpVideoRecordingScreen(tester);
 
       expect(find.text('Camera Preview'), findsOneWidget);
-      expect(find.text('Camera integration pending'), findsOneWidget);
+      expect(find.text('Tap record to open camera'), findsOneWidget);
       // Default is rear camera
       expect(find.byIcon(Icons.camera_rear), findsOneWidget);
     });

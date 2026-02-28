@@ -139,7 +139,8 @@ GoRouter appRouter(Ref ref) {
         name: RouteNames.videoReview,
         builder: (context, state) {
           final actionId = state.pathParameters['actionId']!;
-          return VideoReviewScreen(actionId: actionId);
+          final videoPath = state.extra as String?;
+          return VideoReviewScreen(actionId: actionId, videoPath: videoPath);
         },
       ),
       GoRoute(
@@ -147,7 +148,11 @@ GoRouter appRouter(Ref ref) {
         name: RouteNames.submissionStatus,
         builder: (context, state) {
           final actionId = state.pathParameters['actionId']!;
-          return SubmissionStatusScreen(actionId: actionId);
+          final submissionId = state.extra as int?;
+          return SubmissionStatusScreen(
+            actionId: actionId,
+            submissionId: submissionId,
+          );
         },
       ),
       GoRoute(

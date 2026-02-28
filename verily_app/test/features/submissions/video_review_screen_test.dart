@@ -15,13 +15,15 @@ void main() {
       expect(find.text('Review Video'), findsOneWidget);
     });
 
-    testWidgets('renders video player widget', (tester) async {
+    testWidgets('renders video metadata items', (tester) async {
       await pumpVideoReviewScreen(tester);
 
-      // VVideoPlayer is the custom video player widget.
-      // We verify it is present by looking for video metadata hints.
-      expect(find.text('Duration'), findsOneWidget);
-      expect(find.text('0:32'), findsOneWidget);
+      expect(find.text('File Size'), findsOneWidget);
+      expect(find.text('Unknown'), findsOneWidget);
+      expect(find.text('Location'), findsOneWidget);
+      expect(find.text('GPS coordinates captured'), findsOneWidget);
+      expect(find.text('Video'), findsOneWidget);
+      expect(find.text('No video'), findsOneWidget);
     });
 
     testWidgets('renders Retake button', (tester) async {
@@ -38,23 +40,25 @@ void main() {
       expect(find.byIcon(Icons.send), findsOneWidget);
     });
 
-    testWidgets('renders video metadata items', (tester) async {
-      await pumpVideoReviewScreen(tester);
-
-      expect(find.text('Duration'), findsOneWidget);
-      expect(find.text('0:32'), findsOneWidget);
-      expect(find.text('Location'), findsOneWidget);
-      expect(find.text('GPS coordinates captured'), findsOneWidget);
-      expect(find.text('Quality'), findsOneWidget);
-      expect(find.text('1080p'), findsOneWidget);
-    });
-
     testWidgets('renders metadata icons', (tester) async {
       await pumpVideoReviewScreen(tester);
 
-      expect(find.byIcon(Icons.timer_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.storage_outlined), findsOneWidget);
       expect(find.byIcon(Icons.gps_fixed), findsOneWidget);
-      expect(find.byIcon(Icons.high_quality_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.videocam_outlined), findsOneWidget);
+    });
+
+    testWidgets('shows ready state when video path is provided', (
+      tester,
+    ) async {
+      await tester.pumpApp(
+        const VideoReviewScreen(
+          actionId: 'test_action_1',
+          videoPath: '/tmp/test_video.mp4',
+        ),
+      );
+
+      expect(find.text('Ready'), findsOneWidget);
     });
   });
 }
