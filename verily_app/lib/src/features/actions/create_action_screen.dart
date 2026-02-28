@@ -150,6 +150,7 @@ class CreateActionScreen extends HookConsumerWidget {
                 locationLatLng: locationLatLng,
                 locationRadius: locationRadius,
                 maxPerformersController: maxPerformersController,
+                onJumpToStep: (step) => currentStep.value = step,
               ),
             ),
           ),
@@ -204,6 +205,7 @@ class CreateActionScreen extends HookConsumerWidget {
     required ValueNotifier<LatLng?> locationLatLng,
     required ValueNotifier<double> locationRadius,
     required TextEditingController maxPerformersController,
+    required ValueChanged<int> onJumpToStep,
   }) {
     switch (currentStep) {
       case 0:
@@ -241,6 +243,7 @@ class CreateActionScreen extends HookConsumerWidget {
               ? locationNameController.text
               : null,
           maxPerformers: maxPerformersController.text,
+          onJumpToStep: onJumpToStep,
         );
       default:
         return const SizedBox.shrink();
@@ -687,6 +690,7 @@ class _StepReview extends HookWidget {
     required this.actionType,
     required this.criteria,
     required this.maxPerformers,
+    required this.onJumpToStep,
     this.category,
     this.locationName,
   });
@@ -699,6 +703,7 @@ class _StepReview extends HookWidget {
   final String? category;
   final String? locationName;
   final String maxPerformers;
+  final ValueChanged<int> onJumpToStep;
 
   @override
   Widget build(BuildContext context) {
@@ -718,31 +723,53 @@ class _StepReview extends HookWidget {
           ),
           const SizedBox(height: SpacingTokens.xs),
           Text(
-            'Review your action before publishing.',
+            'Tap any section to edit it.',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
             ),
           ),
           const SizedBox(height: SpacingTokens.lg),
 
-          _ReviewField(label: 'Title', value: title),
+          _ReviewField(
+            label: 'Title',
+            value: title,
+            onTap: () => onJumpToStep(0),
+          ),
           const SizedBox(height: SpacingTokens.md),
-          _ReviewField(label: 'Description', value: description),
+          _ReviewField(
+            label: 'Description',
+            value: description,
+            onTap: () => onJumpToStep(0),
+          ),
           const SizedBox(height: SpacingTokens.md),
-          _ReviewField(label: 'Type', value: actionType.displayName),
+          _ReviewField(
+            label: 'Type',
+            value: actionType.displayName,
+            onTap: () => onJumpToStep(0),
+          ),
           const SizedBox(height: SpacingTokens.md),
-          _ReviewField(label: 'Verification Criteria', value: criteria),
+          _ReviewField(
+            label: 'Verification Criteria',
+            value: criteria,
+            onTap: () => onJumpToStep(1),
+          ),
           const SizedBox(height: SpacingTokens.md),
-          _ReviewField(label: 'Category', value: category ?? 'None selected'),
+          _ReviewField(
+            label: 'Category',
+            value: category ?? 'None selected',
+            onTap: () => onJumpToStep(1),
+          ),
           const SizedBox(height: SpacingTokens.md),
           _ReviewField(
             label: 'Location',
             value: locationName ?? 'No location restriction',
+            onTap: () => onJumpToStep(2),
           ),
           const SizedBox(height: SpacingTokens.md),
           _ReviewField(
             label: 'Max Performers',
             value: maxPerformers.isEmpty ? 'Unlimited' : maxPerformers,
+            onTap: () => onJumpToStep(2),
           ),
         ],
       ),
@@ -751,11 +778,15 @@ class _StepReview extends HookWidget {
 }
 
 /// A single review field showing a label and value.
+///
+/// When [onTap] is provided, the card shows an edit icon and is tappable
+/// to jump back to the relevant form step.
 class _ReviewField extends HookWidget {
-  const _ReviewField({required this.label, required this.value});
+  const _ReviewField({required this.label, required this.value, this.onTap});
 
   final String label;
   final String value;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -763,19 +794,32 @@ class _ReviewField extends HookWidget {
     final colorScheme = theme.colorScheme;
 
     return VCard(
+      onTap: onTap,
       padding: const EdgeInsets.all(SpacingTokens.md),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(
-            label,
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.w600,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: SpacingTokens.xs),
+                Text(value, style: theme.textTheme.bodyMedium),
+              ],
             ),
           ),
-          const SizedBox(height: SpacingTokens.xs),
-          Text(value, style: theme.textTheme.bodyMedium),
+          if (onTap != null)
+            Icon(
+              Icons.edit_outlined,
+              size: 18,
+              color: colorScheme.onSurfaceVariant,
+            ),
         ],
       ),
     );
