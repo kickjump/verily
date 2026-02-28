@@ -70,6 +70,7 @@ build/
 .tmp/
 .screenshots/
 .example-ui/
+artifacts/
 
 # Lock files — only keep pubspec.lock for the app package
 pubspec.lock

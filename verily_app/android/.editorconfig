@@ -1,0 +1,3 @@
+[*.{kt,kts}]
+# The package name uses backtick-escaped `fun` (Kotlin reserved word).
+ktlint_standard_package-name = disabled

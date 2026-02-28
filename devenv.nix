@@ -17,8 +17,11 @@ in
       eget
       fvm
       gitleaks
+      ktlint
       nixfmt
       shfmt
+      swift-format
+      swiftlint
     ]
     ++ lib.optionals stdenv.isDarwin [
       coreutils
@@ -287,6 +290,10 @@ in
       exec = ''
         set -e
         cd "$DEVENV_ROOT/verily_app"
+        if [ "$(uname -s)" = "Darwin" ]; then
+          # Avoid forcing Xcode to call `ld` directly in iOS simulator builds.
+          unset LD CC CXX
+        fi
         flutter test integration_test
       '';
       description = "Run Patrol integration tests.";
@@ -303,8 +310,21 @@ in
         set -e
         lint:format
         lint:analyze
+        lint:native
       '';
       description = "Lint all project files.";
+    };
+    "lint:native" = {
+      exec = ''
+        set -e
+        echo "Running ktlint..."
+        ktlint "verily_app/android/**/*.kts"
+        if [ -d verily_app/ios/Runner ]; then
+          echo "Running swiftlint..."
+          swiftlint lint --strict --config verily_app/ios/.swiftlint.yml verily_app/ios/Runner
+        fi
+      '';
+      description = "Run native code linters (ktlint + swiftlint).";
     };
     "lint:format" = {
       exec = ''
