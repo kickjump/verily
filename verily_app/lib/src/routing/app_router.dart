@@ -9,6 +9,7 @@ import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_app/src/features/auth/login_screen.dart';
 import 'package:verily_app/src/features/auth/register_screen.dart';
 import 'package:verily_app/src/features/home/home_screen.dart';
+import 'package:verily_app/src/features/map/map_screen.dart';
 import 'package:verily_app/src/features/profile/edit_profile_screen.dart';
 import 'package:verily_app/src/features/profile/profile_screen.dart';
 import 'package:verily_app/src/features/profile/rewards_screen.dart';
@@ -177,6 +178,11 @@ GoRouter appRouter(Ref ref) {
         path: RouteNames.settingsPath,
         name: RouteNames.settings,
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.mapPath,
+        name: RouteNames.map,
+        builder: (context, state) => const MapScreen(),
       ),
       GoRoute(
         path: RouteNames.walletPath,

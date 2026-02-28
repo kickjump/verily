@@ -43,6 +43,13 @@ class SearchScreen extends HookConsumerWidget {
               : null,
           autofocus: true,
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.map_outlined),
+            tooltip: 'Map view',
+            onPressed: () => context.push(RouteNames.mapPath),
+          ),
+        ],
       ),
       body: Column(
         children: [
