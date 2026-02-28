@@ -117,7 +117,7 @@ final class ActionsInBoundingBoxProvider
 }
 
 String _$actionsInBoundingBoxHash() =>
-    r'fba37b0336fd792a33d7591b2ea60ccb4c66416c';
+    r'99b20d714cf2764494d192666a2beb2a0955bcfc';
 
 /// Fetches actions visible within a map bounding box.
 
@@ -201,7 +201,7 @@ final class NearbyActionsProvider
   }
 }
 
-String _$nearbyActionsHash() => r'158d91c7684adeef2d6ecd10d0621cf1aa03ac47';
+String _$nearbyActionsHash() => r'56d3854bf8c9aa62ee3cad23f3ad6798da8b8845';
 
 /// Fetches actions near a geographic point within a radius.
 

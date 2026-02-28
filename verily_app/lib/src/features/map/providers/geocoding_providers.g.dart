@@ -70,7 +70,7 @@ final class PlaceSearchProvider
   }
 }
 
-String _$placeSearchHash() => r'bc2e5d6cbf4a1d14d51757030b769954912d9203';
+String _$placeSearchHash() => r'05257e2dfbe6c3da823fcb883e660433d0dbf7e2';
 
 /// Searches for places via the server-side Mapbox geocoding proxy.
 
