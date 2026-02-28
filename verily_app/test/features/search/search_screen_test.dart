@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/search/search_provider.dart';
 import 'package:verily_app/src/features/search/search_screen.dart';
+import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('SearchScreen', () {
+    final mockCategories = [
+      vc.ActionCategory(name: 'All', sortOrder: 0),
+      vc.ActionCategory(name: 'Fitness', sortOrder: 1),
+      vc.ActionCategory(name: 'Environment', sortOrder: 2),
+      vc.ActionCategory(name: 'Community', sortOrder: 3),
+      vc.ActionCategory(name: 'Education', sortOrder: 4),
+      vc.ActionCategory(name: 'Wellness', sortOrder: 5),
+      vc.ActionCategory(name: 'Creative', sortOrder: 6),
+    ];
+
     Future<void> pumpSearchScreen(WidgetTester tester) async {
-      await tester.pumpApp(const SearchScreen());
+      final container = ProviderContainer(
+        overrides: [
+          actionCategoriesProvider.overrideWith((ref) async => mockCategories),
+        ],
+      );
+      await tester.pumpApp(const SearchScreen(), container: container);
+      // Allow async provider to resolve.
+      await tester.pumpAndSettle();
     }
 
     testWidgets('renders search text field with hint', (tester) async {
@@ -63,7 +83,7 @@ void main() {
 
       expect(find.text('Search for actions'), findsOneWidget);
       expect(
-        find.text('Find actions by title, description, or category'),
+        find.text('Find actions by title, description, or tags'),
         findsOneWidget,
       );
     });

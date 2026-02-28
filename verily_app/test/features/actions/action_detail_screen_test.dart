@@ -1,18 +1,71 @@
+// UuidValue construction uses experimental API.
+// ignore_for_file: experimental_member_use
+
+// Test overrides don't need scoped provider dependencies.
+// ignore_for_file: scoped_providers_should_specify_dependencies
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/actions/action_detail_screen.dart';
+import 'package:verily_app/src/features/actions/providers/action_detail_provider.dart';
+import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('ActionDetailScreen', () {
+    late vc.Action testAction;
+    late ProviderContainer container;
+
+    setUp(() {
+      testAction = vc.Action(
+        id: 1,
+        title: 'Do 20 push-ups in the park',
+        description:
+            'Head to any local park and record yourself doing 20 push-ups.',
+        creatorId: vc.UuidValue.fromString(
+          '00000000-0000-0000-0000-000000000001',
+        ),
+        actionType: 'one_off',
+        status: 'active',
+        verificationCriteria:
+            '- Full body visible in frame during all push-ups\n'
+            '- Must complete 20 consecutive push-ups\n'
+            '- Park environment clearly visible in background\n'
+            '- Proper push-up form (chest to ground, full extension)',
+        tags: 'Fitness,outdoor,exercise',
+        maxPerformers: 50,
+        locationId: 1,
+        locationRadius: 500,
+        createdAt: DateTime(2025, 6, 15),
+        updatedAt: DateTime(2025, 6, 15),
+      );
+
+      container = ProviderContainer(
+        overrides: [
+          actionDetailProvider.overrideWith(
+            (ref, actionId) async => testAction,
+          ),
+        ],
+      );
+    });
+
+    tearDown(() {
+      container.dispose();
+    });
+
     Future<void> pumpActionDetailScreen(WidgetTester tester) async {
-      await tester.pumpApp(const ActionDetailScreen(actionId: 'test_action_1'));
+      await tester.pumpApp(
+        const ActionDetailScreen(actionId: '1'),
+        container: container,
+      );
+      // Wait for the async provider to resolve.
+      await tester.pumpAndSettle();
     }
 
-    testWidgets('renders action title placeholder', (tester) async {
+    testWidgets('renders action title', (tester) async {
       await pumpActionDetailScreen(tester);
 
-      // The screen uses hardcoded placeholder title.
       expect(find.text('Do 20 push-ups in the park'), findsOneWidget);
     });
 
@@ -61,39 +114,23 @@ void main() {
       await pumpActionDetailScreen(tester);
 
       expect(find.text('Location'), findsOneWidget);
-      expect(find.text('Central Park'), findsOneWidget);
+      expect(find.text('Location set'), findsOneWidget);
       expect(find.text('Within 500m radius'), findsOneWidget);
-    });
-
-    testWidgets('renders Rewards section', (tester) async {
-      await pumpActionDetailScreen(tester);
-
-      expect(find.text('Rewards'), findsOneWidget);
-      expect(find.text('100 Points'), findsOneWidget);
-      expect(find.text('Push-Up Champion'), findsOneWidget);
-    });
-
-    testWidgets('renders Created By section', (tester) async {
-      await pumpActionDetailScreen(tester);
-
-      expect(find.text('Created By'), findsOneWidget);
-      expect(find.text('John Doe'), findsOneWidget);
-      expect(find.text('@johndoe'), findsOneWidget);
     });
 
     testWidgets('renders category and type badges', (tester) async {
       await pumpActionDetailScreen(tester);
 
-      expect(find.text('Fitness'), findsOneWidget);
+      // 'Fitness' appears both in the category badge and in the Tags section.
+      expect(find.text('Fitness'), findsNWidgets(2));
       expect(find.text('One-Off'), findsOneWidget);
       expect(find.text('Active'), findsOneWidget);
     });
 
-    testWidgets('renders share and more actions in app bar', (tester) async {
+    testWidgets('renders share action in app bar', (tester) async {
       await pumpActionDetailScreen(tester);
 
       expect(find.byIcon(Icons.share_outlined), findsOneWidget);
-      expect(find.byIcon(Icons.more_vert), findsOneWidget);
     });
 
     testWidgets('renders metadata rows', (tester) async {
@@ -101,8 +138,13 @@ void main() {
 
       expect(find.text('Max Performers'), findsOneWidget);
       expect(find.text('50'), findsOneWidget);
-      expect(find.text('Completed'), findsOneWidget);
-      expect(find.text('12 / 50'), findsOneWidget);
+    });
+
+    testWidgets('renders created date', (tester) async {
+      await pumpActionDetailScreen(tester);
+
+      expect(find.text('Created'), findsOneWidget);
+      expect(find.text('Jun 15, 2025'), findsOneWidget);
     });
   });
 }

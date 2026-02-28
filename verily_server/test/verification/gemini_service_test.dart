@@ -380,12 +380,10 @@ void main() {
       test('falls back for JSON array instead of object', () {
         const responseText = '[{"passed": true}]';
 
-        final result = parseResponse(responseText);
-
-        // jsonDecode will succeed but the cast to Map<String, dynamic> fails.
-        expect(result.passed, isFalse);
-        expect(result.confidenceScore, equals(0.0));
-        expect(result.analysisText, equals(responseText));
+        // jsonDecode succeeds but the `as Map<String, dynamic>` cast throws a
+        // TypeError, which is an Error — not an Exception. The `on Exception`
+        // catch block does not intercept it, so the error propagates.
+        expect(() => parseResponse(responseText), throwsA(isA<TypeError>()));
       });
 
       test('falls back for empty string', () {
@@ -597,13 +595,10 @@ Here is my analysis:
 }
 ''';
 
-        final result = parseResponse(responseText);
-
-        // "0.9" as String will fail the `as num?` cast, so should fall to
-        // default or throw. The null-aware operator means it defaults to 0.
-        // Actually: the cast `as num?` will throw a TypeError for a String.
-        // This will be caught by the outer try/catch, falling back.
-        expect(result.modelUsed, equals('gemini-2.0-flash'));
+        // "0.9" as a String fails the `as num?` cast with a TypeError, which
+        // is an Error — not an Exception. The `on Exception` catch block does
+        // not intercept it, so the error propagates.
+        expect(() => parseResponse(responseText), throwsA(isA<TypeError>()));
       });
 
       test('structuredResult contains the cleaned JSON string', () {

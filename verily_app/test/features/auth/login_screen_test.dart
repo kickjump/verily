@@ -79,23 +79,12 @@ void main() {
       expect(find.text('Sign Up'), findsOneWidget);
     });
 
-    testWidgets('shows disabled X button with Coming soon tooltip', (
-      tester,
-    ) async {
+    testWidgets('does not render X or Facebook social buttons', (tester) async {
       await pumpLoginScreen(tester);
 
-      // The X button should be present but disabled (onPressed: null)
-      expect(find.text('X'), findsOneWidget);
-      expect(find.byIcon(Icons.close), findsOneWidget);
-    });
-
-    testWidgets('shows disabled Facebook button with Coming soon tooltip', (
-      tester,
-    ) async {
-      await pumpLoginScreen(tester);
-
-      expect(find.text('Facebook'), findsOneWidget);
-      expect(find.byIcon(Icons.facebook), findsOneWidget);
+      // X and Facebook buttons were removed; only Google and Apple remain.
+      expect(find.text('X'), findsNothing);
+      expect(find.text('Facebook'), findsNothing);
     });
 
     testWidgets('renders app branding elements', (tester) async {

@@ -1,19 +1,67 @@
+// Test overrides don't need scoped provider dependencies.
+// ignore_for_file: scoped_providers_should_specify_dependencies
+// UuidValue is required by Serverpod's generated models.
+// ignore_for_file: experimental_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/profile/providers/rewards_provider.dart';
 import 'package:verily_app/src/features/profile/rewards_screen.dart';
+import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_test_utils/verily_test_utils.dart';
+
+final _mockRewards = <vc.UserReward>[
+  vc.UserReward(
+    id: 1,
+    userId: vc.UuidValue.fromString('00000000-0000-0000-0000-000000000001'),
+    rewardId: 100,
+    earnedAt: DateTime.utc(2025, 6, 15),
+  ),
+  vc.UserReward(
+    id: 2,
+    userId: vc.UuidValue.fromString('00000000-0000-0000-0000-000000000001'),
+    rewardId: 200,
+    earnedAt: DateTime.utc(2025, 7, 20),
+  ),
+  vc.UserReward(
+    id: 3,
+    userId: vc.UuidValue.fromString('00000000-0000-0000-0000-000000000001'),
+    rewardId: 300,
+    earnedAt: DateTime.utc(2025, 8, 10),
+  ),
+];
 
 void main() {
   group('RewardsScreen', () {
+    late ProviderContainer container;
+
+    setUp(() {
+      container = ProviderContainer(
+        overrides: [
+          userRewardsProvider.overrideWith((ref) async => _mockRewards),
+        ],
+      );
+    });
+
+    tearDown(() {
+      container.dispose();
+    });
+
     Future<void> pumpRewardsScreen(WidgetTester tester) async {
-      await tester.pumpApp(const RewardsScreen());
+      await tester.pumpApp(const RewardsScreen(), container: container);
+      // Allow the async providers to settle.
+      await tester.pumpAndSettle();
     }
 
-    testWidgets('renders total points card with point value', (tester) async {
+    testWidgets('renders total rewards count card with trophy icon', (
+      tester,
+    ) async {
       await pumpRewardsScreen(tester);
 
-      expect(find.text('2450'), findsOneWidget);
-      expect(find.text('Total Points'), findsOneWidget);
+      // 3 mock rewards
+      expect(find.text('3'), findsOneWidget);
+      expect(find.text('Total Rewards'), findsOneWidget);
       expect(find.byIcon(Icons.emoji_events), findsOneWidget);
     });
 
@@ -23,53 +71,61 @@ void main() {
       expect(find.text('Rewards'), findsOneWidget);
     });
 
-    testWidgets('renders Leaderboard link card', (tester) async {
+    testWidgets('renders Earned Rewards section header', (tester) async {
       await pumpRewardsScreen(tester);
 
-      expect(find.text('Leaderboard'), findsOneWidget);
-      expect(find.text('See how you rank against others'), findsOneWidget);
-      expect(find.byIcon(Icons.leaderboard_outlined), findsOneWidget);
-    });
-
-    testWidgets('renders Badges section header', (tester) async {
-      await pumpRewardsScreen(tester);
-
-      expect(find.text('Badges'), findsOneWidget);
+      expect(find.text('Earned Rewards'), findsOneWidget);
       expect(find.byIcon(Icons.military_tech_outlined), findsOneWidget);
     });
 
-    testWidgets('renders earned badge names in grid', (tester) async {
+    testWidgets('renders reward card labels', (tester) async {
       await pumpRewardsScreen(tester);
 
-      expect(find.text('First Action'), findsOneWidget);
-      expect(find.text('Push-Up Pro'), findsOneWidget);
-      expect(find.text('Eco Warrior'), findsOneWidget);
-      expect(find.text('Community Hero'), findsOneWidget);
-      expect(find.text('Streak Master'), findsOneWidget);
-      expect(find.text('Explorer'), findsOneWidget);
+      expect(find.text('Reward #100'), findsOneWidget);
+      expect(find.text('Reward #200'), findsOneWidget);
+      expect(find.text('Reward #300'), findsOneWidget);
     });
 
-    testWidgets('renders locked badge names in grid', (tester) async {
+    testWidgets('renders earned date for rewards', (tester) async {
       await pumpRewardsScreen(tester);
 
-      expect(find.text('Creator'), findsOneWidget);
-      expect(find.text('Centurion'), findsOneWidget);
-      expect(find.text('Perfectionist'), findsOneWidget);
+      expect(find.text('Earned Jun 15, 2025'), findsOneWidget);
+      expect(find.text('Earned Jul 20, 2025'), findsOneWidget);
+      expect(find.text('Earned Aug 10, 2025'), findsOneWidget);
     });
 
-    testWidgets('renders lock icon for unearned badges', (tester) async {
+    testWidgets('renders check circle icons for earned rewards', (
+      tester,
+    ) async {
       await pumpRewardsScreen(tester);
 
-      // There are 3 unearned badges, each showing a lock icon.
-      expect(find.byIcon(Icons.lock_outlined), findsNWidgets(3));
+      // Each reward card shows a check_circle icon.
+      expect(find.byIcon(Icons.check_circle), findsNWidgets(3));
     });
 
-    testWidgets('renders badge grid with correct item count', (tester) async {
+    testWidgets('renders reward event icons', (tester) async {
       await pumpRewardsScreen(tester);
 
-      // There are 9 badges total (6 earned + 3 locked).
-      // We can verify the GridView is present.
-      expect(find.byType(GridView), findsOneWidget);
+      // Each reward card shows an emoji_events_outlined icon.
+      expect(find.byIcon(Icons.emoji_events_outlined), findsNWidgets(3));
+    });
+
+    testWidgets('shows empty state when no rewards', (tester) async {
+      final emptyContainer = ProviderContainer(
+        overrides: [
+          userRewardsProvider.overrideWith((ref) async => <vc.UserReward>[]),
+        ],
+      );
+      addTearDown(emptyContainer.dispose);
+
+      await tester.pumpApp(const RewardsScreen(), container: emptyContainer);
+      await tester.pumpAndSettle();
+
+      expect(find.text('No rewards yet'), findsOneWidget);
+      expect(
+        find.text('Complete actions to start earning rewards'),
+        findsOneWidget,
+      );
     });
   });
 }
