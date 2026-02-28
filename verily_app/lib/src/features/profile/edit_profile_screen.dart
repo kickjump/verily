@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
+import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
+import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_ui/verily_ui.dart';
 
 /// Screen for editing the current user's profile.
@@ -12,20 +15,57 @@ class EditProfileScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final profileAsync = ref.watch(currentUserProfileProvider);
 
-    // TODO: Pre-populate from real user profile provider.
-    final usernameController = useTextEditingController(text: 'johndoe');
-    final displayNameController = useTextEditingController(text: 'John Doe');
-    final bioController = useTextEditingController(
-      text:
-          'Fitness enthusiast and community builder. '
-          'Love completing real-world challenges!',
+    return profileAsync.when(
+      loading: () => Scaffold(
+        appBar: AppBar(title: const Text('Edit Profile')),
+        body: const Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, _) => Scaffold(
+        appBar: AppBar(title: const Text('Edit Profile')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, size: 64, color: colorScheme.error),
+              const SizedBox(height: SpacingTokens.md),
+              Text(
+                'Failed to load profile',
+                style: theme.textTheme.titleMedium,
+              ),
+              const SizedBox(height: SpacingTokens.md),
+              FilledButton(
+                onPressed: () => ref.invalidate(currentUserProfileProvider),
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
+      ),
+      data: (profile) => _EditProfileBody(profile: profile),
     );
+  }
+}
+
+class _EditProfileBody extends HookConsumerWidget {
+  const _EditProfileBody({required this.profile});
+
+  final vc.UserProfile profile;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final usernameController = useTextEditingController(text: profile.username);
+    final displayNameController = useTextEditingController(
+      text: profile.displayName,
+    );
+    final bioController = useTextEditingController(text: profile.bio ?? '');
     final isSaving = useState(false);
     final hasChanges = useState(false);
     final formKey = useMemoized(GlobalKey<FormState>.new);
 
-    // Track changes
     useEffect(() {
       void listener() => hasChanges.value = true;
       usernameController.addListener(listener);
@@ -43,8 +83,17 @@ class EditProfileScreen extends HookConsumerWidget {
 
       isSaving.value = true;
       try {
-        // TODO: Save profile to Serverpod.
-        await Future<void>.delayed(const Duration(seconds: 1));
+        final client = ref.read(serverpodClientProvider);
+        final updated = profile.copyWith(
+          username: usernameController.text.trim(),
+          displayName: displayNameController.text.trim(),
+          bio: bioController.text.trim().isEmpty
+              ? null
+              : bioController.text.trim(),
+          updatedAt: DateTime.now().toUtc(),
+        );
+        await client.userProfile.update(updated);
+        ref.invalidate(currentUserProfileProvider);
         if (context.mounted) {
           context.pop();
         }
@@ -59,6 +108,12 @@ class EditProfileScreen extends HookConsumerWidget {
         }
       }
     }
+
+    final initials = profile.displayName
+        .split(' ')
+        .take(2)
+        .map((w) => w.isNotEmpty ? w[0].toUpperCase() : '')
+        .join();
 
     return Scaffold(
       appBar: AppBar(
@@ -84,10 +139,10 @@ class EditProfileScreen extends HookConsumerWidget {
             children: [
               const SizedBox(height: SpacingTokens.md),
 
-              // Avatar picker
+              // Avatar
               Stack(
                 children: [
-                  const VAvatar(initials: 'JD', radius: 56),
+                  VAvatar(initials: initials, radius: 56),
                   Positioned(
                     bottom: 0,
                     right: 0,
@@ -106,9 +161,7 @@ class EditProfileScreen extends HookConsumerWidget {
                           size: 20,
                           color: colorScheme.onPrimaryContainer,
                         ),
-                        onPressed: () {
-                          // TODO: Open image picker for avatar.
-                        },
+                        onPressed: () {},
                         constraints: const BoxConstraints(
                           minWidth: 40,
                           minHeight: 40,
@@ -117,13 +170,6 @@ class EditProfileScreen extends HookConsumerWidget {
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: SpacingTokens.sm),
-              VTextButton(
-                onPressed: () {
-                  // TODO: Open image picker.
-                },
-                child: const Text('Change Photo'),
               ),
               const SizedBox(height: SpacingTokens.lg),
 
@@ -176,7 +222,6 @@ class EditProfileScreen extends HookConsumerWidget {
               ),
               const SizedBox(height: SpacingTokens.lg),
 
-              // Character count hint for bio
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
