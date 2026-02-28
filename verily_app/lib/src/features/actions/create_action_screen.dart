@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:verily_app/src/features/actions/providers/create_action_provider.dart';
+import 'package:verily_app/src/features/search/search_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_core/verily_core.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -34,6 +36,8 @@ class CreateActionScreen extends HookConsumerWidget {
     // Step 3: Location and limits
     final locationNameController = useTextEditingController();
     final locationEnabled = useState(false);
+    final locationLatLng = useState<LatLng?>(null);
+    final locationRadius = useState<double>(200);
     final maxPerformersController = useTextEditingController();
 
     // Form keys per step
@@ -73,6 +77,15 @@ class CreateActionScreen extends HookConsumerWidget {
                   : null,
               locationName: locationEnabled.value
                   ? locationNameController.text.trim()
+                  : null,
+              locationLat: locationEnabled.value
+                  ? locationLatLng.value?.latitude
+                  : null,
+              locationLng: locationEnabled.value
+                  ? locationLatLng.value?.longitude
+                  : null,
+              locationRadius: locationEnabled.value
+                  ? locationRadius.value
                   : null,
             );
         if (context.mounted) {
@@ -124,6 +137,7 @@ class CreateActionScreen extends HookConsumerWidget {
               padding: const EdgeInsets.all(SpacingTokens.md),
               child: _buildStepContent(
                 context: context,
+                ref: ref,
                 currentStep: currentStep.value,
                 formKeys: formKeys,
                 titleController: titleController,
@@ -133,6 +147,8 @@ class CreateActionScreen extends HookConsumerWidget {
                 selectedCategory: selectedCategory,
                 locationNameController: locationNameController,
                 locationEnabled: locationEnabled,
+                locationLatLng: locationLatLng,
+                locationRadius: locationRadius,
                 maxPerformersController: maxPerformersController,
               ),
             ),
@@ -175,6 +191,7 @@ class CreateActionScreen extends HookConsumerWidget {
 
   Widget _buildStepContent({
     required BuildContext context,
+    required WidgetRef ref,
     required int currentStep,
     required List<GlobalKey<FormState>> formKeys,
     required TextEditingController titleController,
@@ -184,6 +201,8 @@ class CreateActionScreen extends HookConsumerWidget {
     required ValueNotifier<String?> selectedCategory,
     required TextEditingController locationNameController,
     required ValueNotifier<bool> locationEnabled,
+    required ValueNotifier<LatLng?> locationLatLng,
+    required ValueNotifier<double> locationRadius,
     required TextEditingController maxPerformersController,
   }) {
     switch (currentStep) {
@@ -197,6 +216,7 @@ class CreateActionScreen extends HookConsumerWidget {
       case 1:
         return _StepVerification(
           formKey: formKeys[1],
+          ref: ref,
           criteriaController: criteriaController,
           selectedCategory: selectedCategory,
         );
@@ -205,6 +225,8 @@ class CreateActionScreen extends HookConsumerWidget {
           formKey: formKeys[2],
           locationNameController: locationNameController,
           locationEnabled: locationEnabled,
+          locationLatLng: locationLatLng,
+          locationRadius: locationRadius,
           maxPerformersController: maxPerformersController,
         );
       case 3:
@@ -404,29 +426,32 @@ class _ActionTypeCard extends HookWidget {
 class _StepVerification extends HookWidget {
   const _StepVerification({
     required this.formKey,
+    required this.ref,
     required this.criteriaController,
     required this.selectedCategory,
   });
 
   final GlobalKey<FormState> formKey;
+  final WidgetRef ref;
   final TextEditingController criteriaController;
   final ValueNotifier<String?> selectedCategory;
+
+  /// Fallback categories used when the server is unreachable.
+  static const _fallbackCategories = [
+    'Fitness',
+    'Environment',
+    'Community',
+    'Education',
+    'Wellness',
+    'Creative',
+    'Adventure',
+    'Charity',
+  ];
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
-    // TODO(ifiokjr): Replace with real categories from provider.
-    final categories = [
-      'Fitness',
-      'Environment',
-      'Community',
-      'Education',
-      'Wellness',
-      'Creative',
-      'Adventure',
-      'Charity',
-    ];
+    final categoriesAsync = ref.watch(actionCategoriesProvider);
 
     return Form(
       key: formKey,
@@ -477,20 +502,44 @@ class _StepVerification extends HookWidget {
             ),
           ),
           const SizedBox(height: SpacingTokens.sm),
-          Wrap(
-            spacing: SpacingTokens.sm,
-            runSpacing: SpacingTokens.sm,
-            children: categories.map((category) {
-              final isSelected = selectedCategory.value == category;
-              return ChoiceChip(
-                label: Text(category),
-                selected: isSelected,
-                onSelected: (selected) {
-                  selectedCategory.value = selected ? category : null;
-                },
-                selectedColor: ColorTokens.primary.withAlpha(30),
-              );
-            }).toList(),
+          categoriesAsync.when(
+            loading: () => Wrap(
+              spacing: SpacingTokens.sm,
+              runSpacing: SpacingTokens.sm,
+              children: _fallbackCategories
+                  .map((c) => ChoiceChip(label: Text(c), selected: false))
+                  .toList(),
+            ),
+            error: (_, __) => Wrap(
+              spacing: SpacingTokens.sm,
+              runSpacing: SpacingTokens.sm,
+              children: _fallbackCategories.map((category) {
+                final isSelected = selectedCategory.value == category;
+                return ChoiceChip(
+                  label: Text(category),
+                  selected: isSelected,
+                  onSelected: (selected) {
+                    selectedCategory.value = selected ? category : null;
+                  },
+                  selectedColor: ColorTokens.primary.withAlpha(30),
+                );
+              }).toList(),
+            ),
+            data: (categories) => Wrap(
+              spacing: SpacingTokens.sm,
+              runSpacing: SpacingTokens.sm,
+              children: categories.map((category) {
+                final isSelected = selectedCategory.value == category.name;
+                return ChoiceChip(
+                  label: Text(category.name),
+                  selected: isSelected,
+                  onSelected: (selected) {
+                    selectedCategory.value = selected ? category.name : null;
+                  },
+                  selectedColor: ColorTokens.primary.withAlpha(30),
+                );
+              }).toList(),
+            ),
           ),
         ],
       ),
@@ -504,12 +553,16 @@ class _StepLocation extends HookWidget {
     required this.formKey,
     required this.locationNameController,
     required this.locationEnabled,
+    required this.locationLatLng,
+    required this.locationRadius,
     required this.maxPerformersController,
   });
 
   final GlobalKey<FormState> formKey;
   final TextEditingController locationNameController;
   final ValueNotifier<bool> locationEnabled;
+  final ValueNotifier<LatLng?> locationLatLng;
+  final ValueNotifier<double> locationRadius;
   final TextEditingController maxPerformersController;
 
   @override
@@ -579,13 +632,18 @@ class _StepLocation extends HookWidget {
               hintText: 'e.g., Central Park',
               prefixIcon: const Icon(Icons.place_outlined),
             ),
-            const SizedBox(height: SpacingTokens.sm),
-            Text(
-              'A map picker will be available in a future update.',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-                fontStyle: FontStyle.italic,
-              ),
+            const SizedBox(height: SpacingTokens.md),
+            LocationPickerMap(
+              initialCenter: locationLatLng.value,
+              initialRadius: locationRadius.value,
+              onCenterChanged: (LatLng center) => locationLatLng.value = center,
+              onConfirm: (LocationPickerResult result) {
+                locationLatLng.value = LatLng(
+                  result.point.latitude,
+                  result.point.longitude,
+                );
+                locationRadius.value = result.radiusMeters;
+              },
             ),
           ],
           const SizedBox(height: SpacingTokens.lg),

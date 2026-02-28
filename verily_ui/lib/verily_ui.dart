@@ -3,6 +3,7 @@ library;
 
 export 'src/theme/color_tokens.dart';
 export 'src/theme/verily_theme.dart';
+export 'src/widgets/location_picker_map.dart';
 export 'src/widgets/v_avatar.dart';
 export 'src/widgets/v_badge_chip.dart';
 export 'src/widgets/v_button.dart';
