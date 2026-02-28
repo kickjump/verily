@@ -28,9 +28,8 @@ void main() {
 
       // Stats bar is visible with expected counts.
       expect(profilePage.statsBar, findsOneWidget);
-      expect(profilePage.createdCount, findsOneWidget);
-      expect(profilePage.completedCount, findsOneWidget);
-      expect(profilePage.badgesCount, findsOneWidget);
+      expect(profilePage.actionsCount, findsOneWidget);
+      expect(profilePage.rewardsCount, findsOneWidget);
 
       // Profile action buttons in the app bar.
       expect(profilePage.editButton, findsOneWidget);

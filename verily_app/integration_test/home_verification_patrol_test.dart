@@ -28,7 +28,7 @@ void main() {
     ) async {
       await $.pumpWidgetAndSettle(buildHomeShellApp());
 
-      await $.tap(find.byKey(const Key('home_featured_setActive_101')));
+      await $.tap(find.byKey(const Key('home_featured_setActive_1')));
       expect(find.byKey(const Key('home_activeActionCard')), findsOneWidget);
 
       await $.tap(find.byKey(const Key('homeShell_verifyFab')));
@@ -49,7 +49,7 @@ void main() {
     patrolWidgetTest('capture flow logs evidence and submits', ($) async {
       await $.pumpWidgetAndSettle(buildHomeShellApp());
 
-      await $.tap(find.byKey(const Key('home_featured_setActive_101')));
+      await $.tap(find.byKey(const Key('home_featured_setActive_1')));
       await $.tap(find.byKey(const Key('homeShell_verifyFab')));
 
       final scrollable = find.byType(Scrollable).first;
@@ -92,7 +92,7 @@ void main() {
       );
       await $.tap(find.byKey(const Key('verification_submitButton')));
       expect(
-        find.textContaining('Submission status for action 101'),
+        find.textContaining('Submission status for action 1'),
         findsOneWidget,
       );
       await maybeCapturePatrolScreenshot('submission_status', $.tester);

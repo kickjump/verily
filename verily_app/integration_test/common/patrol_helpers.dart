@@ -1,3 +1,8 @@
+// Test overrides don't need scoped provider dependencies.
+// ignore_for_file: scoped_providers_should_specify_dependencies
+// UuidValue is required by Serverpod's generated models.
+// ignore_for_file: experimental_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,17 +11,111 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_app/src/features/auth/login_screen.dart';
 import 'package:verily_app/src/features/auth/register_screen.dart';
+import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/features/feed/feed_screen.dart';
 import 'package:verily_app/src/features/home/home_screen.dart';
 import 'package:verily_app/src/features/profile/profile_screen.dart';
+import 'package:verily_app/src/features/profile/providers/rewards_provider.dart';
+import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
+import 'package:verily_app/src/features/search/search_provider.dart';
 import 'package:verily_app/src/features/search/search_screen.dart';
 import 'package:verily_app/src/features/submissions/verification_capture_screen.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_app/src/routing/widgets/home_shell_scaffold.dart';
+import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_ui/verily_ui.dart';
 
 /// Root boundary used for deterministic screenshot capture in integration tests.
 const integrationScreenshotBoundaryKey = Key('integration_screenshot_boundary');
+
+// ---------------------------------------------------------------------------
+// Mock data for integration tests (avoids hitting the real Serverpod backend)
+// ---------------------------------------------------------------------------
+
+final _mockActions = <vc.Action>[
+  vc.Action(
+    id: 1,
+    title: 'Record 20 push-ups at a local park',
+    description: 'Head to any local park and do push-ups.',
+    creatorId: vc.UuidValue.fromString('00000000-0000-0000-0000-000000000001'),
+    actionType: 'one_off',
+    status: 'active',
+    verificationCriteria:
+        'Show your full body in frame while doing all reps\n'
+        'Capture ambient park audio from start to finish\n'
+        'Pan camera to a park sign before ending recording',
+    tags: 'fitness,outdoor,exercise',
+    createdAt: DateTime.utc(2025),
+    updatedAt: DateTime.utc(2025),
+  ),
+  vc.Action(
+    id: 2,
+    title: 'Capture a 30s cleanup clip on your street',
+    description: 'Record yourself picking up litter.',
+    creatorId: vc.UuidValue.fromString('00000000-0000-0000-0000-000000000001'),
+    actionType: 'one_off',
+    status: 'active',
+    verificationCriteria:
+        'Record litter before and after cleanup\n'
+        'Keep gloves and collection bag visible in video\n'
+        'Show street name sign in the first 10 seconds',
+    tags: 'environment,community,cleanup',
+    createdAt: DateTime.utc(2025),
+    updatedAt: DateTime.utc(2025),
+  ),
+];
+
+final _mockCategories = <vc.ActionCategory>[
+  vc.ActionCategory(name: 'All', sortOrder: 0),
+  vc.ActionCategory(name: 'Fitness', sortOrder: 1),
+  vc.ActionCategory(name: 'Environment', sortOrder: 2),
+  vc.ActionCategory(name: 'Community', sortOrder: 3),
+  vc.ActionCategory(name: 'Education', sortOrder: 4),
+  vc.ActionCategory(name: 'Wellness', sortOrder: 5),
+  vc.ActionCategory(name: 'Creative', sortOrder: 6),
+];
+
+final _mockProfile = vc.UserProfile(
+  id: 1,
+  authUserId: vc.UuidValue.fromString('00000000-0000-0000-0000-000000000001'),
+  username: 'johndoe',
+  displayName: 'John Doe',
+  bio: 'Fitness enthusiast and community builder',
+  isPublic: true,
+  createdAt: DateTime.utc(2025),
+  updatedAt: DateTime.utc(2025),
+);
+
+final _mockRewards = <vc.UserReward>[
+  vc.UserReward(
+    id: 1,
+    userId: vc.UuidValue.fromString('00000000-0000-0000-0000-000000000001'),
+    rewardId: 100,
+    earnedAt: DateTime.utc(2025, 6, 15),
+  ),
+  vc.UserReward(
+    id: 2,
+    userId: vc.UuidValue.fromString('00000000-0000-0000-0000-000000000001'),
+    rewardId: 200,
+    earnedAt: DateTime.utc(2025, 7, 20),
+  ),
+  vc.UserReward(
+    id: 3,
+    userId: vc.UuidValue.fromString('00000000-0000-0000-0000-000000000001'),
+    rewardId: 300,
+    earnedAt: DateTime.utc(2025, 8, 10),
+  ),
+];
+
+/// Provider overrides that replace all server-backed async providers with
+/// in-memory mock data. Applied to every [ProviderScope] in integration tests
+/// so that tests never attempt a real Serverpod connection.
+final _integrationOverrides = [
+  feedActionsProvider.overrideWith((ref) async => _mockActions),
+  actionCategoriesProvider.overrideWith((ref) async => _mockCategories),
+  currentUserProfileProvider.overrideWith((ref) async => _mockProfile),
+  userRewardsProvider.overrideWith((ref) async => _mockRewards),
+];
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -74,7 +173,10 @@ Widget buildAuthApp({String initialLocation = RouteNames.loginPath}) {
   );
 
   return ProviderScope(
-    overrides: [authProvider.overrideWith(_IntegrationTestAuth.new)],
+    overrides: [
+      authProvider.overrideWith(_IntegrationTestAuth.new),
+      ..._integrationOverrides,
+    ],
     child: MaterialApp.router(
       theme: VerilyTheme.light,
       darkTheme: VerilyTheme.dark,
@@ -178,10 +280,16 @@ Widget buildShellApp({String initialLocation = RouteNames.feedPath}) {
         builder: (_, __) =>
             const Scaffold(body: Center(child: Text('Settings'))),
       ),
+      GoRoute(
+        path: RouteNames.walletPath,
+        name: RouteNames.wallet,
+        builder: (_, __) => const Scaffold(body: Center(child: Text('Wallet'))),
+      ),
     ],
   );
 
   return ProviderScope(
+    overrides: _integrationOverrides,
     child: RepaintBoundary(
       key: integrationScreenshotBoundaryKey,
       child: MaterialApp.router(
@@ -251,6 +359,18 @@ Widget buildHomeShellApp({String initialLocation = RouteNames.feedPath}) {
         ),
       ),
       GoRoute(
+        path: RouteNames.createActionPath,
+        name: RouteNames.createAction,
+        builder: (_, __) =>
+            const Scaffold(body: Center(child: Text('Create Action'))),
+      ),
+      GoRoute(
+        path: RouteNames.aiCreateActionPath,
+        name: RouteNames.aiCreateAction,
+        builder: (_, __) =>
+            const Scaffold(body: Center(child: Text('AI Create Action'))),
+      ),
+      GoRoute(
         path: RouteNames.settingsPath,
         name: RouteNames.settings,
         builder: (_, __) =>
@@ -261,6 +381,11 @@ Widget buildHomeShellApp({String initialLocation = RouteNames.feedPath}) {
         name: RouteNames.editProfile,
         builder: (_, __) =>
             const Scaffold(body: Center(child: Text('Edit Profile'))),
+      ),
+      GoRoute(
+        path: RouteNames.walletPath,
+        name: RouteNames.wallet,
+        builder: (_, __) => const Scaffold(body: Center(child: Text('Wallet'))),
       ),
       GoRoute(
         path: RouteNames.submissionStatusPath,
@@ -277,6 +402,7 @@ Widget buildHomeShellApp({String initialLocation = RouteNames.feedPath}) {
   );
 
   return ProviderScope(
+    overrides: _integrationOverrides,
     child: MaterialApp.router(
       theme: VerilyTheme.light,
       darkTheme: VerilyTheme.dark,
@@ -509,17 +635,14 @@ class ProfilePage {
   /// The username text.
   Finder get username => find.text('@johndoe');
 
-  /// The stats bar (the VCard containing Created/Completed/Badges stats).
+  /// The stats bar (the VCard containing Actions/Rewards stats).
   Finder get statsBar => find.byIcon(Icons.add_circle_outline);
 
-  /// The "Created" stat count.
-  Finder get createdCount => find.text('12');
+  /// The "Actions" stat count (matches mock data: 2 actions).
+  Finder get actionsCount => find.text('2');
 
-  /// The "Completed" stat count.
-  Finder get completedCount => find.text('28');
-
-  /// The "Badges" stat count.
-  Finder get badgesCount => find.text('7');
+  /// The "Rewards" stat count (matches mock data: 3 rewards).
+  Finder get rewardsCount => find.text('3');
 
   /// The "Actions" tab.
   Finder get actionsTab => find.widgetWithText(Tab, 'Actions');
