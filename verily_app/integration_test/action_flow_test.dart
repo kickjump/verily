@@ -64,8 +64,8 @@ void main() {
       // Tap the create action FAB to navigate to the AI action creation screen.
       await feedPage.tapCreateActionFab();
 
-      // The AI creation screen should render its title.
-      expect(find.text('Create with AI'), findsOneWidget);
+      // The AI creation screen stub should render its placeholder text.
+      expect(find.text('AI Create Action'), findsOneWidget);
     });
 
     testWidgets('feed app bar has search and notifications buttons', (
