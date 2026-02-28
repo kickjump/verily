@@ -71,12 +71,8 @@ void main() {
         find.text('A single action completed in one video'),
         findsOneWidget,
       );
-      // 'Multi-step action completed over time' appears for both Sequential
-      // and Habit action type cards.
-      expect(
-        find.text('Multi-step action completed over time'),
-        findsNWidgets(2),
-      );
+      expect(find.text('Multi-step action completed in order'), findsOneWidget);
+      expect(find.text('Repeated action tracked over time'), findsOneWidget);
     });
 
     testWidgets('renders back arrow button', (tester) async {

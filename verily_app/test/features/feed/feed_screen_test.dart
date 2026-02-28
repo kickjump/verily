@@ -79,7 +79,7 @@ void main() {
       await pumpFeedScreen(tester);
 
       expect(find.text('Create Action'), findsOneWidget);
-      expect(find.byIcon(Icons.add), findsOneWidget);
+      expect(find.byIcon(Icons.auto_awesome), findsOneWidget);
       expect(find.byType(FloatingActionButton), findsOneWidget);
     });
 

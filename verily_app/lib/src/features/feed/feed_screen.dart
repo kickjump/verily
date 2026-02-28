@@ -60,8 +60,8 @@ class FeedScreen extends HookConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push(RouteNames.createActionPath),
-        icon: const Icon(Icons.add),
+        onPressed: () => context.push(RouteNames.aiCreateActionPath),
+        icon: const Icon(Icons.auto_awesome),
         label: const Text('Create Action'),
       ),
     );

@@ -384,9 +384,11 @@ class _ActionTypeCard extends HookWidget {
         child: Row(
           children: [
             Icon(
-              type == ActionType.oneOff
-                  ? Icons.bolt_outlined
-                  : Icons.format_list_numbered,
+              switch (type) {
+                ActionType.oneOff => Icons.bolt_outlined,
+                ActionType.sequential => Icons.format_list_numbered,
+                ActionType.habit => Icons.repeat,
+              },
               color: isSelected
                   ? ColorTokens.primary
                   : colorScheme.onSurfaceVariant,
@@ -406,9 +408,13 @@ class _ActionTypeCard extends HookWidget {
                     ),
                   ),
                   Text(
-                    type == ActionType.oneOff
-                        ? 'A single action completed in one video'
-                        : 'Multi-step action completed over time',
+                    switch (type) {
+                      ActionType.oneOff =>
+                        'A single action completed in one video',
+                      ActionType.sequential =>
+                        'Multi-step action completed in order',
+                      ActionType.habit => 'Repeated action tracked over time',
+                    },
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),
