@@ -20,11 +20,11 @@ in
       ktlint
       nixfmt
       shfmt
-      swift-format
-      swiftlint
     ]
     ++ lib.optionals stdenv.isDarwin [
       coreutils
+      swift-format
+      swiftlint
     ];
 
   env = {
@@ -71,8 +71,8 @@ in
         enable = true;
         name = "lint";
         description = "Run linting and formatting checks on every commit.";
-        entry = "${config.env.DEVENV_PROFILE}/bin/dart analyze";
-        pass_filenames = true;
+        entry = "${config.env.DEVENV_PROFILE}/bin/dart analyze .";
+        pass_filenames = false;
         always_run = true;
         stages = [ "pre-commit" ];
       };
@@ -319,9 +319,11 @@ in
         set -e
         echo "Running ktlint..."
         ktlint "verily_app/android/**/*.kts"
-        if [ -d verily_app/ios/Runner ]; then
+        if command -v swiftlint >/dev/null 2>&1 && [ -d verily_app/ios/Runner ]; then
           echo "Running swiftlint..."
           swiftlint lint --strict --config verily_app/ios/.swiftlint.yml verily_app/ios/Runner
+        else
+          echo "Skipping swiftlint (not available on this platform)"
         fi
       '';
       description = "Run native code linters (ktlint + swiftlint).";
@@ -344,7 +346,7 @@ in
     "fix:all" = {
       exec = ''
         set -e
-        format:all
+        fix:format
       '';
       description = "Fix all fixable lint issues.";
     };
