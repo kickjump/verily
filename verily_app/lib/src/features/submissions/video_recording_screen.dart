@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -19,6 +22,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
     final elapsedSeconds = useState(0);
     final isFrontCamera = useState(false);
     final hasGpsSignal = useState(true);
+    final isLaunching = useState(false);
 
     // Recording timer
     useEffect(() {
@@ -42,6 +46,40 @@ class VideoRecordingScreen extends HookConsumerWidget {
       final mins = (seconds ~/ 60).toString().padLeft(2, '0');
       final secs = (seconds % 60).toString().padLeft(2, '0');
       return '$mins:$secs';
+    }
+
+    Future<void> launchCamera() async {
+      isLaunching.value = true;
+      try {
+        final picker = ImagePicker();
+        final video = await picker.pickVideo(
+          source: ImageSource.camera,
+          preferredCameraDevice: isFrontCamera.value
+              ? CameraDevice.front
+              : CameraDevice.rear,
+          maxDuration: const Duration(minutes: 5),
+        );
+
+        if (video != null && context.mounted) {
+          unawaited(
+            context.push(
+              RouteNames.videoReviewPath.replaceFirst(':actionId', actionId),
+              extra: video.path,
+            ),
+          );
+        }
+      } on Exception catch (e) {
+        debugPrint('Camera error: $e');
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Failed to open camera. Please try again.'),
+            ),
+          );
+        }
+      } finally {
+        isLaunching.value = false;
+      }
     }
 
     return Scaffold(
@@ -72,8 +110,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: SpacingTokens.xs),
                   Text(
-                    // TODO(ifiokjr): Replace with actual camera preview.
-                    'Camera integration pending',
+                    'Tap record to open camera',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white24,
                     ),
@@ -247,22 +284,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
 
                     // Record button
                     GestureDetector(
-                      onTap: () {
-                        if (isRecording.value) {
-                          // Stop recording and navigate to review
-                          isRecording.value = false;
-                          context.push(
-                            RouteNames.videoReviewPath.replaceFirst(
-                              ':actionId',
-                              actionId,
-                            ),
-                          );
-                        } else {
-                          // Start recording
-                          elapsedSeconds.value = 0;
-                          isRecording.value = true;
-                        }
-                      },
+                      onTap: isLaunching.value ? null : launchCamera,
                       child: Container(
                         width: 80,
                         height: 80,
@@ -271,17 +293,26 @@ class VideoRecordingScreen extends HookConsumerWidget {
                           border: Border.all(color: Colors.white, width: 4),
                         ),
                         child: Center(
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
-                            width: isRecording.value ? 32 : 64,
-                            height: isRecording.value ? 32 : 64,
-                            decoration: BoxDecoration(
-                              color: ColorTokens.error,
-                              borderRadius: BorderRadius.circular(
-                                isRecording.value ? 6 : 32,
-                              ),
-                            ),
-                          ),
+                          child: isLaunching.value
+                              ? const SizedBox(
+                                  width: 32,
+                                  height: 32,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 3,
+                                  ),
+                                )
+                              : AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  width: isRecording.value ? 32 : 64,
+                                  height: isRecording.value ? 32 : 64,
+                                  decoration: BoxDecoration(
+                                    color: ColorTokens.error,
+                                    borderRadius: BorderRadius.circular(
+                                      isRecording.value ? 6 : 32,
+                                    ),
+                                  ),
+                                ),
                         ),
                       ),
                     ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/submissions/providers/submission_provider.dart';
 import 'package:verily_core/verily_core.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -9,12 +10,19 @@ import 'package:verily_ui/verily_ui.dart';
 class SubmissionStatusScreen extends HookConsumerWidget {
   const SubmissionStatusScreen({
     required this.actionId,
-    this.simulateVerification = true,
+    this.submissionId,
+    this.simulateVerification = false,
     super.key,
   });
 
   /// The action this submission belongs to.
   final String actionId;
+
+  /// The submission database ID, passed via router `extra`.
+  ///
+  /// When non-null the screen polls the server for verification results.
+  /// When null (e.g. during tests) the screen falls back to simulation.
+  final int? submissionId;
 
   /// Whether to run the built-in delayed status simulation.
   ///
@@ -26,24 +34,47 @@ class SubmissionStatusScreen extends HookConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    // Simulated verification progress.
+    // Verification state — driven by server poll or simulation.
     final status = useState(VerificationStatus.pending);
     final confidenceScore = useState<double>(0);
     final analysisText = useState('');
 
-    // Simulate verification flow.
+    // --- Server polling ---
+    if (submissionId != null) {
+      ref.watch(verificationPollProvider(submissionId!)).whenData((result) {
+        if (result != null) {
+          confidenceScore.value = result.confidenceScore;
+          analysisText.value = result.analysisText;
+          status.value = result.passed
+              ? VerificationStatus.passed
+              : VerificationStatus.failed;
+        } else {
+          // Null result means still in progress — check submission status.
+          ref.read(fetchSubmissionProvider(submissionId!)).whenData((sub) {
+            const values = VerificationStatus.values;
+            final match = values.where((s) => s.value == sub.status);
+            final serverStatus = match.isNotEmpty
+                ? match.first
+                : VerificationStatus.pending;
+            if (serverStatus != status.value) {
+              status.value = serverStatus;
+            }
+          });
+        }
+      });
+    }
+
+    // --- Fallback simulation ---
     useEffect(() {
-      if (!simulateVerification) return null;
+      if (submissionId != null || !simulateVerification) return null;
 
       var cancelled = false;
 
       Future<void> runSimulation() async {
-        // Pending -> Processing
         await Future<void>.delayed(const Duration(seconds: 2));
         if (cancelled) return;
         status.value = VerificationStatus.processing;
 
-        // Processing -> Result
         await Future<void>.delayed(const Duration(seconds: 3));
         if (cancelled) return;
         status.value = VerificationStatus.passed;
@@ -57,7 +88,7 @@ class SubmissionStatusScreen extends HookConsumerWidget {
 
       runSimulation();
       return () => cancelled = true;
-    }, [simulateVerification]);
+    }, [simulateVerification, submissionId]);
 
     return Scaffold(
       appBar: AppBar(
