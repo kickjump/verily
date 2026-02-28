@@ -24,6 +24,15 @@
         "command": "./tools/dartfmt.sh {{file_path}}",
         "exts": ["dart"],
         "stdin": false
+      },
+      {
+        "command": "./tools/ktlint.sh {{file_path}}",
+        "exts": ["kt", "kts"],
+        "stdin": false
+      },
+      {
+        "command": "./tools/swift-format.sh",
+        "exts": ["swift"]
       }
     ]
   },
@@ -38,8 +47,18 @@
     "**/*.freezed.dart",
     "**/generated_protocol/**",
     "**/generated/**",
-    "**/ios/",
-    "**/android/",
+    "**/ios/**/*.pbxproj",
+    "**/ios/**/*.plist",
+    "**/ios/**/*.storyboard",
+    "**/ios/**/*.xib",
+    "**/ios/**/*.xcscheme",
+    "**/ios/**/*.xcworkspacedata",
+    "**/android/.gradle/**",
+    "**/android/captures/**",
+    "**/android/**/*.xml",
+    "**/android/**/*.properties",
+    "**/android/**/GeneratedPluginRegistrant.java",
+    "**/.ktlint-tmp-*",
     "**/Pods/",
     "**/test_tools/serverpod_test_tools.dart",
     "pubspec.lock",
