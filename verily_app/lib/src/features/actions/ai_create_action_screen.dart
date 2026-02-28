@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'package:verily_app/src/features/actions/providers/ai_action_provider.dart';
 import 'package:verily_app/src/features/actions/providers/create_action_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
@@ -20,12 +21,60 @@ class AiCreateActionScreen extends HookConsumerWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     final textController = useTextEditingController();
+    final textLength = useState(0);
     final isListening = useState(false);
+    final speechAvailable = useState(false);
     final aiState = ref.watch(aiActionGeneratorProvider);
     final aiNotifier = ref.read(aiActionGeneratorProvider.notifier);
 
+    // Lazily-initialized SpeechToText instance.
+    final speech = useMemoized(SpeechToText.new);
+
+    // Initialize speech-to-text on first build.
+    useEffect(() {
+      speech.initialize().then((available) {
+        speechAvailable.value = available;
+      });
+      return null;
+    }, const []);
+
+    // Track text length for enabling the generate button.
+    useEffect(() {
+      void listener() => textLength.value = textController.text.trim().length;
+      textController.addListener(listener);
+      return () => textController.removeListener(listener);
+    }, [textController]);
+
+    Future<void> toggleListening() async {
+      if (isListening.value) {
+        await speech.stop();
+        isListening.value = false;
+        return;
+      }
+
+      if (!speechAvailable.value) return;
+
+      isListening.value = true;
+      await speech.listen(
+        onResult: (result) {
+          textController
+            ..text = result.recognizedWords
+            ..selection = TextSelection.collapsed(
+              offset: textController.text.length,
+            );
+          if (result.finalResult) {
+            isListening.value = false;
+          }
+        },
+        listenFor: const Duration(seconds: 30),
+        pauseFor: const Duration(seconds: 3),
+      );
+    }
+
     // When AI generates an action, show the review screen
     final generatedAction = aiState.value;
+    const minChars = 10;
+    final canGenerate = !aiState.isLoading && textLength.value >= minChars;
 
     return Scaffold(
       appBar: AppBar(
@@ -39,171 +88,247 @@ class AiCreateActionScreen extends HookConsumerWidget {
       ),
       body: generatedAction != null
           ? _AiReviewView(action: generatedAction, onEdit: aiNotifier.reset)
-          : Padding(
-              padding: const EdgeInsets.all(SpacingTokens.md),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header
-                  Container(
-                    padding: const EdgeInsets.all(SpacingTokens.lg),
-                    decoration: BoxDecoration(
-                      gradient: isDark
-                          ? GradientTokens.heroCard
-                          : GradientTokens.heroCardLight,
-                      borderRadius: BorderRadius.circular(RadiusTokens.lg),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.auto_awesome,
-                          size: 48,
-                          color: isDark ? Colors.white : ColorTokens.primary,
+          : Column(
+              children: [
+                // Scrollable content area
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.all(SpacingTokens.md),
+                    children: [
+                      // Header
+                      Container(
+                        padding: const EdgeInsets.all(SpacingTokens.lg),
+                        decoration: BoxDecoration(
+                          gradient: isDark
+                              ? GradientTokens.heroCard
+                              : GradientTokens.heroCardLight,
+                          borderRadius: BorderRadius.circular(RadiusTokens.lg),
                         ),
-                        const SizedBox(height: SpacingTokens.md),
-                        Text(
-                          'Describe your action',
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: isDark
-                                ? Colors.white
-                                : colorScheme.onSurface,
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.auto_awesome,
+                              size: 48,
+                              color: isDark
+                                  ? Colors.white
+                                  : ColorTokens.primary,
+                            ),
+                            const SizedBox(height: SpacingTokens.md),
+                            Text(
+                              'Describe your action',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: isDark
+                                    ? Colors.white
+                                    : colorScheme.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: SpacingTokens.sm),
+                            Text(
+                              'Tell us what you want people to do. '
+                              'Our AI will structure it into a '
+                              'verifiable action with criteria.',
+                              textAlign: TextAlign.center,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: isDark
+                                    ? Colors.white.withValues(alpha: 0.8)
+                                    : colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: SpacingTokens.lg),
+
+                      // Text input area
+                      VTextField(
+                        controller: textController,
+                        labelText: 'Describe the action',
+                        hintText:
+                            'e.g., "I want people to plant a tree in '
+                            'their neighborhood and take a video '
+                            'showing them digging the hole, '
+                            'planting the sapling, and watering it"',
+                        maxLines: 6,
+                      ),
+
+                      // Character count indicator
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: SpacingTokens.xs,
+                          right: SpacingTokens.xs,
+                        ),
+                        child: Text(
+                          textLength.value < minChars
+                              ? '${minChars - textLength.value} more '
+                                    'characters needed'
+                              : '${textLength.value} characters',
+                          textAlign: TextAlign.end,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: textLength.value < minChars
+                                ? colorScheme.onSurfaceVariant
+                                : ColorTokens.success,
                           ),
                         ),
-                        const SizedBox(height: SpacingTokens.sm),
-                        Text(
-                          'Tell us what you want people to do. Our AI will structure it into a verifiable action with criteria.',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: isDark
-                                ? Colors.white.withValues(alpha: 0.8)
-                                : colorScheme.onSurfaceVariant,
+                      ),
+
+                      // Listening indicator
+                      if (isListening.value)
+                        Padding(
+                          padding: const EdgeInsets.only(top: SpacingTokens.sm),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: SpacingTokens.md,
+                              vertical: SpacingTokens.sm,
+                            ),
+                            decoration: BoxDecoration(
+                              color: colorScheme.errorContainer,
+                              borderRadius: BorderRadius.circular(
+                                RadiusTokens.md,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.mic,
+                                  size: 18,
+                                  color: colorScheme.error,
+                                ),
+                                const SizedBox(width: SpacingTokens.sm),
+                                Expanded(
+                                  child: Text(
+                                    'Listening... speak now',
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: colorScheme.onErrorContainer,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: toggleListening,
+                                  child: const Text('Stop'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                      const SizedBox(height: SpacingTokens.lg),
+
+                      // Example prompts
+                      Text(
+                        'Try saying:',
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: SpacingTokens.sm),
+                      Wrap(
+                        spacing: SpacingTokens.sm,
+                        runSpacing: SpacingTokens.sm,
+                        children: [
+                          _ExampleChip(
+                            label: 'Do 50 push-ups at a park',
+                            onTap: () => textController.text =
+                                'Do 50 push-ups at a park. '
+                                'The video should clearly show '
+                                'full body reps.',
+                          ),
+                          _ExampleChip(
+                            label: 'Clean up a beach for 10 min',
+                            onTap: () => textController.text =
+                                'Pick up litter at a beach for at '
+                                'least 10 minutes. '
+                                'Show the before and after in '
+                                'the video.',
+                          ),
+                          _ExampleChip(
+                            label: 'Meditate daily for a week',
+                            onTap: () => textController.text =
+                                'Meditate for at least 5 minutes '
+                                'every day for 7 days. '
+                                'Record a short clip each day '
+                                'showing you in a quiet '
+                                'seated position.',
+                          ),
+                        ],
+                      ),
+
+                      // Error display
+                      if (aiState.hasError)
+                        Padding(
+                          padding: const EdgeInsets.only(top: SpacingTokens.md),
+                          child: Text(
+                            'AI generation failed. '
+                            'Check your connection and try again.',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.error,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+
+                // Sticky bottom action bar
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(SpacingTokens.md),
+                    child: Row(
+                      children: [
+                        // Voice button
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isListening.value
+                                ? colorScheme.error
+                                : colorScheme.primaryContainer,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              isListening.value ? Icons.stop : Icons.mic,
+                              color: isListening.value
+                                  ? colorScheme.onError
+                                  : colorScheme.primary,
+                            ),
+                            iconSize: 28,
+                            tooltip: speechAvailable.value
+                                ? (isListening.value
+                                      ? 'Stop listening'
+                                      : 'Voice input')
+                                : 'Voice input unavailable',
+                            onPressed: speechAvailable.value
+                                ? toggleListening
+                                : null,
+                          ),
+                        ),
+                        const SizedBox(width: SpacingTokens.md),
+
+                        // Generate button
+                        Expanded(
+                          child: VFilledButton(
+                            isLoading: aiState.isLoading,
+                            onPressed: canGenerate
+                                ? () => aiNotifier.generate(
+                                    textController.text.trim(),
+                                  )
+                                : null,
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.auto_awesome, size: 18),
+                                SizedBox(width: SpacingTokens.sm),
+                                Text('Generate Action'),
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: SpacingTokens.lg),
-
-                  // Text input area
-                  Expanded(
-                    child: VTextField(
-                      controller: textController,
-                      labelText: 'Describe the action',
-                      hintText:
-                          'e.g., "I want people to plant a tree in their neighborhood '
-                          'and take a video showing them digging the hole, '
-                          'planting the sapling, and watering it"',
-                      maxLines: 8,
-                    ),
-                  ),
-
-                  const SizedBox(height: SpacingTokens.md),
-
-                  // Example prompts
-                  Text(
-                    'Try saying:',
-                    style: theme.textTheme.labelMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: SpacingTokens.sm),
-                  Wrap(
-                    spacing: SpacingTokens.sm,
-                    runSpacing: SpacingTokens.sm,
-                    children: [
-                      _ExampleChip(
-                        label: 'Do 50 push-ups at a park',
-                        onTap: () => textController.text =
-                            'Do 50 push-ups at a park. '
-                            'The video should clearly show full body reps.',
-                      ),
-                      _ExampleChip(
-                        label: 'Clean up a beach for 10 min',
-                        onTap: () => textController.text =
-                            'Pick up litter at a beach for at least 10 minutes. '
-                            'Show the before and after in the video.',
-                      ),
-                      _ExampleChip(
-                        label: 'Meditate daily for a week',
-                        onTap: () => textController.text =
-                            'Meditate for at least 5 minutes every day for 7 days. '
-                            'Record a short clip each day showing you in a quiet '
-                            'seated position.',
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: SpacingTokens.lg),
-
-                  // Action buttons
-                  Row(
-                    children: [
-                      // Voice button
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isListening.value
-                              ? colorScheme.error
-                              : colorScheme.primaryContainer,
-                        ),
-                        child: IconButton(
-                          icon: Icon(
-                            isListening.value ? Icons.stop : Icons.mic,
-                            color: isListening.value
-                                ? colorScheme.onError
-                                : colorScheme.primary,
-                          ),
-                          iconSize: 28,
-                          onPressed: () {
-                            // Toggle speech-to-text
-                            isListening.value = !isListening.value;
-                            // TODO(ifiokjr): Wire to speech_to_text plugin
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: SpacingTokens.md),
-
-                      // Generate button
-                      Expanded(
-                        child: VFilledButton(
-                          isLoading: aiState.isLoading,
-                          onPressed:
-                              aiState.isLoading ||
-                                  textController.text.trim().length < 10
-                              ? null
-                              : () => aiNotifier.generate(
-                                  textController.text.trim(),
-                                ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.auto_awesome, size: 18),
-                              SizedBox(width: SpacingTokens.sm),
-                              Text('Generate Action'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  // Error display
-                  if (aiState.hasError)
-                    Padding(
-                      padding: const EdgeInsets.only(top: SpacingTokens.sm),
-                      child: Text(
-                        'AI generation failed. Check your connection and try again.',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colorScheme.error,
-                        ),
-                      ),
-                    ),
-
-                  const SizedBox(height: SpacingTokens.md),
-                ],
-              ),
+                ),
+              ],
             ),
     );
   }
