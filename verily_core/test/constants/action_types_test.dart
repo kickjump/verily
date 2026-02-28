@@ -4,8 +4,8 @@ import 'package:verily_core/verily_core.dart';
 void main() {
   group('ActionType', () {
     group('enum values', () {
-      test('has exactly 2 values', () {
-        expect(ActionType.values, hasLength(2));
+      test('has exactly 3 values', () {
+        expect(ActionType.values, hasLength(3));
       });
 
       test('oneOff has correct value and displayName', () {
@@ -16,6 +16,11 @@ void main() {
       test('sequential has correct value and displayName', () {
         expect(ActionType.sequential.value, equals('sequential'));
         expect(ActionType.sequential.displayName, equals('Sequential'));
+      });
+
+      test('habit has correct value and displayName', () {
+        expect(ActionType.habit.value, equals('habit'));
+        expect(ActionType.habit.displayName, equals('Habit'));
       });
     });
 
@@ -29,6 +34,10 @@ void main() {
           ActionType.fromValue('sequential'),
           equals(ActionType.sequential),
         );
+      });
+
+      test('returns habit for "habit"', () {
+        expect(ActionType.fromValue('habit'), equals(ActionType.habit));
       });
 
       test('throws ArgumentError for unknown value', () {
