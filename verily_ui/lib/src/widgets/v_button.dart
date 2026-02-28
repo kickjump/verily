@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:verily_ui/src/theme/color_tokens.dart';
 
 /// A themed filled button for primary actions.
 class VFilledButton extends HookWidget {
@@ -16,13 +17,18 @@ class VFilledButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return FilledButton(
       onPressed: isLoading ? null : onPressed,
       child: isLoading
-          ? const SizedBox(
+          ? SizedBox(
               height: 20,
               width: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: colorScheme.onSecondary,
+              ),
             )
           : child,
     );
@@ -42,7 +48,17 @@ class VOutlinedButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(onPressed: onPressed, child: child);
+    return OutlinedButton(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.white.withValues(alpha: 0.64)
+            : const Color(0xFF13213C).withValues(alpha: 0.78),
+      ),
+      child: child,
+    );
   }
 }
 
@@ -55,6 +71,10 @@ class VTextButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: onPressed, child: child);
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(foregroundColor: ColorTokens.primary),
+      child: child,
+    );
   }
 }

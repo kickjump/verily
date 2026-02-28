@@ -8,8 +8,6 @@
 // ignore_for_file: type_literal_in_constant_pattern
 // ignore_for_file: use_super_parameters
 // ignore_for_file: invalid_use_of_internal_member
-// ignore_for_file: experimental_member_use
-// ignore_for_file: inference_failure_on_function_return_type
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
@@ -24,13 +22,13 @@ import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
     as _i9;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _i10;
-import 'package:verily_client/src/protocol/place_search_result.dart' as _i11;
-import 'package:verily_client/src/protocol/location.dart' as _i12;
-import 'package:verily_client/src/protocol/reward.dart' as _i13;
-import 'package:verily_client/src/protocol/user_reward.dart' as _i14;
-import 'package:verily_client/src/protocol/reward_pool.dart' as _i15;
-import 'package:verily_client/src/protocol/reward_distribution.dart' as _i16;
-import 'package:verily_client/src/protocol/solana_wallet.dart' as _i17;
+import 'package:verily_client/src/protocol/solana_wallet.dart' as _i11;
+import 'package:verily_client/src/protocol/place_search_result.dart' as _i12;
+import 'package:verily_client/src/protocol/location.dart' as _i13;
+import 'package:verily_client/src/protocol/reward.dart' as _i14;
+import 'package:verily_client/src/protocol/user_reward.dart' as _i15;
+import 'package:verily_client/src/protocol/reward_pool.dart' as _i16;
+import 'package:verily_client/src/protocol/reward_distribution.dart' as _i17;
 import 'package:verily_client/src/protocol/action_submission.dart' as _i18;
 import 'package:verily_client/src/protocol/user_follow.dart' as _i19;
 import 'package:verily_client/src/protocol/user_profile.dart' as _i20;
@@ -498,6 +496,41 @@ class EndpointAuthGoogle extends _i9.EndpointGoogleIdpBase {
       caller.callServerEndpoint<bool>('authGoogle', 'hasAccount', {});
 }
 
+/// Endpoint for Solana wallet-based authentication.
+///
+/// Implements a challenge-response flow:
+/// 1. Client requests a challenge nonce via [requestChallenge].
+/// 2. Client signs the nonce with their wallet private key.
+/// 3. Client submits the signed challenge via [verifyChallenge].
+/// 4. Server verifies the Ed25519 signature and creates/returns the wallet.
+/// {@category Endpoint}
+class EndpointAuthWallet extends _i1.EndpointRef {
+  EndpointAuthWallet(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'authWallet';
+
+  /// Generates a challenge nonce for wallet authentication.
+  ///
+  /// Returns a base64-encoded random nonce that the client must sign.
+  _i2.Future<String> requestChallenge(String publicKey) =>
+      caller.callServerEndpoint<String>('authWallet', 'requestChallenge', {
+        'publicKey': publicKey,
+      });
+
+  /// Verifies a signed challenge and authenticates the user.
+  ///
+  /// Returns the linked [SolanaWallet] on success.
+  _i2.Future<_i11.SolanaWallet> verifyChallenge(
+    String publicKey,
+    String signatureBase64,
+  ) => caller.callServerEndpoint<_i11.SolanaWallet>(
+    'authWallet',
+    'verifyChallenge',
+    {'publicKey': publicKey, 'signatureBase64': signatureBase64},
+  );
+}
+
 /// Endpoint for geocoding operations using Mapbox.
 ///
 /// Acts as a server-side proxy so that the Mapbox access token is never
@@ -513,11 +546,11 @@ class EndpointGeocoding extends _i1.EndpointRef {
   ///
   /// Optionally biases results toward [proximityLat]/[proximityLng] when
   /// provided.
-  _i2.Future<List<_i11.PlaceSearchResult>> searchPlaces(
+  _i2.Future<List<_i12.PlaceSearchResult>> searchPlaces(
     String query,
     double? proximityLat,
     double? proximityLng,
-  ) => caller.callServerEndpoint<List<_i11.PlaceSearchResult>>(
+  ) => caller.callServerEndpoint<List<_i12.PlaceSearchResult>>(
     'geocoding',
     'searchPlaces',
     {
@@ -528,8 +561,8 @@ class EndpointGeocoding extends _i1.EndpointRef {
   );
 
   /// Reverse-geocodes a coordinate to the nearest place.
-  _i2.Future<_i11.PlaceSearchResult?> reverseGeocode(double lat, double lng) =>
-      caller.callServerEndpoint<_i11.PlaceSearchResult?>(
+  _i2.Future<_i12.PlaceSearchResult?> reverseGeocode(double lat, double lng) =>
+      caller.callServerEndpoint<_i12.PlaceSearchResult?>(
         'geocoding',
         'reverseGeocode',
         {'lat': lat, 'lng': lng},
@@ -548,25 +581,25 @@ class EndpointLocation extends _i1.EndpointRef {
   String get name => 'location';
 
   /// Creates a new location.
-  _i2.Future<_i12.Location> create(_i12.Location location) =>
-      caller.callServerEndpoint<_i12.Location>('location', 'create', {
+  _i2.Future<_i13.Location> create(_i13.Location location) =>
+      caller.callServerEndpoint<_i13.Location>('location', 'create', {
         'location': location,
       });
 
   /// Searches for locations near a geographic coordinate.
-  _i2.Future<List<_i12.Location>> searchNearby(
+  _i2.Future<List<_i13.Location>> searchNearby(
     double lat,
     double lng,
     double radiusMeters,
-  ) => caller.callServerEndpoint<List<_i12.Location>>(
+  ) => caller.callServerEndpoint<List<_i13.Location>>(
     'location',
     'searchNearby',
     {'lat': lat, 'lng': lng, 'radiusMeters': radiusMeters},
   );
 
   /// Retrieves a single location by its ID.
-  _i2.Future<_i12.Location> get(int id) =>
-      caller.callServerEndpoint<_i12.Location>('location', 'get', {'id': id});
+  _i2.Future<_i13.Location> get(int id) =>
+      caller.callServerEndpoint<_i13.Location>('location', 'get', {'id': id});
 }
 
 /// Endpoint for managing rewards and leaderboards.
@@ -581,18 +614,18 @@ class EndpointReward extends _i1.EndpointRef {
   String get name => 'reward';
 
   /// Lists all rewards associated with a given action.
-  _i2.Future<List<_i13.Reward>> listByAction(int actionId) =>
-      caller.callServerEndpoint<List<_i13.Reward>>('reward', 'listByAction', {
+  _i2.Future<List<_i14.Reward>> listByAction(int actionId) =>
+      caller.callServerEndpoint<List<_i14.Reward>>('reward', 'listByAction', {
         'actionId': actionId,
       });
 
   /// Lists all rewards earned by the authenticated user.
-  _i2.Future<List<_i14.UserReward>> listByUser() => caller
-      .callServerEndpoint<List<_i14.UserReward>>('reward', 'listByUser', {});
+  _i2.Future<List<_i15.UserReward>> listByUser() => caller
+      .callServerEndpoint<List<_i15.UserReward>>('reward', 'listByUser', {});
 
   /// Retrieves the leaderboard of users ranked by total reward points.
-  _i2.Future<List<_i14.UserReward>> getLeaderboard() =>
-      caller.callServerEndpoint<List<_i14.UserReward>>(
+  _i2.Future<List<_i15.UserReward>> getLeaderboard() =>
+      caller.callServerEndpoint<List<_i15.UserReward>>(
         'reward',
         'getLeaderboard',
         {},
@@ -611,7 +644,7 @@ class EndpointRewardPool extends _i1.EndpointRef {
   String get name => 'rewardPool';
 
   /// Creates a new reward pool for an action.
-  _i2.Future<_i15.RewardPool> create(
+  _i2.Future<_i16.RewardPool> create(
     int actionId,
     String rewardType,
     double totalAmount,
@@ -619,7 +652,7 @@ class EndpointRewardPool extends _i1.EndpointRef {
     String? tokenMintAddress,
     int? maxRecipients,
     DateTime? expiresAt,
-  }) => caller.callServerEndpoint<_i15.RewardPool>('rewardPool', 'create', {
+  }) => caller.callServerEndpoint<_i16.RewardPool>('rewardPool', 'create', {
     'actionId': actionId,
     'rewardType': rewardType,
     'totalAmount': totalAmount,
@@ -630,36 +663,36 @@ class EndpointRewardPool extends _i1.EndpointRef {
   });
 
   /// Gets a reward pool by id.
-  _i2.Future<_i15.RewardPool> get(int poolId) =>
-      caller.callServerEndpoint<_i15.RewardPool>('rewardPool', 'get', {
+  _i2.Future<_i16.RewardPool> get(int poolId) =>
+      caller.callServerEndpoint<_i16.RewardPool>('rewardPool', 'get', {
         'poolId': poolId,
       });
 
   /// Lists all reward pools for an action.
-  _i2.Future<List<_i15.RewardPool>> listByAction(int actionId) =>
-      caller.callServerEndpoint<List<_i15.RewardPool>>(
+  _i2.Future<List<_i16.RewardPool>> listByAction(int actionId) =>
+      caller.callServerEndpoint<List<_i16.RewardPool>>(
         'rewardPool',
         'listByAction',
         {'actionId': actionId},
       );
 
   /// Lists all reward pools created by the authenticated user.
-  _i2.Future<List<_i15.RewardPool>> listByCreator() =>
-      caller.callServerEndpoint<List<_i15.RewardPool>>(
+  _i2.Future<List<_i16.RewardPool>> listByCreator() =>
+      caller.callServerEndpoint<List<_i16.RewardPool>>(
         'rewardPool',
         'listByCreator',
         {},
       );
 
   /// Cancels a reward pool (only the creator can cancel).
-  _i2.Future<_i15.RewardPool> cancel(int poolId) =>
-      caller.callServerEndpoint<_i15.RewardPool>('rewardPool', 'cancel', {
+  _i2.Future<_i16.RewardPool> cancel(int poolId) =>
+      caller.callServerEndpoint<_i16.RewardPool>('rewardPool', 'cancel', {
         'poolId': poolId,
       });
 
   /// Lists all distributions from a reward pool.
-  _i2.Future<List<_i16.RewardDistribution>> getDistributions(int poolId) =>
-      caller.callServerEndpoint<List<_i16.RewardDistribution>>(
+  _i2.Future<List<_i17.RewardDistribution>> getDistributions(int poolId) =>
+      caller.callServerEndpoint<List<_i17.RewardDistribution>>(
         'rewardPool',
         'getDistributions',
         {'poolId': poolId},
@@ -696,25 +729,25 @@ class EndpointSolana extends _i1.EndpointRef {
   String get name => 'solana';
 
   /// Creates a custodial wallet for the authenticated user.
-  _i2.Future<_i17.SolanaWallet> createWallet({String? label}) =>
-      caller.callServerEndpoint<_i17.SolanaWallet>('solana', 'createWallet', {
+  _i2.Future<_i11.SolanaWallet> createWallet({String? label}) =>
+      caller.callServerEndpoint<_i11.SolanaWallet>('solana', 'createWallet', {
         'label': label,
       });
 
   /// Links an external Solana wallet.
-  _i2.Future<_i17.SolanaWallet> linkWallet(String publicKey, {String? label}) =>
-      caller.callServerEndpoint<_i17.SolanaWallet>('solana', 'linkWallet', {
+  _i2.Future<_i11.SolanaWallet> linkWallet(String publicKey, {String? label}) =>
+      caller.callServerEndpoint<_i11.SolanaWallet>('solana', 'linkWallet', {
         'publicKey': publicKey,
         'label': label,
       });
 
   /// Lists all wallets for the authenticated user.
-  _i2.Future<List<_i17.SolanaWallet>> getWallets() => caller
-      .callServerEndpoint<List<_i17.SolanaWallet>>('solana', 'getWallets', {});
+  _i2.Future<List<_i11.SolanaWallet>> getWallets() => caller
+      .callServerEndpoint<List<_i11.SolanaWallet>>('solana', 'getWallets', {});
 
   /// Sets a wallet as the user's default for receiving rewards.
-  _i2.Future<_i17.SolanaWallet> setDefaultWallet(int walletId) =>
-      caller.callServerEndpoint<_i17.SolanaWallet>(
+  _i2.Future<_i11.SolanaWallet> setDefaultWallet(int walletId) =>
+      caller.callServerEndpoint<_i11.SolanaWallet>(
         'solana',
         'setDefaultWallet',
         {'walletId': walletId},
@@ -939,6 +972,7 @@ class Client extends _i1.ServerpodClientShared {
     authApple = EndpointAuthApple(this);
     authEmail = EndpointAuthEmail(this);
     authGoogle = EndpointAuthGoogle(this);
+    authWallet = EndpointAuthWallet(this);
     geocoding = EndpointGeocoding(this);
     location = EndpointLocation(this);
     reward = EndpointReward(this);
@@ -967,6 +1001,8 @@ class Client extends _i1.ServerpodClientShared {
   late final EndpointAuthEmail authEmail;
 
   late final EndpointAuthGoogle authGoogle;
+
+  late final EndpointAuthWallet authWallet;
 
   late final EndpointGeocoding geocoding;
 
@@ -1000,6 +1036,7 @@ class Client extends _i1.ServerpodClientShared {
     'authApple': authApple,
     'authEmail': authEmail,
     'authGoogle': authGoogle,
+    'authWallet': authWallet,
     'geocoding': geocoding,
     'location': location,
     'reward': reward,

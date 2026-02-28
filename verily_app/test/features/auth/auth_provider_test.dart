@@ -206,6 +206,11 @@ final class _FakeAuthGateway implements AuthGateway {
   }
 
   @override
+  Future<AuthProfile> loginWithWallet({required String publicKey}) async {
+    return (userId: 'wallet-user', email: '');
+  }
+
+  @override
   Future<void> logout() async {}
 
   @override

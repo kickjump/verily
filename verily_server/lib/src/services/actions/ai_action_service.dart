@@ -14,7 +14,7 @@ class AiActionService {
   AiActionService._();
 
   static final _log = VLogger('AiActionService');
-  static const _modelName = 'gemini-2.0-flash';
+  static const _modelName = 'gemini-2.5-flash-lite';
 
   /// Generates a structured action from a natural language description.
   ///
@@ -46,45 +46,72 @@ class AiActionService {
 
       final prompt =
           '''
-You are an action creation AI for the Verily platform. Your job is to transform
-a natural language description into a structured action that can be verified
-via video.
+You are an action creation AI for Verily, a real-world action verification
+marketplace. Transform the natural language description into a structured action
+that can be verified via video/photo proof.
 
 ## User Description
 "$description"
 $locationCtx
 
+## Action Types
+
+Choose the most appropriate type:
+
+- **"oneOff"**: A single action completed once (e.g., "do 20 push-ups",
+  "take a photo at the Eiffel Tower").
+- **"sequential"**: Multiple distinct steps, either in order or any order
+  (e.g., "visit 3 coffee shops and review each one"). Set stepOrdering to
+  "ordered" if steps must be done in sequence, or "unordered" if any order.
+  Include the actual steps in the "steps" array.
+- **"habit"**: A repeated action over a time period (e.g., "run 5K every day
+  for 30 days", "meditate 5 times a week for 4 weeks"). Set habitDurationDays,
+  habitFrequencyPerWeek, and habitTotalRequired.
+
 ## Your Task
 
-Parse the description and generate a structured action. Determine:
 1. A clear, concise title (max 60 chars)
-2. A detailed description explaining the action
-3. Whether it's a one-off action ("oneOff") or a multi-step sequential
-   challenge ("sequential")
-4. Clear, specific verification criteria that Gemini can use to verify video
-5. The best category: Fitness, Social, Creative, Wellness, Adventure, Learning
-6. If sequential, suggest the number of steps and interval between them
-7. Relevant tags for discoverability
-8. If a specific location is mentioned, suggest coordinates
+2. A detailed description explaining exactly what to do
+3. The correct actionType with all relevant fields
+4. Clear, specific verification criteria that AI can use to verify video/photo
+5. Category: Fitness, Social, Creative, Wellness, Adventure, Learning,
+   Community, Food, Shopping, Travel
+6. For sequential: steps array with per-step verification criteria
+7. For habit: duration, frequency, and total completions
+8. Relevant tags for discoverability
+9. If a specific location is mentioned, suggest coordinates and radius
 
 ## Response Format (JSON only)
 
 {
   "title": "string",
   "description": "string",
-  "actionType": "oneOff" or "sequential",
-  "verificationCriteria": "string",
+  "actionType": "oneOff" | "sequential" | "habit",
+  "verificationCriteria": "string (overall criteria)",
   "suggestedCategory": "string",
-  "suggestedSteps": null or number,
-  "suggestedIntervalDays": null or number,
+  "stepOrdering": null | "ordered" | "unordered",
+  "suggestedSteps": null | number,
+  "suggestedIntervalDays": null | number,
+  "habitDurationDays": null | number,
+  "habitFrequencyPerWeek": null | number,
+  "habitTotalRequired": null | number,
   "suggestedTags": ["tag1", "tag2"],
-  "suggestedLocation": null or {
+  "suggestedMaxPerformers": null | number,
+  "suggestedLocation": null | {
     "name": "string",
     "address": "string",
     "latitude": number,
     "longitude": number,
     "suggestedRadiusMeters": number
-  }
+  },
+  "steps": [] | [
+    {
+      "stepNumber": 1,
+      "title": "string",
+      "description": "string",
+      "verificationCriteria": "string"
+    }
+  ]
 }
 
 Respond with ONLY valid JSON, no markdown formatting.

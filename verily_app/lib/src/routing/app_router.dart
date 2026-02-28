@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:verily_app/src/features/actions/action_detail_screen.dart';
+import 'package:verily_app/src/features/actions/ai_create_action_screen.dart';
 import 'package:verily_app/src/features/actions/create_action_screen.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_app/src/features/auth/login_screen.dart';
@@ -114,6 +115,11 @@ GoRouter appRouter(Ref ref) {
         path: RouteNames.createActionPath,
         name: RouteNames.createAction,
         builder: (context, state) => const CreateActionScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.aiCreateActionPath,
+        name: RouteNames.aiCreateAction,
+        builder: (context, state) => const AiCreateActionScreen(),
       ),
       GoRoute(
         path: RouteNames.videoRecordingPath,

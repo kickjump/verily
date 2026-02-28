@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_app/src/features/auth/login_screen.dart';
 import 'package:verily_app/src/features/auth/register_screen.dart';
 import 'package:verily_app/src/features/feed/feed_screen.dart';
+import 'package:verily_app/src/features/home/home_screen.dart';
 import 'package:verily_app/src/features/profile/profile_screen.dart';
 import 'package:verily_app/src/features/search/search_screen.dart';
+import 'package:verily_app/src/features/submissions/verification_capture_screen.dart';
 import 'package:verily_app/src/routing/route_names.dart';
+import 'package:verily_app/src/routing/widgets/home_shell_scaffold.dart';
+import 'package:verily_ui/verily_ui.dart';
+
+/// Root boundary used for deterministic screenshot capture in integration tests.
+const integrationScreenshotBoundaryKey = Key('integration_screenshot_boundary');
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -68,7 +76,8 @@ Widget buildAuthApp({String initialLocation = RouteNames.loginPath}) {
   return ProviderScope(
     overrides: [authProvider.overrideWith(_IntegrationTestAuth.new)],
     child: MaterialApp.router(
-      theme: ThemeData.light(useMaterial3: true),
+      theme: VerilyTheme.light,
+      darkTheme: VerilyTheme.dark,
       routerConfig: router,
     ),
   );
@@ -173,8 +182,104 @@ Widget buildShellApp({String initialLocation = RouteNames.feedPath}) {
   );
 
   return ProviderScope(
+    child: RepaintBoundary(
+      key: integrationScreenshotBoundaryKey,
+      child: MaterialApp.router(
+        theme: VerilyTheme.light,
+        darkTheme: VerilyTheme.dark,
+        routerConfig: router,
+      ),
+    ),
+  );
+}
+
+/// Builds the production-aligned home shell used by Patrol flows.
+///
+/// This uses [HomeShellScaffold] with [HomeScreen], [SearchScreen], and
+/// [ProfileScreen] branches plus the center verification route.
+Widget buildHomeShellApp({String initialLocation = RouteNames.feedPath}) {
+  final router = GoRouter(
+    initialLocation: initialLocation,
+    routes: [
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return HomeShellScaffold(navigationShell: navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.feedPath,
+                name: RouteNames.feed,
+                builder: (_, __) => const HomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.searchPath,
+                name: RouteNames.search,
+                builder: (_, __) => const SearchScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteNames.profilePath,
+                name: RouteNames.profile,
+                builder: (_, __) => const ProfileScreen(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
+        path: RouteNames.verifyCapturePath,
+        name: RouteNames.verifyCapture,
+        builder: (_, __) => const VerificationCaptureScreen(),
+      ),
+      // Stub routes for push targets referenced from home and profile screens.
+      GoRoute(
+        path: RouteNames.actionDetailPath,
+        name: RouteNames.actionDetail,
+        builder: (_, state) => Scaffold(
+          body: Center(
+            child: Text('Action detail ${state.pathParameters["actionId"]}'),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.settingsPath,
+        name: RouteNames.settings,
+        builder: (_, __) =>
+            const Scaffold(body: Center(child: Text('Settings'))),
+      ),
+      GoRoute(
+        path: RouteNames.editProfilePath,
+        name: RouteNames.editProfile,
+        builder: (_, __) =>
+            const Scaffold(body: Center(child: Text('Edit Profile'))),
+      ),
+      GoRoute(
+        path: RouteNames.submissionStatusPath,
+        name: RouteNames.submissionStatus,
+        builder: (_, state) => Scaffold(
+          body: Center(
+            child: Text(
+              'Submission status for action ${state.pathParameters["actionId"]}',
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+
+  return ProviderScope(
     child: MaterialApp.router(
-      theme: ThemeData.light(useMaterial3: true),
+      theme: VerilyTheme.light,
+      darkTheme: VerilyTheme.dark,
       routerConfig: router,
     ),
   );
@@ -184,7 +289,7 @@ Widget buildShellApp({String initialLocation = RouteNames.feedPath}) {
 // Shell scaffold (mirrors production _ShellScaffold)
 // ---------------------------------------------------------------------------
 
-class _ShellScaffold extends StatelessWidget {
+class _ShellScaffold extends HookWidget {
   const _ShellScaffold({required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;

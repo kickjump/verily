@@ -40,6 +40,9 @@ authEmail:
 authGoogle:
   - login:
   - hasAccount:
+authWallet:
+  - requestChallenge:
+  - verifyChallenge:
 geocoding:
   - searchPlaces:
   - reverseGeocode:

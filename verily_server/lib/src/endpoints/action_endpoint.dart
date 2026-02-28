@@ -22,11 +22,18 @@ class ActionEndpoint extends Endpoint {
       actionType: action.actionType,
       verificationCriteria: action.verificationCriteria,
       totalSteps: action.totalSteps,
+      stepOrdering: action.stepOrdering,
       intervalDays: action.intervalDays,
+      habitDurationDays: action.habitDurationDays,
+      habitFrequencyPerWeek: action.habitFrequencyPerWeek,
+      habitTotalRequired: action.habitTotalRequired,
       maxPerformers: action.maxPerformers,
       locationId: action.locationId,
       categoryId: action.categoryId,
       referenceImages: action.referenceImages,
+      tags: action.tags,
+      expiresAt: action.expiresAt,
+      locationRadius: action.locationRadius,
     );
   }
 

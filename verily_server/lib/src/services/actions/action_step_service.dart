@@ -52,6 +52,7 @@ class ActionStepService {
       title: title,
       description: description,
       verificationCriteria: verificationCriteria,
+      isOptional: false,
     );
 
     final inserted = await ActionStep.db.insertRow(session, step);

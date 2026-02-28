@@ -63,7 +63,7 @@ melos:
 
     test:integration:
       description: Run Patrol integration tests.
-      run: cd verily_app && flutter test integration_test
+      run: cd verily_app && if [ "$(uname -s)" = "Darwin" ]; then unset LD CC CXX; fi && flutter test integration_test
 
     upgrade:
       description: Upgrade dependencies in all packages.

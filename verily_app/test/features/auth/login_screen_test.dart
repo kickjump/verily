@@ -103,6 +103,15 @@ void main() {
       expect(find.text('Verily'), findsOneWidget);
       expect(find.text('Verify real-world actions with AI'), findsOneWidget);
       expect(find.byIcon(Icons.verified_rounded), findsOneWidget);
+      expect(
+        find.byWidgetPredicate((widget) {
+          if (widget is! Image) return false;
+          final imageProvider = widget.image;
+          if (imageProvider is! AssetImage) return false;
+          return imageProvider.assetName == 'assets/branding/verily_icon.png';
+        }),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders or continue with divider', (tester) async {

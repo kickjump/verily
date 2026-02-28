@@ -175,33 +175,46 @@ class _ActionFeedCard extends HookWidget {
           children: [
             // Category and type badge row
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                VBadgeChip(
-                  label: categories[index % categories.length],
-                  icon: Icons.category_outlined,
+                Expanded(
+                  child: Wrap(
+                    spacing: SpacingTokens.sm,
+                    runSpacing: SpacingTokens.xs,
+                    children: [
+                      VBadgeChip(
+                        label: categories[index % categories.length],
+                        icon: Icons.category_outlined,
+                      ),
+                      VBadgeChip(
+                        label: index.isEven ? 'One-Off' : 'Sequential',
+                        backgroundColor: index.isEven
+                            ? ColorTokens.primary.withAlpha(30)
+                            : ColorTokens.tertiary.withAlpha(30),
+                        foregroundColor: index.isEven
+                            ? ColorTokens.primary
+                            : ColorTokens.tertiary,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(width: SpacingTokens.sm),
-                VBadgeChip(
-                  label: index.isEven ? 'One-Off' : 'Sequential',
-                  backgroundColor: index.isEven
-                      ? ColorTokens.primary.withAlpha(30)
-                      : ColorTokens.tertiary.withAlpha(30),
-                  foregroundColor: index.isEven
-                      ? ColorTokens.primary
-                      : ColorTokens.tertiary,
-                ),
-                const Spacer(),
-                Icon(
-                  Icons.location_on_outlined,
-                  size: 16,
-                  color: colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: SpacingTokens.xs),
-                Text(
-                  '${(index + 1) * 0.3} mi',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.location_on_outlined,
+                      size: 16,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: SpacingTokens.xs),
+                    Text(
+                      '${(index + 1) * 0.3} mi',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

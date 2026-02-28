@@ -75,6 +75,56 @@ class ProfileScreen extends HookConsumerWidget {
                     // Stats bar
                     _StatsBar(),
                     const SizedBox(height: SpacingTokens.md),
+
+                    // Wallet quick access
+                    VCard(
+                      onTap: () => context.push(RouteNames.walletPath),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: SpacingTokens.md,
+                        vertical: SpacingTokens.sm,
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                RadiusTokens.sm,
+                              ),
+                              color: colorScheme.primaryContainer,
+                            ),
+                            child: Icon(
+                              Icons.account_balance_wallet_outlined,
+                              color: colorScheme.primary,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(width: SpacingTokens.md),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Wallet',
+                                  style: theme.textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Text(
+                                  'View balances, tokens & NFTs',
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Icon(Icons.chevron_right),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: SpacingTokens.md),
                   ],
                 ),
               ),

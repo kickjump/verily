@@ -35,6 +35,9 @@ abstract final class RouteNames {
   /// Create-action flow.
   static const String createAction = 'createAction';
 
+  /// AI-assisted action creation.
+  static const String aiCreateAction = 'aiCreateAction';
+
   // ---------------------------------------------------------------------------
   // Submission flow
   // ---------------------------------------------------------------------------
@@ -102,6 +105,7 @@ abstract final class RouteNames {
   static const String registerPath = '/register';
   static const String actionDetailPath = '/action/:actionId';
   static const String createActionPath = '/action/create';
+  static const String aiCreateActionPath = '/action/create/ai';
   static const String verifyCapturePath = '/verify';
   static const String videoRecordingPath = '/submissions/:actionId/record';
   static const String videoReviewPath = '/submissions/:actionId/review';

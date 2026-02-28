@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/app/providers/theme_mode_provider.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -14,8 +15,7 @@ class SettingsScreen extends HookConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    // TODO: Load persisted settings from provider.
-    final themeMode = useState(ThemeMode.system);
+    final themeMode = ref.watch(themeModeProvider);
     final notificationsEnabled = useState(true);
     final locationSharingEnabled = useState(true);
     final profilePublic = useState(true);
@@ -33,8 +33,9 @@ class SettingsScreen extends HookConsumerWidget {
           // Appearance section
           const _SectionTitle(title: 'Appearance'),
           _ThemeModeTile(
-            currentMode: themeMode.value,
-            onChanged: (mode) => themeMode.value = mode,
+            currentMode: themeMode,
+            onChanged: (mode) =>
+                ref.read(themeModeProvider.notifier).setThemeMode(mode),
           ),
           const Divider(),
 

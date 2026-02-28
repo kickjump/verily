@@ -28,6 +28,11 @@ void main() {
     testWidgets('renders nearby section and browse button', (tester) async {
       await pumpHomeScreen(tester);
 
+      await tester.scrollUntilVisible(
+        find.text('Nearby right now'),
+        220,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.text('Nearby right now'), findsOneWidget);
       await tester.scrollUntilVisible(
         find.text('Browse more actions'),
@@ -50,9 +55,10 @@ void main() {
       await pumpHomeScreen(tester);
 
       expect(find.text('Active Action'), findsNothing);
-      await tester.tap(
-        find.byIcon(Icons.playlist_add_check_circle_outlined).first,
+      final setActiveButton = tester.widget<TextButton>(
+        find.byKey(const Key('home_featured_setActive_101')),
       );
+      setActiveButton.onPressed?.call();
       await tester.pump();
 
       expect(find.text('Active Action'), findsOneWidget);
@@ -60,5 +66,38 @@ void main() {
       expect(find.text('Verify at location'), findsOneWidget);
       expect(find.textContaining('Show your full body'), findsOneWidget);
     });
+
+    testWidgets(
+      'renders featured action activation controls with stable keys',
+      (tester) async {
+        await pumpHomeScreen(tester);
+
+        expect(
+          find.byKey(const Key('home_featured_setActive_101')),
+          findsOneWidget,
+        );
+        await tester.scrollUntilVisible(
+          find.byKey(const Key('home_list_setActive_101')),
+          220,
+          scrollable: find.byType(Scrollable).first,
+        );
+        expect(
+          find.byKey(const Key('home_list_setActive_101')),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(const Key('home_openVerificationButton')),
+          findsNothing,
+        );
+
+        await tester.tap(find.byKey(const Key('home_featured_setActive_101')));
+        await tester.pump();
+
+        expect(
+          find.byKey(const Key('home_openVerificationButton')),
+          findsOneWidget,
+        );
+      },
+    );
   });
 }

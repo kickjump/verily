@@ -135,6 +135,7 @@ class SeedService {
               'Video must show exactly $reps press-ups with full range of '
               'motion. The person must be clearly visible performing each rep '
               'with a straight body position.',
+          isOptional: false,
         ),
       );
     }
