@@ -7,10 +7,7 @@ void main() {
   group('SubmissionStatusScreen', () {
     Future<void> pumpSubmissionStatusScreen(WidgetTester tester) async {
       await tester.pumpApp(
-        const SubmissionStatusScreen(
-          actionId: 'test_action_1',
-          simulateVerification: false,
-        ),
+        const SubmissionStatusScreen(actionId: 'test_action_1'),
       );
     }
 
