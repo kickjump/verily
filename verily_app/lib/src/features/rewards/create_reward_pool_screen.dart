@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/rewards/providers/reward_pool_provider.dart';
+import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
 /// Screen for creating a reward pool for an action.
@@ -18,6 +21,78 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
     final tokenMintController = useTextEditingController();
     final hasExpiry = useState(false);
     final expiryDate = useState<DateTime?>(null);
+    final isSubmitting = useState(false);
+
+    Future<void> pickExpiryDate() async {
+      final picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now().add(const Duration(days: 30)),
+        firstDate: DateTime.now().add(const Duration(days: 1)),
+        lastDate: DateTime.now().add(const Duration(days: 365)),
+      );
+      if (picked != null) {
+        expiryDate.value = picked;
+      }
+    }
+
+    Future<void> createPool() async {
+      final totalAmount = double.tryParse(totalAmountController.text);
+      final perPerson = double.tryParse(perPersonController.text);
+
+      if (totalAmount == null || totalAmount <= 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please enter a valid total amount.')),
+        );
+        return;
+      }
+
+      if (rewardType.value != 'nft' && (perPerson == null || perPerson <= 0)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please enter a valid per-person amount.'),
+          ),
+        );
+        return;
+      }
+
+      if (rewardType.value == 'spl_token' && tokenMintController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please enter a token mint address.')),
+        );
+        return;
+      }
+
+      isSubmitting.value = true;
+      final actionIdInt = int.tryParse(actionId) ?? 0;
+      final maxRecipients = int.tryParse(maxRecipientsController.text);
+
+      final pool = await ref
+          .read(rewardPoolProvider.notifier)
+          .create(
+            actionId: actionIdInt,
+            rewardType: rewardType.value,
+            totalAmount: totalAmount,
+            perPersonAmount: rewardType.value == 'nft' ? 1.0 : perPerson!,
+            tokenMintAddress: rewardType.value == 'spl_token'
+                ? tokenMintController.text
+                : null,
+            maxRecipients: maxRecipients,
+            expiresAt: hasExpiry.value ? expiryDate.value : null,
+          );
+
+      if (pool != null && context.mounted) {
+        context.go(
+          RouteNames.rewardPoolDetailPath.replaceFirst(':poolId', '${pool.id}'),
+        );
+      } else if (context.mounted) {
+        isSubmitting.value = false;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to create reward pool. Please try again.'),
+          ),
+        );
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(title: const Text('Create Reward Pool')),
@@ -109,7 +184,9 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
               onChanged: (value) {
                 hasExpiry.value = value;
                 if (value) {
-                  // TODO(ifiokjr): Show date picker
+                  pickExpiryDate();
+                } else {
+                  expiryDate.value = null;
                 }
               },
             ),
@@ -141,9 +218,8 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
 
             // Create button
             VFilledButton(
-              onPressed: () {
-                // TODO(ifiokjr): Validate inputs and call RewardPoolEndpoint.create()
-              },
+              isLoading: isSubmitting.value,
+              onPressed: isSubmitting.value ? null : createPool,
               child: const Text('Fund & Create Pool'),
             ),
           ],
