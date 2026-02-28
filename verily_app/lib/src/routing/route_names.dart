@@ -85,6 +85,13 @@ abstract final class RouteNames {
   static const String rewardPoolDetail = 'rewardPoolDetail';
 
   // ---------------------------------------------------------------------------
+  // Map
+  // ---------------------------------------------------------------------------
+
+  /// Map view showing nearby actions.
+  static const String map = 'map';
+
+  // ---------------------------------------------------------------------------
   // Misc
   // ---------------------------------------------------------------------------
 
@@ -117,6 +124,7 @@ abstract final class RouteNames {
   static const String createRewardPoolPath =
       '/action/:actionId/reward-pool/create';
   static const String rewardPoolDetailPath = '/reward-pool/:poolId';
+  static const String mapPath = '/map';
   static const String rewardsPath = '/rewards';
   static const String settingsPath = '/settings';
 }
