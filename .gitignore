@@ -69,6 +69,7 @@ build/
 .temp/
 .tmp/
 .screenshots/
+screenshots/
 .example-ui/
 artifacts/
 

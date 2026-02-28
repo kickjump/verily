@@ -267,6 +267,12 @@ Widget buildShellApp({String initialLocation = RouteNames.feedPath}) {
             const Scaffold(body: Center(child: Text('Create Action'))),
       ),
       GoRoute(
+        path: RouteNames.aiCreateActionPath,
+        name: RouteNames.aiCreateAction,
+        builder: (_, __) =>
+            const Scaffold(body: Center(child: Text('AI Create Action'))),
+      ),
+      GoRoute(
         path: RouteNames.actionDetailPath,
         name: RouteNames.actionDetail,
         builder: (_, state) => Scaffold(

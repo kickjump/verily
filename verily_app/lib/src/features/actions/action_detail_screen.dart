@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -88,7 +89,18 @@ class _ActionDetailBody extends HookWidget {
       appBar: AppBar(
         title: const Text('Action Details'),
         actions: [
-          IconButton(icon: const Icon(Icons.share_outlined), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.share_outlined),
+            onPressed: () async {
+              final link = 'https://verily.fun/action/$actionId';
+              await Clipboard.setData(ClipboardData(text: link));
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Link copied to clipboard')),
+                );
+              }
+            },
+          ),
         ],
       ),
       body: SingleChildScrollView(

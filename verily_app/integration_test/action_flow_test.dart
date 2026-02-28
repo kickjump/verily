@@ -61,13 +61,11 @@ void main() {
 
       final feedPage = FeedPage(tester);
 
-      // Tap the create action FAB to navigate to the create action stub.
+      // Tap the create action FAB to navigate to the AI action creation screen.
       await feedPage.tapCreateActionFab();
 
-      // The stub screen should render the placeholder text.
-      // TODO(screens): Update this assertion once the real CreateAction screen
-      // is implemented to check for form fields instead.
-      expect(find.text('Create Action'), findsOneWidget);
+      // The AI creation screen stub should render its placeholder text.
+      expect(find.text('AI Create Action'), findsOneWidget);
     });
 
     testWidgets('feed app bar has search and notifications buttons', (
