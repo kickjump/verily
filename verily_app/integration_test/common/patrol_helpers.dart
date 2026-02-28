@@ -199,7 +199,11 @@ class _IntegrationTestAuth extends Auth {
   Future<void> loginWithApple() async {}
 
   @override
-  Future<void> logout() async {}
+  Future<void> loginWithWallet({required String publicKey}) async {}
+
+  @override
+  Future<Object> startRegistration({required String email}) async =>
+      'fake-request-id';
 
   @override
   Future<void> register({
@@ -207,6 +211,9 @@ class _IntegrationTestAuth extends Auth {
     required String verificationCode,
     required String password,
   }) async {}
+
+  @override
+  Future<void> logout() async {}
 }
 
 /// Builds the main shell app with bottom navigation for tab testing.
