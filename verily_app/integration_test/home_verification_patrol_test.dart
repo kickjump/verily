@@ -28,6 +28,12 @@ void main() {
     ) async {
       await $.pumpWidgetAndSettle(buildHomeShellApp());
 
+      // The "Set" button may be below the visible viewport; scroll into view.
+      await $.tester.scrollUntilVisible(
+        find.byKey(const Key('home_featured_setActive_1')),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
       await $.tap(find.byKey(const Key('home_featured_setActive_1')));
       expect(find.byKey(const Key('home_activeActionCard')), findsOneWidget);
 
@@ -49,6 +55,12 @@ void main() {
     patrolWidgetTest('capture flow logs evidence and submits', ($) async {
       await $.pumpWidgetAndSettle(buildHomeShellApp());
 
+      // The "Set" button may be below the visible viewport; scroll into view.
+      await $.tester.scrollUntilVisible(
+        find.byKey(const Key('home_featured_setActive_1')),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
       await $.tap(find.byKey(const Key('home_featured_setActive_1')));
       await $.tap(find.byKey(const Key('homeShell_verifyFab')));
 

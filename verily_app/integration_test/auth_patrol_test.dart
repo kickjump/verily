@@ -24,6 +24,12 @@ void main() {
     ) async {
       await $.pumpWidgetAndSettle(buildAuthApp());
 
+      // "Sign Up" may be below the viewport; scroll it into view first.
+      await $.tester.scrollUntilVisible(
+        find.text('Sign Up'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
       await $.tap(find.text('Sign Up'));
       await $.pumpAndSettle();
       expect(find.text('Create Account'), findsOneWidget);
