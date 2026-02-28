@@ -19,26 +19,27 @@ import '../endpoints/attestation_endpoint.dart' as _i6;
 import '../endpoints/auth_apple_endpoint.dart' as _i7;
 import '../endpoints/auth_email_endpoint.dart' as _i8;
 import '../endpoints/auth_google_endpoint.dart' as _i9;
-import '../endpoints/geocoding_endpoint.dart' as _i10;
-import '../endpoints/location_endpoint.dart' as _i11;
-import '../endpoints/reward_endpoint.dart' as _i12;
-import '../endpoints/reward_pool_endpoint.dart' as _i13;
-import '../endpoints/seed_endpoint.dart' as _i14;
-import '../endpoints/solana_endpoint.dart' as _i15;
-import '../endpoints/submission_endpoint.dart' as _i16;
-import '../endpoints/user_follow_endpoint.dart' as _i17;
-import '../endpoints/user_profile_endpoint.dart' as _i18;
-import '../endpoints/verification_endpoint.dart' as _i19;
-import 'package:verily_server/src/generated/action_category.dart' as _i20;
-import 'package:verily_server/src/generated/action.dart' as _i21;
-import 'package:verily_server/src/generated/action_step.dart' as _i22;
-import 'package:verily_server/src/generated/location.dart' as _i23;
-import 'package:verily_server/src/generated/action_submission.dart' as _i24;
-import 'package:verily_server/src/generated/user_profile.dart' as _i25;
+import '../endpoints/auth_wallet_endpoint.dart' as _i10;
+import '../endpoints/geocoding_endpoint.dart' as _i11;
+import '../endpoints/location_endpoint.dart' as _i12;
+import '../endpoints/reward_endpoint.dart' as _i13;
+import '../endpoints/reward_pool_endpoint.dart' as _i14;
+import '../endpoints/seed_endpoint.dart' as _i15;
+import '../endpoints/solana_endpoint.dart' as _i16;
+import '../endpoints/submission_endpoint.dart' as _i17;
+import '../endpoints/user_follow_endpoint.dart' as _i18;
+import '../endpoints/user_profile_endpoint.dart' as _i19;
+import '../endpoints/verification_endpoint.dart' as _i20;
+import 'package:verily_server/src/generated/action_category.dart' as _i21;
+import 'package:verily_server/src/generated/action.dart' as _i22;
+import 'package:verily_server/src/generated/action_step.dart' as _i23;
+import 'package:verily_server/src/generated/location.dart' as _i24;
+import 'package:verily_server/src/generated/action_submission.dart' as _i25;
+import 'package:verily_server/src/generated/user_profile.dart' as _i26;
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
-    as _i26;
-import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i27;
+import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
+    as _i28;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -92,61 +93,67 @@ class Endpoints extends _i1.EndpointDispatch {
           'authGoogle',
           null,
         ),
-      'geocoding': _i10.GeocodingEndpoint()
+      'authWallet': _i10.AuthWalletEndpoint()
+        ..initialize(
+          server,
+          'authWallet',
+          null,
+        ),
+      'geocoding': _i11.GeocodingEndpoint()
         ..initialize(
           server,
           'geocoding',
           null,
         ),
-      'location': _i11.LocationEndpoint()
+      'location': _i12.LocationEndpoint()
         ..initialize(
           server,
           'location',
           null,
         ),
-      'reward': _i12.RewardEndpoint()
+      'reward': _i13.RewardEndpoint()
         ..initialize(
           server,
           'reward',
           null,
         ),
-      'rewardPool': _i13.RewardPoolEndpoint()
+      'rewardPool': _i14.RewardPoolEndpoint()
         ..initialize(
           server,
           'rewardPool',
           null,
         ),
-      'seed': _i14.SeedEndpoint()
+      'seed': _i15.SeedEndpoint()
         ..initialize(
           server,
           'seed',
           null,
         ),
-      'solana': _i15.SolanaEndpoint()
+      'solana': _i16.SolanaEndpoint()
         ..initialize(
           server,
           'solana',
           null,
         ),
-      'submission': _i16.SubmissionEndpoint()
+      'submission': _i17.SubmissionEndpoint()
         ..initialize(
           server,
           'submission',
           null,
         ),
-      'userFollow': _i17.UserFollowEndpoint()
+      'userFollow': _i18.UserFollowEndpoint()
         ..initialize(
           server,
           'userFollow',
           null,
         ),
-      'userProfile': _i18.UserProfileEndpoint()
+      'userProfile': _i19.UserProfileEndpoint()
         ..initialize(
           server,
           'userProfile',
           null,
         ),
-      'verification': _i19.VerificationEndpoint()
+      'verification': _i20.VerificationEndpoint()
         ..initialize(
           server,
           'verification',
@@ -173,7 +180,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'category': _i1.ParameterDescription(
               name: 'category',
-              type: _i1.getType<_i20.ActionCategory>(),
+              type: _i1.getType<_i21.ActionCategory>(),
               nullable: false,
             ),
           },
@@ -219,7 +226,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'action': _i1.ParameterDescription(
               name: 'action',
-              type: _i1.getType<_i21.Action>(),
+              type: _i1.getType<_i22.Action>(),
               nullable: false,
             ),
           },
@@ -370,7 +377,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'action': _i1.ParameterDescription(
               name: 'action',
-              type: _i1.getType<_i21.Action>(),
+              type: _i1.getType<_i22.Action>(),
               nullable: false,
             ),
           },
@@ -422,7 +429,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'actionStep': _i1.ParameterDescription(
               name: 'actionStep',
-              type: _i1.getType<_i22.ActionStep>(),
+              type: _i1.getType<_i23.ActionStep>(),
               nullable: false,
             ),
           },
@@ -460,7 +467,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'actionStep': _i1.ParameterDescription(
               name: 'actionStep',
-              type: _i1.getType<_i22.ActionStep>(),
+              type: _i1.getType<_i23.ActionStep>(),
               nullable: false,
             ),
           },
@@ -931,6 +938,56 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['authWallet'] = _i1.EndpointConnector(
+      name: 'authWallet',
+      endpoint: endpoints['authWallet']!,
+      methodConnectors: {
+        'requestChallenge': _i1.MethodConnector(
+          name: 'requestChallenge',
+          params: {
+            'publicKey': _i1.ParameterDescription(
+              name: 'publicKey',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authWallet'] as _i10.AuthWalletEndpoint)
+                  .requestChallenge(
+                    session,
+                    params['publicKey'],
+                  ),
+        ),
+        'verifyChallenge': _i1.MethodConnector(
+          name: 'verifyChallenge',
+          params: {
+            'publicKey': _i1.ParameterDescription(
+              name: 'publicKey',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'signatureBase64': _i1.ParameterDescription(
+              name: 'signatureBase64',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['authWallet'] as _i10.AuthWalletEndpoint)
+                  .verifyChallenge(
+                    session,
+                    params['publicKey'],
+                    params['signatureBase64'],
+                  ),
+        ),
+      },
+    );
     connectors['geocoding'] = _i1.EndpointConnector(
       name: 'geocoding',
       endpoint: endpoints['geocoding']!,
@@ -958,7 +1015,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['geocoding'] as _i10.GeocodingEndpoint)
+              ) async => (endpoints['geocoding'] as _i11.GeocodingEndpoint)
                   .searchPlaces(
                     session,
                     params['query'],
@@ -984,7 +1041,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['geocoding'] as _i10.GeocodingEndpoint)
+              ) async => (endpoints['geocoding'] as _i11.GeocodingEndpoint)
                   .reverseGeocode(
                     session,
                     params['lat'],
@@ -1002,7 +1059,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'location': _i1.ParameterDescription(
               name: 'location',
-              type: _i1.getType<_i23.Location>(),
+              type: _i1.getType<_i24.Location>(),
               nullable: false,
             ),
           },
@@ -1011,7 +1068,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['location'] as _i11.LocationEndpoint).create(
+                  (endpoints['location'] as _i12.LocationEndpoint).create(
                     session,
                     params['location'],
                   ),
@@ -1040,7 +1097,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['location'] as _i11.LocationEndpoint).searchNearby(
+                  (endpoints['location'] as _i12.LocationEndpoint).searchNearby(
                     session,
                     params['lat'],
                     params['lng'],
@@ -1060,7 +1117,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['location'] as _i11.LocationEndpoint).get(
+              ) async => (endpoints['location'] as _i12.LocationEndpoint).get(
                 session,
                 params['id'],
               ),
@@ -1085,7 +1142,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['reward'] as _i12.RewardEndpoint).listByAction(
+                  (endpoints['reward'] as _i13.RewardEndpoint).listByAction(
                     session,
                     params['actionId'],
                   ),
@@ -1097,7 +1154,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['reward'] as _i12.RewardEndpoint)
+              ) async => (endpoints['reward'] as _i13.RewardEndpoint)
                   .listByUser(session),
         ),
         'getLeaderboard': _i1.MethodConnector(
@@ -1107,7 +1164,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['reward'] as _i12.RewardEndpoint)
+              ) async => (endpoints['reward'] as _i13.RewardEndpoint)
                   .getLeaderboard(session),
         ),
       },
@@ -1160,7 +1217,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['rewardPool'] as _i13.RewardPoolEndpoint).create(
+                  (endpoints['rewardPool'] as _i14.RewardPoolEndpoint).create(
                     session,
                     params['actionId'],
                     params['rewardType'],
@@ -1185,7 +1242,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['rewardPool'] as _i13.RewardPoolEndpoint).get(
+                  (endpoints['rewardPool'] as _i14.RewardPoolEndpoint).get(
                     session,
                     params['poolId'],
                   ),
@@ -1203,7 +1260,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rewardPool'] as _i13.RewardPoolEndpoint)
+              ) async => (endpoints['rewardPool'] as _i14.RewardPoolEndpoint)
                   .listByAction(
                     session,
                     params['actionId'],
@@ -1216,7 +1273,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rewardPool'] as _i13.RewardPoolEndpoint)
+              ) async => (endpoints['rewardPool'] as _i14.RewardPoolEndpoint)
                   .listByCreator(session),
         ),
         'cancel': _i1.MethodConnector(
@@ -1233,7 +1290,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['rewardPool'] as _i13.RewardPoolEndpoint).cancel(
+                  (endpoints['rewardPool'] as _i14.RewardPoolEndpoint).cancel(
                     session,
                     params['poolId'],
                   ),
@@ -1251,7 +1308,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rewardPool'] as _i13.RewardPoolEndpoint)
+              ) async => (endpoints['rewardPool'] as _i14.RewardPoolEndpoint)
                   .getDistributions(
                     session,
                     params['poolId'],
@@ -1270,7 +1327,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['seed'] as _i14.SeedEndpoint)
+              ) async => (endpoints['seed'] as _i15.SeedEndpoint)
                   .seedDefaultActions(session),
         ),
       },
@@ -1293,7 +1350,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['solana'] as _i15.SolanaEndpoint).createWallet(
+                  (endpoints['solana'] as _i16.SolanaEndpoint).createWallet(
                     session,
                     label: params['label'],
                   ),
@@ -1317,7 +1374,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['solana'] as _i15.SolanaEndpoint).linkWallet(
+                  (endpoints['solana'] as _i16.SolanaEndpoint).linkWallet(
                     session,
                     params['publicKey'],
                     label: params['label'],
@@ -1330,7 +1387,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['solana'] as _i15.SolanaEndpoint)
+              ) async => (endpoints['solana'] as _i16.SolanaEndpoint)
                   .getWallets(session),
         ),
         'setDefaultWallet': _i1.MethodConnector(
@@ -1347,7 +1404,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['solana'] as _i15.SolanaEndpoint).setDefaultWallet(
+                  (endpoints['solana'] as _i16.SolanaEndpoint).setDefaultWallet(
                     session,
                     params['walletId'],
                   ),
@@ -1359,7 +1416,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['solana'] as _i15.SolanaEndpoint)
+              ) async => (endpoints['solana'] as _i16.SolanaEndpoint)
                   .getBalance(session),
         ),
       },
@@ -1373,7 +1430,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'submission': _i1.ParameterDescription(
               name: 'submission',
-              type: _i1.getType<_i24.ActionSubmission>(),
+              type: _i1.getType<_i25.ActionSubmission>(),
               nullable: false,
             ),
           },
@@ -1382,7 +1439,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['submission'] as _i16.SubmissionEndpoint).create(
+                  (endpoints['submission'] as _i17.SubmissionEndpoint).create(
                     session,
                     params['submission'],
                   ),
@@ -1400,7 +1457,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['submission'] as _i16.SubmissionEndpoint)
+              ) async => (endpoints['submission'] as _i17.SubmissionEndpoint)
                   .listByAction(
                     session,
                     params['actionId'],
@@ -1413,7 +1470,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['submission'] as _i16.SubmissionEndpoint)
+              ) async => (endpoints['submission'] as _i17.SubmissionEndpoint)
                   .listByPerformer(session),
         ),
         'get': _i1.MethodConnector(
@@ -1430,7 +1487,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['submission'] as _i16.SubmissionEndpoint).get(
+                  (endpoints['submission'] as _i17.SubmissionEndpoint).get(
                     session,
                     params['id'],
                   ),
@@ -1448,7 +1505,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['submission'] as _i16.SubmissionEndpoint)
+              ) async => (endpoints['submission'] as _i17.SubmissionEndpoint)
                   .getSequentialProgress(
                     session,
                     params['actionId'],
@@ -1474,7 +1531,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userFollow'] as _i17.UserFollowEndpoint).follow(
+                  (endpoints['userFollow'] as _i18.UserFollowEndpoint).follow(
                     session,
                     params['userId'],
                   ),
@@ -1493,7 +1550,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userFollow'] as _i17.UserFollowEndpoint).unfollow(
+                  (endpoints['userFollow'] as _i18.UserFollowEndpoint).unfollow(
                     session,
                     params['userId'],
                   ),
@@ -1511,7 +1568,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userFollow'] as _i17.UserFollowEndpoint)
+              ) async => (endpoints['userFollow'] as _i18.UserFollowEndpoint)
                   .listFollowers(
                     session,
                     params['userId'],
@@ -1530,7 +1587,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userFollow'] as _i17.UserFollowEndpoint)
+              ) async => (endpoints['userFollow'] as _i18.UserFollowEndpoint)
                   .listFollowing(
                     session,
                     params['userId'],
@@ -1549,7 +1606,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userFollow'] as _i17.UserFollowEndpoint)
+              ) async => (endpoints['userFollow'] as _i18.UserFollowEndpoint)
                   .isFollowing(
                     session,
                     params['userId'],
@@ -1566,7 +1623,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'profile': _i1.ParameterDescription(
               name: 'profile',
-              type: _i1.getType<_i25.UserProfile>(),
+              type: _i1.getType<_i26.UserProfile>(),
               nullable: false,
             ),
           },
@@ -1575,7 +1632,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userProfile'] as _i18.UserProfileEndpoint).create(
+                  (endpoints['userProfile'] as _i19.UserProfileEndpoint).create(
                     session,
                     params['profile'],
                   ),
@@ -1587,7 +1644,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i18.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i19.UserProfileEndpoint)
                   .get(session),
         ),
         'getByUsername': _i1.MethodConnector(
@@ -1603,7 +1660,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i18.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i19.UserProfileEndpoint)
                   .getByUsername(
                     session,
                     params['username'],
@@ -1614,7 +1671,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'profile': _i1.ParameterDescription(
               name: 'profile',
-              type: _i1.getType<_i25.UserProfile>(),
+              type: _i1.getType<_i26.UserProfile>(),
               nullable: false,
             ),
           },
@@ -1623,7 +1680,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userProfile'] as _i18.UserProfileEndpoint).update(
+                  (endpoints['userProfile'] as _i19.UserProfileEndpoint).update(
                     session,
                     params['profile'],
                   ),
@@ -1642,7 +1699,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userProfile'] as _i18.UserProfileEndpoint).search(
+                  (endpoints['userProfile'] as _i19.UserProfileEndpoint).search(
                     session,
                     params['query'],
                   ),
@@ -1667,7 +1724,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['verification'] as _i19.VerificationEndpoint)
+                  (endpoints['verification'] as _i20.VerificationEndpoint)
                       .getBySubmission(
                         session,
                         params['submissionId'],
@@ -1687,7 +1744,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['verification'] as _i19.VerificationEndpoint)
+                  (endpoints['verification'] as _i20.VerificationEndpoint)
                       .retryVerification(
                         session,
                         params['submissionId'],
@@ -1695,9 +1752,9 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth_idp'] = _i26.Endpoints()
+    modules['serverpod_auth_idp'] = _i27.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i27.Endpoints()
+    modules['serverpod_auth_core'] = _i28.Endpoints()
       ..initializeEndpoints(server);
   }
 }

@@ -12,7 +12,7 @@ import 'package:verily_server/src/logging/server_logging.dart';
 import 'package:verily_server/src/web/routes/app_config_route.dart';
 import 'package:verily_server/src/web/routes/root.dart';
 
-/// Email sender instance. Replace with [SmtpEmailSender] for production.
+/// Email sender instance. Replace with `SmtpEmailSender` for production.
 final EmailSender _emailSender = ConsoleEmailSender();
 
 /// The starting point of the Verily Serverpod server.

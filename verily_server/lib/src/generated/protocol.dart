@@ -133,7 +133,31 @@ class Protocol extends _i1.SerializationManagerServer {
           dartType: 'int?',
         ),
         _i2.ColumnDefinition(
+          name: 'stepOrdering',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
           name: 'intervalDays',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'habitDurationDays',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'habitFrequencyPerWeek',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'habitTotalRequired',
           columnType: _i2.ColumnType.bigint,
           isNullable: true,
           dartType: 'int?',
@@ -155,6 +179,24 @@ class Protocol extends _i1.SerializationManagerServer {
           columnType: _i2.ColumnType.text,
           isNullable: false,
           dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'tags',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'expiresAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'locationRadius',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: true,
+          dartType: 'double?',
         ),
         _i2.ColumnDefinition(
           name: 'createdAt',
@@ -225,6 +267,19 @@ class Protocol extends _i1.SerializationManagerServer {
             _i2.IndexElementDefinition(
               type: _i2.IndexElementDefinitionType.column,
               definition: 'status',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'action_type_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'actionType',
             ),
           ],
           type: 'btree',
@@ -346,6 +401,18 @@ class Protocol extends _i1.SerializationManagerServer {
           isNullable: false,
           dartType: 'String',
         ),
+        _i2.ColumnDefinition(
+          name: 'locationId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'isOptional',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
       ],
       foreignKeys: [
         _i2.ForeignKeyDefinition(
@@ -356,6 +423,16 @@ class Protocol extends _i1.SerializationManagerServer {
           referenceColumns: ['id'],
           onUpdate: _i2.ForeignKeyAction.noAction,
           onDelete: _i2.ForeignKeyAction.cascade,
+          matchType: null,
+        ),
+        _i2.ForeignKeyDefinition(
+          constraintName: 'action_step_fk_1',
+          columns: ['locationId'],
+          referenceTable: 'location',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.setNull,
           matchType: null,
         ),
       ],
@@ -1728,7 +1805,7 @@ class Protocol extends _i1.SerializationManagerServer {
         return deserializeByClassName({
           'className': dataClassName,
           'data': data,
-        });
+        }) as T;
       } on FormatException catch (_) {
         // If the className is not recognized (e.g., older client receiving
         // data with a new subtype), fall back to deserializing without the
@@ -1736,103 +1813,105 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
 
+    final d = data as Map<String, dynamic>;
+
     if (t == _i5.Action) {
-      return _i5.Action.fromJson(data) as T;
+      return _i5.Action.fromJson(d) as T;
     }
     if (t == _i6.ActionCategory) {
-      return _i6.ActionCategory.fromJson(data) as T;
+      return _i6.ActionCategory.fromJson(d) as T;
     }
     if (t == _i7.ActionStep) {
-      return _i7.ActionStep.fromJson(data) as T;
+      return _i7.ActionStep.fromJson(d) as T;
     }
     if (t == _i8.ActionSubmission) {
-      return _i8.ActionSubmission.fromJson(data) as T;
+      return _i8.ActionSubmission.fromJson(d) as T;
     }
     if (t == _i9.AttestationChallenge) {
-      return _i9.AttestationChallenge.fromJson(data) as T;
+      return _i9.AttestationChallenge.fromJson(d) as T;
     }
     if (t == _i10.DeviceAttestation) {
-      return _i10.DeviceAttestation.fromJson(data) as T;
+      return _i10.DeviceAttestation.fromJson(d) as T;
     }
     if (t == _i11.Location) {
-      return _i11.Location.fromJson(data) as T;
+      return _i11.Location.fromJson(d) as T;
     }
     if (t == _i12.PlaceSearchResult) {
-      return _i12.PlaceSearchResult.fromJson(data) as T;
+      return _i12.PlaceSearchResult.fromJson(d) as T;
     }
     if (t == _i13.Reward) {
-      return _i13.Reward.fromJson(data) as T;
+      return _i13.Reward.fromJson(d) as T;
     }
     if (t == _i14.RewardDistribution) {
-      return _i14.RewardDistribution.fromJson(data) as T;
+      return _i14.RewardDistribution.fromJson(d) as T;
     }
     if (t == _i15.RewardPool) {
-      return _i15.RewardPool.fromJson(data) as T;
+      return _i15.RewardPool.fromJson(d) as T;
     }
     if (t == _i16.SolanaWallet) {
-      return _i16.SolanaWallet.fromJson(data) as T;
+      return _i16.SolanaWallet.fromJson(d) as T;
     }
     if (t == _i17.UserFollow) {
-      return _i17.UserFollow.fromJson(data) as T;
+      return _i17.UserFollow.fromJson(d) as T;
     }
     if (t == _i18.UserProfile) {
-      return _i18.UserProfile.fromJson(data) as T;
+      return _i18.UserProfile.fromJson(d) as T;
     }
     if (t == _i19.UserReward) {
-      return _i19.UserReward.fromJson(data) as T;
+      return _i19.UserReward.fromJson(d) as T;
     }
     if (t == _i20.VerificationResult) {
-      return _i20.VerificationResult.fromJson(data) as T;
+      return _i20.VerificationResult.fromJson(d) as T;
     }
     if (t == _i1.getType<_i5.Action?>()) {
-      return (data != null ? _i5.Action.fromJson(data) : null) as T;
+      return (data != null ? _i5.Action.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i6.ActionCategory?>()) {
-      return (data != null ? _i6.ActionCategory.fromJson(data) : null) as T;
+      return (data != null ? _i6.ActionCategory.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i7.ActionStep?>()) {
-      return (data != null ? _i7.ActionStep.fromJson(data) : null) as T;
+      return (data != null ? _i7.ActionStep.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i8.ActionSubmission?>()) {
-      return (data != null ? _i8.ActionSubmission.fromJson(data) : null) as T;
+      return (data != null ? _i8.ActionSubmission.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i9.AttestationChallenge?>()) {
-      return (data != null ? _i9.AttestationChallenge.fromJson(data) : null)
+      return (data != null ? _i9.AttestationChallenge.fromJson(d) : null)
           as T;
     }
     if (t == _i1.getType<_i10.DeviceAttestation?>()) {
-      return (data != null ? _i10.DeviceAttestation.fromJson(data) : null) as T;
+      return (data != null ? _i10.DeviceAttestation.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i11.Location?>()) {
-      return (data != null ? _i11.Location.fromJson(data) : null) as T;
+      return (data != null ? _i11.Location.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i12.PlaceSearchResult?>()) {
-      return (data != null ? _i12.PlaceSearchResult.fromJson(data) : null) as T;
+      return (data != null ? _i12.PlaceSearchResult.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i13.Reward?>()) {
-      return (data != null ? _i13.Reward.fromJson(data) : null) as T;
+      return (data != null ? _i13.Reward.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i14.RewardDistribution?>()) {
-      return (data != null ? _i14.RewardDistribution.fromJson(data) : null)
+      return (data != null ? _i14.RewardDistribution.fromJson(d) : null)
           as T;
     }
     if (t == _i1.getType<_i15.RewardPool?>()) {
-      return (data != null ? _i15.RewardPool.fromJson(data) : null) as T;
+      return (data != null ? _i15.RewardPool.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i16.SolanaWallet?>()) {
-      return (data != null ? _i16.SolanaWallet.fromJson(data) : null) as T;
+      return (data != null ? _i16.SolanaWallet.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i17.UserFollow?>()) {
-      return (data != null ? _i17.UserFollow.fromJson(data) : null) as T;
+      return (data != null ? _i17.UserFollow.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i18.UserProfile?>()) {
-      return (data != null ? _i18.UserProfile.fromJson(data) : null) as T;
+      return (data != null ? _i18.UserProfile.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i19.UserReward?>()) {
-      return (data != null ? _i19.UserReward.fromJson(data) : null) as T;
+      return (data != null ? _i19.UserReward.fromJson(d) : null) as T;
     }
     if (t == _i1.getType<_i20.VerificationResult?>()) {
-      return (data != null ? _i20.VerificationResult.fromJson(data) : null)
+      return (data != null ? _i20.VerificationResult.fromJson(d) : null)
           as T;
     }
     if (t == List<_i21.ActionCategory>) {

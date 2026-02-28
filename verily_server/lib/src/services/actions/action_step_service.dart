@@ -15,7 +15,7 @@ class ActionStepService {
   /// Creates a new step for a sequential action.
   ///
   /// Validates that the parent action exists, is sequential, and that the
-  /// [stepNumber] does not exceed the action's [totalSteps].
+  /// [stepNumber] does not exceed the action's `totalSteps`.
   static Future<ActionStep> create(
     Session session, {
     required int actionId,
@@ -52,6 +52,7 @@ class ActionStepService {
       title: title,
       description: description,
       verificationCriteria: verificationCriteria,
+      isOptional: false,
     );
 
     final inserted = await ActionStep.db.insertRow(session, step);

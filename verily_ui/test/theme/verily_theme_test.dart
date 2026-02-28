@@ -31,33 +31,13 @@ void main() {
       expect(theme.brightness, equals(Brightness.dark));
     });
 
-    test('themes use ColorTokens.primary as seed color', () {
-      // The color scheme is generated from the seed, so the primary color
-      // will be derived from ColorTokens.primary (teal 0xFF00897B).
-      // We verify by generating a reference color scheme and comparing.
-      final expectedLightScheme = ColorScheme.fromSeed(
-        seedColor: ColorTokens.primary,
-        secondary: ColorTokens.secondary,
-        tertiary: ColorTokens.tertiary,
-        error: ColorTokens.error,
-      );
-
-      final expectedDarkScheme = ColorScheme.fromSeed(
-        seedColor: ColorTokens.primary,
-        brightness: Brightness.dark,
-        secondary: ColorTokens.secondary,
-        tertiary: ColorTokens.tertiary,
-        error: ColorTokens.error,
-      );
-
+    test('themes use ColorTokens.primary as primary color', () {
       final lightTheme = VerilyTheme.light;
       final darkTheme = VerilyTheme.dark;
 
-      expect(
-        lightTheme.colorScheme.primary,
-        equals(expectedLightScheme.primary),
-      );
-      expect(darkTheme.colorScheme.primary, equals(expectedDarkScheme.primary));
+      // The theme explicitly sets primary to ColorTokens.primary via copyWith.
+      expect(lightTheme.colorScheme.primary, equals(ColorTokens.primary));
+      expect(darkTheme.colorScheme.primary, equals(ColorTokens.primary));
     });
 
     test('light theme has correct scaffold background color', () {
@@ -78,7 +58,7 @@ void main() {
       final cardShape = theme.cardTheme.shape! as RoundedRectangleBorder;
       expect(
         cardShape.borderRadius,
-        equals(BorderRadius.circular(RadiusTokens.md)),
+        equals(BorderRadius.circular(RadiusTokens.lg)),
       );
     });
 

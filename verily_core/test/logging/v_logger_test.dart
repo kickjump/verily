@@ -115,8 +115,7 @@ void main() {
         final records = <LogRecord>[];
         Logger('EmitTest').onRecord.listen(records.add);
 
-        final emitLogger = VLogger('EmitTest');
-        emitLogger.info('hello');
+        VLogger('EmitTest').info('hello');
 
         expect(records, hasLength(1));
         expect(records.first.message, equals('hello'));

@@ -15,7 +15,14 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AiGeneratedAction {
 
- String get title; String get description; String get actionType; String get verificationCriteria; String get suggestedCategory; int? get suggestedSteps; int? get suggestedIntervalDays; List<String> get suggestedTags; AiGeneratedLocation? get suggestedLocation;
+ String get title; String get description;/// One of: "oneOff", "sequential", "habit"
+ String get actionType; String get verificationCriteria; String get suggestedCategory; int? get suggestedSteps; int? get suggestedIntervalDays;/// "ordered" or "unordered" for sequential actions.
+ String? get stepOrdering;/// For habit actions: total days the habit runs.
+ int? get habitDurationDays;/// For habit actions: completions required per week.
+ int? get habitFrequencyPerWeek;/// For habit actions: total completions required.
+ int? get habitTotalRequired; List<String> get suggestedTags; AiGeneratedLocation? get suggestedLocation;/// Suggested max performers (null = unlimited).
+ int? get suggestedMaxPerformers;/// Generated steps for sequential/multi-step actions.
+ List<AiGeneratedStep> get steps;
 /// Create a copy of AiGeneratedAction
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +35,16 @@ $AiGeneratedActionCopyWith<AiGeneratedAction> get copyWith => _$AiGeneratedActio
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AiGeneratedAction&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.actionType, actionType) || other.actionType == actionType)&&(identical(other.verificationCriteria, verificationCriteria) || other.verificationCriteria == verificationCriteria)&&(identical(other.suggestedCategory, suggestedCategory) || other.suggestedCategory == suggestedCategory)&&(identical(other.suggestedSteps, suggestedSteps) || other.suggestedSteps == suggestedSteps)&&(identical(other.suggestedIntervalDays, suggestedIntervalDays) || other.suggestedIntervalDays == suggestedIntervalDays)&&const DeepCollectionEquality().equals(other.suggestedTags, suggestedTags)&&(identical(other.suggestedLocation, suggestedLocation) || other.suggestedLocation == suggestedLocation));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AiGeneratedAction&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.actionType, actionType) || other.actionType == actionType)&&(identical(other.verificationCriteria, verificationCriteria) || other.verificationCriteria == verificationCriteria)&&(identical(other.suggestedCategory, suggestedCategory) || other.suggestedCategory == suggestedCategory)&&(identical(other.suggestedSteps, suggestedSteps) || other.suggestedSteps == suggestedSteps)&&(identical(other.suggestedIntervalDays, suggestedIntervalDays) || other.suggestedIntervalDays == suggestedIntervalDays)&&(identical(other.stepOrdering, stepOrdering) || other.stepOrdering == stepOrdering)&&(identical(other.habitDurationDays, habitDurationDays) || other.habitDurationDays == habitDurationDays)&&(identical(other.habitFrequencyPerWeek, habitFrequencyPerWeek) || other.habitFrequencyPerWeek == habitFrequencyPerWeek)&&(identical(other.habitTotalRequired, habitTotalRequired) || other.habitTotalRequired == habitTotalRequired)&&const DeepCollectionEquality().equals(other.suggestedTags, suggestedTags)&&(identical(other.suggestedLocation, suggestedLocation) || other.suggestedLocation == suggestedLocation)&&(identical(other.suggestedMaxPerformers, suggestedMaxPerformers) || other.suggestedMaxPerformers == suggestedMaxPerformers)&&const DeepCollectionEquality().equals(other.steps, steps));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,description,actionType,verificationCriteria,suggestedCategory,suggestedSteps,suggestedIntervalDays,const DeepCollectionEquality().hash(suggestedTags),suggestedLocation);
+int get hashCode => Object.hash(runtimeType,title,description,actionType,verificationCriteria,suggestedCategory,suggestedSteps,suggestedIntervalDays,stepOrdering,habitDurationDays,habitFrequencyPerWeek,habitTotalRequired,const DeepCollectionEquality().hash(suggestedTags),suggestedLocation,suggestedMaxPerformers,const DeepCollectionEquality().hash(steps));
 
 @override
 String toString() {
-  return 'AiGeneratedAction(title: $title, description: $description, actionType: $actionType, verificationCriteria: $verificationCriteria, suggestedCategory: $suggestedCategory, suggestedSteps: $suggestedSteps, suggestedIntervalDays: $suggestedIntervalDays, suggestedTags: $suggestedTags, suggestedLocation: $suggestedLocation)';
+  return 'AiGeneratedAction(title: $title, description: $description, actionType: $actionType, verificationCriteria: $verificationCriteria, suggestedCategory: $suggestedCategory, suggestedSteps: $suggestedSteps, suggestedIntervalDays: $suggestedIntervalDays, stepOrdering: $stepOrdering, habitDurationDays: $habitDurationDays, habitFrequencyPerWeek: $habitFrequencyPerWeek, habitTotalRequired: $habitTotalRequired, suggestedTags: $suggestedTags, suggestedLocation: $suggestedLocation, suggestedMaxPerformers: $suggestedMaxPerformers, steps: $steps)';
 }
 
 
@@ -48,7 +55,7 @@ abstract mixin class $AiGeneratedActionCopyWith<$Res>  {
   factory $AiGeneratedActionCopyWith(AiGeneratedAction value, $Res Function(AiGeneratedAction) _then) = _$AiGeneratedActionCopyWithImpl;
 @useResult
 $Res call({
- String title, String description, String actionType, String verificationCriteria, String suggestedCategory, int? suggestedSteps, int? suggestedIntervalDays, List<String> suggestedTags, AiGeneratedLocation? suggestedLocation
+ String title, String description, String actionType, String verificationCriteria, String suggestedCategory, int? suggestedSteps, int? suggestedIntervalDays, String? stepOrdering, int? habitDurationDays, int? habitFrequencyPerWeek, int? habitTotalRequired, List<String> suggestedTags, AiGeneratedLocation? suggestedLocation, int? suggestedMaxPerformers, List<AiGeneratedStep> steps
 });
 
 
@@ -65,7 +72,7 @@ class _$AiGeneratedActionCopyWithImpl<$Res>
 
 /// Create a copy of AiGeneratedAction
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? actionType = null,Object? verificationCriteria = null,Object? suggestedCategory = null,Object? suggestedSteps = freezed,Object? suggestedIntervalDays = freezed,Object? suggestedTags = null,Object? suggestedLocation = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? actionType = null,Object? verificationCriteria = null,Object? suggestedCategory = null,Object? suggestedSteps = freezed,Object? suggestedIntervalDays = freezed,Object? stepOrdering = freezed,Object? habitDurationDays = freezed,Object? habitFrequencyPerWeek = freezed,Object? habitTotalRequired = freezed,Object? suggestedTags = null,Object? suggestedLocation = freezed,Object? suggestedMaxPerformers = freezed,Object? steps = null,}) {
   return _then(_self.copyWith(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -74,9 +81,15 @@ as String,verificationCriteria: null == verificationCriteria ? _self.verificatio
 as String,suggestedCategory: null == suggestedCategory ? _self.suggestedCategory : suggestedCategory // ignore: cast_nullable_to_non_nullable
 as String,suggestedSteps: freezed == suggestedSteps ? _self.suggestedSteps : suggestedSteps // ignore: cast_nullable_to_non_nullable
 as int?,suggestedIntervalDays: freezed == suggestedIntervalDays ? _self.suggestedIntervalDays : suggestedIntervalDays // ignore: cast_nullable_to_non_nullable
+as int?,stepOrdering: freezed == stepOrdering ? _self.stepOrdering : stepOrdering // ignore: cast_nullable_to_non_nullable
+as String?,habitDurationDays: freezed == habitDurationDays ? _self.habitDurationDays : habitDurationDays // ignore: cast_nullable_to_non_nullable
+as int?,habitFrequencyPerWeek: freezed == habitFrequencyPerWeek ? _self.habitFrequencyPerWeek : habitFrequencyPerWeek // ignore: cast_nullable_to_non_nullable
+as int?,habitTotalRequired: freezed == habitTotalRequired ? _self.habitTotalRequired : habitTotalRequired // ignore: cast_nullable_to_non_nullable
 as int?,suggestedTags: null == suggestedTags ? _self.suggestedTags : suggestedTags // ignore: cast_nullable_to_non_nullable
 as List<String>,suggestedLocation: freezed == suggestedLocation ? _self.suggestedLocation : suggestedLocation // ignore: cast_nullable_to_non_nullable
-as AiGeneratedLocation?,
+as AiGeneratedLocation?,suggestedMaxPerformers: freezed == suggestedMaxPerformers ? _self.suggestedMaxPerformers : suggestedMaxPerformers // ignore: cast_nullable_to_non_nullable
+as int?,steps: null == steps ? _self.steps : steps // ignore: cast_nullable_to_non_nullable
+as List<AiGeneratedStep>,
   ));
 }
 /// Create a copy of AiGeneratedAction
@@ -173,10 +186,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String description,  String actionType,  String verificationCriteria,  String suggestedCategory,  int? suggestedSteps,  int? suggestedIntervalDays,  List<String> suggestedTags,  AiGeneratedLocation? suggestedLocation)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String description,  String actionType,  String verificationCriteria,  String suggestedCategory,  int? suggestedSteps,  int? suggestedIntervalDays,  String? stepOrdering,  int? habitDurationDays,  int? habitFrequencyPerWeek,  int? habitTotalRequired,  List<String> suggestedTags,  AiGeneratedLocation? suggestedLocation,  int? suggestedMaxPerformers,  List<AiGeneratedStep> steps)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AiGeneratedAction() when $default != null:
-return $default(_that.title,_that.description,_that.actionType,_that.verificationCriteria,_that.suggestedCategory,_that.suggestedSteps,_that.suggestedIntervalDays,_that.suggestedTags,_that.suggestedLocation);case _:
+return $default(_that.title,_that.description,_that.actionType,_that.verificationCriteria,_that.suggestedCategory,_that.suggestedSteps,_that.suggestedIntervalDays,_that.stepOrdering,_that.habitDurationDays,_that.habitFrequencyPerWeek,_that.habitTotalRequired,_that.suggestedTags,_that.suggestedLocation,_that.suggestedMaxPerformers,_that.steps);case _:
   return orElse();
 
 }
@@ -194,10 +207,10 @@ return $default(_that.title,_that.description,_that.actionType,_that.verificatio
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String description,  String actionType,  String verificationCriteria,  String suggestedCategory,  int? suggestedSteps,  int? suggestedIntervalDays,  List<String> suggestedTags,  AiGeneratedLocation? suggestedLocation)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String description,  String actionType,  String verificationCriteria,  String suggestedCategory,  int? suggestedSteps,  int? suggestedIntervalDays,  String? stepOrdering,  int? habitDurationDays,  int? habitFrequencyPerWeek,  int? habitTotalRequired,  List<String> suggestedTags,  AiGeneratedLocation? suggestedLocation,  int? suggestedMaxPerformers,  List<AiGeneratedStep> steps)  $default,) {final _that = this;
 switch (_that) {
 case _AiGeneratedAction():
-return $default(_that.title,_that.description,_that.actionType,_that.verificationCriteria,_that.suggestedCategory,_that.suggestedSteps,_that.suggestedIntervalDays,_that.suggestedTags,_that.suggestedLocation);case _:
+return $default(_that.title,_that.description,_that.actionType,_that.verificationCriteria,_that.suggestedCategory,_that.suggestedSteps,_that.suggestedIntervalDays,_that.stepOrdering,_that.habitDurationDays,_that.habitFrequencyPerWeek,_that.habitTotalRequired,_that.suggestedTags,_that.suggestedLocation,_that.suggestedMaxPerformers,_that.steps);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -214,10 +227,10 @@ return $default(_that.title,_that.description,_that.actionType,_that.verificatio
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String description,  String actionType,  String verificationCriteria,  String suggestedCategory,  int? suggestedSteps,  int? suggestedIntervalDays,  List<String> suggestedTags,  AiGeneratedLocation? suggestedLocation)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String description,  String actionType,  String verificationCriteria,  String suggestedCategory,  int? suggestedSteps,  int? suggestedIntervalDays,  String? stepOrdering,  int? habitDurationDays,  int? habitFrequencyPerWeek,  int? habitTotalRequired,  List<String> suggestedTags,  AiGeneratedLocation? suggestedLocation,  int? suggestedMaxPerformers,  List<AiGeneratedStep> steps)?  $default,) {final _that = this;
 switch (_that) {
 case _AiGeneratedAction() when $default != null:
-return $default(_that.title,_that.description,_that.actionType,_that.verificationCriteria,_that.suggestedCategory,_that.suggestedSteps,_that.suggestedIntervalDays,_that.suggestedTags,_that.suggestedLocation);case _:
+return $default(_that.title,_that.description,_that.actionType,_that.verificationCriteria,_that.suggestedCategory,_that.suggestedSteps,_that.suggestedIntervalDays,_that.stepOrdering,_that.habitDurationDays,_that.habitFrequencyPerWeek,_that.habitTotalRequired,_that.suggestedTags,_that.suggestedLocation,_that.suggestedMaxPerformers,_that.steps);case _:
   return null;
 
 }
@@ -229,16 +242,25 @@ return $default(_that.title,_that.description,_that.actionType,_that.verificatio
 @JsonSerializable()
 
 class _AiGeneratedAction implements AiGeneratedAction {
-  const _AiGeneratedAction({required this.title, required this.description, required this.actionType, required this.verificationCriteria, required this.suggestedCategory, this.suggestedSteps, this.suggestedIntervalDays, final  List<String> suggestedTags = const [], this.suggestedLocation}): _suggestedTags = suggestedTags;
+  const _AiGeneratedAction({required this.title, required this.description, required this.actionType, required this.verificationCriteria, required this.suggestedCategory, this.suggestedSteps, this.suggestedIntervalDays, this.stepOrdering, this.habitDurationDays, this.habitFrequencyPerWeek, this.habitTotalRequired, final  List<String> suggestedTags = const [], this.suggestedLocation, this.suggestedMaxPerformers, final  List<AiGeneratedStep> steps = const []}): _suggestedTags = suggestedTags,_steps = steps;
   factory _AiGeneratedAction.fromJson(Map<String, dynamic> json) => _$AiGeneratedActionFromJson(json);
 
 @override final  String title;
 @override final  String description;
+/// One of: "oneOff", "sequential", "habit"
 @override final  String actionType;
 @override final  String verificationCriteria;
 @override final  String suggestedCategory;
 @override final  int? suggestedSteps;
 @override final  int? suggestedIntervalDays;
+/// "ordered" or "unordered" for sequential actions.
+@override final  String? stepOrdering;
+/// For habit actions: total days the habit runs.
+@override final  int? habitDurationDays;
+/// For habit actions: completions required per week.
+@override final  int? habitFrequencyPerWeek;
+/// For habit actions: total completions required.
+@override final  int? habitTotalRequired;
  final  List<String> _suggestedTags;
 @override@JsonKey() List<String> get suggestedTags {
   if (_suggestedTags is EqualUnmodifiableListView) return _suggestedTags;
@@ -247,6 +269,17 @@ class _AiGeneratedAction implements AiGeneratedAction {
 }
 
 @override final  AiGeneratedLocation? suggestedLocation;
+/// Suggested max performers (null = unlimited).
+@override final  int? suggestedMaxPerformers;
+/// Generated steps for sequential/multi-step actions.
+ final  List<AiGeneratedStep> _steps;
+/// Generated steps for sequential/multi-step actions.
+@override@JsonKey() List<AiGeneratedStep> get steps {
+  if (_steps is EqualUnmodifiableListView) return _steps;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_steps);
+}
+
 
 /// Create a copy of AiGeneratedAction
 /// with the given fields replaced by the non-null parameter values.
@@ -261,16 +294,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AiGeneratedAction&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.actionType, actionType) || other.actionType == actionType)&&(identical(other.verificationCriteria, verificationCriteria) || other.verificationCriteria == verificationCriteria)&&(identical(other.suggestedCategory, suggestedCategory) || other.suggestedCategory == suggestedCategory)&&(identical(other.suggestedSteps, suggestedSteps) || other.suggestedSteps == suggestedSteps)&&(identical(other.suggestedIntervalDays, suggestedIntervalDays) || other.suggestedIntervalDays == suggestedIntervalDays)&&const DeepCollectionEquality().equals(other._suggestedTags, _suggestedTags)&&(identical(other.suggestedLocation, suggestedLocation) || other.suggestedLocation == suggestedLocation));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AiGeneratedAction&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.actionType, actionType) || other.actionType == actionType)&&(identical(other.verificationCriteria, verificationCriteria) || other.verificationCriteria == verificationCriteria)&&(identical(other.suggestedCategory, suggestedCategory) || other.suggestedCategory == suggestedCategory)&&(identical(other.suggestedSteps, suggestedSteps) || other.suggestedSteps == suggestedSteps)&&(identical(other.suggestedIntervalDays, suggestedIntervalDays) || other.suggestedIntervalDays == suggestedIntervalDays)&&(identical(other.stepOrdering, stepOrdering) || other.stepOrdering == stepOrdering)&&(identical(other.habitDurationDays, habitDurationDays) || other.habitDurationDays == habitDurationDays)&&(identical(other.habitFrequencyPerWeek, habitFrequencyPerWeek) || other.habitFrequencyPerWeek == habitFrequencyPerWeek)&&(identical(other.habitTotalRequired, habitTotalRequired) || other.habitTotalRequired == habitTotalRequired)&&const DeepCollectionEquality().equals(other._suggestedTags, _suggestedTags)&&(identical(other.suggestedLocation, suggestedLocation) || other.suggestedLocation == suggestedLocation)&&(identical(other.suggestedMaxPerformers, suggestedMaxPerformers) || other.suggestedMaxPerformers == suggestedMaxPerformers)&&const DeepCollectionEquality().equals(other._steps, _steps));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,description,actionType,verificationCriteria,suggestedCategory,suggestedSteps,suggestedIntervalDays,const DeepCollectionEquality().hash(_suggestedTags),suggestedLocation);
+int get hashCode => Object.hash(runtimeType,title,description,actionType,verificationCriteria,suggestedCategory,suggestedSteps,suggestedIntervalDays,stepOrdering,habitDurationDays,habitFrequencyPerWeek,habitTotalRequired,const DeepCollectionEquality().hash(_suggestedTags),suggestedLocation,suggestedMaxPerformers,const DeepCollectionEquality().hash(_steps));
 
 @override
 String toString() {
-  return 'AiGeneratedAction(title: $title, description: $description, actionType: $actionType, verificationCriteria: $verificationCriteria, suggestedCategory: $suggestedCategory, suggestedSteps: $suggestedSteps, suggestedIntervalDays: $suggestedIntervalDays, suggestedTags: $suggestedTags, suggestedLocation: $suggestedLocation)';
+  return 'AiGeneratedAction(title: $title, description: $description, actionType: $actionType, verificationCriteria: $verificationCriteria, suggestedCategory: $suggestedCategory, suggestedSteps: $suggestedSteps, suggestedIntervalDays: $suggestedIntervalDays, stepOrdering: $stepOrdering, habitDurationDays: $habitDurationDays, habitFrequencyPerWeek: $habitFrequencyPerWeek, habitTotalRequired: $habitTotalRequired, suggestedTags: $suggestedTags, suggestedLocation: $suggestedLocation, suggestedMaxPerformers: $suggestedMaxPerformers, steps: $steps)';
 }
 
 
@@ -281,7 +314,7 @@ abstract mixin class _$AiGeneratedActionCopyWith<$Res> implements $AiGeneratedAc
   factory _$AiGeneratedActionCopyWith(_AiGeneratedAction value, $Res Function(_AiGeneratedAction) _then) = __$AiGeneratedActionCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String description, String actionType, String verificationCriteria, String suggestedCategory, int? suggestedSteps, int? suggestedIntervalDays, List<String> suggestedTags, AiGeneratedLocation? suggestedLocation
+ String title, String description, String actionType, String verificationCriteria, String suggestedCategory, int? suggestedSteps, int? suggestedIntervalDays, String? stepOrdering, int? habitDurationDays, int? habitFrequencyPerWeek, int? habitTotalRequired, List<String> suggestedTags, AiGeneratedLocation? suggestedLocation, int? suggestedMaxPerformers, List<AiGeneratedStep> steps
 });
 
 
@@ -298,7 +331,7 @@ class __$AiGeneratedActionCopyWithImpl<$Res>
 
 /// Create a copy of AiGeneratedAction
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? actionType = null,Object? verificationCriteria = null,Object? suggestedCategory = null,Object? suggestedSteps = freezed,Object? suggestedIntervalDays = freezed,Object? suggestedTags = null,Object? suggestedLocation = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? actionType = null,Object? verificationCriteria = null,Object? suggestedCategory = null,Object? suggestedSteps = freezed,Object? suggestedIntervalDays = freezed,Object? stepOrdering = freezed,Object? habitDurationDays = freezed,Object? habitFrequencyPerWeek = freezed,Object? habitTotalRequired = freezed,Object? suggestedTags = null,Object? suggestedLocation = freezed,Object? suggestedMaxPerformers = freezed,Object? steps = null,}) {
   return _then(_AiGeneratedAction(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -307,9 +340,15 @@ as String,verificationCriteria: null == verificationCriteria ? _self.verificatio
 as String,suggestedCategory: null == suggestedCategory ? _self.suggestedCategory : suggestedCategory // ignore: cast_nullable_to_non_nullable
 as String,suggestedSteps: freezed == suggestedSteps ? _self.suggestedSteps : suggestedSteps // ignore: cast_nullable_to_non_nullable
 as int?,suggestedIntervalDays: freezed == suggestedIntervalDays ? _self.suggestedIntervalDays : suggestedIntervalDays // ignore: cast_nullable_to_non_nullable
+as int?,stepOrdering: freezed == stepOrdering ? _self.stepOrdering : stepOrdering // ignore: cast_nullable_to_non_nullable
+as String?,habitDurationDays: freezed == habitDurationDays ? _self.habitDurationDays : habitDurationDays // ignore: cast_nullable_to_non_nullable
+as int?,habitFrequencyPerWeek: freezed == habitFrequencyPerWeek ? _self.habitFrequencyPerWeek : habitFrequencyPerWeek // ignore: cast_nullable_to_non_nullable
+as int?,habitTotalRequired: freezed == habitTotalRequired ? _self.habitTotalRequired : habitTotalRequired // ignore: cast_nullable_to_non_nullable
 as int?,suggestedTags: null == suggestedTags ? _self._suggestedTags : suggestedTags // ignore: cast_nullable_to_non_nullable
 as List<String>,suggestedLocation: freezed == suggestedLocation ? _self.suggestedLocation : suggestedLocation // ignore: cast_nullable_to_non_nullable
-as AiGeneratedLocation?,
+as AiGeneratedLocation?,suggestedMaxPerformers: freezed == suggestedMaxPerformers ? _self.suggestedMaxPerformers : suggestedMaxPerformers // ignore: cast_nullable_to_non_nullable
+as int?,steps: null == steps ? _self._steps : steps // ignore: cast_nullable_to_non_nullable
+as List<AiGeneratedStep>,
   ));
 }
 

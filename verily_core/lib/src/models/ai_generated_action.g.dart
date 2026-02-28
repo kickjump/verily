@@ -15,6 +15,10 @@ _AiGeneratedAction _$AiGeneratedActionFromJson(Map<String, dynamic> json) =>
       suggestedCategory: json['suggestedCategory'] as String,
       suggestedSteps: (json['suggestedSteps'] as num?)?.toInt(),
       suggestedIntervalDays: (json['suggestedIntervalDays'] as num?)?.toInt(),
+      stepOrdering: json['stepOrdering'] as String?,
+      habitDurationDays: (json['habitDurationDays'] as num?)?.toInt(),
+      habitFrequencyPerWeek: (json['habitFrequencyPerWeek'] as num?)?.toInt(),
+      habitTotalRequired: (json['habitTotalRequired'] as num?)?.toInt(),
       suggestedTags:
           (json['suggestedTags'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -25,6 +29,12 @@ _AiGeneratedAction _$AiGeneratedActionFromJson(Map<String, dynamic> json) =>
           : AiGeneratedLocation.fromJson(
               json['suggestedLocation'] as Map<String, dynamic>,
             ),
+      suggestedMaxPerformers: (json['suggestedMaxPerformers'] as num?)?.toInt(),
+      steps:
+          (json['steps'] as List<dynamic>?)
+              ?.map((e) => AiGeneratedStep.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$AiGeneratedActionToJson(_AiGeneratedAction instance) =>
@@ -36,8 +46,14 @@ Map<String, dynamic> _$AiGeneratedActionToJson(_AiGeneratedAction instance) =>
       'suggestedCategory': instance.suggestedCategory,
       'suggestedSteps': instance.suggestedSteps,
       'suggestedIntervalDays': instance.suggestedIntervalDays,
+      'stepOrdering': instance.stepOrdering,
+      'habitDurationDays': instance.habitDurationDays,
+      'habitFrequencyPerWeek': instance.habitFrequencyPerWeek,
+      'habitTotalRequired': instance.habitTotalRequired,
       'suggestedTags': instance.suggestedTags,
       'suggestedLocation': instance.suggestedLocation,
+      'suggestedMaxPerformers': instance.suggestedMaxPerformers,
+      'steps': instance.steps,
     };
 
 _AiGeneratedLocation _$AiGeneratedLocationFromJson(Map<String, dynamic> json) =>

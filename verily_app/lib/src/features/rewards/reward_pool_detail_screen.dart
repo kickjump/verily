@@ -17,7 +17,7 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
           PopupMenuButton<String>(
             onSelected: (value) {
               if (value == 'cancel') {
-                // TODO: Show confirmation and call RewardPoolEndpoint.cancel()
+                // TODO(ifiokjr): Show confirmation and call RewardPoolEndpoint.cancel()
               }
             },
             itemBuilder: (context) => [
@@ -99,7 +99,7 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
-            // TODO: Replace with real distribution data
+            // TODO(ifiokjr): Replace with real distribution data
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(32),

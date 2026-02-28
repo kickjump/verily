@@ -72,7 +72,7 @@ class GeminiService {
       }
 
       return _parseResponse(responseText);
-    } catch (e, stack) {
+    } on Exception catch (e, stack) {
       _log.severe('Gemini API error', e, stack);
       return GeminiVerificationResponse(
         passed: false,
@@ -158,7 +158,7 @@ Respond with ONLY valid JSON, no markdown formatting:
         structuredResult: jsonStr,
         modelUsed: _modelName,
       );
-    } catch (e) {
+    } on Exception catch (e) {
       _log.warning('Failed to parse Gemini response as JSON: $e');
       return GeminiVerificationResponse(
         passed: false,

@@ -5,30 +5,6 @@ import 'package:verily_server/src/services/action_service.dart'
     as legacy_action_service;
 import 'package:verily_server/src/services/action_step_service.dart'
     as legacy_action_step_service;
-import 'package:verily_server/src/services/ai_action_service.dart'
-    as legacy_ai_action_service;
-import 'package:verily_server/src/services/attestation_service.dart'
-    as legacy_attestation_service;
-import 'package:verily_server/src/services/location_service.dart'
-    as legacy_location_service;
-import 'package:verily_server/src/services/mapbox_geocoding_service.dart'
-    as legacy_mapbox_geocoding_service;
-import 'package:verily_server/src/services/reward_pool_service.dart'
-    as legacy_reward_pool_service;
-import 'package:verily_server/src/services/reward_service.dart'
-    as legacy_reward_service;
-import 'package:verily_server/src/services/seed_service.dart'
-    as legacy_seed_service;
-import 'package:verily_server/src/services/solana_service.dart'
-    as legacy_solana_service;
-import 'package:verily_server/src/services/submission_service.dart'
-    as legacy_submission_service;
-import 'package:verily_server/src/services/user_follow_service.dart'
-    as legacy_user_follow_service;
-import 'package:verily_server/src/services/user_profile_service.dart'
-    as legacy_user_profile_service;
-import 'package:verily_server/src/services/verification_service.dart'
-    as legacy_verification_service;
 import 'package:verily_server/src/services/actions/action_category_service.dart'
     as domain_action_category_service;
 import 'package:verily_server/src/services/actions/action_service.dart'
@@ -37,26 +13,50 @@ import 'package:verily_server/src/services/actions/action_step_service.dart'
     as domain_action_step_service;
 import 'package:verily_server/src/services/actions/ai_action_service.dart'
     as domain_ai_action_service;
+import 'package:verily_server/src/services/ai_action_service.dart'
+    as legacy_ai_action_service;
+import 'package:verily_server/src/services/attestation_service.dart'
+    as legacy_attestation_service;
 import 'package:verily_server/src/services/bootstrap/seed_service.dart'
     as domain_seed_service;
 import 'package:verily_server/src/services/location/location_service.dart'
     as domain_location_service;
 import 'package:verily_server/src/services/location/mapbox_geocoding_service.dart'
     as domain_mapbox_geocoding_service;
+import 'package:verily_server/src/services/location_service.dart'
+    as legacy_location_service;
+import 'package:verily_server/src/services/mapbox_geocoding_service.dart'
+    as legacy_mapbox_geocoding_service;
+import 'package:verily_server/src/services/reward_pool_service.dart'
+    as legacy_reward_pool_service;
+import 'package:verily_server/src/services/reward_service.dart'
+    as legacy_reward_service;
 import 'package:verily_server/src/services/rewards/reward_pool_service.dart'
     as domain_reward_pool_service;
 import 'package:verily_server/src/services/rewards/reward_service.dart'
     as domain_reward_service;
+import 'package:verily_server/src/services/seed_service.dart'
+    as legacy_seed_service;
 import 'package:verily_server/src/services/social/user_follow_service.dart'
     as domain_user_follow_service;
+import 'package:verily_server/src/services/solana_service.dart'
+    as legacy_solana_service;
+import 'package:verily_server/src/services/submission_service.dart'
+    as legacy_submission_service;
 import 'package:verily_server/src/services/submissions/submission_service.dart'
     as domain_submission_service;
+import 'package:verily_server/src/services/user_follow_service.dart'
+    as legacy_user_follow_service;
+import 'package:verily_server/src/services/user_profile_service.dart'
+    as legacy_user_profile_service;
 import 'package:verily_server/src/services/users/user_profile_service.dart'
     as domain_user_profile_service;
 import 'package:verily_server/src/services/verification/attestation_service.dart'
     as domain_attestation_service;
 import 'package:verily_server/src/services/verification/verification_service.dart'
     as domain_verification_service;
+import 'package:verily_server/src/services/verification_service.dart'
+    as legacy_verification_service;
 import 'package:verily_server/src/services/wallet/solana_service.dart'
     as domain_solana_service;
 

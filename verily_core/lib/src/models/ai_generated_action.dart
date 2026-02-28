@@ -9,13 +9,33 @@ abstract class AiGeneratedAction with _$AiGeneratedAction {
   const factory AiGeneratedAction({
     required String title,
     required String description,
+
+    /// One of: "oneOff", "sequential", "habit"
     required String actionType,
     required String verificationCriteria,
     required String suggestedCategory,
     int? suggestedSteps,
     int? suggestedIntervalDays,
+
+    /// "ordered" or "unordered" for sequential actions.
+    String? stepOrdering,
+
+    /// For habit actions: total days the habit runs.
+    int? habitDurationDays,
+
+    /// For habit actions: completions required per week.
+    int? habitFrequencyPerWeek,
+
+    /// For habit actions: total completions required.
+    int? habitTotalRequired,
     @Default([]) List<String> suggestedTags,
     AiGeneratedLocation? suggestedLocation,
+
+    /// Suggested max performers (null = unlimited).
+    int? suggestedMaxPerformers,
+
+    /// Generated steps for sequential/multi-step actions.
+    @Default([]) List<AiGeneratedStep> steps,
   }) = _AiGeneratedAction;
 
   factory AiGeneratedAction.fromJson(Map<String, dynamic> json) =>

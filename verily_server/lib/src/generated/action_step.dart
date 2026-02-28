@@ -21,6 +21,8 @@ abstract class ActionStep
     required this.title,
     this.description,
     required this.verificationCriteria,
+    this.locationId,
+    required this.isOptional,
   });
 
   factory ActionStep({
@@ -30,6 +32,8 @@ abstract class ActionStep
     required String title,
     String? description,
     required String verificationCriteria,
+    int? locationId,
+    required bool isOptional,
   }) = _ActionStepImpl;
 
   factory ActionStep.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -40,6 +44,8 @@ abstract class ActionStep
       title: jsonSerialization['title'] as String,
       description: jsonSerialization['description'] as String?,
       verificationCriteria: jsonSerialization['verificationCriteria'] as String,
+      locationId: jsonSerialization['locationId'] as int?,
+      isOptional: jsonSerialization['isOptional'] as bool,
     );
   }
 
@@ -60,6 +66,10 @@ abstract class ActionStep
 
   String verificationCriteria;
 
+  int? locationId;
+
+  bool isOptional;
+
   @override
   _i1.Table<int?> get table => t;
 
@@ -73,6 +83,8 @@ abstract class ActionStep
     String? title,
     String? description,
     String? verificationCriteria,
+    int? locationId,
+    bool? isOptional,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -84,6 +96,8 @@ abstract class ActionStep
       'title': title,
       if (description != null) 'description': description,
       'verificationCriteria': verificationCriteria,
+      if (locationId != null) 'locationId': locationId,
+      'isOptional': isOptional,
     };
   }
 
@@ -97,6 +111,8 @@ abstract class ActionStep
       'title': title,
       if (description != null) 'description': description,
       'verificationCriteria': verificationCriteria,
+      if (locationId != null) 'locationId': locationId,
+      'isOptional': isOptional,
     };
   }
 
@@ -140,6 +156,8 @@ class _ActionStepImpl extends ActionStep {
     required String title,
     String? description,
     required String verificationCriteria,
+    int? locationId,
+    required bool isOptional,
   }) : super._(
          id: id,
          actionId: actionId,
@@ -147,6 +165,8 @@ class _ActionStepImpl extends ActionStep {
          title: title,
          description: description,
          verificationCriteria: verificationCriteria,
+         locationId: locationId,
+         isOptional: isOptional,
        );
 
   /// Returns a shallow copy of this [ActionStep]
@@ -160,6 +180,8 @@ class _ActionStepImpl extends ActionStep {
     String? title,
     Object? description = _Undefined,
     String? verificationCriteria,
+    Object? locationId = _Undefined,
+    bool? isOptional,
   }) {
     return ActionStep(
       id: id is int? ? id : this.id,
@@ -168,6 +190,8 @@ class _ActionStepImpl extends ActionStep {
       title: title ?? this.title,
       description: description is String? ? description : this.description,
       verificationCriteria: verificationCriteria ?? this.verificationCriteria,
+      locationId: locationId is int? ? locationId : this.locationId,
+      isOptional: isOptional ?? this.isOptional,
     );
   }
 }
@@ -200,6 +224,16 @@ class ActionStepUpdateTable extends _i1.UpdateTable<ActionStepTable> {
         table.verificationCriteria,
         value,
       );
+
+  _i1.ColumnValue<int, int> locationId(int? value) => _i1.ColumnValue(
+    table.locationId,
+    value,
+  );
+
+  _i1.ColumnValue<bool, bool> isOptional(bool value) => _i1.ColumnValue(
+    table.isOptional,
+    value,
+  );
 }
 
 class ActionStepTable extends _i1.Table<int?> {
@@ -225,6 +259,14 @@ class ActionStepTable extends _i1.Table<int?> {
       'verificationCriteria',
       this,
     );
+    locationId = _i1.ColumnInt(
+      'locationId',
+      this,
+    );
+    isOptional = _i1.ColumnBool(
+      'isOptional',
+      this,
+    );
   }
 
   late final ActionStepUpdateTable updateTable;
@@ -239,6 +281,10 @@ class ActionStepTable extends _i1.Table<int?> {
 
   late final _i1.ColumnString verificationCriteria;
 
+  late final _i1.ColumnInt locationId;
+
+  late final _i1.ColumnBool isOptional;
+
   @override
   List<_i1.Column> get columns => [
     id,
@@ -247,6 +293,8 @@ class ActionStepTable extends _i1.Table<int?> {
     title,
     description,
     verificationCriteria,
+    locationId,
+    isOptional,
   ];
 }
 

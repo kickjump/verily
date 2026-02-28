@@ -25,11 +25,18 @@ class ActionService {
     required String actionType,
     required String verificationCriteria,
     int? totalSteps,
+    String? stepOrdering,
     int? intervalDays,
+    int? habitDurationDays,
+    int? habitFrequencyPerWeek,
+    int? habitTotalRequired,
     int? maxPerformers,
     int? locationId,
     int? categoryId,
     String? referenceImages,
+    String? tags,
+    DateTime? expiresAt,
+    double? locationRadius,
   }) async {
     // Validate action type.
     final type = ActionType.fromValue(actionType);
@@ -37,6 +44,19 @@ class ActionService {
     if (type == ActionType.sequential &&
         (totalSteps == null || totalSteps < 1)) {
       throw ValidationException('Sequential actions must have totalSteps >= 1');
+    }
+
+    if (type == ActionType.habit) {
+      if (habitDurationDays == null || habitDurationDays < 1) {
+        throw ValidationException(
+          'Habit actions must have habitDurationDays >= 1',
+        );
+      }
+      if (habitTotalRequired == null || habitTotalRequired < 1) {
+        throw ValidationException(
+          'Habit actions must have habitTotalRequired >= 1',
+        );
+      }
     }
 
     final now = DateTime.now().toUtc();
@@ -48,11 +68,18 @@ class ActionService {
       status: 'active',
       verificationCriteria: verificationCriteria,
       totalSteps: totalSteps,
+      stepOrdering: stepOrdering,
       intervalDays: intervalDays,
+      habitDurationDays: habitDurationDays,
+      habitFrequencyPerWeek: habitFrequencyPerWeek,
+      habitTotalRequired: habitTotalRequired,
       maxPerformers: maxPerformers,
       locationId: locationId,
       categoryId: categoryId,
       referenceImages: referenceImages,
+      tags: tags,
+      expiresAt: expiresAt,
+      locationRadius: locationRadius,
       createdAt: now,
       updatedAt: now,
     );
@@ -86,7 +113,7 @@ class ActionService {
     int limit = 50,
     int offset = 0,
   }) async {
-    // TODO: Use generated where-clause builders once `serverpod generate` runs.
+    // TODO(ifiokjr): Use generated where-clause builders once `serverpod generate` runs.
     // For now we build a manual filter using the generated Action.t table.
     final where = Action.t.id.notEquals(null);
 
@@ -118,7 +145,7 @@ class ActionService {
     required String query,
     int limit = 20,
   }) async {
-    // TODO: Replace with full-text search or ILIKE once generated column
+    // TODO(ifiokjr): Replace with full-text search or ILIKE once generated column
     // references are available.
     final lowerQuery = query.toLowerCase();
     final all = await Action.db.find(
@@ -182,8 +209,9 @@ class ActionService {
     final action = await findById(session, id);
     _verifyOwnership(action, callerId);
 
-    action.status = 'archived';
-    action.updatedAt = DateTime.now().toUtc();
+    action
+      ..status = 'archived'
+      ..updatedAt = DateTime.now().toUtc();
     return Action.db.updateRow(session, action);
   }
 
@@ -203,7 +231,7 @@ class ActionService {
     _log.info('Deleted action id=$id');
   }
 
-  /// Verifies that [callerId] matches the action's [creatorId].
+  /// Verifies that [callerId] matches the action's `creatorId`.
   ///
   /// Throws [ForbiddenException] when they do not match.
   static void _verifyOwnership(Action action, UuidValue callerId) {

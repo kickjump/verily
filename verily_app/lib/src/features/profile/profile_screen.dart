@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/feed/feed_provider.dart';
+import 'package:verily_app/src/features/profile/providers/rewards_provider.dart';
+import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
+import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_ui/verily_ui.dart';
 
 /// Screen showing the current user's profile with stats, actions, and badges.
@@ -12,10 +16,63 @@ class ProfileScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final tabController = useTabController(initialLength: 2);
+    final profileAsync = ref.watch(currentUserProfileProvider);
 
-    // TODO: Fetch real user profile from provider.
+    return profileAsync.when(
+      loading: () => Scaffold(
+        appBar: AppBar(title: const Text('Profile')),
+        body: const Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, _) => Scaffold(
+        appBar: AppBar(title: const Text('Profile')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: 64,
+                color: theme.colorScheme.error,
+              ),
+              const SizedBox(height: SpacingTokens.md),
+              Text(
+                'Failed to load profile',
+                style: theme.textTheme.titleMedium,
+              ),
+              const SizedBox(height: SpacingTokens.md),
+              FilledButton(
+                onPressed: () => ref.invalidate(currentUserProfileProvider),
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
+      ),
+      data: (profile) =>
+          _ProfileBody(profile: profile, tabController: tabController),
+    );
+  }
+}
+
+class _ProfileBody extends HookConsumerWidget {
+  const _ProfileBody({required this.profile, required this.tabController});
+
+  final vc.UserProfile profile;
+  final TabController tabController;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final actionsAsync = ref.watch(feedActionsProvider);
+    final rewardsAsync = ref.watch(userRewardsProvider);
+
+    final initials = profile.displayName
+        .split(' ')
+        .take(2)
+        .map((w) => w.isNotEmpty ? w[0].toUpperCase() : '')
+        .join();
 
     return Scaffold(
       appBar: AppBar(
@@ -39,41 +96,84 @@ class ProfileScreen extends HookConsumerWidget {
                 padding: const EdgeInsets.all(SpacingTokens.md),
                 child: Column(
                   children: [
-                    // Avatar
-                    const VAvatar(initials: 'JD', radius: 48),
+                    VAvatar(initials: initials, radius: 48),
                     const SizedBox(height: SpacingTokens.md),
-
-                    // Display name
                     Text(
-                      'John Doe',
+                      profile.displayName,
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: SpacingTokens.xs),
-
-                    // Username
                     Text(
-                      '@johndoe',
+                      '@${profile.username}',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
                     ),
-                    const SizedBox(height: SpacingTokens.sm),
-
-                    // Bio
-                    Text(
-                      'Fitness enthusiast and community builder. '
-                      'Love completing real-world challenges!',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
+                    if (profile.bio != null && profile.bio!.isNotEmpty) ...[
+                      const SizedBox(height: SpacingTokens.sm),
+                      Text(
+                        profile.bio!,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                    ],
                     const SizedBox(height: SpacingTokens.lg),
-
-                    // Stats bar
-                    _StatsBar(),
+                    _StatsBar(
+                      actionsAsync: actionsAsync,
+                      rewardsAsync: rewardsAsync,
+                    ),
+                    const SizedBox(height: SpacingTokens.md),
+                    VCard(
+                      onTap: () => context.push(RouteNames.walletPath),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: SpacingTokens.md,
+                        vertical: SpacingTokens.sm,
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                RadiusTokens.sm,
+                              ),
+                              color: colorScheme.primaryContainer,
+                            ),
+                            child: Icon(
+                              Icons.account_balance_wallet_outlined,
+                              color: colorScheme.primary,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(width: SpacingTokens.md),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Wallet',
+                                  style: theme.textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Text(
+                                  'View balances, tokens & NFTs',
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Icon(Icons.chevron_right),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: SpacingTokens.md),
                   ],
                 ),
@@ -97,11 +197,8 @@ class ProfileScreen extends HookConsumerWidget {
         body: TabBarView(
           controller: tabController,
           children: [
-            // Actions tab
-            _ActionsTab(),
-
-            // Badges tab
-            _BadgesTab(),
+            _ActionsTab(actionsAsync: actionsAsync),
+            _BadgesTab(rewardsAsync: rewardsAsync),
           ],
         ),
       ),
@@ -111,10 +208,17 @@ class ProfileScreen extends HookConsumerWidget {
 
 /// Displays key user statistics in a row.
 class _StatsBar extends HookWidget {
+  const _StatsBar({required this.actionsAsync, required this.rewardsAsync});
+
+  final AsyncValue<List<vc.Action>> actionsAsync;
+  final AsyncValue<List<vc.UserReward>> rewardsAsync;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final actionCount = actionsAsync.whenOrNull(data: (a) => a.length) ?? 0;
+    final rewardCount = rewardsAsync.whenOrNull(data: (r) => r.length) ?? 0;
 
     return VCard(
       padding: const EdgeInsets.symmetric(
@@ -124,22 +228,16 @@ class _StatsBar extends HookWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const _StatItem(
-            count: '12',
-            label: 'Created',
+          _StatItem(
+            count: '$actionCount',
+            label: 'Actions',
             icon: Icons.add_circle_outline,
           ),
           Container(width: 1, height: 32, color: colorScheme.outlineVariant),
-          const _StatItem(
-            count: '28',
-            label: 'Completed',
-            icon: Icons.check_circle_outline,
-          ),
-          Container(width: 1, height: 32, color: colorScheme.outlineVariant),
-          const _StatItem(
-            count: '7',
-            label: 'Badges',
-            icon: Icons.military_tech_outlined,
+          _StatItem(
+            count: '$rewardCount',
+            label: 'Rewards',
+            icon: Icons.emoji_events_outlined,
           ),
         ],
       ),
@@ -192,147 +290,240 @@ class _StatItem extends HookWidget {
   }
 }
 
-/// Tab showing the user's created and completed actions.
+/// Tab showing the user's created actions.
 class _ActionsTab extends HookWidget {
+  const _ActionsTab({required this.actionsAsync});
+
+  final AsyncValue<List<vc.Action>> actionsAsync;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    // TODO: Replace with real user actions from provider.
-    return ListView.builder(
-      padding: const EdgeInsets.all(SpacingTokens.md),
-      itemCount: 8,
-      itemBuilder: (context, index) {
-        final isCreated = index < 4;
-        return Padding(
-          padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
-          child: VCard(
-            onTap: () => context.push(
-              RouteNames.actionDetailPath.replaceFirst(':actionId', '$index'),
-            ),
-            padding: const EdgeInsets.all(SpacingTokens.md),
-            child: Row(
+    return actionsAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (_, __) => Center(
+        child: Text(
+          'Failed to load actions',
+          style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.error),
+        ),
+      ),
+      data: (actions) {
+        if (actions.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: isCreated
-                        ? ColorTokens.primary.withAlpha(20)
-                        : ColorTokens.success.withAlpha(20),
-                    borderRadius: BorderRadius.circular(RadiusTokens.sm),
-                  ),
-                  child: Icon(
-                    isCreated ? Icons.edit_note : Icons.task_alt,
-                    color: isCreated
-                        ? ColorTokens.primary
-                        : ColorTokens.success,
+                Icon(
+                  Icons.assignment_outlined,
+                  size: 64,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(height: SpacingTokens.md),
+                Text(
+                  'No actions yet',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
-                const SizedBox(width: SpacingTokens.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        isCreated
-                            ? 'Action created #${index + 1}'
-                            : 'Action completed #${index - 3}',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: SpacingTokens.xs),
-                      VBadgeChip(
-                        label: isCreated ? 'Created' : 'Completed',
-                        backgroundColor: isCreated
-                            ? ColorTokens.primary.withAlpha(30)
-                            : ColorTokens.success.withAlpha(30),
-                        foregroundColor: isCreated
-                            ? ColorTokens.primary
-                            : ColorTokens.success,
-                      ),
-                    ],
-                  ),
-                ),
-                Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
               ],
             ),
-          ),
+          );
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(SpacingTokens.md),
+          itemCount: actions.length,
+          itemBuilder: (context, index) {
+            final action = actions[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
+              child: VCard(
+                onTap: () => context.push(
+                  RouteNames.actionDetailPath.replaceFirst(
+                    ':actionId',
+                    '${action.id}',
+                  ),
+                ),
+                padding: const EdgeInsets.all(SpacingTokens.md),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: ColorTokens.primary.withAlpha(20),
+                        borderRadius: BorderRadius.circular(RadiusTokens.sm),
+                      ),
+                      child: const Icon(
+                        Icons.assignment_outlined,
+                        color: ColorTokens.primary,
+                      ),
+                    ),
+                    const SizedBox(width: SpacingTokens.md),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            action.title,
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: SpacingTokens.xs),
+                          VBadgeChip(
+                            label: action.status.replaceFirst(
+                              action.status[0],
+                              action.status[0].toUpperCase(),
+                            ),
+                            backgroundColor: action.status == 'active'
+                                ? ColorTokens.success.withAlpha(30)
+                                : colorScheme.surfaceContainerHighest,
+                            foregroundColor: action.status == 'active'
+                                ? ColorTokens.success
+                                : colorScheme.onSurfaceVariant,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         );
       },
     );
   }
 }
 
-/// Tab showing the user's earned badges.
+/// Tab showing the user's earned rewards.
 class _BadgesTab extends HookWidget {
+  const _BadgesTab({required this.rewardsAsync});
+
+  final AsyncValue<List<vc.UserReward>> rewardsAsync;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    // TODO: Replace with real badges from provider.
-    final badges = [
-      ('First Action', Icons.stars_outlined, ColorTokens.secondary),
-      ('Push-Up Pro', Icons.fitness_center, ColorTokens.primary),
-      ('Eco Warrior', Icons.eco, ColorTokens.success),
-      ('Community Hero', Icons.groups_outlined, ColorTokens.tertiary),
-      ('Streak Master', Icons.local_fire_department, ColorTokens.secondary),
-      ('Explorer', Icons.explore_outlined, ColorTokens.primary),
-      ('Locked', Icons.lock_outlined, colorScheme.outlineVariant),
-    ];
-
-    return GridView.builder(
-      padding: const EdgeInsets.all(SpacingTokens.md),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: SpacingTokens.sm,
-        mainAxisSpacing: SpacingTokens.sm,
-        childAspectRatio: 0.85,
+    return rewardsAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (_, __) => Center(
+        child: Text(
+          'Failed to load rewards',
+          style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.error),
+        ),
       ),
-      itemCount: badges.length,
-      itemBuilder: (context, index) {
-        final (name, icon, color) = badges[index];
-        final isLocked = name == 'Locked';
+      data: (rewards) {
+        if (rewards.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.military_tech_outlined,
+                  size: 64,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(height: SpacingTokens.md),
+                Text(
+                  'No rewards yet',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(height: SpacingTokens.xs),
+                Text(
+                  'Complete actions to earn rewards',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
 
-        return VCard(
-          padding: const EdgeInsets.all(SpacingTokens.sm),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: color.withAlpha(isLocked ? 15 : 30),
-                ),
-                child: Icon(
-                  icon,
-                  size: 28,
-                  color: isLocked ? colorScheme.outlineVariant : color,
+        return ListView.builder(
+          padding: const EdgeInsets.all(SpacingTokens.md),
+          itemCount: rewards.length,
+          itemBuilder: (context, index) {
+            final reward = rewards[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
+              child: VCard(
+                padding: const EdgeInsets.all(SpacingTokens.md),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: ColorTokens.secondary.withAlpha(30),
+                      ),
+                      child: const Icon(
+                        Icons.emoji_events_outlined,
+                        color: ColorTokens.secondary,
+                      ),
+                    ),
+                    const SizedBox(width: SpacingTokens.md),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Reward #${reward.rewardId}',
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: SpacingTokens.xs),
+                          Text(
+                            'Earned ${_formatDate(reward.earnedAt)}',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: SpacingTokens.sm),
-              Text(
-                name,
-                style: theme.textTheme.labelSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: isLocked
-                      ? colorScheme.onSurfaceVariant
-                      : colorScheme.onSurface,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
+  }
+
+  String _formatDate(DateTime date) {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }
 }
 

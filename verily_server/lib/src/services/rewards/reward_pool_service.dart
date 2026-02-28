@@ -160,7 +160,7 @@ class RewardPoolService {
       'remaining: ${pool.remainingAmount} ${pool.rewardType}',
     );
 
-    // TODO: Initiate refund of remainingAmount to creator's wallet
+    // TODO(ifiokjr): Initiate refund of remainingAmount to creator's wallet
 
     return updated;
   }

@@ -23,10 +23,17 @@ abstract class Action implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     this.locationId,
     this.categoryId,
     this.totalSteps,
+    this.stepOrdering,
     this.intervalDays,
+    this.habitDurationDays,
+    this.habitFrequencyPerWeek,
+    this.habitTotalRequired,
     this.maxPerformers,
     this.referenceImages,
     required this.verificationCriteria,
+    this.tags,
+    this.expiresAt,
+    this.locationRadius,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -41,10 +48,17 @@ abstract class Action implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     int? locationId,
     int? categoryId,
     int? totalSteps,
+    String? stepOrdering,
     int? intervalDays,
+    int? habitDurationDays,
+    int? habitFrequencyPerWeek,
+    int? habitTotalRequired,
     int? maxPerformers,
     String? referenceImages,
     required String verificationCriteria,
+    String? tags,
+    DateTime? expiresAt,
+    double? locationRadius,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _ActionImpl;
@@ -62,10 +76,19 @@ abstract class Action implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       locationId: jsonSerialization['locationId'] as int?,
       categoryId: jsonSerialization['categoryId'] as int?,
       totalSteps: jsonSerialization['totalSteps'] as int?,
+      stepOrdering: jsonSerialization['stepOrdering'] as String?,
       intervalDays: jsonSerialization['intervalDays'] as int?,
+      habitDurationDays: jsonSerialization['habitDurationDays'] as int?,
+      habitFrequencyPerWeek: jsonSerialization['habitFrequencyPerWeek'] as int?,
+      habitTotalRequired: jsonSerialization['habitTotalRequired'] as int?,
       maxPerformers: jsonSerialization['maxPerformers'] as int?,
       referenceImages: jsonSerialization['referenceImages'] as String?,
       verificationCriteria: jsonSerialization['verificationCriteria'] as String,
+      tags: jsonSerialization['tags'] as String?,
+      expiresAt: jsonSerialization['expiresAt'] == null
+          ? null
+          : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['expiresAt']),
+      locationRadius: (jsonSerialization['locationRadius'] as num?)?.toDouble(),
       createdAt: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['createdAt'],
       ),
@@ -98,13 +121,27 @@ abstract class Action implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   int? totalSteps;
 
+  String? stepOrdering;
+
   int? intervalDays;
+
+  int? habitDurationDays;
+
+  int? habitFrequencyPerWeek;
+
+  int? habitTotalRequired;
 
   int? maxPerformers;
 
   String? referenceImages;
 
   String verificationCriteria;
+
+  String? tags;
+
+  DateTime? expiresAt;
+
+  double? locationRadius;
 
   DateTime createdAt;
 
@@ -126,10 +163,17 @@ abstract class Action implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     int? locationId,
     int? categoryId,
     int? totalSteps,
+    String? stepOrdering,
     int? intervalDays,
+    int? habitDurationDays,
+    int? habitFrequencyPerWeek,
+    int? habitTotalRequired,
     int? maxPerformers,
     String? referenceImages,
     String? verificationCriteria,
+    String? tags,
+    DateTime? expiresAt,
+    double? locationRadius,
     DateTime? createdAt,
     DateTime? updatedAt,
   });
@@ -146,10 +190,18 @@ abstract class Action implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       if (locationId != null) 'locationId': locationId,
       if (categoryId != null) 'categoryId': categoryId,
       if (totalSteps != null) 'totalSteps': totalSteps,
+      if (stepOrdering != null) 'stepOrdering': stepOrdering,
       if (intervalDays != null) 'intervalDays': intervalDays,
+      if (habitDurationDays != null) 'habitDurationDays': habitDurationDays,
+      if (habitFrequencyPerWeek != null)
+        'habitFrequencyPerWeek': habitFrequencyPerWeek,
+      if (habitTotalRequired != null) 'habitTotalRequired': habitTotalRequired,
       if (maxPerformers != null) 'maxPerformers': maxPerformers,
       if (referenceImages != null) 'referenceImages': referenceImages,
       'verificationCriteria': verificationCriteria,
+      if (tags != null) 'tags': tags,
+      if (expiresAt != null) 'expiresAt': expiresAt?.toJson(),
+      if (locationRadius != null) 'locationRadius': locationRadius,
       'createdAt': createdAt.toJson(),
       'updatedAt': updatedAt.toJson(),
     };
@@ -168,10 +220,18 @@ abstract class Action implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       if (locationId != null) 'locationId': locationId,
       if (categoryId != null) 'categoryId': categoryId,
       if (totalSteps != null) 'totalSteps': totalSteps,
+      if (stepOrdering != null) 'stepOrdering': stepOrdering,
       if (intervalDays != null) 'intervalDays': intervalDays,
+      if (habitDurationDays != null) 'habitDurationDays': habitDurationDays,
+      if (habitFrequencyPerWeek != null)
+        'habitFrequencyPerWeek': habitFrequencyPerWeek,
+      if (habitTotalRequired != null) 'habitTotalRequired': habitTotalRequired,
       if (maxPerformers != null) 'maxPerformers': maxPerformers,
       if (referenceImages != null) 'referenceImages': referenceImages,
       'verificationCriteria': verificationCriteria,
+      if (tags != null) 'tags': tags,
+      if (expiresAt != null) 'expiresAt': expiresAt?.toJson(),
+      if (locationRadius != null) 'locationRadius': locationRadius,
       'createdAt': createdAt.toJson(),
       'updatedAt': updatedAt.toJson(),
     };
@@ -220,10 +280,17 @@ class _ActionImpl extends Action {
     int? locationId,
     int? categoryId,
     int? totalSteps,
+    String? stepOrdering,
     int? intervalDays,
+    int? habitDurationDays,
+    int? habitFrequencyPerWeek,
+    int? habitTotalRequired,
     int? maxPerformers,
     String? referenceImages,
     required String verificationCriteria,
+    String? tags,
+    DateTime? expiresAt,
+    double? locationRadius,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) : super._(
@@ -236,10 +303,17 @@ class _ActionImpl extends Action {
          locationId: locationId,
          categoryId: categoryId,
          totalSteps: totalSteps,
+         stepOrdering: stepOrdering,
          intervalDays: intervalDays,
+         habitDurationDays: habitDurationDays,
+         habitFrequencyPerWeek: habitFrequencyPerWeek,
+         habitTotalRequired: habitTotalRequired,
          maxPerformers: maxPerformers,
          referenceImages: referenceImages,
          verificationCriteria: verificationCriteria,
+         tags: tags,
+         expiresAt: expiresAt,
+         locationRadius: locationRadius,
          createdAt: createdAt,
          updatedAt: updatedAt,
        );
@@ -258,10 +332,17 @@ class _ActionImpl extends Action {
     Object? locationId = _Undefined,
     Object? categoryId = _Undefined,
     Object? totalSteps = _Undefined,
+    Object? stepOrdering = _Undefined,
     Object? intervalDays = _Undefined,
+    Object? habitDurationDays = _Undefined,
+    Object? habitFrequencyPerWeek = _Undefined,
+    Object? habitTotalRequired = _Undefined,
     Object? maxPerformers = _Undefined,
     Object? referenceImages = _Undefined,
     String? verificationCriteria,
+    Object? tags = _Undefined,
+    Object? expiresAt = _Undefined,
+    Object? locationRadius = _Undefined,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -275,12 +356,27 @@ class _ActionImpl extends Action {
       locationId: locationId is int? ? locationId : this.locationId,
       categoryId: categoryId is int? ? categoryId : this.categoryId,
       totalSteps: totalSteps is int? ? totalSteps : this.totalSteps,
+      stepOrdering: stepOrdering is String? ? stepOrdering : this.stepOrdering,
       intervalDays: intervalDays is int? ? intervalDays : this.intervalDays,
+      habitDurationDays: habitDurationDays is int?
+          ? habitDurationDays
+          : this.habitDurationDays,
+      habitFrequencyPerWeek: habitFrequencyPerWeek is int?
+          ? habitFrequencyPerWeek
+          : this.habitFrequencyPerWeek,
+      habitTotalRequired: habitTotalRequired is int?
+          ? habitTotalRequired
+          : this.habitTotalRequired,
       maxPerformers: maxPerformers is int? ? maxPerformers : this.maxPerformers,
       referenceImages: referenceImages is String?
           ? referenceImages
           : this.referenceImages,
       verificationCriteria: verificationCriteria ?? this.verificationCriteria,
+      tags: tags is String? ? tags : this.tags,
+      expiresAt: expiresAt is DateTime? ? expiresAt : this.expiresAt,
+      locationRadius: locationRadius is double?
+          ? locationRadius
+          : this.locationRadius,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -332,8 +428,30 @@ class ActionUpdateTable extends _i1.UpdateTable<ActionTable> {
     value,
   );
 
+  _i1.ColumnValue<String, String> stepOrdering(String? value) =>
+      _i1.ColumnValue(
+        table.stepOrdering,
+        value,
+      );
+
   _i1.ColumnValue<int, int> intervalDays(int? value) => _i1.ColumnValue(
     table.intervalDays,
+    value,
+  );
+
+  _i1.ColumnValue<int, int> habitDurationDays(int? value) => _i1.ColumnValue(
+    table.habitDurationDays,
+    value,
+  );
+
+  _i1.ColumnValue<int, int> habitFrequencyPerWeek(int? value) =>
+      _i1.ColumnValue(
+        table.habitFrequencyPerWeek,
+        value,
+      );
+
+  _i1.ColumnValue<int, int> habitTotalRequired(int? value) => _i1.ColumnValue(
+    table.habitTotalRequired,
     value,
   );
 
@@ -351,6 +469,23 @@ class ActionUpdateTable extends _i1.UpdateTable<ActionTable> {
   _i1.ColumnValue<String, String> verificationCriteria(String value) =>
       _i1.ColumnValue(
         table.verificationCriteria,
+        value,
+      );
+
+  _i1.ColumnValue<String, String> tags(String? value) => _i1.ColumnValue(
+    table.tags,
+    value,
+  );
+
+  _i1.ColumnValue<DateTime, DateTime> expiresAt(DateTime? value) =>
+      _i1.ColumnValue(
+        table.expiresAt,
+        value,
+      );
+
+  _i1.ColumnValue<double, double> locationRadius(double? value) =>
+      _i1.ColumnValue(
+        table.locationRadius,
         value,
       );
 
@@ -402,8 +537,24 @@ class ActionTable extends _i1.Table<int?> {
       'totalSteps',
       this,
     );
+    stepOrdering = _i1.ColumnString(
+      'stepOrdering',
+      this,
+    );
     intervalDays = _i1.ColumnInt(
       'intervalDays',
+      this,
+    );
+    habitDurationDays = _i1.ColumnInt(
+      'habitDurationDays',
+      this,
+    );
+    habitFrequencyPerWeek = _i1.ColumnInt(
+      'habitFrequencyPerWeek',
+      this,
+    );
+    habitTotalRequired = _i1.ColumnInt(
+      'habitTotalRequired',
       this,
     );
     maxPerformers = _i1.ColumnInt(
@@ -416,6 +567,18 @@ class ActionTable extends _i1.Table<int?> {
     );
     verificationCriteria = _i1.ColumnString(
       'verificationCriteria',
+      this,
+    );
+    tags = _i1.ColumnString(
+      'tags',
+      this,
+    );
+    expiresAt = _i1.ColumnDateTime(
+      'expiresAt',
+      this,
+    );
+    locationRadius = _i1.ColumnDouble(
+      'locationRadius',
       this,
     );
     createdAt = _i1.ColumnDateTime(
@@ -446,13 +609,27 @@ class ActionTable extends _i1.Table<int?> {
 
   late final _i1.ColumnInt totalSteps;
 
+  late final _i1.ColumnString stepOrdering;
+
   late final _i1.ColumnInt intervalDays;
+
+  late final _i1.ColumnInt habitDurationDays;
+
+  late final _i1.ColumnInt habitFrequencyPerWeek;
+
+  late final _i1.ColumnInt habitTotalRequired;
 
   late final _i1.ColumnInt maxPerformers;
 
   late final _i1.ColumnString referenceImages;
 
   late final _i1.ColumnString verificationCriteria;
+
+  late final _i1.ColumnString tags;
+
+  late final _i1.ColumnDateTime expiresAt;
+
+  late final _i1.ColumnDouble locationRadius;
 
   late final _i1.ColumnDateTime createdAt;
 
@@ -469,10 +646,17 @@ class ActionTable extends _i1.Table<int?> {
     locationId,
     categoryId,
     totalSteps,
+    stepOrdering,
     intervalDays,
+    habitDurationDays,
+    habitFrequencyPerWeek,
+    habitTotalRequired,
     maxPerformers,
     referenceImages,
     verificationCriteria,
+    tags,
+    expiresAt,
+    locationRadius,
     createdAt,
     updatedAt,
   ];

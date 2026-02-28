@@ -19,7 +19,7 @@ class SeedService {
 
   static final _log = VLogger('SeedService');
 
-  /// The [creatorId] used for system-created seed data.
+  /// The `creatorId` used for system-created seed data.
   ///
   /// This is a well-known UUID that identifies the "system" user. It does not
   /// correspond to a real authentication user.
@@ -135,6 +135,7 @@ class SeedService {
               'Video must show exactly $reps press-ups with full range of '
               'motion. The person must be clearly visible performing each rep '
               'with a straight body position.',
+          isOptional: false,
         ),
       );
     }

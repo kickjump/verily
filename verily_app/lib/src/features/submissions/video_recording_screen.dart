@@ -72,7 +72,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: SpacingTokens.xs),
                   Text(
-                    // TODO: Replace with actual camera preview.
+                    // TODO(ifiokjr): Replace with actual camera preview.
                     'Camera integration pending',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white24,

@@ -20,6 +20,8 @@ abstract class ActionStep implements _i1.SerializableModel {
     required this.title,
     this.description,
     required this.verificationCriteria,
+    this.locationId,
+    required this.isOptional,
   });
 
   factory ActionStep({
@@ -29,6 +31,8 @@ abstract class ActionStep implements _i1.SerializableModel {
     required String title,
     String? description,
     required String verificationCriteria,
+    int? locationId,
+    required bool isOptional,
   }) = _ActionStepImpl;
 
   factory ActionStep.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -39,6 +43,8 @@ abstract class ActionStep implements _i1.SerializableModel {
       title: jsonSerialization['title'] as String,
       description: jsonSerialization['description'] as String?,
       verificationCriteria: jsonSerialization['verificationCriteria'] as String,
+      locationId: jsonSerialization['locationId'] as int?,
+      isOptional: jsonSerialization['isOptional'] as bool,
     );
   }
 
@@ -57,6 +63,10 @@ abstract class ActionStep implements _i1.SerializableModel {
 
   String verificationCriteria;
 
+  int? locationId;
+
+  bool isOptional;
+
   /// Returns a shallow copy of this [ActionStep]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
@@ -67,6 +77,8 @@ abstract class ActionStep implements _i1.SerializableModel {
     String? title,
     String? description,
     String? verificationCriteria,
+    int? locationId,
+    bool? isOptional,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -78,6 +90,8 @@ abstract class ActionStep implements _i1.SerializableModel {
       'title': title,
       if (description != null) 'description': description,
       'verificationCriteria': verificationCriteria,
+      if (locationId != null) 'locationId': locationId,
+      'isOptional': isOptional,
     };
   }
 
@@ -97,6 +111,8 @@ class _ActionStepImpl extends ActionStep {
     required String title,
     String? description,
     required String verificationCriteria,
+    int? locationId,
+    required bool isOptional,
   }) : super._(
          id: id,
          actionId: actionId,
@@ -104,6 +120,8 @@ class _ActionStepImpl extends ActionStep {
          title: title,
          description: description,
          verificationCriteria: verificationCriteria,
+         locationId: locationId,
+         isOptional: isOptional,
        );
 
   /// Returns a shallow copy of this [ActionStep]
@@ -117,6 +135,8 @@ class _ActionStepImpl extends ActionStep {
     String? title,
     Object? description = _Undefined,
     String? verificationCriteria,
+    Object? locationId = _Undefined,
+    bool? isOptional,
   }) {
     return ActionStep(
       id: id is int? ? id : this.id,
@@ -125,6 +145,8 @@ class _ActionStepImpl extends ActionStep {
       title: title ?? this.title,
       description: description is String? ? description : this.description,
       verificationCriteria: verificationCriteria ?? this.verificationCriteria,
+      locationId: locationId is int? ? locationId : this.locationId,
+      isOptional: isOptional ?? this.isOptional,
     );
   }
 }

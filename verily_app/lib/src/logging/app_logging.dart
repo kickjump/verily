@@ -27,6 +27,7 @@ void initAppLogging() {
 
     // In debug mode, print to the console.
     if (kDebugMode) {
+      // Logging output must go to console in debug mode.
       // ignore: avoid_print
       print(formatted);
     }
@@ -42,7 +43,7 @@ String _resolveSource() {
     if (Platform.isMacOS) return 'flutter:macos';
     if (Platform.isWindows) return 'flutter:windows';
     if (Platform.isLinux) return 'flutter:linux';
-  } catch (_) {
+  } on Exception catch (_) {
     // Platform may throw on some test environments.
   }
 

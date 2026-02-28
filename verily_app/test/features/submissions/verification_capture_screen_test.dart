@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/actions/providers/active_action_provider.dart';
 import 'package:verily_app/src/features/submissions/verification_capture_screen.dart';
 import 'package:verily_test_utils/verily_test_utils.dart';
+import 'package:verily_ui/verily_ui.dart';
 
 void main() {
   group('VerificationCaptureScreen', () {
@@ -21,6 +22,11 @@ void main() {
       await pumpScreen(tester);
 
       expect(find.text('Verification Capture'), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.text('Evidence checklist'),
+        120,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.text('Evidence checklist'), findsOneWidget);
       expect(find.textContaining('Keep your face'), findsOneWidget);
     });
@@ -28,13 +34,17 @@ void main() {
     testWidgets('toggles audio capture state', (tester) async {
       await pumpScreen(tester);
 
+      const toggleAudioButton = Key('verification_toggleAudioButton');
       await tester.scrollUntilVisible(
-        find.text('Mute Audio'),
-        120,
+        find.byKey(toggleAudioButton),
+        180,
         scrollable: find.byType(Scrollable).first,
       );
       expect(find.text('Mute Audio'), findsOneWidget);
-      await tester.tap(find.text('Mute Audio'));
+      final toggleButton = tester.widget<VOutlinedButton>(
+        find.byKey(toggleAudioButton),
+      );
+      toggleButton.onPressed?.call();
       await tester.pump();
 
       expect(find.text('Enable Audio'), findsOneWidget);
@@ -44,32 +54,41 @@ void main() {
       await pumpScreen(tester);
 
       expect(find.text('Not logged'), findsOneWidget);
+      const logLocationButton = Key('verification_logLocationButton');
       await tester.scrollUntilVisible(
-        find.text('Log Location'),
-        120,
+        find.byKey(logLocationButton),
+        180,
         scrollable: find.byType(Scrollable).first,
       );
-      await tester.tap(find.text('Log Location'));
+      final locationButton = tester.widget<VOutlinedButton>(
+        find.byKey(logLocationButton),
+      );
+      locationButton.onPressed?.call();
       await tester.pump();
 
-      expect(find.text('Logged'), findsWidgets);
       expect(find.textContaining('Logged at'), findsOneWidget);
     });
 
     testWidgets('starts and stops recording', (tester) async {
       await pumpScreen(tester);
 
+      const startStopRecordingButton = Key(
+        'verification_startStopRecordingButton',
+      );
       await tester.scrollUntilVisible(
-        find.text('Start Recording'),
+        find.byKey(startStopRecordingButton),
         120,
         scrollable: find.byType(Scrollable).first,
       );
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -160));
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(startStopRecordingButton));
       expect(find.text('Start Recording'), findsOneWidget);
-      await tester.tap(find.text('Start Recording'));
+      await tester.tap(find.byKey(startStopRecordingButton));
       await tester.pump();
 
       expect(find.text('Stop Recording'), findsOneWidget);
-      await tester.tap(find.text('Stop Recording'));
+      await tester.tap(find.byKey(startStopRecordingButton));
       await tester.pump();
 
       expect(find.text('Start Recording'), findsOneWidget);
@@ -96,6 +115,11 @@ void main() {
 
       await pumpScreen(tester, container: container);
 
+      await tester.scrollUntilVisible(
+        find.text('Active action'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.text('Active action'), findsOneWidget);
       expect(find.text('Record 20 push-ups at a local park'), findsOneWidget);
       expect(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/actions/providers/create_action_provider.dart';
+import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_core/verily_core.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -58,10 +60,35 @@ class CreateActionScreen extends HookConsumerWidget {
     Future<void> submitAction() async {
       isSubmitting.value = true;
       try {
-        // TODO: Submit action to Serverpod.
-        await Future<void>.delayed(const Duration(seconds: 1));
+        final result = await ref
+            .read(createActionProvider.notifier)
+            .submit(
+              title: titleController.text.trim(),
+              description: descriptionController.text.trim(),
+              actionType: selectedActionType.value.value,
+              verificationCriteria: criteriaController.text.trim(),
+              category: selectedCategory.value,
+              maxPerformers: maxPerformersController.text.isNotEmpty
+                  ? int.tryParse(maxPerformersController.text)
+                  : null,
+              locationName: locationEnabled.value
+                  ? locationNameController.text.trim()
+                  : null,
+            );
         if (context.mounted) {
-          context.go('/feed');
+          if (result != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Action created successfully!')),
+            );
+            context.go(RouteNames.feedPath);
+          } else {
+            isSubmitting.value = false;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Failed to create action. Please try again.'),
+              ),
+            );
+          }
         }
       } on Exception {
         isSubmitting.value = false;
@@ -389,7 +416,7 @@ class _StepVerification extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // TODO: Replace with real categories from provider.
+    // TODO(ifiokjr): Replace with real categories from provider.
     final categories = [
       'Fitness',
       'Environment',

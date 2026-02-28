@@ -23,7 +23,16 @@ fields:
       onDelete: setNull
   totalSteps:
     type: int?
+  stepOrdering:
+    type: String?
   intervalDays:
+    type: int?
+  # Habit-specific fields
+  habitDurationDays:
+    type: int?
+  habitFrequencyPerWeek:
+    type: int?
+  habitTotalRequired:
     type: int?
   maxPerformers:
     type: int?
@@ -31,6 +40,12 @@ fields:
     type: String?
   verificationCriteria:
     type: String
+  tags:
+    type: String?
+  expiresAt:
+    type: DateTime?
+  locationRadius:
+    type: double?
   createdAt:
     type: DateTime
   updatedAt:
@@ -40,3 +55,5 @@ indexes:
     fields: creatorId
   action_status_idx:
     fields: status
+  action_type_idx:
+    fields: actionType

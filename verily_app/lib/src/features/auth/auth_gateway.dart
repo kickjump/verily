@@ -55,6 +55,11 @@ abstract interface class AuthGateway {
   /// Signs in using Apple IDP.
   Future<AuthProfile> loginWithApple();
 
+  /// Signs in using a Solana wallet public key.
+  ///
+  /// The server links the wallet to an existing or new account.
+  Future<AuthProfile> loginWithWallet({required String publicKey});
+
   /// Signs out from the current device.
   Future<void> logout();
 }
@@ -196,6 +201,21 @@ class ServerpodAuthGateway implements AuthGateway {
 
     await _client.auth.updateSignedInUser(authSuccess);
     return _requireCurrentProfile();
+  }
+
+  @override
+  Future<AuthProfile> loginWithWallet({required String publicKey}) async {
+    // Link the wallet and authenticate via the Solana endpoint.
+    // The server creates or retrieves the user account associated with
+    // this public key.
+    final wallet = await _client.solana.linkWallet(publicKey);
+
+    // If the user is already authenticated, return current profile.
+    final profile = await getCurrentProfile();
+    if (profile != null) return profile;
+
+    // If not yet authenticated, use the wallet userId as identifier.
+    return (userId: wallet.userId.toString(), email: '');
   }
 
   @override

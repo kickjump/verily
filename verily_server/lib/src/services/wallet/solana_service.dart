@@ -1,6 +1,8 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:serverpod/serverpod.dart';
+import 'package:solana_kit/solana_kit.dart' as solana;
 import 'package:verily_core/verily_core.dart';
 
 import 'package:verily_server/src/exceptions/server_exceptions.dart';
@@ -25,6 +27,31 @@ class SolanaService {
   static const _boolLikeValues = {..._truthyValues, ..._falsyValues};
 
   // ---------------------------------------------------------------------------
+  // Signature verification
+  // ---------------------------------------------------------------------------
+
+  /// Verifies an Ed25519 signature against a message and public key.
+  ///
+  /// Used for wallet-based authentication: the client signs a server-issued
+  /// challenge with their private key, and the server verifies ownership.
+  static bool verifySignature({
+    required String publicKey,
+    required Uint8List signature,
+    required Uint8List message,
+  }) {
+    try {
+      final pubKeyBytes = solana.getPublicKeyFromAddress(
+        solana.address(publicKey),
+      );
+      final sigBytes = solana.signatureBytes(signature);
+      return solana.verifySignature(pubKeyBytes, sigBytes, message);
+    } on Exception catch (e) {
+      _log.warning('Signature verification failed: $e');
+      return false;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
   // Wallet management
   // ---------------------------------------------------------------------------
 
@@ -39,7 +66,7 @@ class SolanaService {
   }) async {
     _requireStubMode(session, operation: 'custodial wallet generation');
 
-    // TODO: Replace with actual solana_kit keypair generation:
+    // TODO(ifiokjr): Replace with actual solana_kit keypair generation:
     // final keyPair = generateKeyPair();
     // final publicKey = getAddressFromPublicKey(keyPair.publicKey);
     //
@@ -184,7 +211,7 @@ class SolanaService {
   }) async {
     _requireStubMode(session, operation: 'SOL balance lookup');
 
-    // TODO: Integrate with solana_kit RPC:
+    // TODO(ifiokjr): Integrate with solana_kit RPC:
     // final rpc = createSolanaRpc(_getRpcUrl(session));
     // final balance = await rpc.getBalance(Address.fromBase58(publicKey)).send();
     // return balance.value / 1e9; // lamports to SOL
@@ -200,7 +227,7 @@ class SolanaService {
   }) async {
     _requireStubMode(session, operation: 'SPL token balance lookup');
 
-    // TODO: Integrate with solana_kit RPC for SPL token balance
+    // TODO(ifiokjr): Integrate with solana_kit RPC for SPL token balance
     _log.info(
       'getTokenBalance called for $publicKey, mint $mintAddress (stub)',
     );
@@ -286,12 +313,13 @@ class SolanaService {
     // Deduct from pool.
     pool.remainingAmount -= pool.perPersonAmount;
     if (pool.remainingAmount <= 0) {
-      pool.status = PoolStatus.depleted.value;
-      pool.remainingAmount = 0;
+      pool
+        ..status = PoolStatus.depleted.value
+        ..remainingAmount = 0;
     }
     await RewardPool.db.updateRow(session, pool);
 
-    // TODO: Initiate on-chain transfer via solana_kit
+    // TODO(ifiokjr): Initiate on-chain transfer via solana_kit
     // try {
     //   final txSig = await _sendSolTransfer(session, ...);
     //   inserted.txSignature = txSig;
@@ -324,7 +352,7 @@ class SolanaService {
   }) async {
     _requireStubMode(session, operation: 'NFT badge minting');
 
-    // TODO: Integrate with solana_kit for Metaplex NFT minting
+    // TODO(ifiokjr): Integrate with solana_kit for Metaplex NFT minting
     _log.info(
       'mintBadgeNft called for user $recipientId, action $actionId (stub)',
     );
@@ -357,7 +385,7 @@ class SolanaService {
       await RewardPool.db.updateRow(session, pool);
       _log.info('Expired reward pool id=${pool.id}');
 
-      // TODO: Refund remaining amount to creator's wallet
+      // TODO(ifiokjr): Refund remaining amount to creator's wallet
     }
 
     return expiredPools.length;

@@ -1,10 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart' show GoRouter;
 import 'package:verily_core/verily_core.dart';
 
 /// A [NavigatorObserver] that logs route changes via [VLogger].
 ///
-/// Attach this to [GoRouter.observers] so every push, pop, replace, and
+/// Attach this to `GoRouter.observers` so every push, pop, replace, and
 /// remove is visible in the application logs.
 class NavigationObserver extends NavigatorObserver {
   NavigationObserver() : _log = VLogger('Navigation');

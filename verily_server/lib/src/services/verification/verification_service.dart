@@ -7,7 +7,7 @@ import 'package:verily_server/src/generated/protocol.dart';
 /// Business logic for storing and querying AI verification results.
 ///
 /// Each [ActionSubmission] may have at most one [VerificationResult] (enforced
-/// by a unique index on [submissionId]). The result is created after the Gemini
+/// by a unique index on `submissionId`). The result is created after the Gemini
 /// AI model finishes analyzing the submission's video.
 ///
 /// All methods are static and accept a [Session] as the first parameter.
@@ -67,8 +67,9 @@ class VerificationService {
     final newStatus = passed
         ? VerificationStatus.passed.value
         : VerificationStatus.failed.value;
-    submission.status = newStatus;
-    submission.updatedAt = DateTime.now().toUtc();
+    submission
+      ..status = newStatus
+      ..updatedAt = DateTime.now().toUtc();
     await ActionSubmission.db.updateRow(session, submission);
 
     _log.info(
@@ -158,7 +159,7 @@ class VerificationService {
     int limit = 50,
     int offset = 0,
   }) async {
-    // TODO: Use `t.confidenceScore < threshold` once generated column
+    // TODO(ifiokjr): Use `t.confidenceScore < threshold` once generated column
     // comparison operators are available. For now, fetch and filter in memory.
     final all = await VerificationResult.db.find(
       session,

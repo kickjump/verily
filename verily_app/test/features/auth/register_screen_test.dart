@@ -1,3 +1,4 @@
+// Test overrides don't need scoped provider dependencies.
 // ignore_for_file: scoped_providers_should_specify_dependencies
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

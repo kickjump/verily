@@ -14,6 +14,13 @@ fields:
     type: String?
   verificationCriteria:
     type: String
+  locationId:
+    type: int?
+    relation:
+      parent: location
+      onDelete: setNull
+  isOptional:
+    type: bool
 indexes:
   action_step_action_id_idx:
     fields: actionId
