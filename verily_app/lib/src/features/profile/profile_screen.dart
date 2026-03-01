@@ -337,64 +337,67 @@ class _ActionsTab extends HookWidget {
           itemCount: actions.length,
           itemBuilder: (context, index) {
             final action = actions[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
-              child: VCard(
-                onTap: () => context.push(
-                  RouteNames.actionDetailPath.replaceFirst(
-                    ':actionId',
-                    '${action.id}',
+            return RepaintBoundary(
+              key: ValueKey(action.id),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
+                child: VCard(
+                  onTap: () => context.push(
+                    RouteNames.actionDetailPath.replaceFirst(
+                      ':actionId',
+                      '${action.id}',
+                    ),
                   ),
-                ),
-                padding: const EdgeInsets.all(SpacingTokens.md),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: ColorTokens.primary.withAlpha(20),
-                        borderRadius: BorderRadius.circular(RadiusTokens.sm),
+                  padding: const EdgeInsets.all(SpacingTokens.md),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: ColorTokens.primary.withAlpha(20),
+                          borderRadius: BorderRadius.circular(RadiusTokens.sm),
+                        ),
+                        child: const Icon(
+                          Icons.assignment_outlined,
+                          color: ColorTokens.primary,
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.assignment_outlined,
-                        color: ColorTokens.primary,
-                      ),
-                    ),
-                    const SizedBox(width: SpacingTokens.md),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            action.title,
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
+                      const SizedBox(width: SpacingTokens.md),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              action.title,
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: SpacingTokens.xs),
-                          VBadgeChip(
-                            label: action.status.replaceFirst(
-                              action.status[0],
-                              action.status[0].toUpperCase(),
+                            const SizedBox(height: SpacingTokens.xs),
+                            VBadgeChip(
+                              label: action.status.replaceFirst(
+                                action.status[0],
+                                action.status[0].toUpperCase(),
+                              ),
+                              backgroundColor: action.status == 'active'
+                                  ? ColorTokens.success.withAlpha(30)
+                                  : colorScheme.surfaceContainerHighest,
+                              foregroundColor: action.status == 'active'
+                                  ? ColorTokens.success
+                                  : colorScheme.onSurfaceVariant,
                             ),
-                            backgroundColor: action.status == 'active'
-                                ? ColorTokens.success.withAlpha(30)
-                                : colorScheme.surfaceContainerHighest,
-                            foregroundColor: action.status == 'active'
-                                ? ColorTokens.success
-                                : colorScheme.onSurfaceVariant,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.chevron_right,
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ],
+                      Icon(
+                        Icons.chevron_right,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -459,46 +462,49 @@ class _BadgesTab extends HookWidget {
           itemCount: rewards.length,
           itemBuilder: (context, index) {
             final reward = rewards[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
-              child: VCard(
-                padding: const EdgeInsets.all(SpacingTokens.md),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: ColorTokens.secondary.withAlpha(30),
+            return RepaintBoundary(
+              key: ValueKey(reward.id),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
+                child: VCard(
+                  padding: const EdgeInsets.all(SpacingTokens.md),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: ColorTokens.secondary.withAlpha(30),
+                        ),
+                        child: const Icon(
+                          Icons.emoji_events_outlined,
+                          color: ColorTokens.secondary,
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.emoji_events_outlined,
-                        color: ColorTokens.secondary,
-                      ),
-                    ),
-                    const SizedBox(width: SpacingTokens.md),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Reward #${reward.rewardId}',
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
+                      const SizedBox(width: SpacingTokens.md),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Reward #${reward.rewardId}',
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: SpacingTokens.xs),
-                          Text(
-                            'Earned ${_formatDate(reward.earnedAt)}',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurfaceVariant,
+                            const SizedBox(height: SpacingTokens.xs),
+                            Text(
+                              'Earned ${_formatDate(reward.earnedAt)}',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: colorScheme.onSurfaceVariant,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

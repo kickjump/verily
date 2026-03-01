@@ -458,25 +458,30 @@ class HomeScreen extends HookConsumerWidget {
                   itemBuilder: (context, index) {
                     final action = actions[index];
                     final isActive = activeAction?.actionId == '${action.id}';
-                    return _FeaturedActionCard(
-                      action: action,
-                      isActive: isActive,
-                      onToggleActive: () {
-                        final criteria = action.verificationCriteria
-                            .split('\n')
-                            .where((l) => l.trim().isNotEmpty)
-                            .map((l) => l.replaceFirst(RegExp(r'^[-•]\s*'), ''))
-                            .toList();
-                        activeActionController.toggle(
-                          ActiveAction(
-                            actionId: '${action.id}',
-                            title: action.title,
-                            nextLocationLabel: 'Nearby',
-                            distanceFromNextLocation: 'Nearby',
-                            verificationChecklist: criteria,
-                          ),
-                        );
-                      },
+                    return RepaintBoundary(
+                      key: ValueKey('featured_${action.id}'),
+                      child: _FeaturedActionCard(
+                        action: action,
+                        isActive: isActive,
+                        onToggleActive: () {
+                          final criteria = action.verificationCriteria
+                              .split('\n')
+                              .where((l) => l.trim().isNotEmpty)
+                              .map(
+                                (l) => l.replaceFirst(RegExp(r'^[-•]\s*'), ''),
+                              )
+                              .toList();
+                          activeActionController.toggle(
+                            ActiveAction(
+                              actionId: '${action.id}',
+                              title: action.title,
+                              nextLocationLabel: 'Nearby',
+                              distanceFromNextLocation: 'Nearby',
+                              verificationChecklist: criteria,
+                            ),
+                          );
+                        },
+                      ),
                     );
                   },
                   separatorBuilder: (_, __) =>
@@ -530,119 +535,118 @@ class HomeScreen extends HookConsumerWidget {
                   'habit' => 'Habit',
                   _ => action.actionType,
                 };
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    SpacingTokens.lg,
-                    0,
-                    SpacingTokens.lg,
-                    SpacingTokens.sm,
-                  ),
-                  child: VCard(
-                    onTap: () {
-                      context.push(
-                        RouteNames.actionDetailPath.replaceFirst(
-                          ':actionId',
-                          '${action.id}',
-                        ),
-                      );
-                    },
-                    padding: const EdgeInsets.all(SpacingTokens.md),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              RadiusTokens.md,
-                            ),
-                            gradient: const LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [Color(0xFF194A95), Color(0xFF10346A)],
-                            ),
+                return RepaintBoundary(
+                  key: ValueKey('list_${action.id}'),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      SpacingTokens.lg,
+                      0,
+                      SpacingTokens.lg,
+                      SpacingTokens.sm,
+                    ),
+                    child: VCard(
+                      onTap: () {
+                        context.push(
+                          RouteNames.actionDetailPath.replaceFirst(
+                            ':actionId',
+                            '${action.id}',
                           ),
-                          child: const Icon(
-                            Icons.verified_outlined,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: SpacingTokens.md),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                action.title,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: theme.textTheme.titleSmall?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                ),
+                        );
+                      },
+                      padding: const EdgeInsets.all(SpacingTokens.md),
+                      child: Row(
+                        children: [
+                          const DecoratedBox(
+                            decoration: _actionIconDecoration,
+                            child: SizedBox(
+                              width: 44,
+                              height: 44,
+                              child: Icon(
+                                Icons.verified_outlined,
+                                color: Colors.white,
                               ),
+                            ),
+                          ),
+                          const SizedBox(width: SpacingTokens.md),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  action.title,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: theme.textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const SizedBox(height: SpacingTokens.xs),
+                                Text(
+                                  '${action.tags?.split(',').first.trim() ?? typeLabel} • ${"Anywhere"}',
+                                  style: theme.textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: SpacingTokens.sm),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              VBadgeChip(label: typeLabel),
                               const SizedBox(height: SpacingTokens.xs),
-                              Text(
-                                '${action.tags?.split(',').first.trim() ?? typeLabel} • ${"Anywhere"}',
-                                style: theme.textTheme.bodySmall,
+                              TextButton.icon(
+                                key: Key('home_list_setActive_${action.id}'),
+                                onPressed: () {
+                                  final criteria = action.verificationCriteria
+                                      .split('\n')
+                                      .where((l) => l.trim().isNotEmpty)
+                                      .map(
+                                        (l) => l.replaceFirst(
+                                          RegExp(r'^[-•]\s*'),
+                                          '',
+                                        ),
+                                      )
+                                      .toList();
+                                  activeActionController.toggle(
+                                    ActiveAction(
+                                      actionId: '${action.id}',
+                                      title: action.title,
+                                      nextLocationLabel: 'Nearby',
+                                      distanceFromNextLocation: 'Nearby',
+                                      verificationChecklist: criteria,
+                                    ),
+                                  );
+                                },
+                                icon: Icon(
+                                  isActive
+                                      ? Icons.check_circle
+                                      : Icons
+                                            .playlist_add_check_circle_outlined,
+                                  size: 16,
+                                ),
+                                label: Text(isActive ? 'Active' : 'Set Active'),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: isActive
+                                      ? theme.colorScheme.primary
+                                      : theme.colorScheme.onSurfaceVariant,
+                                  backgroundColor: isActive
+                                      ? theme.colorScheme.primaryContainer
+                                            .withValues(alpha: 0.42)
+                                      : theme
+                                            .colorScheme
+                                            .surfaceContainerHighest
+                                            .withValues(alpha: 0.55),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      RadiusTokens.md,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(width: SpacingTokens.sm),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            VBadgeChip(label: typeLabel),
-                            const SizedBox(height: SpacingTokens.xs),
-                            TextButton.icon(
-                              key: Key('home_list_setActive_${action.id}'),
-                              onPressed: () {
-                                final criteria = action.verificationCriteria
-                                    .split('\n')
-                                    .where((l) => l.trim().isNotEmpty)
-                                    .map(
-                                      (l) => l.replaceFirst(
-                                        RegExp(r'^[-•]\s*'),
-                                        '',
-                                      ),
-                                    )
-                                    .toList();
-                                activeActionController.toggle(
-                                  ActiveAction(
-                                    actionId: '${action.id}',
-                                    title: action.title,
-                                    nextLocationLabel: 'Nearby',
-                                    distanceFromNextLocation: 'Nearby',
-                                    verificationChecklist: criteria,
-                                  ),
-                                );
-                              },
-                              icon: Icon(
-                                isActive
-                                    ? Icons.check_circle
-                                    : Icons.playlist_add_check_circle_outlined,
-                                size: 16,
-                              ),
-                              label: Text(isActive ? 'Active' : 'Set Active'),
-                              style: TextButton.styleFrom(
-                                foregroundColor: isActive
-                                    ? theme.colorScheme.primary
-                                    : theme.colorScheme.onSurfaceVariant,
-                                backgroundColor: isActive
-                                    ? theme.colorScheme.primaryContainer
-                                          .withValues(alpha: 0.42)
-                                    : theme.colorScheme.surfaceContainerHighest
-                                          .withValues(alpha: 0.55),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    RadiusTokens.md,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -932,6 +936,16 @@ class _StatPill extends HookWidget {
     );
   }
 }
+
+/// Cached decoration for action icon in list items.
+const _actionIconDecoration = BoxDecoration(
+  borderRadius: BorderRadius.all(Radius.circular(RadiusTokens.md)),
+  gradient: LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0xFF194A95), Color(0xFF10346A)],
+  ),
+);
 
 double _locationProgressFromDistance(String distanceLabel) {
   final distanceValue = double.tryParse(
