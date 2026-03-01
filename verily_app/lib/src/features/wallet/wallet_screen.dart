@@ -211,90 +211,97 @@ class WalletScreen extends HookConsumerWidget {
                         final wallet = wallets[index];
                         final shortKey =
                             '${wallet.publicKey.substring(0, 4)}...${wallet.publicKey.substring(wallet.publicKey.length - 4)}';
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            SpacingTokens.lg,
-                            0,
-                            SpacingTokens.lg,
-                            SpacingTokens.sm,
-                          ),
-                          child: VCard(
-                            padding: const EdgeInsets.all(SpacingTokens.md),
-                            onTap: () {
-                              Clipboard.setData(
-                                ClipboardData(text: wallet.publicKey),
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Address copied')),
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                      RadiusTokens.sm,
+                        return RepaintBoundary(
+                          key: ValueKey(wallet.id),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              SpacingTokens.lg,
+                              0,
+                              SpacingTokens.lg,
+                              SpacingTokens.sm,
+                            ),
+                            child: VCard(
+                              padding: const EdgeInsets.all(SpacingTokens.md),
+                              onTap: () {
+                                Clipboard.setData(
+                                  ClipboardData(text: wallet.publicKey),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Address copied'),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                        RadiusTokens.sm,
+                                      ),
+                                      color: wallet.isDefault
+                                          ? colorScheme.primaryContainer
+                                          : colorScheme.surfaceContainerHighest,
                                     ),
-                                    color: wallet.isDefault
-                                        ? colorScheme.primaryContainer
-                                        : colorScheme.surfaceContainerHighest,
+                                    child: Icon(
+                                      wallet.walletType == 'custodial'
+                                          ? Icons.lock_outline
+                                          : Icons.link,
+                                      color: wallet.isDefault
+                                          ? colorScheme.primary
+                                          : colorScheme.onSurfaceVariant,
+                                    ),
                                   ),
-                                  child: Icon(
-                                    wallet.walletType == 'custodial'
-                                        ? Icons.lock_outline
-                                        : Icons.link,
-                                    color: wallet.isDefault
-                                        ? colorScheme.primary
-                                        : colorScheme.onSurfaceVariant,
-                                  ),
-                                ),
-                                const SizedBox(width: SpacingTokens.md),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            wallet.label ?? 'Wallet',
-                                            style: theme.textTheme.titleSmall
-                                                ?.copyWith(
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                          ),
-                                          if (wallet.isDefault) ...[
-                                            const SizedBox(
-                                              width: SpacingTokens.xs,
+                                  const SizedBox(width: SpacingTokens.md),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              wallet.label ?? 'Wallet',
+                                              style: theme.textTheme.titleSmall
+                                                  ?.copyWith(
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
                                             ),
-                                            const VBadgeChip(label: 'Default'),
+                                            if (wallet.isDefault) ...[
+                                              const SizedBox(
+                                                width: SpacingTokens.xs,
+                                              ),
+                                              const VBadgeChip(
+                                                label: 'Default',
+                                              ),
+                                            ],
                                           ],
-                                        ],
-                                      ),
-                                      const SizedBox(height: 2),
-                                      Text(
-                                        shortKey,
-                                        style: theme.textTheme.bodySmall
-                                            ?.copyWith(
-                                              color:
-                                                  colorScheme.onSurfaceVariant,
-                                              fontFamily: 'monospace',
-                                            ),
-                                      ),
-                                    ],
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          shortKey,
+                                          style: theme.textTheme.bodySmall
+                                              ?.copyWith(
+                                                color: colorScheme
+                                                    .onSurfaceVariant,
+                                                fontFamily: 'monospace',
+                                              ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  wallet.walletType == 'custodial'
-                                      ? 'Custodial'
-                                      : 'External',
-                                  style: theme.textTheme.labelSmall?.copyWith(
-                                    color: colorScheme.onSurfaceVariant,
+                                  Text(
+                                    wallet.walletType == 'custodial'
+                                        ? 'Custodial'
+                                        : 'External',
+                                    style: theme.textTheme.labelSmall?.copyWith(
+                                      color: colorScheme.onSurfaceVariant,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         );

@@ -139,8 +139,10 @@ class _FeedList extends HookWidget {
           child: ListView.builder(
             padding: const EdgeInsets.all(SpacingTokens.md),
             itemCount: actions.length,
-            itemBuilder: (context, index) =>
-                _ActionFeedCard(action: actions[index]),
+            itemBuilder: (context, index) => RepaintBoundary(
+              key: ValueKey(actions[index].id),
+              child: _ActionFeedCard(action: actions[index]),
+            ),
           ),
         );
       },
