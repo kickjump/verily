@@ -104,4 +104,20 @@ extension VerilyAnalytics on Posthog {
       properties: {'action_id': actionId},
     );
   }
+
+  /// Tracks a search query.
+  Future<void> trackSearch({required String query}) async {
+    await capture(eventName: 'search_performed', properties: {'query': query});
+  }
+
+  /// Tracks a reward pool creation.
+  Future<void> trackRewardPoolCreated({
+    required int actionId,
+    required String rewardType,
+  }) async {
+    await capture(
+      eventName: 'reward_pool_created',
+      properties: {'action_id': actionId, 'reward_type': rewardType},
+    );
+  }
 }
