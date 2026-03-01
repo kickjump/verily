@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:verily_app/src/analytics/posthog_analytics.dart';
 import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
 import 'package:verily_client/verily_client.dart';
 
@@ -57,6 +60,13 @@ class CreateAction extends _$CreateAction {
 
       final created = await client.action.create(action);
       state = AsyncData(created);
+
+      unawaited(
+        ref
+            .read(posthogInstanceProvider)
+            ?.trackActionCreated(actionType: actionType, category: category),
+      );
+
       return created;
     } on Exception catch (e, st) {
       debugPrint('Failed to create action: $e');
