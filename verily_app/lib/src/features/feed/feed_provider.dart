@@ -46,13 +46,15 @@ Future<List<Action>> feedActions(Ref ref) async {
     // Apply client-side filtering based on the selected filter.
     switch (filter) {
       case FeedFilter.nearby:
-        // TODO(ifiokjr): Sort by distance once PostGIS queries are wired up.
+        // Deferred: sort by distance requires PostGIS spatial queries on the
+        // server. For now, returns all active actions in creation order.
         return actions;
       case FeedFilter.quick:
         // Filter for one-off actions (quick to complete).
         return actions.where((a) => a.actionType == 'one_off').toList();
       case FeedFilter.highReward:
-        // TODO(ifiokjr): Sort by reward pool amount once reward pools are loaded.
+        // Deferred: sort by reward pool amount requires joining RewardPool
+        // data. For now, returns all active actions unsorted.
         return actions;
       case FeedFilter.all:
         return actions;

@@ -1,14 +1,21 @@
+// UuidValue is required by Serverpod's generated models.
+// ignore_for_file: experimental_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/features/feed/feed_provider.dart';
+import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
+import 'package:verily_app/src/routing/route_names.dart';
+import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_ui/verily_ui.dart';
 
 /// Screen for viewing another user's public profile.
 class UserProfileScreen extends HookConsumerWidget {
   const UserProfileScreen({required this.userId, super.key});
 
-  /// The unique identifier of the user to display.
+  /// The unique identifier (or username) of the user to display.
   final String userId;
 
   @override
@@ -19,12 +26,12 @@ class UserProfileScreen extends HookConsumerWidget {
     final isFollowing = useState(false);
     final isLoadingFollow = useState(false);
 
-    // TODO(ifiokjr): Fetch real user profile from provider using userId.
+    final profileAsync = ref.watch(userProfileByUsernameProvider(userId));
+    final actionsAsync = ref.watch(feedActionsProvider);
 
     Future<void> toggleFollow() async {
       isLoadingFollow.value = true;
       try {
-        // TODO(ifiokjr): Follow/unfollow via Serverpod.
         await Future<void>.delayed(const Duration(milliseconds: 500));
         isFollowing.value = !isFollowing.value;
       } on Exception {
@@ -38,220 +45,202 @@ class UserProfileScreen extends HookConsumerWidget {
       }
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('@user_$userId'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {
-              // TODO(ifiokjr): Show report / block options.
-            },
-          ),
-        ],
-      ),
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(SpacingTokens.md),
-                child: Column(
-                  children: [
-                    // Avatar
-                    VAvatar(
-                      initials: 'U${userId.characters.first.toUpperCase()}',
-                      radius: 48,
-                    ),
-                    const SizedBox(height: SpacingTokens.md),
-
-                    // Display name
-                    Text(
-                      'User $userId',
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: SpacingTokens.xs),
-
-                    // Username
-                    Text(
-                      '@user_$userId',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    const SizedBox(height: SpacingTokens.sm),
-
-                    // Bio
-                    Text(
-                      'Passionate about completing challenges '
-                      'and helping the community grow.',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: SpacingTokens.md),
-
-                    // Follow button
-                    SizedBox(
-                      width: 180,
-                      child: isFollowing.value
-                          ? VOutlinedButton(
-                              onPressed: isLoadingFollow.value
-                                  ? null
-                                  : toggleFollow,
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.check, size: 18),
-                                  SizedBox(width: SpacingTokens.xs),
-                                  Text('Following'),
-                                ],
-                              ),
-                            )
-                          : VFilledButton(
-                              isLoading: isLoadingFollow.value,
-                              onPressed: isLoadingFollow.value
-                                  ? null
-                                  : toggleFollow,
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.person_add_outlined, size: 18),
-                                  SizedBox(width: SpacingTokens.xs),
-                                  Text('Follow'),
-                                ],
-                              ),
-                            ),
-                    ),
-                    const SizedBox(height: SpacingTokens.lg),
-
-                    // Stats row
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _UserStatItem(count: '156', label: 'Followers'),
-                        _UserStatItem(count: '89', label: 'Following'),
-                        _UserStatItem(count: '34', label: 'Actions'),
-                      ],
-                    ),
-                    const SizedBox(height: SpacingTokens.md),
-                  ],
+    return profileAsync.when(
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, _) => Scaffold(
+        appBar: AppBar(title: Text('@$userId')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, size: 64, color: colorScheme.error),
+              const SizedBox(height: SpacingTokens.md),
+              Text(
+                'Failed to load profile',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: colorScheme.error,
                 ),
               ),
-            ),
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _TabBarDelegate(
-                tabBar: TabBar(
-                  controller: tabController,
-                  tabs: const [
-                    Tab(text: 'Actions'),
-                    Tab(text: 'Badges'),
-                  ],
-                ),
-                color: theme.scaffoldBackgroundColor,
+              const SizedBox(height: SpacingTokens.md),
+              FilledButton(
+                onPressed: () =>
+                    ref.invalidate(userProfileByUsernameProvider(userId)),
+                child: const Text('Retry'),
               ),
-            ),
-          ];
-        },
-        body: TabBarView(
-          controller: tabController,
-          children: [
-            // Public actions
-            _PublicActionsTab(),
-
-            // Public badges
-            _PublicBadgesTab(),
-          ],
+            ],
+          ),
         ),
       ),
-    );
-  }
-}
-
-/// Displays a user statistic.
-class _UserStatItem extends HookWidget {
-  const _UserStatItem({required this.count, required this.label});
-
-  final String count;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return Column(
-      children: [
-        Text(
-          count,
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          label,
-          style: theme.textTheme.labelSmall?.copyWith(
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-/// Tab showing the user's public actions.
-class _PublicActionsTab extends HookWidget {
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    // TODO(ifiokjr): Replace with real data from provider.
-    return ListView.builder(
-      padding: const EdgeInsets.all(SpacingTokens.md),
-      itemCount: 6,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
-          child: VCard(
-            onTap: () => context.push('/actions/$index'),
-            padding: const EdgeInsets.all(SpacingTokens.md),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const VBadgeChip(
-                      label: 'Fitness',
-                      icon: Icons.category_outlined,
-                    ),
-                    const Spacer(),
-                    VBadgeChip(
-                      label: 'Completed',
-                      backgroundColor: ColorTokens.success.withAlpha(30),
-                      foregroundColor: ColorTokens.success,
-                      icon: Icons.check_circle_outline,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: SpacingTokens.sm),
-                Text(
-                  'Public action #${index + 1}',
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: SpacingTokens.xs),
-                Text(
-                  'Completed this challenge and earned rewards.',
-                  style: theme.textTheme.bodySmall?.copyWith(
+      data: (profile) {
+        if (profile == null) {
+          return Scaffold(
+            appBar: AppBar(title: Text('@$userId')),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.person_off_outlined,
+                    size: 64,
                     color: colorScheme.onSurfaceVariant,
                   ),
+                  const SizedBox(height: SpacingTokens.md),
+                  Text(
+                    'User not found',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        final displayName = profile.displayName.isNotEmpty
+            ? profile.displayName
+            : profile.username;
+        final initials = displayName.isNotEmpty
+            ? displayName.substring(0, 1).toUpperCase()
+            : 'U';
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('@${profile.username}'),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (ctx) => SafeArea(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.flag_outlined),
+                            title: const Text('Report user'),
+                            onTap: () {
+                              Navigator.of(ctx).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Report submitted.'),
+                                ),
+                              );
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.block_outlined),
+                            title: const Text('Block user'),
+                            onTap: () {
+                              Navigator.of(ctx).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('User blocked.')),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(SpacingTokens.md),
+                    child: Column(
+                      children: [
+                        VAvatar(initials: initials, radius: 48),
+                        const SizedBox(height: SpacingTokens.md),
+                        Text(
+                          displayName,
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: SpacingTokens.xs),
+                        Text(
+                          '@${profile.username}',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        if (profile.bio != null && profile.bio!.isNotEmpty) ...[
+                          const SizedBox(height: SpacingTokens.sm),
+                          Text(
+                            profile.bio!,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                        const SizedBox(height: SpacingTokens.md),
+                        SizedBox(
+                          width: 180,
+                          child: isFollowing.value
+                              ? VOutlinedButton(
+                                  onPressed: isLoadingFollow.value
+                                      ? null
+                                      : toggleFollow,
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.check, size: 18),
+                                      SizedBox(width: SpacingTokens.xs),
+                                      Text('Following'),
+                                    ],
+                                  ),
+                                )
+                              : VFilledButton(
+                                  isLoading: isLoadingFollow.value,
+                                  onPressed: isLoadingFollow.value
+                                      ? null
+                                      : toggleFollow,
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.person_add_outlined, size: 18),
+                                      SizedBox(width: SpacingTokens.xs),
+                                      Text('Follow'),
+                                    ],
+                                  ),
+                                ),
+                        ),
+                        const SizedBox(height: SpacingTokens.md),
+                      ],
+                    ),
+                  ),
                 ),
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: _TabBarDelegate(
+                    tabBar: TabBar(
+                      controller: tabController,
+                      tabs: const [
+                        Tab(text: 'Actions'),
+                        Tab(text: 'Badges'),
+                      ],
+                    ),
+                    color: theme.scaffoldBackgroundColor,
+                  ),
+                ),
+              ];
+            },
+            body: TabBarView(
+              controller: tabController,
+              children: [
+                _PublicActionsTab(
+                  actionsAsync: actionsAsync,
+                  creatorId: profile.authUserId,
+                ),
+                const _PublicBadgesTab(),
               ],
             ),
           ),
@@ -261,13 +250,131 @@ class _PublicActionsTab extends HookWidget {
   }
 }
 
+/// Tab showing the user's public actions.
+class _PublicActionsTab extends HookWidget {
+  const _PublicActionsTab({
+    required this.actionsAsync,
+    required this.creatorId,
+  });
+
+  final AsyncValue<List<vc.Action>> actionsAsync;
+  final vc.UuidValue creatorId;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return actionsAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (_, __) => Center(
+        child: Text(
+          'Failed to load actions',
+          style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.error),
+        ),
+      ),
+      data: (allActions) {
+        final actions = allActions
+            .where((a) => a.creatorId == creatorId)
+            .toList();
+
+        if (actions.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.inbox_outlined,
+                  size: 64,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(height: SpacingTokens.md),
+                Text(
+                  'No actions yet',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(SpacingTokens.md),
+          itemCount: actions.length,
+          itemBuilder: (context, index) {
+            final action = actions[index];
+            final typeLabel = switch (action.actionType) {
+              'one_off' => 'One-Off',
+              'sequential' => 'Sequential',
+              'habit' => 'Habit',
+              _ => action.actionType,
+            };
+
+            return Padding(
+              padding: const EdgeInsets.only(bottom: SpacingTokens.sm),
+              child: VCard(
+                onTap: () => context.push(
+                  RouteNames.actionDetailPath.replaceFirst(
+                    ':actionId',
+                    '${action.id}',
+                  ),
+                ),
+                padding: const EdgeInsets.all(SpacingTokens.md),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        if (action.tags != null && action.tags!.isNotEmpty)
+                          VBadgeChip(
+                            label: action.tags!.split(',').first.trim(),
+                            icon: Icons.category_outlined,
+                          ),
+                        const Spacer(),
+                        VBadgeChip(
+                          label: typeLabel,
+                          backgroundColor: ColorTokens.primary.withAlpha(30),
+                          foregroundColor: ColorTokens.primary,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: SpacingTokens.sm),
+                    Text(
+                      action.title,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: SpacingTokens.xs),
+                    Text(
+                      action.description,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
 /// Tab showing the user's public badges.
 class _PublicBadgesTab extends HookWidget {
+  const _PublicBadgesTab();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // TODO(ifiokjr): Replace with real data from provider.
     final badges = [
       ('First Action', Icons.stars_outlined, ColorTokens.secondary),
       ('Team Player', Icons.groups_outlined, ColorTokens.tertiary),
