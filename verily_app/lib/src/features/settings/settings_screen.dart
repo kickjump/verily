@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:verily_app/src/app/providers/theme_mode_provider.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -97,16 +98,18 @@ class SettingsScreen extends HookConsumerWidget {
           _SettingsNavTile(
             icon: Icons.description_outlined,
             title: 'Terms of Service',
-            onTap: () {
-              // TODO(ifiokjr): Navigate to Terms of Service.
-            },
+            onTap: () => launchUrl(
+              Uri.parse('https://verily.fun/terms'),
+              mode: LaunchMode.externalApplication,
+            ),
           ),
           _SettingsNavTile(
             icon: Icons.privacy_tip_outlined,
             title: 'Privacy Policy',
-            onTap: () {
-              // TODO(ifiokjr): Navigate to Privacy Policy.
-            },
+            onTap: () => launchUrl(
+              Uri.parse('https://verily.fun/privacy'),
+              mode: LaunchMode.externalApplication,
+            ),
           ),
           _SettingsNavTile(
             icon: Icons.code,
