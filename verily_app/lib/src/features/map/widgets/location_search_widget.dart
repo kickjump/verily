@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/map/providers/geocoding_providers.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -17,6 +18,7 @@ class LocationSearchWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final controller = useTextEditingController();
     final query = useState('');
     final isExpanded = useState(false);
@@ -46,7 +48,7 @@ class LocationSearchWidget extends HookConsumerWidget {
           onChanged: onChanged,
           onTap: () => isExpanded.value = true,
           decoration: InputDecoration(
-            hintText: 'Search places...',
+            hintText: l10n.mapSearchPlacesHint,
             prefixIcon: const Icon(Icons.search, size: 20),
             suffixIcon: controller.text.isNotEmpty
                 ? IconButton(

@@ -94,6 +94,19 @@ All state objects and DTOs MUST use `@freezed`. Use sealed class union types for
 
 All user-visible strings MUST come from `AppLocalizations`. No hardcoded strings in widgets. ARB files live in `verily_app/lib/l10n/`. Generated code outputs to `verily_app/lib/l10n/generated/`.
 
+### Frontend Design Quality (Flutter-First)
+
+For UI work, apply frontend-design principles using Flutter-native APIs:
+
+- Design system first: tokens in `verily_ui` (`ColorTokens`, `SpacingTokens`, `RadiusTokens`, theme)
+- Build reusable widgets (`VCard`, `VButton`, shared sections) before one-off screen styling
+- Pair expressive display typography with highly readable body typography
+- Maintain clear spacing rhythm and hierarchy across all screens
+- Use subtle motion/transitions that improve clarity, not visual noise
+- Support light/dark themes and keep contrast/accessibility strong
+
+Do not use web-only styling patterns (CSS/Tailwind terms) when implementing Flutter UI.
+
 ### Testing Discipline
 
 The project follows a full testing pyramid:
@@ -115,6 +128,38 @@ The project uses [knope](https://knope.tech) for **changeset-only** version mana
 ### Pinned App Dependencies
 
 `verily_app/pubspec.yaml` must use **exact versions** for all external dependencies (no `^`, `>=`, or `~` ranges). Exceptions: `intl: any` (Flutter SDK peer), path deps, and SDK deps. CI enforces this via a custom lint rule.
+
+## LLM Provider Strategy (Mandatory for 1-hour production tasks)
+
+Follow `docs/llm-provider-strategy.md`.
+
+Required sequence:
+
+1. Claude creates design artifact in `docs/research/claude/<task-slug>.md`
+2. Gemini creates Google-model best-practice notes in `docs/research/gemini/<task-slug>.md`
+3. Codex executes implementation and adds verification evidence in PR
+
+PRs are not review-ready unless the checklist items in `docs/llm-provider-strategy.md` are fully satisfied.
+
+For the full PR execution sequence (scope setup through merge-readiness), use `docs/pr-execution-playbook.md`.
+
+For the full PR execution sequence (scope setup through merge-readiness), use `docs/pr-execution-playbook.md`.
+
+## Mandatory LLM Provider Workflow (1-hour production tasks)
+
+For production-relevant tasks estimated at ~1 hour, use this strict handoff:
+
+1. **Claude (design)**
+   - Produce: `docs/research/claude/<task-slug>.md`
+   - Must include: problem, constraints, approach, alternatives, file plan, risks, definition of done.
+2. **Gemini (Google model research)**
+   - Produce: `docs/research/gemini/<task-slug>.md`
+   - Must include: model recommendation, prompting/output contract, safety/reliability, latency/cost, deprecations.
+3. **Codex (implementation)**
+   - Execute planned changes and verification.
+   - Include PR checklist evidence and links to both artifacts.
+
+Reference: `docs/llm-provider-strategy.md`
 
 ## Commit Conventions
 

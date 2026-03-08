@@ -1996,473 +1996,377 @@ abstract class AppLocalizations {
   /// **'Apple'**
   String get authApple;
 
-  /// Temporary l10n gate value for existing literal: About Verily
+  /// Localized UI text: About Verily
   ///
   /// In en, this message translates to:
   /// **'About Verily'**
-  String get gateAboutVerily;
+  String get settingsAboutVerily;
 
-  /// Temporary l10n gate value for existing literal: Action failed. Please try again.
+  /// Localized UI text: Action failed. Please try again.
   ///
   /// In en, this message translates to:
   /// **'Action failed. Please try again.'**
-  String get gateActionFailedPleaseTryAgain;
+  String get profileActionFailedRetry;
 
-  /// Temporary l10n gate value for existing literal: Actions
-  ///
-  /// In en, this message translates to:
-  /// **'Actions'**
-  String get gateActions;
-
-  /// Temporary l10n gate value for existing literal: Amount each performer receives
+  /// Localized UI text: Amount each performer receives
   ///
   /// In en, this message translates to:
   /// **'Amount each performer receives'**
-  String get gateAmountEachPerformerReceives;
+  String get rewardPoolPerPersonAmountHint;
 
-  /// Temporary l10n gate value for existing literal: Appearance
+  /// Localized UI text: Appearance
   ///
   /// In en, this message translates to:
   /// **'Appearance'**
-  String get gateAppearance;
+  String get settingsAppearance;
 
-  /// Temporary l10n gate value for existing literal: At least 8 characters
+  /// Localized UI text: At least 8 characters
   ///
   /// In en, this message translates to:
   /// **'At least 8 characters'**
-  String get gateAtLeast8Characters;
+  String get authPasswordMinEightChars;
 
-  /// Temporary l10n gate value for existing literal: Audio
+  /// Localized UI text: Audio
   ///
   /// In en, this message translates to:
   /// **'Audio'**
-  String get gateAudio;
+  String get verificationAudio;
 
-  /// Temporary l10n gate value for existing literal: Available
+  /// Localized UI text: Available
   ///
   /// In en, this message translates to:
   /// **'Available'**
-  String get gateAvailable;
+  String get homeAvailableLabel;
 
-  /// Temporary l10n gate value for existing literal: Back to Feed
+  /// Localized UI text: Back to Feed
   ///
   /// In en, this message translates to:
   /// **'Back to Feed'**
-  String get gateBackToFeed;
+  String get submissionBackToFeed;
 
-  /// Temporary l10n gate value for existing literal: Block user
+  /// Localized UI text: Block user
   ///
   /// In en, this message translates to:
   /// **'Block user'**
-  String get gateBlockUser;
+  String get profileBlockUser;
 
-  /// Temporary l10n gate value for existing literal: Browse more actions
+  /// Localized UI text: Browse more actions
   ///
   /// In en, this message translates to:
   /// **'Browse more actions'**
-  String get gateBrowseMoreActions;
+  String get homeBrowseMoreActions;
 
-  /// Temporary l10n gate value for existing literal: Cancel Pool
+  /// Localized UI text: Cancel Pool
   ///
   /// In en, this message translates to:
   /// **'Cancel Pool'**
-  String get gateCancelPool;
+  String get rewardPoolCancelPool;
 
-  /// Temporary l10n gate value for existing literal: Cancel Pool?
+  /// Localized UI text: Cancel Pool?
   ///
   /// In en, this message translates to:
   /// **'Cancel Pool?'**
-  String get gateCancelPool_2;
+  String get rewardPoolCancelPoolTitle;
 
-  /// Temporary l10n gate value for existing literal: Capture a 30s cleanup clip on your street
-  ///
-  /// In en, this message translates to:
-  /// **'Capture a 30s cleanup clip on your street'**
-  String get gateCaptureA30sCleanupClipOnYourStreet;
-
-  /// Temporary l10n gate value for existing literal: Choose a unique username
+  /// Localized UI text: Choose a unique username
   ///
   /// In en, this message translates to:
   /// **'Choose a unique username'**
-  String get gateChooseAUniqueUsername;
+  String get profileChooseUniqueUsername;
 
-  /// Temporary l10n gate value for existing literal: Clean up a beach for 10 min
+  /// Localized UI text: Clean up a beach for 10 min
   ///
   /// In en, this message translates to:
   /// **'Clean up a beach for 10 min'**
-  String get gateCleanUpABeachFor10Min;
+  String get aiActionPromptCleanUpBeachTenMin;
 
-  /// Temporary l10n gate value for existing literal: Clear
+  /// Localized UI text: Clear
   ///
   /// In en, this message translates to:
   /// **'Clear'**
-  String get gateClear;
+  String get homeClear;
 
-  /// Temporary l10n gate value for existing literal: Complete
-  ///
-  /// In en, this message translates to:
-  /// **'Complete'**
-  String get gateComplete;
-
-  /// Temporary l10n gate value for existing literal: Continue to Video Capture
-  ///
-  /// In en, this message translates to:
-  /// **'Continue to Video Capture'**
-  String get gateContinueToVideoCapture;
-
-  /// Temporary l10n gate value for existing literal: Create Reward Pool
+  /// Localized UI text: Create Reward Pool
   ///
   /// In en, this message translates to:
   /// **'Create Reward Pool'**
-  String get gateCreateRewardPool;
+  String get rewardPoolCreateRewardPool;
 
-  /// Temporary l10n gate value for existing literal: Credentials
+  /// Localized UI text: Credentials
   ///
   /// In en, this message translates to:
   /// **'Credentials'**
-  String get gateCredentials;
+  String get authCredentials;
 
-  /// Temporary l10n gate value for existing literal: Do 50 push-ups at a park
+  /// Localized UI text: Do 50 push-ups at a park
   ///
   /// In en, this message translates to:
   /// **'Do 50 push-ups at a park'**
-  String get gateDo50PushUpsAtAPark;
+  String get aiActionPromptDo50PushUpsAtPark;
 
-  /// Temporary l10n gate value for existing literal: Enter SPL token mint address
+  /// Localized UI text: Enter SPL token mint address
   ///
   /// In en, this message translates to:
   /// **'Enter SPL token mint address'**
-  String get gateEnterSplTokenMintAddress;
+  String get rewardPoolEnterSplTokenMintAddress;
 
-  /// Temporary l10n gate value for existing literal: Failed to create reward pool. Please try again.
+  /// Localized UI text: Failed to create reward pool. Please try again.
   ///
   /// In en, this message translates to:
   /// **'Failed to create reward pool. Please try again.'**
-  String get gateFailedToCreateRewardPoolPleaseTryAgain;
+  String get rewardPoolCreateFailedTryAgain;
 
-  /// Temporary l10n gate value for existing literal: Failed to load distributions
+  /// Localized UI text: Failed to load distributions
   ///
   /// In en, this message translates to:
   /// **'Failed to load distributions'**
-  String get gateFailedToLoadDistributions;
+  String get rewardPoolFailedToLoadDistributions;
 
-  /// Temporary l10n gate value for existing literal: Failed to open camera. Please try again.
+  /// Localized UI text: Failed to open camera. Please try again.
   ///
   /// In en, this message translates to:
   /// **'Failed to open camera. Please try again.'**
-  String get gateFailedToOpenCameraPleaseTryAgain;
+  String get submissionFailedToOpenCameraTryAgain;
 
-  /// Temporary l10n gate value for existing literal: Failed to save profile. Please try again.
+  /// Localized UI text: Failed to save profile. Please try again.
   ///
   /// In en, this message translates to:
   /// **'Failed to save profile. Please try again.'**
-  String get gateFailedToSaveProfilePleaseTryAgain;
+  String get profileFailedToSaveTryAgain;
 
-  /// Temporary l10n gate value for existing literal: Failed to submit video. Please try again.
+  /// Localized UI text: Failed to submit video. Please try again.
   ///
   /// In en, this message translates to:
   /// **'Failed to submit video. Please try again.'**
-  String get gateFailedToSubmitVideoPleaseTryAgain;
+  String get submissionFailedToSubmitVideoTryAgain;
 
-  /// Temporary l10n gate value for existing literal: File Size
+  /// Localized UI text: File Size
   ///
   /// In en, this message translates to:
   /// **'File Size'**
-  String get gateFileSize;
+  String get submissionFileSize;
 
-  /// Temporary l10n gate value for existing literal: Film a 1 minute kindness action
-  ///
-  /// In en, this message translates to:
-  /// **'Film a 1 minute kindness action'**
-  String get gateFilmA1MinuteKindnessAction;
-
-  /// Temporary l10n gate value for existing literal: Fund & Create Pool
+  /// Localized UI text: Fund & Create Pool
   ///
   /// In en, this message translates to:
   /// **'Fund & Create Pool'**
-  String get gateFundCreatePool;
+  String get rewardPoolFundAndCreatePool;
 
-  /// Temporary l10n gate value for existing literal: Keep
+  /// Localized UI text: Keep
   ///
   /// In en, this message translates to:
   /// **'Keep'**
-  String get gateKeep;
+  String get rewardPoolKeep;
 
-  /// Temporary l10n gate value for existing literal: Live
-  ///
-  /// In en, this message translates to:
-  /// **'Live'**
-  String get gateLive;
-
-  /// Temporary l10n gate value for existing literal: Location Sharing
+  /// Localized UI text: Location Sharing
   ///
   /// In en, this message translates to:
   /// **'Location Sharing'**
-  String get gateLocationSharing;
+  String get settingsLocationSharing;
 
-  /// Temporary l10n gate value for existing literal: Log Location
+  /// Localized UI text: Log Location
   ///
   /// In en, this message translates to:
   /// **'Log Location'**
-  String get gateLogLocation;
+  String get verificationLogLocation;
 
-  /// Temporary l10n gate value for existing literal: Map view
-  ///
-  /// In en, this message translates to:
-  /// **'Map view'**
-  String get gateMapView;
-
-  /// Temporary l10n gate value for existing literal: Max Recipients (optional)
+  /// Localized UI text: Max Recipients (optional)
   ///
   /// In en, this message translates to:
   /// **'Max Recipients (optional)'**
-  String get gateMaxRecipientsOptional;
+  String get rewardPoolMaxRecipientsOptional;
 
-  /// Temporary l10n gate value for existing literal: Meditate daily for a week
+  /// Localized UI text: Meditate daily for a week
   ///
   /// In en, this message translates to:
   /// **'Meditate daily for a week'**
-  String get gateMeditateDailyForAWeek;
+  String get aiActionPromptMeditateDailyForAWeek;
 
-  /// Temporary l10n gate value for existing literal: Morning meditation - 7 day streak
-  ///
-  /// In en, this message translates to:
-  /// **'Morning meditation - 7 day streak'**
-  String get gateMorningMeditation7DayStreak;
-
-  /// Temporary l10n gate value for existing literal: NFT
+  /// Localized UI text: NFT
   ///
   /// In en, this message translates to:
   /// **'NFT'**
-  String get gateNft;
+  String get rewardPoolNft;
 
-  /// Temporary l10n gate value for existing literal: No actions nearby. Try zooming out.
-  ///
-  /// In en, this message translates to:
-  /// **'No actions nearby. Try zooming out.'**
-  String get gateNoActionsNearbyTryZoomingOut;
-
-  /// Temporary l10n gate value for existing literal: Open Source Licenses
+  /// Localized UI text: Open Source Licenses
   ///
   /// In en, this message translates to:
   /// **'Open Source Licenses'**
-  String get gateOpenSourceLicenses;
+  String get settingsOpenSourceLicenses;
 
-  /// Temporary l10n gate value for existing literal: Open Verification
+  /// Localized UI text: Open Verification
   ///
   /// In en, this message translates to:
   /// **'Open Verification'**
-  String get gateOpenVerification;
+  String get homeOpenVerification;
 
-  /// Temporary l10n gate value for existing literal: Open verification capture
+  /// Localized UI text: Open verification capture
   ///
   /// In en, this message translates to:
   /// **'Open verification capture'**
-  String get gateOpenVerificationCapture;
+  String get navigationOpenVerificationCapture;
 
-  /// Temporary l10n gate value for existing literal: Per Person Amount
+  /// Localized UI text: Per Person Amount
   ///
   /// In en, this message translates to:
   /// **'Per Person Amount'**
-  String get gatePerPersonAmount;
+  String get rewardPoolPerPersonAmount;
 
-  /// Temporary l10n gate value for existing literal: Please enter a token mint address.
+  /// Localized UI text: Please enter a token mint address.
   ///
   /// In en, this message translates to:
   /// **'Please enter a token mint address.'**
-  String get gatePleaseEnterATokenMintAddress;
+  String get rewardPoolPleaseEnterTokenMintAddress;
 
-  /// Temporary l10n gate value for existing literal: Please enter a valid per-person amount.
+  /// Localized UI text: Please enter a valid per-person amount.
   ///
   /// In en, this message translates to:
   /// **'Please enter a valid per-person amount.'**
-  String get gatePleaseEnterAValidPerPersonAmount;
+  String get rewardPoolPleaseEnterValidPerPersonAmount;
 
-  /// Temporary l10n gate value for existing literal: Please enter a valid total amount.
+  /// Localized UI text: Please enter a valid total amount.
   ///
   /// In en, this message translates to:
   /// **'Please enter a valid total amount.'**
-  String get gatePleaseEnterAValidTotalAmount;
+  String get rewardPoolPleaseEnterValidTotalAmount;
 
-  /// Temporary l10n gate value for existing literal: Pool will remain active until depleted
+  /// Localized UI text: Pool will remain active until depleted
   ///
   /// In en, this message translates to:
   /// **'Pool will remain active until depleted'**
-  String get gatePoolWillRemainActiveUntilDepleted;
+  String get rewardPoolWillRemainActiveUntilDepleted;
 
-  /// Temporary l10n gate value for existing literal: Re-center
-  ///
-  /// In en, this message translates to:
-  /// **'Re-center'**
-  String get gateReCenter;
-
-  /// Temporary l10n gate value for existing literal: Record 20 push-ups at a local park
-  ///
-  /// In en, this message translates to:
-  /// **'Record 20 push-ups at a local park'**
-  String get gateRecord20PushUpsAtALocalPark;
-
-  /// Temporary l10n gate value for existing literal: Report submitted.
+  /// Localized UI text: Report submitted.
   ///
   /// In en, this message translates to:
   /// **'Report submitted.'**
-  String get gateReportSubmitted;
+  String get profileReportSubmitted;
 
-  /// Temporary l10n gate value for existing literal: Report user
+  /// Localized UI text: Report user
   ///
   /// In en, this message translates to:
   /// **'Report user'**
-  String get gateReportUser;
+  String get profileReportUser;
 
-  /// Temporary l10n gate value for existing literal: Resend Code
+  /// Localized UI text: Resend Code
   ///
   /// In en, this message translates to:
   /// **'Resend Code'**
-  String get gateResendCode;
+  String get authResendCode;
 
-  /// Temporary l10n gate value for existing literal: Reward Pool
+  /// Localized UI text: Reward Pool
   ///
   /// In en, this message translates to:
   /// **'Reward Pool'**
-  String get gateRewardPool;
+  String get rewardPoolTitle;
 
-  /// Temporary l10n gate value for existing literal: Reward Type
+  /// Localized UI text: Reward Type
   ///
   /// In en, this message translates to:
   /// **'Reward Type'**
-  String get gateRewardType;
+  String get rewardPoolRewardType;
 
-  /// Temporary l10n gate value for existing literal: SOL
+  /// Localized UI text: SOL
   ///
   /// In en, this message translates to:
   /// **'SOL'**
-  String get gateSol;
+  String get rewardPoolSol;
 
-  /// Temporary l10n gate value for existing literal: Search actions...
-  ///
-  /// In en, this message translates to:
-  /// **'Search actions...'**
-  String get gateSearchActions;
-
-  /// Temporary l10n gate value for existing literal: Search places...
-  ///
-  /// In en, this message translates to:
-  /// **'Search places...'**
-  String get gateSearchPlaces;
-
-  /// Temporary l10n gate value for existing literal: Select an action before starting verification.
-  ///
-  /// In en, this message translates to:
-  /// **'Select an action before starting verification.'**
-  String get gateSelectAnActionBeforeStartingVerification;
-
-  /// Temporary l10n gate value for existing literal: Set Expiry Date
+  /// Localized UI text: Set Expiry Date
   ///
   /// In en, this message translates to:
   /// **'Set Expiry Date'**
-  String get gateSetExpiryDate;
+  String get rewardPoolSetExpiryDate;
 
-  /// Temporary l10n gate value for existing literal: Start
-  ///
-  /// In en, this message translates to:
-  /// **'Start'**
-  String get gateStart;
-
-  /// Temporary l10n gate value for existing literal: Stop recording before submitting for review.
+  /// Localized UI text: Stop recording before submitting for review.
   ///
   /// In en, this message translates to:
   /// **'Stop recording before submitting for review.'**
-  String get gateStopRecordingBeforeSubmittingForReview;
+  String get verificationStopRecordingBeforeSubmitting;
 
-  /// Temporary l10n gate value for existing literal: Streak
+  /// Localized UI text: Streak
   ///
   /// In en, this message translates to:
   /// **'Streak'**
-  String get gateStreak;
+  String get homeStreak;
 
-  /// Temporary l10n gate value for existing literal: Tell others about yourself...
+  /// Localized UI text: Tell others about yourself...
   ///
   /// In en, this message translates to:
   /// **'Tell others about yourself...'**
-  String get gateTellOthersAboutYourself;
+  String get profileTellOthersAboutYourself;
 
-  /// Temporary l10n gate value for existing literal: Token
+  /// Localized UI text: Token
   ///
   /// In en, this message translates to:
   /// **'Token'**
-  String get gateToken;
+  String get rewardPoolToken;
 
-  /// Temporary l10n gate value for existing literal: Token Mint Address
+  /// Localized UI text: Token Mint Address
   ///
   /// In en, this message translates to:
   /// **'Token Mint Address'**
-  String get gateTokenMintAddress;
+  String get rewardPoolTokenMintAddress;
 
-  /// Temporary l10n gate value for existing literal: Try Again
+  /// Localized UI text: Try Again
   ///
   /// In en, this message translates to:
   /// **'Try Again'**
-  String get gateTryAgain;
+  String get submissionTryAgain;
 
-  /// Temporary l10n gate value for existing literal: Type
+  /// Localized UI text: Type
   ///
   /// In en, this message translates to:
   /// **'Type'**
-  String get gateType;
+  String get actionTypeLabel;
 
-  /// Temporary l10n gate value for existing literal: User blocked.
+  /// Localized UI text: User blocked.
   ///
   /// In en, this message translates to:
   /// **'User blocked.'**
-  String get gateUserBlocked;
+  String get profileUserBlocked;
 
-  /// Temporary l10n gate value for existing literal: Username
+  /// Localized UI text: Username
   ///
   /// In en, this message translates to:
   /// **'Username'**
-  String get gateUsername;
+  String get profileUsername;
 
-  /// Temporary l10n gate value for existing literal: Verification Capture
+  /// Localized UI text: Verification Capture
   ///
   /// In en, this message translates to:
   /// **'Verification Capture'**
-  String get gateVerificationCapture;
+  String get verificationCapture;
 
-  /// Temporary l10n gate value for existing literal: Verification Code
+  /// Localized UI text: Verification Code
   ///
   /// In en, this message translates to:
   /// **'Verification Code'**
-  String get gateVerificationCode;
+  String get authVerificationCode;
 
-  /// Temporary l10n gate value for existing literal: Verify
+  /// Localized UI text: Verify
   ///
   /// In en, this message translates to:
   /// **'Verify'**
-  String get gateVerify;
+  String get appVerify;
 
-  /// Temporary l10n gate value for existing literal: Video
+  /// Localized UI text: Video
   ///
   /// In en, this message translates to:
   /// **'Video'**
-  String get gateVideo;
+  String get submissionVideo;
 
-  /// Temporary l10n gate value for existing literal: View Details
+  /// Localized UI text: View Details
   ///
   /// In en, this message translates to:
   /// **'View Details'**
-  String get gateViewDetails;
+  String get actionViewDetails;
 
-  /// Temporary l10n gate value for existing literal: Visit 3 local coffee shops and review
-  ///
-  /// In en, this message translates to:
-  /// **'Visit 3 local coffee shops and review'**
-  String get gateVisit3LocalCoffeeShopsAndReview;
-
-  /// Temporary l10n gate value for existing literal: Your public name
+  /// Localized UI text: Your public name
   ///
   /// In en, this message translates to:
   /// **'Your public name'**
-  String get gateYourPublicName;
+  String get profileYourPublicName;
 }
 
 class _AppLocalizationsDelegate

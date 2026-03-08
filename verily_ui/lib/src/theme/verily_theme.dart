@@ -78,44 +78,57 @@ abstract final class VerilyTheme {
     final defaultTextTheme = isLight
         ? ThemeData.light().textTheme
         : ThemeData.dark().textTheme;
-    final headingTextTheme = GoogleFonts.config.allowRuntimeFetching
-        ? GoogleFonts.spaceGroteskTextTheme(defaultTextTheme)
+
+    final bodyTextTheme = GoogleFonts.config.allowRuntimeFetching
+        ? GoogleFonts.dmSansTextTheme(defaultTextTheme)
         : defaultTextTheme;
-    final baseTextTheme = headingTextTheme.copyWith(
-      displayLarge: headingTextTheme.displayLarge?.copyWith(
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.7,
+    final displayTextTheme = GoogleFonts.config.allowRuntimeFetching
+        ? GoogleFonts.plusJakartaSansTextTheme(bodyTextTheme)
+        : bodyTextTheme;
+
+    final baseTextTheme = displayTextTheme.copyWith(
+      displayLarge: displayTextTheme.displayLarge?.copyWith(
+        fontWeight: FontWeight.w800,
+        letterSpacing: -0.8,
       ),
-      displayMedium: headingTextTheme.displayMedium?.copyWith(
-        fontWeight: FontWeight.w700,
+      displayMedium: displayTextTheme.displayMedium?.copyWith(
+        fontWeight: FontWeight.w800,
         letterSpacing: -0.6,
       ),
-      headlineLarge: headingTextTheme.headlineLarge?.copyWith(
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.4,
+      headlineLarge: displayTextTheme.headlineLarge?.copyWith(
+        fontWeight: FontWeight.w800,
+        letterSpacing: -0.5,
       ),
-      headlineMedium: headingTextTheme.headlineMedium?.copyWith(
+      headlineMedium: displayTextTheme.headlineMedium?.copyWith(
         fontWeight: FontWeight.w700,
         letterSpacing: -0.3,
       ),
-      headlineSmall: headingTextTheme.headlineSmall?.copyWith(
+      headlineSmall: displayTextTheme.headlineSmall?.copyWith(
         fontWeight: FontWeight.w700,
       ),
-      titleLarge: headingTextTheme.titleLarge?.copyWith(
+      titleLarge: displayTextTheme.titleLarge?.copyWith(
         fontWeight: FontWeight.w700,
       ),
-      titleMedium: headingTextTheme.titleMedium?.copyWith(
+      titleMedium: displayTextTheme.titleMedium?.copyWith(
         fontWeight: FontWeight.w700,
       ),
-      titleSmall: headingTextTheme.titleSmall?.copyWith(
+      titleSmall: displayTextTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.w700,
       ),
-      labelLarge: headingTextTheme.labelLarge?.copyWith(
+      bodyLarge: bodyTextTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+      bodyMedium: bodyTextTheme.bodyMedium?.copyWith(
+        fontWeight: FontWeight.w500,
+      ),
+      bodySmall: bodyTextTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
+      labelLarge: bodyTextTheme.labelLarge?.copyWith(
         fontWeight: FontWeight.w700,
         letterSpacing: 0.2,
       ),
-      labelMedium: headingTextTheme.labelMedium?.copyWith(
+      labelMedium: bodyTextTheme.labelMedium?.copyWith(
         fontWeight: FontWeight.w700,
+      ),
+      labelSmall: bodyTextTheme.labelSmall?.copyWith(
+        fontWeight: FontWeight.w600,
       ),
     );
 

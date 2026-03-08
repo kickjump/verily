@@ -85,3 +85,4 @@ local.properties
 # Node.js / Pulumi infra
 node_modules/
 infra/dist/
+.ant-colony/

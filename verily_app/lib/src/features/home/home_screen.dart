@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/actions/providers/active_action_provider.dart';
 import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
@@ -96,7 +97,7 @@ class HomeScreen extends HookConsumerWidget {
                         ),
                         const SizedBox(width: SpacingTokens.xs),
                         Text(
-                          'Nearby',
+                          AppLocalizations.of(context).feedNearby,
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: onBackground,
                             fontWeight: FontWeight.w700,
@@ -189,7 +190,9 @@ class HomeScreen extends HookConsumerWidget {
                       Row(
                         children: [
                           _StatPill(
-                            label: 'Available',
+                            label: AppLocalizations.of(
+                              context,
+                            ).homeAvailableLabel,
                             value: actionsAsync.when(
                               data: (actions) => '${actions.length}',
                               loading: () => '...',
@@ -197,7 +200,10 @@ class HomeScreen extends HookConsumerWidget {
                             ),
                           ),
                           const SizedBox(width: SpacingTokens.sm),
-                          const _StatPill(label: 'Streak', value: '0 days'),
+                          _StatPill(
+                            label: AppLocalizations.of(context).homeStreak,
+                            value: '0 days',
+                          ),
                         ],
                       ),
                       const SizedBox(height: SpacingTokens.md),
@@ -336,7 +342,7 @@ class HomeScreen extends HookConsumerWidget {
                         ),
                         TextButton(
                           onPressed: activeActionController.clear,
-                          child: const Text('Clear'),
+                          child: Text(AppLocalizations.of(context).homeClear),
                         ),
                       ],
                     ),
@@ -421,14 +427,16 @@ class HomeScreen extends HookConsumerWidget {
                       key: const Key('home_openVerificationButton'),
                       onPressed: () =>
                           context.push(RouteNames.verifyCapturePath),
-                      child: const FittedBox(
+                      child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.verified_outlined, size: 18),
-                            SizedBox(width: SpacingTokens.xs),
-                            Text('Open Verification'),
+                            const Icon(Icons.verified_outlined, size: 18),
+                            const SizedBox(width: SpacingTokens.xs),
+                            Text(
+                              AppLocalizations.of(context).homeOpenVerification,
+                            ),
                           ],
                         ),
                       ),
@@ -519,7 +527,7 @@ class HomeScreen extends HookConsumerWidget {
                   padding: const EdgeInsets.all(SpacingTokens.lg),
                   child: FilledButton(
                     onPressed: () => ref.invalidate(feedActionsProvider),
-                    child: const Text('Retry'),
+                    child: Text(AppLocalizations.of(context).retry),
                   ),
                 ),
               ),
@@ -658,7 +666,7 @@ class HomeScreen extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.lg),
               child: VOutlinedButton(
                 onPressed: () => context.push(RouteNames.searchPath),
-                child: const Text('Browse more actions'),
+                child: Text(AppLocalizations.of(context).homeBrowseMoreActions),
               ),
             ),
           ),
@@ -828,7 +836,7 @@ class _FeaturedActionCard extends HookWidget {
                 Icon(Icons.emoji_events_outlined, size: 18, color: rewardColor),
                 const SizedBox(width: SpacingTokens.xs),
                 Text(
-                  'Earn rewards',
+                  AppLocalizations.of(context).feedEarnRewards,
                   style: theme.textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                     color: colorScheme.onSurface,

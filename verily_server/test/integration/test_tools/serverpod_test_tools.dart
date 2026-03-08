@@ -65,6 +65,18 @@ export 'package:serverpod_test/serverpod_test_public_exports.dart';
 /// This is to provide a simple way to only run unit or integration tests.
 /// This property allows this tag to be overridden to something else. Defaults to `['integration']`.
 ///
+/// **DB-backed integration tests in CI**
+///
+/// This harness now starts Serverpod with `isDatabaseEnabled: true`, so tests can
+/// acquire database-backed sessions when needed (for example CI shard execution
+/// with `dart test --tags=db`).
+///
+/// Recommended pattern for DB tests:
+/// - tag DB-dependent test groups with `@Tags(['db'])`
+/// - use `withServerpod(..., testGroupTagsOverride: ['integration', 'db'])` when
+///   overriding tags
+/// - avoid hard-coded `skip` markers for DB requirements
+///
 /// [experimentalFeatures] Optionally specify experimental features. See [Serverpod] for more information.
 @_i1.isTestGroup
 void withServerpod(
@@ -86,7 +98,10 @@ void withServerpod(
       serializationManager: Protocol(),
       runMode: runMode,
       applyMigrations: false,
-      isDatabaseEnabled: false,
+      // Keep database access enabled so DB-tagged integration tests can
+      // acquire real database-backed sessions in CI (`dart test --tags=db`).
+      // Non-DB tests remain isolated by selecting `--exclude-tags=db`.
+      isDatabaseEnabled: true,
       serverpodLoggingMode: serverpodLoggingMode,
       testServerOutputMode: testServerOutputMode,
       experimentalFeatures: experimentalFeatures,

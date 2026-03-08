@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/map/map_screen.dart';
 import 'package:verily_app/src/features/map/providers/location_providers.dart';
 import 'package:verily_test_utils/verily_test_utils.dart';
@@ -31,7 +32,12 @@ void main() {
           ),
         ],
       );
-      await tester.pumpApp(const MapScreen(), container: container);
+      await tester.pumpApp(
+        const MapScreen(),
+        container: container,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      );
     }
 
     testWidgets('renders FlutterMap widget', (tester) async {

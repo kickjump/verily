@@ -1,9 +1,11 @@
+@Tags(['db'])
+library;
+
 // TODO(ifiokjr): Database-dependent tests require serverpod_test setup.
 // Run with: cd verily_server && dart test
 //
 // The Haversine distance calculation tests can run immediately since they
 // test pure math logic with no database dependency.
-
 import 'dart:math' as math;
 
 import 'package:test/test.dart';
@@ -160,157 +162,125 @@ void main() {
     // });
 
     group('create()', () {
-      test(
-        'creates a location with valid coordinates',
-        () async {
-          // final location = await LocationService.create(
-          //   session,
-          //   name: 'Central Park',
-          //   latitude: 40.7829,
-          //   longitude: -73.9654,
-          //   radiusMeters: 500,
-          //   address: 'New York, NY',
-          // );
-          //
-          // expect(location.id, isNotNull);
-          // expect(location.name, equals('Central Park'));
-          // expect(location.latitude, closeTo(40.7829, 0.001));
-          // expect(location.longitude, closeTo(-73.9654, 0.001));
-          // expect(location.radiusMeters, equals(500));
-          // expect(location.address, equals('New York, NY'));
-          // expect(location.createdAt, isNotNull);
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('creates a location with valid coordinates', () async {
+        // final location = await LocationService.create(
+        //   session,
+        //   name: 'Central Park',
+        //   latitude: 40.7829,
+        //   longitude: -73.9654,
+        //   radiusMeters: 500,
+        //   address: 'New York, NY',
+        // );
+        //
+        // expect(location.id, isNotNull);
+        // expect(location.name, equals('Central Park'));
+        // expect(location.latitude, closeTo(40.7829, 0.001));
+        // expect(location.longitude, closeTo(-73.9654, 0.001));
+        // expect(location.radiusMeters, equals(500));
+        // expect(location.address, equals('New York, NY'));
+        // expect(location.createdAt, isNotNull);
+      });
 
-      test(
-        'throws ValidationException for invalid latitude',
-        () async {
-          // expect(
-          //   () => LocationService.create(
-          //     session,
-          //     name: 'Invalid',
-          //     latitude: 91.0,
-          //     longitude: 0.0,
-          //     radiusMeters: 100,
-          //   ),
-          //   throwsA(isA<ValidationException>()),
-          // );
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('throws ValidationException for invalid latitude', () async {
+        // expect(
+        //   () => LocationService.create(
+        //     session,
+        //     name: 'Invalid',
+        //     latitude: 91.0,
+        //     longitude: 0.0,
+        //     radiusMeters: 100,
+        //   ),
+        //   throwsA(isA<ValidationException>()),
+        // );
+      });
 
-      test(
-        'throws ValidationException for invalid longitude',
-        () async {
-          // expect(
-          //   () => LocationService.create(
-          //     session,
-          //     name: 'Invalid',
-          //     latitude: 0.0,
-          //     longitude: 181.0,
-          //     radiusMeters: 100,
-          //   ),
-          //   throwsA(isA<ValidationException>()),
-          // );
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('throws ValidationException for invalid longitude', () async {
+        // expect(
+        //   () => LocationService.create(
+        //     session,
+        //     name: 'Invalid',
+        //     latitude: 0.0,
+        //     longitude: 181.0,
+        //     radiusMeters: 100,
+        //   ),
+        //   throwsA(isA<ValidationException>()),
+        // );
+      });
 
-      test(
-        'throws ValidationException for zero radius',
-        () async {
-          // expect(
-          //   () => LocationService.create(
-          //     session,
-          //     name: 'Zero Radius',
-          //     latitude: 0.0,
-          //     longitude: 0.0,
-          //     radiusMeters: 0,
-          //   ),
-          //   throwsA(isA<ValidationException>()),
-          // );
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('throws ValidationException for zero radius', () async {
+        // expect(
+        //   () => LocationService.create(
+        //     session,
+        //     name: 'Zero Radius',
+        //     latitude: 0.0,
+        //     longitude: 0.0,
+        //     radiusMeters: 0,
+        //   ),
+        //   throwsA(isA<ValidationException>()),
+        // );
+      });
 
-      test(
-        'throws ValidationException for negative radius',
-        () async {
-          // expect(
-          //   () => LocationService.create(
-          //     session,
-          //     name: 'Negative Radius',
-          //     latitude: 0.0,
-          //     longitude: 0.0,
-          //     radiusMeters: -100,
-          //   ),
-          //   throwsA(isA<ValidationException>()),
-          // );
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('throws ValidationException for negative radius', () async {
+        // expect(
+        //   () => LocationService.create(
+        //     session,
+        //     name: 'Negative Radius',
+        //     latitude: 0.0,
+        //     longitude: 0.0,
+        //     radiusMeters: -100,
+        //   ),
+        //   throwsA(isA<ValidationException>()),
+        // );
+      });
     });
 
     group('findById()', () {
-      test(
-        'returns location by primary key',
-        () async {
-          // final created = await LocationService.create(
-          //   session,
-          //   name: 'Find Me',
-          //   latitude: 51.5074,
-          //   longitude: -0.1278,
-          //   radiusMeters: 100,
-          // );
-          //
-          // final found = await LocationService.findById(session, created.id!);
-          // expect(found.name, equals('Find Me'));
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('returns location by primary key', () async {
+        // final created = await LocationService.create(
+        //   session,
+        //   name: 'Find Me',
+        //   latitude: 51.5074,
+        //   longitude: -0.1278,
+        //   radiusMeters: 100,
+        // );
+        //
+        // final found = await LocationService.findById(session, created.id!);
+        // expect(found.name, equals('Find Me'));
+      });
 
-      test(
-        'throws NotFoundException for non-existent id',
-        () async {
-          // expect(
-          //   () => LocationService.findById(session, 99999),
-          //   throwsA(isA<NotFoundException>()),
-          // );
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('throws NotFoundException for non-existent id', () async {
+        // expect(
+        //   () => LocationService.findById(session, 99999),
+        //   throwsA(isA<NotFoundException>()),
+        // );
+      });
     });
 
     group('list()', () {
-      test(
-        'returns locations ordered by name',
-        () async {
-          // await LocationService.create(
-          //   session,
-          //   name: 'Zebra Cafe',
-          //   latitude: 0.0,
-          //   longitude: 0.0,
-          //   radiusMeters: 100,
-          // );
-          // await LocationService.create(
-          //   session,
-          //   name: 'Apple Store',
-          //   latitude: 0.0,
-          //   longitude: 0.0,
-          //   radiusMeters: 100,
-          // );
-          //
-          // final locations = await LocationService.list(session);
-          // for (var i = 1; i < locations.length; i++) {
-          //   expect(
-          //     locations[i].name.compareTo(locations[i - 1].name),
-          //     greaterThanOrEqualTo(0),
-          //   );
-          // }
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('returns locations ordered by name', () async {
+        // await LocationService.create(
+        //   session,
+        //   name: 'Zebra Cafe',
+        //   latitude: 0.0,
+        //   longitude: 0.0,
+        //   radiusMeters: 100,
+        // );
+        // await LocationService.create(
+        //   session,
+        //   name: 'Apple Store',
+        //   latitude: 0.0,
+        //   longitude: 0.0,
+        //   radiusMeters: 100,
+        // );
+        //
+        // final locations = await LocationService.list(session);
+        // for (var i = 1; i < locations.length; i++) {
+        //   expect(
+        //     locations[i].name.compareTo(locations[i - 1].name),
+        //     greaterThanOrEqualTo(0),
+        //   );
+        // }
+      });
     });
 
     group('update()', () {
@@ -330,7 +300,7 @@ void main() {
         // );
         //
         // expect(updated.name, equals('New Name'));
-      }, skip: 'Requires serverpod_test database session');
+      });
 
       test(
         'throws ValidationException for invalid updated coordinates',
@@ -352,228 +322,191 @@ void main() {
           //   throwsA(isA<ValidationException>()),
           // );
         },
-        skip: 'Requires serverpod_test database session',
       );
 
-      test(
-        'throws ValidationException for zero updated radius',
-        () async {
-          // final created = await LocationService.create(
-          //   session,
-          //   name: 'Test',
-          //   latitude: 0.0,
-          //   longitude: 0.0,
-          //   radiusMeters: 100,
-          // );
-          //
-          // expect(
-          //   () => LocationService.update(
-          //     session,
-          //     id: created.id!,
-          //     radiusMeters: 0,
-          //   ),
-          //   throwsA(isA<ValidationException>()),
-          // );
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('throws ValidationException for zero updated radius', () async {
+        // final created = await LocationService.create(
+        //   session,
+        //   name: 'Test',
+        //   latitude: 0.0,
+        //   longitude: 0.0,
+        //   radiusMeters: 100,
+        // );
+        //
+        // expect(
+        //   () => LocationService.update(
+        //     session,
+        //     id: created.id!,
+        //     radiusMeters: 0,
+        //   ),
+        //   throwsA(isA<ValidationException>()),
+        // );
+      });
     });
 
     group('delete()', () {
-      test(
-        'deletes a location by id',
-        () async {
-          // final created = await LocationService.create(
-          //   session,
-          //   name: 'Delete Me',
-          //   latitude: 0.0,
-          //   longitude: 0.0,
-          //   radiusMeters: 100,
-          // );
-          //
-          // await LocationService.delete(session, created.id!);
-          //
-          // expect(
-          //   () => LocationService.findById(session, created.id!),
-          //   throwsA(isA<NotFoundException>()),
-          // );
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('deletes a location by id', () async {
+        // final created = await LocationService.create(
+        //   session,
+        //   name: 'Delete Me',
+        //   latitude: 0.0,
+        //   longitude: 0.0,
+        //   radiusMeters: 100,
+        // );
+        //
+        // await LocationService.delete(session, created.id!);
+        //
+        // expect(
+        //   () => LocationService.findById(session, created.id!),
+        //   throwsA(isA<NotFoundException>()),
+        // );
+      });
     });
 
     group('findNearby()', () {
-      test(
-        'returns locations within the specified radius',
-        () async {
-          // // Create two locations in London.
-          // await LocationService.create(
-          //   session,
-          //   name: 'Trafalgar Square',
-          //   latitude: 51.5080,
-          //   longitude: -0.1281,
-          //   radiusMeters: 100,
-          // );
-          // await LocationService.create(
-          //   session,
-          //   name: 'Buckingham Palace',
-          //   latitude: 51.5014,
-          //   longitude: -0.1419,
-          //   radiusMeters: 200,
-          // );
-          // // Create a far-away location.
-          // await LocationService.create(
-          //   session,
-          //   name: 'Eiffel Tower',
-          //   latitude: 48.8584,
-          //   longitude: 2.2945,
-          //   radiusMeters: 100,
-          // );
-          //
-          // // Search near Trafalgar Square with 2km radius.
-          // final nearby = await LocationService.findNearby(
-          //   session,
-          //   latitude: 51.5080,
-          //   longitude: -0.1281,
-          //   radiusMeters: 2000,
-          // );
-          //
-          // final names = nearby.map((l) => l.name).toSet();
-          // expect(names, contains('Trafalgar Square'));
-          // expect(names, contains('Buckingham Palace'));
-          // expect(names, isNot(contains('Eiffel Tower')));
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('returns locations within the specified radius', () async {
+        // // Create two locations in London.
+        // await LocationService.create(
+        //   session,
+        //   name: 'Trafalgar Square',
+        //   latitude: 51.5080,
+        //   longitude: -0.1281,
+        //   radiusMeters: 100,
+        // );
+        // await LocationService.create(
+        //   session,
+        //   name: 'Buckingham Palace',
+        //   latitude: 51.5014,
+        //   longitude: -0.1419,
+        //   radiusMeters: 200,
+        // );
+        // // Create a far-away location.
+        // await LocationService.create(
+        //   session,
+        //   name: 'Eiffel Tower',
+        //   latitude: 48.8584,
+        //   longitude: 2.2945,
+        //   radiusMeters: 100,
+        // );
+        //
+        // // Search near Trafalgar Square with 2km radius.
+        // final nearby = await LocationService.findNearby(
+        //   session,
+        //   latitude: 51.5080,
+        //   longitude: -0.1281,
+        //   radiusMeters: 2000,
+        // );
+        //
+        // final names = nearby.map((l) => l.name).toSet();
+        // expect(names, contains('Trafalgar Square'));
+        // expect(names, contains('Buckingham Palace'));
+        // expect(names, isNot(contains('Eiffel Tower')));
+      });
 
-      test(
-        'results are sorted by distance ascending',
-        () async {
-          // final nearby = await LocationService.findNearby(
-          //   session,
-          //   latitude: 51.5080,
-          //   longitude: -0.1281,
-          //   radiusMeters: 50000,
-          // );
-          //
-          // // Verify sorted by distance (first is closest).
-          // if (nearby.length > 1) {
-          //   expect(nearby.first.name, equals('Trafalgar Square'));
-          // }
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('results are sorted by distance ascending', () async {
+        // final nearby = await LocationService.findNearby(
+        //   session,
+        //   latitude: 51.5080,
+        //   longitude: -0.1281,
+        //   radiusMeters: 50000,
+        // );
+        //
+        // // Verify sorted by distance (first is closest).
+        // if (nearby.length > 1) {
+        //   expect(nearby.first.name, equals('Trafalgar Square'));
+        // }
+      });
     });
 
     group('isWithinLocation()', () {
-      test(
-        'returns true when point is inside location radius',
-        () async {
-          // final location = await LocationService.create(
-          //   session,
-          //   name: 'Test Area',
-          //   latitude: 51.5074,
-          //   longitude: -0.1278,
-          //   radiusMeters: 1000, // 1 km
-          // );
-          //
-          // // Point very close to center.
-          // final within = await LocationService.isWithinLocation(
-          //   session,
-          //   locationId: location.id!,
-          //   latitude: 51.5075,
-          //   longitude: -0.1279,
-          // );
-          //
-          // expect(within, isTrue);
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('returns true when point is inside location radius', () async {
+        // final location = await LocationService.create(
+        //   session,
+        //   name: 'Test Area',
+        //   latitude: 51.5074,
+        //   longitude: -0.1278,
+        //   radiusMeters: 1000, // 1 km
+        // );
+        //
+        // // Point very close to center.
+        // final within = await LocationService.isWithinLocation(
+        //   session,
+        //   locationId: location.id!,
+        //   latitude: 51.5075,
+        //   longitude: -0.1279,
+        // );
+        //
+        // expect(within, isTrue);
+      });
 
-      test(
-        'returns false when point is outside location radius',
-        () async {
-          // final location = await LocationService.create(
-          //   session,
-          //   name: 'Test Area',
-          //   latitude: 51.5074,
-          //   longitude: -0.1278,
-          //   radiusMeters: 100, // 100 m
-          // );
-          //
-          // // Point far away.
-          // final within = await LocationService.isWithinLocation(
-          //   session,
-          //   locationId: location.id!,
-          //   latitude: 48.8566,
-          //   longitude: 2.3522,
-          // );
-          //
-          // expect(within, isFalse);
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('returns false when point is outside location radius', () async {
+        // final location = await LocationService.create(
+        //   session,
+        //   name: 'Test Area',
+        //   latitude: 51.5074,
+        //   longitude: -0.1278,
+        //   radiusMeters: 100, // 100 m
+        // );
+        //
+        // // Point far away.
+        // final within = await LocationService.isWithinLocation(
+        //   session,
+        //   locationId: location.id!,
+        //   latitude: 48.8566,
+        //   longitude: 2.3522,
+        // );
+        //
+        // expect(within, isFalse);
+      });
     });
 
     group('distanceTo()', () {
-      test(
-        'returns distance in meters',
-        () async {
-          // final location = await LocationService.create(
-          //   session,
-          //   name: 'Origin',
-          //   latitude: 0.0,
-          //   longitude: 0.0,
-          //   radiusMeters: 100,
-          // );
-          //
-          // final distance = await LocationService.distanceTo(
-          //   session,
-          //   locationId: location.id!,
-          //   latitude: 0.0,
-          //   longitude: 1.0,
-          // );
-          //
-          // // ~111 km.
-          // expect(distance, closeTo(111_000, 1_000));
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('returns distance in meters', () async {
+        // final location = await LocationService.create(
+        //   session,
+        //   name: 'Origin',
+        //   latitude: 0.0,
+        //   longitude: 0.0,
+        //   radiusMeters: 100,
+        // );
+        //
+        // final distance = await LocationService.distanceTo(
+        //   session,
+        //   locationId: location.id!,
+        //   latitude: 0.0,
+        //   longitude: 1.0,
+        // );
+        //
+        // // ~111 km.
+        // expect(distance, closeTo(111_000, 1_000));
+      });
     });
 
     group('searchByName()', () {
-      test(
-        'finds locations by partial name match',
-        () async {
-          // await LocationService.create(
-          //   session,
-          //   name: 'Central Park',
-          //   latitude: 40.7829,
-          //   longitude: -73.9654,
-          //   radiusMeters: 500,
-          // );
-          //
-          // final results = await LocationService.searchByName(
-          //   session,
-          //   query: 'central',
-          // );
-          //
-          // expect(results.any((l) => l.name == 'Central Park'), isTrue);
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('finds locations by partial name match', () async {
+        // await LocationService.create(
+        //   session,
+        //   name: 'Central Park',
+        //   latitude: 40.7829,
+        //   longitude: -73.9654,
+        //   radiusMeters: 500,
+        // );
+        //
+        // final results = await LocationService.searchByName(
+        //   session,
+        //   query: 'central',
+        // );
+        //
+        // expect(results.any((l) => l.name == 'Central Park'), isTrue);
+      });
 
-      test(
-        'returns empty list when no match',
-        () async {
-          // final results = await LocationService.searchByName(
-          //   session,
-          //   query: 'zzz_no_match_zzz',
-          // );
-          // expect(results, isEmpty);
-        },
-        skip: 'Requires serverpod_test database session',
-      );
+      test('returns empty list when no match', () async {
+        // final results = await LocationService.searchByName(
+        //   session,
+        //   query: 'zzz_no_match_zzz',
+        // );
+        // expect(results, isEmpty);
+      });
     });
   });
 }

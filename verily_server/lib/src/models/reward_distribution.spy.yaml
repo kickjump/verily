@@ -28,3 +28,9 @@ indexes:
     fields: recipientId
   reward_distribution_submission_id_idx:
     fields: submissionId
+  reward_distribution_pool_recipient_uidx:
+    fields: rewardPoolId, recipientId
+    unique: true
+  reward_distribution_pool_submission_uidx:
+    fields: rewardPoolId, submissionId
+    unique: true

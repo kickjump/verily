@@ -21,38 +21,55 @@ class VCard extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final isLight = theme.brightness == Brightness.light;
+    final radius = BorderRadius.circular(RadiusTokens.lg);
 
     final content = padding != null
         ? Padding(padding: padding!, child: child)
         : child;
 
-    final card = Material(
-      color: theme.brightness == Brightness.light
-          ? Colors.white.withValues(alpha: 0.9)
-          : colorScheme.surfaceContainerLow.withValues(alpha: 0.92),
-      elevation: ElevationTokens.low,
-      shadowColor: Colors.black.withValues(alpha: 0.18),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(RadiusTokens.lg),
-        side: BorderSide(
-          color: colorScheme.outlineVariant.withValues(alpha: 0.85),
-        ),
+    final decoration = BoxDecoration(
+      borderRadius: radius,
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: isLight
+            ? [
+                Colors.white.withValues(alpha: 0.98),
+                const Color(0xFFF4F8FF).withValues(alpha: 0.96),
+              ]
+            : [
+                const Color(0xFF182947).withValues(alpha: 0.95),
+                const Color(0xFF0F1B34).withValues(alpha: 0.94),
+              ],
       ),
-      clipBehavior: Clip.antiAlias,
-      child: content,
+      border: Border.all(
+        color: colorScheme.outlineVariant.withValues(alpha: 0.8),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withValues(alpha: isLight ? 0.08 : 0.24),
+          blurRadius: 18,
+          offset: const Offset(0, 10),
+        ),
+      ],
     );
 
-    final tappableCard = onTap == null
-        ? card
-        : InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(RadiusTokens.lg),
-            child: card,
-          );
+    final decoratedCard = DecoratedBox(
+      decoration: decoration,
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        clipBehavior: Clip.antiAlias,
+        child: onTap == null
+            ? content
+            : InkWell(onTap: onTap, borderRadius: radius, child: content),
+      ),
+    );
 
     if (margin == null) {
-      return tappableCard;
+      return decoratedCard;
     }
-    return Padding(padding: margin!, child: tappableCard);
+    return Padding(padding: margin!, child: decoratedCard);
   }
 }

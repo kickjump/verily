@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LogEntry {
 
- DateTime get timestamp; String get level; String get source; String get message; String get loggerName; String? get error; String? get stackTrace;
+ DateTime get timestamp; String get level; String get source; String get message; String get loggerName; String? get error; String? get stackTrace; String? get environment; String? get appVersion;
 /// Create a copy of LogEntry
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $LogEntryCopyWith<LogEntry> get copyWith => _$LogEntryCopyWithImpl<LogEntry>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.level, level) || other.level == level)&&(identical(other.source, source) || other.source == source)&&(identical(other.message, message) || other.message == message)&&(identical(other.loggerName, loggerName) || other.loggerName == loggerName)&&(identical(other.error, error) || other.error == error)&&(identical(other.stackTrace, stackTrace) || other.stackTrace == stackTrace));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.level, level) || other.level == level)&&(identical(other.source, source) || other.source == source)&&(identical(other.message, message) || other.message == message)&&(identical(other.loggerName, loggerName) || other.loggerName == loggerName)&&(identical(other.error, error) || other.error == error)&&(identical(other.stackTrace, stackTrace) || other.stackTrace == stackTrace)&&(identical(other.environment, environment) || other.environment == environment)&&(identical(other.appVersion, appVersion) || other.appVersion == appVersion));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timestamp,level,source,message,loggerName,error,stackTrace);
+int get hashCode => Object.hash(runtimeType,timestamp,level,source,message,loggerName,error,stackTrace,environment,appVersion);
 
 @override
 String toString() {
-  return 'LogEntry(timestamp: $timestamp, level: $level, source: $source, message: $message, loggerName: $loggerName, error: $error, stackTrace: $stackTrace)';
+  return 'LogEntry(timestamp: $timestamp, level: $level, source: $source, message: $message, loggerName: $loggerName, error: $error, stackTrace: $stackTrace, environment: $environment, appVersion: $appVersion)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $LogEntryCopyWith<$Res>  {
   factory $LogEntryCopyWith(LogEntry value, $Res Function(LogEntry) _then) = _$LogEntryCopyWithImpl;
 @useResult
 $Res call({
- DateTime timestamp, String level, String source, String message, String loggerName, String? error, String? stackTrace
+ DateTime timestamp, String level, String source, String message, String loggerName, String? error, String? stackTrace, String? environment, String? appVersion
 });
 
 
@@ -65,7 +65,7 @@ class _$LogEntryCopyWithImpl<$Res>
 
 /// Create a copy of LogEntry
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? timestamp = null,Object? level = null,Object? source = null,Object? message = null,Object? loggerName = null,Object? error = freezed,Object? stackTrace = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? timestamp = null,Object? level = null,Object? source = null,Object? message = null,Object? loggerName = null,Object? error = freezed,Object? stackTrace = freezed,Object? environment = freezed,Object? appVersion = freezed,}) {
   return _then(_self.copyWith(
 timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as DateTime,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
@@ -74,6 +74,8 @@ as String,message: null == message ? _self.message : message // ignore: cast_nul
 as String,loggerName: null == loggerName ? _self.loggerName : loggerName // ignore: cast_nullable_to_non_nullable
 as String,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,stackTrace: freezed == stackTrace ? _self.stackTrace : stackTrace // ignore: cast_nullable_to_non_nullable
+as String?,environment: freezed == environment ? _self.environment : environment // ignore: cast_nullable_to_non_nullable
+as String?,appVersion: freezed == appVersion ? _self.appVersion : appVersion // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -159,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime timestamp,  String level,  String source,  String message,  String loggerName,  String? error,  String? stackTrace)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime timestamp,  String level,  String source,  String message,  String loggerName,  String? error,  String? stackTrace,  String? environment,  String? appVersion)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LogEntry() when $default != null:
-return $default(_that.timestamp,_that.level,_that.source,_that.message,_that.loggerName,_that.error,_that.stackTrace);case _:
+return $default(_that.timestamp,_that.level,_that.source,_that.message,_that.loggerName,_that.error,_that.stackTrace,_that.environment,_that.appVersion);case _:
   return orElse();
 
 }
@@ -180,10 +182,10 @@ return $default(_that.timestamp,_that.level,_that.source,_that.message,_that.log
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime timestamp,  String level,  String source,  String message,  String loggerName,  String? error,  String? stackTrace)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime timestamp,  String level,  String source,  String message,  String loggerName,  String? error,  String? stackTrace,  String? environment,  String? appVersion)  $default,) {final _that = this;
 switch (_that) {
 case _LogEntry():
-return $default(_that.timestamp,_that.level,_that.source,_that.message,_that.loggerName,_that.error,_that.stackTrace);case _:
+return $default(_that.timestamp,_that.level,_that.source,_that.message,_that.loggerName,_that.error,_that.stackTrace,_that.environment,_that.appVersion);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +202,10 @@ return $default(_that.timestamp,_that.level,_that.source,_that.message,_that.log
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime timestamp,  String level,  String source,  String message,  String loggerName,  String? error,  String? stackTrace)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime timestamp,  String level,  String source,  String message,  String loggerName,  String? error,  String? stackTrace,  String? environment,  String? appVersion)?  $default,) {final _that = this;
 switch (_that) {
 case _LogEntry() when $default != null:
-return $default(_that.timestamp,_that.level,_that.source,_that.message,_that.loggerName,_that.error,_that.stackTrace);case _:
+return $default(_that.timestamp,_that.level,_that.source,_that.message,_that.loggerName,_that.error,_that.stackTrace,_that.environment,_that.appVersion);case _:
   return null;
 
 }
@@ -215,7 +217,7 @@ return $default(_that.timestamp,_that.level,_that.source,_that.message,_that.log
 @JsonSerializable()
 
 class _LogEntry implements LogEntry {
-  const _LogEntry({required this.timestamp, required this.level, required this.source, required this.message, required this.loggerName, this.error, this.stackTrace});
+  const _LogEntry({required this.timestamp, required this.level, required this.source, required this.message, required this.loggerName, this.error, this.stackTrace, this.environment, this.appVersion});
   factory _LogEntry.fromJson(Map<String, dynamic> json) => _$LogEntryFromJson(json);
 
 @override final  DateTime timestamp;
@@ -225,6 +227,8 @@ class _LogEntry implements LogEntry {
 @override final  String loggerName;
 @override final  String? error;
 @override final  String? stackTrace;
+@override final  String? environment;
+@override final  String? appVersion;
 
 /// Create a copy of LogEntry
 /// with the given fields replaced by the non-null parameter values.
@@ -239,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LogEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.level, level) || other.level == level)&&(identical(other.source, source) || other.source == source)&&(identical(other.message, message) || other.message == message)&&(identical(other.loggerName, loggerName) || other.loggerName == loggerName)&&(identical(other.error, error) || other.error == error)&&(identical(other.stackTrace, stackTrace) || other.stackTrace == stackTrace));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LogEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.level, level) || other.level == level)&&(identical(other.source, source) || other.source == source)&&(identical(other.message, message) || other.message == message)&&(identical(other.loggerName, loggerName) || other.loggerName == loggerName)&&(identical(other.error, error) || other.error == error)&&(identical(other.stackTrace, stackTrace) || other.stackTrace == stackTrace)&&(identical(other.environment, environment) || other.environment == environment)&&(identical(other.appVersion, appVersion) || other.appVersion == appVersion));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timestamp,level,source,message,loggerName,error,stackTrace);
+int get hashCode => Object.hash(runtimeType,timestamp,level,source,message,loggerName,error,stackTrace,environment,appVersion);
 
 @override
 String toString() {
-  return 'LogEntry(timestamp: $timestamp, level: $level, source: $source, message: $message, loggerName: $loggerName, error: $error, stackTrace: $stackTrace)';
+  return 'LogEntry(timestamp: $timestamp, level: $level, source: $source, message: $message, loggerName: $loggerName, error: $error, stackTrace: $stackTrace, environment: $environment, appVersion: $appVersion)';
 }
 
 
@@ -259,7 +263,7 @@ abstract mixin class _$LogEntryCopyWith<$Res> implements $LogEntryCopyWith<$Res>
   factory _$LogEntryCopyWith(_LogEntry value, $Res Function(_LogEntry) _then) = __$LogEntryCopyWithImpl;
 @override @useResult
 $Res call({
- DateTime timestamp, String level, String source, String message, String loggerName, String? error, String? stackTrace
+ DateTime timestamp, String level, String source, String message, String loggerName, String? error, String? stackTrace, String? environment, String? appVersion
 });
 
 
@@ -276,7 +280,7 @@ class __$LogEntryCopyWithImpl<$Res>
 
 /// Create a copy of LogEntry
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? timestamp = null,Object? level = null,Object? source = null,Object? message = null,Object? loggerName = null,Object? error = freezed,Object? stackTrace = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? timestamp = null,Object? level = null,Object? source = null,Object? message = null,Object? loggerName = null,Object? error = freezed,Object? stackTrace = freezed,Object? environment = freezed,Object? appVersion = freezed,}) {
   return _then(_LogEntry(
 timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as DateTime,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
@@ -285,6 +289,8 @@ as String,message: null == message ? _self.message : message // ignore: cast_nul
 as String,loggerName: null == loggerName ? _self.loggerName : loggerName // ignore: cast_nullable_to_non_nullable
 as String,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,stackTrace: freezed == stackTrace ? _self.stackTrace : stackTrace // ignore: cast_nullable_to_non_nullable
+as String?,environment: freezed == environment ? _self.environment : environment // ignore: cast_nullable_to_non_nullable
+as String?,appVersion: freezed == appVersion ? _self.appVersion : appVersion // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

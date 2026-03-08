@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -48,6 +51,36 @@ Posthog? posthogInstance(Ref ref) {
   return Posthog();
 }
 
+String _sha256Hex(String value) {
+  final bytes = utf8.encode(value.trim().toLowerCase());
+  return sha256.convert(bytes).toString();
+}
+
+Map<String, Object> _identifyPropertiesAllowlist({
+  String? email,
+  String? walletAddress,
+}) {
+  final properties = <String, Object>{};
+
+  if (email != null && email.trim().isNotEmpty) {
+    properties['email_hash'] = _sha256Hex(email);
+  }
+
+  if (walletAddress != null && walletAddress.trim().isNotEmpty) {
+    properties['wallet_address_hash'] = _sha256Hex(walletAddress);
+  }
+
+  return properties;
+}
+
+Map<String, Object> _searchPropertiesAllowlist(String query) {
+  final normalized = query.trim();
+  return {
+    'query_present': normalized.isNotEmpty,
+    'query_length': normalized.length,
+  };
+}
+
 /// Extension on [Posthog] for common Verily tracking events.
 extension VerilyAnalytics on Posthog {
   /// Identifies the user after authentication.
@@ -58,10 +91,10 @@ extension VerilyAnalytics on Posthog {
   }) async {
     await identify(
       userId: userId,
-      userProperties: {
-        if (email != null) 'email': email,
-        if (walletAddress != null) 'wallet_address': walletAddress,
-      },
+      userProperties: _identifyPropertiesAllowlist(
+        email: email,
+        walletAddress: walletAddress,
+      ),
     );
   }
 
@@ -105,9 +138,12 @@ extension VerilyAnalytics on Posthog {
     );
   }
 
-  /// Tracks a search query.
+  /// Tracks a search query with sanitized, allowlisted properties only.
   Future<void> trackSearch({required String query}) async {
-    await capture(eventName: 'search_performed', properties: {'query': query});
+    await capture(
+      eventName: 'search_performed',
+      properties: _searchPropertiesAllowlist(query),
+    );
   }
 
   /// Tracks a reward pool creation.

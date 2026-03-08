@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -105,7 +106,7 @@ class HomeShellScaffold extends HookWidget {
               ),
             ),
             child: Text(
-              'Verify',
+              AppLocalizations.of(context).appVerify,
               style: theme.textTheme.labelSmall?.copyWith(
                 color: isDark
                     ? Colors.white.withValues(alpha: 0.94)
@@ -129,7 +130,9 @@ class HomeShellScaffold extends HookWidget {
             ),
             child: FloatingActionButton(
               key: const Key('homeShell_verifyFab'),
-              tooltip: 'Open verification capture',
+              tooltip: AppLocalizations.of(
+                context,
+              ).navigationOpenVerificationCapture,
               onPressed: () => context.push(RouteNames.verifyCapturePath),
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -159,7 +162,7 @@ class HomeShellScaffold extends HookWidget {
                   child: _BottomItem(
                     icon: Icons.home_outlined,
                     activeIcon: Icons.home,
-                    label: 'Home',
+                    label: AppLocalizations.of(context).homeTitle,
                     selected: navigationShell.currentIndex == 0,
                     onTap: () => goToBranch(0),
                   ),
@@ -168,7 +171,7 @@ class HomeShellScaffold extends HookWidget {
                   child: _BottomItem(
                     icon: Icons.explore_outlined,
                     activeIcon: Icons.explore,
-                    label: 'Search',
+                    label: AppLocalizations.of(context).searchTitle,
                     selected: navigationShell.currentIndex == 1,
                     onTap: () => goToBranch(1),
                   ),
@@ -178,7 +181,7 @@ class HomeShellScaffold extends HookWidget {
                   child: _BottomItem(
                     icon: Icons.person_outline,
                     activeIcon: Icons.person,
-                    label: 'Profile',
+                    label: AppLocalizations.of(context).profileTitle,
                     selected: navigationShell.currentIndex == 2,
                     onTap: () => goToBranch(2),
                   ),

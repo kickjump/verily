@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/search/search_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_client/verily_client.dart' as vc;
@@ -13,6 +14,7 @@ class SearchScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final searchController = useTextEditingController();
     final searchQuery = useState('');
     final categoriesAsync = ref.watch(actionCategoriesProvider);
@@ -30,7 +32,7 @@ class SearchScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: VTextField(
           controller: searchController,
-          hintText: 'Search actions...',
+          hintText: l10n.searchActionsPlaceholder,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: searchQuery.value.isNotEmpty
               ? IconButton(
@@ -46,46 +48,122 @@ class SearchScreen extends HookConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.map_outlined),
-            tooltip: 'Map view',
+            tooltip: l10n.searchMapViewTooltip,
             onPressed: () => context.push(RouteNames.mapPath),
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          // Category filter chips
-          categoriesAsync.when(
-            loading: () => const SizedBox(height: 56),
-            error: (_, __) => const SizedBox(height: 56),
-            data: (categories) => SizedBox(
-              height: 56,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: SpacingTokens.md,
-                  vertical: SpacingTokens.sm,
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: Theme.of(context).brightness == Brightness.dark
+                  ? GradientTokens.shellBackground
+                  : GradientTokens.shellBackgroundLight,
+            ),
+            child: const SizedBox.expand(),
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  SpacingTokens.md,
+                  SpacingTokens.md,
+                  SpacingTokens.md,
+                  SpacingTokens.sm,
                 ),
-                child: Row(
-                  children: [
-                    for (var i = 0; i < categories.length; i++) ...[
-                      FilterChip(
-                        label: Text(categories[i].name),
-                        onSelected: (_) {},
-                        selectedColor: ColorTokens.primary.withAlpha(30),
-                        checkmarkColor: ColorTokens.primary,
-                      ),
-                      if (i < categories.length - 1)
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(RadiusTokens.lg),
+                    gradient: Theme.of(context).brightness == Brightness.dark
+                        ? GradientTokens.heroCard
+                        : GradientTokens.heroCardLight,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(SpacingTokens.md),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              RadiusTokens.sm,
+                            ),
+                            color: Colors.white.withValues(alpha: 0.24),
+                          ),
+                          child: Icon(
+                            Icons.travel_explore_outlined,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white
+                                : ColorTokens.primary,
+                          ),
+                        ),
                         const SizedBox(width: SpacingTokens.sm),
-                    ],
-                  ],
+                        Expanded(
+                          child: Text(
+                            l10n.searchDiscoverByKeywordOrCategory,
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color:
+                                      Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.white.withValues(alpha: 0.9)
+                                      : ColorTokens.ink.withValues(alpha: 0.78),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          const Divider(height: 1),
+              // Category filter chips
+              categoriesAsync.when(
+                loading: () => const SizedBox(height: 56),
+                error: (_, __) => const SizedBox(height: 56),
+                data: (categories) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: SpacingTokens.md,
+                  ),
+                  child: VCard(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: SpacingTokens.sm,
+                      vertical: SpacingTokens.sm,
+                    ),
+                    child: SizedBox(
+                      height: 40,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            for (var i = 0; i < categories.length; i++) ...[
+                              FilterChip(
+                                label: Text(categories[i].name),
+                                onSelected: (_) {},
+                                selectedColor: ColorTokens.primary.withAlpha(
+                                  30,
+                                ),
+                                checkmarkColor: ColorTokens.primary,
+                              ),
+                              if (i < categories.length - 1)
+                                const SizedBox(width: SpacingTokens.sm),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: SpacingTokens.sm),
 
-          // Results
-          Expanded(child: _SearchResults(query: searchQuery.value)),
+              // Results
+              Expanded(child: _SearchResults(query: searchQuery.value)),
+            ],
+          ),
         ],
       ),
     );
@@ -100,34 +178,42 @@ class _SearchResults extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     if (query.isEmpty) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.search,
-              size: 64,
-              color: colorScheme.onSurfaceVariant.withAlpha(100),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.lg),
+          child: VCard(
+            padding: const EdgeInsets.all(SpacingTokens.lg),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.search,
+                  size: 64,
+                  color: colorScheme.onSurfaceVariant.withAlpha(100),
+                ),
+                const SizedBox(height: SpacingTokens.md),
+                Text(
+                  l10n.searchEmptyTitle,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(height: SpacingTokens.xs),
+                Text(
+                  l10n.searchEmptySubtitle,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
-            const SizedBox(height: SpacingTokens.md),
-            Text(
-              'Search for actions',
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ),
-            const SizedBox(height: SpacingTokens.xs),
-            Text(
-              'Find actions by title, description, or tags',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ),
-          ],
+          ),
         ),
       );
     }
@@ -143,7 +229,7 @@ class _SearchResults extends HookConsumerWidget {
             Icon(Icons.error_outline, size: 64, color: colorScheme.error),
             const SizedBox(height: SpacingTokens.md),
             Text(
-              'Search failed',
+              l10n.searchFailed,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: colorScheme.error,
               ),
@@ -151,7 +237,7 @@ class _SearchResults extends HookConsumerWidget {
             const SizedBox(height: SpacingTokens.md),
             FilledButton(
               onPressed: () => ref.invalidate(searchActionsProvider(query)),
-              child: const Text('Retry'),
+              child: Text(l10n.retry),
             ),
           ],
         ),
@@ -159,22 +245,29 @@ class _SearchResults extends HookConsumerWidget {
       data: (actions) {
         if (actions.isEmpty) {
           return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.search_off,
-                  size: 64,
-                  color: colorScheme.onSurfaceVariant,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.lg),
+              child: VCard(
+                padding: const EdgeInsets.all(SpacingTokens.lg),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.search_off,
+                      size: 64,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(height: SpacingTokens.md),
+                    Text(
+                      l10n.searchNoResultsFor(query),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: SpacingTokens.md),
-                Text(
-                  'No results for "$query"',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
+              ),
             ),
           );
         }
@@ -200,13 +293,14 @@ class _SearchResultCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     final typeLabel = switch (action.actionType) {
-      'one_off' => 'One-Off',
-      'sequential' => 'Sequential',
-      'habit' => 'Habit',
+      'one_off' => l10n.actionTypeOneOff,
+      'sequential' => l10n.actionTypeSequential,
+      'habit' => l10n.actionTypeHabit,
       _ => action.actionType,
     };
 
@@ -215,50 +309,72 @@ class _SearchResultCard extends HookWidget {
         RouteNames.actionDetailPath.replaceFirst(':actionId', '${action.id}'),
       ),
       padding: const EdgeInsets.all(SpacingTokens.md),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 48,
-            height: 48,
+            width: double.infinity,
+            padding: const EdgeInsets.all(SpacingTokens.sm),
             decoration: BoxDecoration(
-              color: ColorTokens.primary.withAlpha(20),
-              borderRadius: BorderRadius.circular(RadiusTokens.sm),
+              borderRadius: BorderRadius.circular(RadiusTokens.md),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  ColorTokens.primary.withValues(alpha: 0.2),
+                  colorScheme.surfaceContainerHighest,
+                ],
+              ),
             ),
-            child: const Icon(
-              Icons.assignment_outlined,
-              color: ColorTokens.primary,
-            ),
-          ),
-          const SizedBox(width: SpacingTokens.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                Text(
-                  action.title,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(RadiusTokens.sm),
+                    color: Colors.white.withValues(alpha: 0.75),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  child: const Icon(
+                    Icons.assignment_outlined,
+                    color: ColorTokens.primary,
+                  ),
                 ),
-                const SizedBox(height: SpacingTokens.xs),
-                Row(
-                  children: [
-                    if (action.tags != null && action.tags!.isNotEmpty) ...[
-                      VBadgeChip(
-                        label: action.tags!.split(',').first.trim(),
-                        icon: Icons.category_outlined,
-                      ),
-                      const SizedBox(width: SpacingTokens.sm),
-                    ],
-                    VBadgeChip(label: typeLabel),
-                  ],
+                const SizedBox(width: SpacingTokens.sm),
+                Expanded(
+                  child: Text(
+                    action.title,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
+                Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
               ],
             ),
           ),
-          Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
+          const SizedBox(height: SpacingTokens.sm),
+          Row(
+            children: [
+              if (action.tags != null && action.tags!.isNotEmpty) ...[
+                VBadgeChip(
+                  label: action.tags!.split(',').first.trim(),
+                  icon: Icons.category_outlined,
+                ),
+                const SizedBox(width: SpacingTokens.sm),
+              ],
+              VBadgeChip(label: typeLabel),
+              const Spacer(),
+              Text(
+                l10n.searchResultOpenStatus,
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

@@ -1,3 +1,7 @@
+// This test intentionally imports deprecated compatibility exports to verify
+// legacy and canonical service paths resolve to identical service types.
+// ignore_for_file: deprecated_export_use
+
 import 'package:test/test.dart';
 import 'package:verily_server/src/services/action_category_service.dart'
     as legacy_action_category_service;

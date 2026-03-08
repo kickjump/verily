@@ -1,1325 +1,1647 @@
 {
   "@@locale": "en",
-
   "appName": "Verily",
-  "@appName": { "description": "The application name." },
-
+  "@appName": {
+    "description": "The application name."
+  },
   "ok": "OK",
-  "@ok": { "description": "Generic confirmation label." },
-
+  "@ok": {
+    "description": "Generic confirmation label."
+  },
   "cancel": "Cancel",
-  "@cancel": { "description": "Generic cancel label." },
-
+  "@cancel": {
+    "description": "Generic cancel label."
+  },
   "save": "Save",
-  "@save": { "description": "Generic save label." },
-
+  "@save": {
+    "description": "Generic save label."
+  },
   "delete": "Delete",
-  "@delete": { "description": "Generic delete label." },
-
+  "@delete": {
+    "description": "Generic delete label."
+  },
   "done": "Done",
-  "@done": { "description": "Generic done label." },
-
+  "@done": {
+    "description": "Generic done label."
+  },
   "close": "Close",
-  "@close": { "description": "Generic close label." },
-
+  "@close": {
+    "description": "Generic close label."
+  },
   "retry": "Retry",
-  "@retry": { "description": "Generic retry label." },
-
+  "@retry": {
+    "description": "Generic retry label."
+  },
   "loading": "Loading…",
-  "@loading": { "description": "Generic loading indicator text." },
-
+  "@loading": {
+    "description": "Generic loading indicator text."
+  },
   "error": "Error",
-  "@error": { "description": "Generic error label." },
-
+  "@error": {
+    "description": "Generic error label."
+  },
   "errorGeneric": "Something went wrong. Please try again.",
-  "@errorGeneric": { "description": "Fallback error message." },
-
+  "@errorGeneric": {
+    "description": "Fallback error message."
+  },
   "errorNetwork": "No internet connection. Check your network and try again.",
-  "@errorNetwork": { "description": "Network connectivity error." },
-
+  "@errorNetwork": {
+    "description": "Network connectivity error."
+  },
   "errorTimeout": "Request timed out. Please try again.",
-  "@errorTimeout": { "description": "Request timeout error." },
-
+  "@errorTimeout": {
+    "description": "Request timeout error."
+  },
   "errorNotFound": "The requested resource was not found.",
-  "@errorNotFound": { "description": "404 error message." },
-
+  "@errorNotFound": {
+    "description": "404 error message."
+  },
   "errorUnauthorized": "You are not authorized to perform this action.",
-  "@errorUnauthorized": { "description": "401/403 error message." },
-
+  "@errorUnauthorized": {
+    "description": "401/403 error message."
+  },
   "yes": "Yes",
-  "@yes": { "description": "Generic yes label." },
-
+  "@yes": {
+    "description": "Generic yes label."
+  },
   "no": "No",
-  "@no": { "description": "Generic no label." },
-
+  "@no": {
+    "description": "Generic no label."
+  },
   "confirm": "Confirm",
-  "@confirm": { "description": "Generic confirm label." },
-
+  "@confirm": {
+    "description": "Generic confirm label."
+  },
   "continueLabel": "Continue",
-  "@continueLabel": { "description": "Generic continue label." },
-
+  "@continueLabel": {
+    "description": "Generic continue label."
+  },
   "back": "Back",
-  "@back": { "description": "Generic back navigation label." },
-
+  "@back": {
+    "description": "Generic back navigation label."
+  },
   "next": "Next",
-  "@next": { "description": "Generic next label." },
-
+  "@next": {
+    "description": "Generic next label."
+  },
   "skip": "Skip",
-  "@skip": { "description": "Generic skip label." },
-
+  "@skip": {
+    "description": "Generic skip label."
+  },
   "submit": "Submit",
-  "@submit": { "description": "Generic submit label." },
-
+  "@submit": {
+    "description": "Generic submit label."
+  },
   "edit": "Edit",
-  "@edit": { "description": "Generic edit label." },
-
+  "@edit": {
+    "description": "Generic edit label."
+  },
   "share": "Share",
-  "@share": { "description": "Generic share label." },
-
+  "@share": {
+    "description": "Generic share label."
+  },
   "report": "Report",
-  "@report": { "description": "Generic report label." },
-
+  "@report": {
+    "description": "Generic report label."
+  },
   "seeAll": "See All",
-  "@seeAll": { "description": "Label to view all items in a list." },
-
+  "@seeAll": {
+    "description": "Label to view all items in a list."
+  },
   "noResults": "No results found.",
-  "@noResults": { "description": "Empty state when a search has zero results." },
-
+  "@noResults": {
+    "description": "Empty state when a search has zero results."
+  },
   "emptyState": "Nothing here yet.",
-  "@emptyState": { "description": "Generic empty state message." },
-
+  "@emptyState": {
+    "description": "Generic empty state message."
+  },
   "copiedToClipboard": "Copied to clipboard",
-  "@copiedToClipboard": { "description": "Snackbar message when content is copied." },
-
+  "@copiedToClipboard": {
+    "description": "Snackbar message when content is copied."
+  },
   "walletTitle": "Wallet",
-  "@walletTitle": { "description": "Wallet screen title and default wallet label." },
-
+  "@walletTitle": {
+    "description": "Wallet screen title and default wallet label."
+  },
   "walletTotalBalance": "Total Balance",
-  "@walletTotalBalance": { "description": "Header label for the wallet aggregate balance." },
-
+  "@walletTotalBalance": {
+    "description": "Header label for the wallet aggregate balance."
+  },
   "walletCount": "{count} wallets",
   "@walletCount": {
     "description": "Wallet count pill label.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "walletSecureCustody": "Secure custody",
-  "@walletSecureCustody": { "description": "Security status pill label on wallet hero card." },
-
+  "@walletSecureCustody": {
+    "description": "Security status pill label on wallet hero card."
+  },
   "walletReceive": "Receive",
-  "@walletReceive": { "description": "Wallet quick action label to receive funds." },
-
+  "@walletReceive": {
+    "description": "Wallet quick action label to receive funds."
+  },
   "walletSend": "Send",
-  "@walletSend": { "description": "Wallet quick action label to send funds." },
-
+  "@walletSend": {
+    "description": "Wallet quick action label to send funds."
+  },
   "walletRefresh": "Refresh",
-  "@walletRefresh": { "description": "Wallet quick action label to refresh balances and wallets." },
-
+  "@walletRefresh": {
+    "description": "Wallet quick action label to refresh balances and wallets."
+  },
   "walletYourWallets": "Your Wallets",
-  "@walletYourWallets": { "description": "Section header for user wallets list." },
-
+  "@walletYourWallets": {
+    "description": "Section header for user wallets list."
+  },
   "walletNoWalletsYet": "No wallets yet",
-  "@walletNoWalletsYet": { "description": "Empty state title when user has no wallets." },
-
+  "@walletNoWalletsYet": {
+    "description": "Empty state title when user has no wallets."
+  },
   "walletCreateOrConnect": "Create or connect a wallet to get started",
-  "@walletCreateOrConnect": { "description": "Empty state description when user has no wallets." },
-
+  "@walletCreateOrConnect": {
+    "description": "Empty state description when user has no wallets."
+  },
   "walletAddWallet": "Add Wallet",
-  "@walletAddWallet": { "description": "CTA/button label to add a wallet." },
-
+  "@walletAddWallet": {
+    "description": "CTA/button label to add a wallet."
+  },
   "walletAddressCopied": "Address copied",
-  "@walletAddressCopied": { "description": "Snackbar text when wallet address has been copied." },
-
+  "@walletAddressCopied": {
+    "description": "Snackbar text when wallet address has been copied."
+  },
   "walletDefault": "Default",
-  "@walletDefault": { "description": "Badge text indicating default wallet." },
-
+  "@walletDefault": {
+    "description": "Badge text indicating default wallet."
+  },
   "walletTypeCustodial": "Custodial",
-  "@walletTypeCustodial": { "description": "Wallet type label for custodial wallets." },
-
+  "@walletTypeCustodial": {
+    "description": "Wallet type label for custodial wallets."
+  },
   "walletTypeExternal": "External",
-  "@walletTypeExternal": { "description": "Wallet type label for linked external wallets." },
-
+  "@walletTypeExternal": {
+    "description": "Wallet type label for linked external wallets."
+  },
   "walletLoadFailed": "Failed to load wallets. Pull to refresh.",
-  "@walletLoadFailed": { "description": "Error state shown when wallet list fails to load." },
-
+  "@walletLoadFailed": {
+    "description": "Error state shown when wallet list fails to load."
+  },
   "walletPortfolio": "Portfolio",
-  "@walletPortfolio": { "description": "Section header for wallet portfolio tabs." },
-
+  "@walletPortfolio": {
+    "description": "Section header for wallet portfolio tabs."
+  },
   "walletTokens": "Tokens",
-  "@walletTokens": { "description": "Portfolio tab label for tokens." },
-
+  "@walletTokens": {
+    "description": "Portfolio tab label for tokens."
+  },
   "walletNfts": "NFTs",
-  "@walletNfts": { "description": "Portfolio tab label for NFTs." },
-
+  "@walletNfts": {
+    "description": "Portfolio tab label for NFTs."
+  },
   "walletActivity": "Activity",
-  "@walletActivity": { "description": "Portfolio tab label for activity." },
-
+  "@walletActivity": {
+    "description": "Portfolio tab label for activity."
+  },
   "walletNoTokensYet": "No tokens yet",
-  "@walletNoTokensYet": { "description": "Empty state title for tokens tab." },
-
+  "@walletNoTokensYet": {
+    "description": "Empty state title for tokens tab."
+  },
   "walletNoTokensSubtitle": "Complete actions to earn token rewards",
-  "@walletNoTokensSubtitle": { "description": "Empty state subtitle for tokens tab." },
-
+  "@walletNoTokensSubtitle": {
+    "description": "Empty state subtitle for tokens tab."
+  },
   "walletNoNftsYet": "No NFTs yet",
-  "@walletNoNftsYet": { "description": "Empty state title for NFTs tab." },
-
+  "@walletNoNftsYet": {
+    "description": "Empty state title for NFTs tab."
+  },
   "walletNoNftsSubtitle": "Earn NFT badges by completing actions",
-  "@walletNoNftsSubtitle": { "description": "Empty state subtitle for NFTs tab." },
-
+  "@walletNoNftsSubtitle": {
+    "description": "Empty state subtitle for NFTs tab."
+  },
   "walletNoActivityYet": "No activity yet",
-  "@walletNoActivityYet": { "description": "Empty state title for activity tab." },
-
+  "@walletNoActivityYet": {
+    "description": "Empty state title for activity tab."
+  },
   "walletNoActivitySubtitle": "Your transaction history will appear here",
-  "@walletNoActivitySubtitle": { "description": "Empty state subtitle for activity tab." },
-
+  "@walletNoActivitySubtitle": {
+    "description": "Empty state subtitle for activity tab."
+  },
   "walletCreateCustodial": "Create Custodial Wallet",
-  "@walletCreateCustodial": { "description": "Bottom sheet action to create a custodial wallet." },
-
+  "@walletCreateCustodial": {
+    "description": "Bottom sheet action to create a custodial wallet."
+  },
   "walletLinkExternal": "Link External Wallet",
-  "@walletLinkExternal": { "description": "Bottom sheet action to link an external wallet." },
-
+  "@walletLinkExternal": {
+    "description": "Bottom sheet action to link an external wallet."
+  },
   "walletLinkWallet": "Link Wallet",
-  "@walletLinkWallet": { "description": "Dialog title for linking a wallet." },
-
+  "@walletLinkWallet": {
+    "description": "Dialog title for linking a wallet."
+  },
   "walletSolanaPublicKey": "Solana Public Key",
-  "@walletSolanaPublicKey": { "description": "Input label for a Solana public key." },
-
+  "@walletSolanaPublicKey": {
+    "description": "Input label for a Solana public key."
+  },
   "walletEnterWalletAddress": "Enter your wallet address",
-  "@walletEnterWalletAddress": { "description": "Input hint for entering wallet address." },
-
+  "@walletEnterWalletAddress": {
+    "description": "Input hint for entering wallet address."
+  },
   "walletLink": "Link",
-  "@walletLink": { "description": "Confirm action button label for linking wallet." },
-
+  "@walletLink": {
+    "description": "Confirm action button label for linking wallet."
+  },
   "walletReceiveSol": "Receive SOL",
-  "@walletReceiveSol": { "description": "Dialog title for receiving SOL." },
-
+  "@walletReceiveSol": {
+    "description": "Dialog title for receiving SOL."
+  },
   "walletYourWalletAddress": "Your wallet address:",
-  "@walletYourWalletAddress": { "description": "Label preceding displayed wallet address." },
-
+  "@walletYourWalletAddress": {
+    "description": "Label preceding displayed wallet address."
+  },
   "walletCopyAddress": "Copy Address",
-  "@walletCopyAddress": { "description": "Button label to copy wallet address." },
-
+  "@walletCopyAddress": {
+    "description": "Button label to copy wallet address."
+  },
   "walletMyVerilyWallet": "My Verily Wallet",
-  "@walletMyVerilyWallet": { "description": "Default label for created custodial wallet during setup." },
-
+  "@walletMyVerilyWallet": {
+    "description": "Default label for created custodial wallet during setup."
+  },
   "walletPublicKey": "Public Key",
-  "@walletPublicKey": { "description": "Generic input label for wallet public key." },
-
+  "@walletPublicKey": {
+    "description": "Generic input label for wallet public key."
+  },
   "walletEnterSolanaPublicKey": "Enter your Solana public key",
-  "@walletEnterSolanaPublicKey": { "description": "Input hint on setup link dialog." },
-
+  "@walletEnterSolanaPublicKey": {
+    "description": "Input hint on setup link dialog."
+  },
   "walletExternalWallet": "External Wallet",
-  "@walletExternalWallet": { "description": "Default label for linked external wallet during setup." },
-
+  "@walletExternalWallet": {
+    "description": "Default label for linked external wallet during setup."
+  },
   "walletSetUpTitle": "Set Up Wallet",
-  "@walletSetUpTitle": { "description": "Wallet setup screen app bar title." },
-
+  "@walletSetUpTitle": {
+    "description": "Wallet setup screen app bar title."
+  },
   "walletYourVerilyWallet": "Your Verily Wallet",
-  "@walletYourVerilyWallet": { "description": "Wallet setup hero title." },
-
+  "@walletYourVerilyWallet": {
+    "description": "Wallet setup hero title."
+  },
   "walletSetupDescription": "Create a wallet to receive SOL, tokens, and NFT rewards for completing actions. You can also link an existing Solana wallet.",
-  "@walletSetupDescription": { "description": "Wallet setup informational description." },
-
+  "@walletSetupDescription": {
+    "description": "Wallet setup informational description."
+  },
   "walletCreateWallet": "Create Wallet",
-  "@walletCreateWallet": { "description": "Primary CTA button on wallet setup screen." },
-
+  "@walletCreateWallet": {
+    "description": "Primary CTA button on wallet setup screen."
+  },
   "walletLinkExisting": "Link Existing Wallet",
-  "@walletLinkExisting": { "description": "Secondary CTA button on wallet setup screen." },
-
+  "@walletLinkExisting": {
+    "description": "Secondary CTA button on wallet setup screen."
+  },
   "walletSkipForNow": "Skip for now",
-  "@walletSkipForNow": { "description": "Tertiary CTA to skip wallet setup." },
-
-
+  "@walletSkipForNow": {
+    "description": "Tertiary CTA to skip wallet setup."
+  },
   "loginTitle": "Log In",
-  "@loginTitle": { "description": "Login screen title." },
-
+  "@loginTitle": {
+    "description": "Login screen title."
+  },
   "loginSubtitle": "Welcome back to Verily",
-  "@loginSubtitle": { "description": "Login screen subtitle." },
-
+  "@loginSubtitle": {
+    "description": "Login screen subtitle."
+  },
   "registerTitle": "Create Account",
-  "@registerTitle": { "description": "Registration screen title." },
-
+  "@registerTitle": {
+    "description": "Registration screen title."
+  },
   "registerSubtitle": "Join the Verily community",
-  "@registerSubtitle": { "description": "Registration screen subtitle." },
-
+  "@registerSubtitle": {
+    "description": "Registration screen subtitle."
+  },
   "email": "Email",
-  "@email": { "description": "Email field label." },
-
+  "@email": {
+    "description": "Email field label."
+  },
   "emailHint": "you@example.com",
-  "@emailHint": { "description": "Email field hint text." },
-
+  "@emailHint": {
+    "description": "Email field hint text."
+  },
   "emailRequired": "Email is required.",
-  "@emailRequired": { "description": "Validation: email empty." },
-
+  "@emailRequired": {
+    "description": "Validation: email empty."
+  },
   "emailInvalid": "Enter a valid email address.",
-  "@emailInvalid": { "description": "Validation: email format." },
-
+  "@emailInvalid": {
+    "description": "Validation: email format."
+  },
   "password": "Password",
-  "@password": { "description": "Password field label." },
-
+  "@password": {
+    "description": "Password field label."
+  },
   "passwordHint": "Enter your password",
-  "@passwordHint": { "description": "Password field hint text." },
-
+  "@passwordHint": {
+    "description": "Password field hint text."
+  },
   "passwordRequired": "Password is required.",
-  "@passwordRequired": { "description": "Validation: password empty." },
-
+  "@passwordRequired": {
+    "description": "Validation: password empty."
+  },
   "passwordTooShort": "Password must be at least 8 characters.",
-  "@passwordTooShort": { "description": "Validation: password length." },
-
+  "@passwordTooShort": {
+    "description": "Validation: password length."
+  },
   "confirmPassword": "Confirm Password",
-  "@confirmPassword": { "description": "Confirm password field label." },
-
+  "@confirmPassword": {
+    "description": "Confirm password field label."
+  },
   "confirmPasswordHint": "Re-enter your password",
-  "@confirmPasswordHint": { "description": "Confirm password field hint." },
-
+  "@confirmPasswordHint": {
+    "description": "Confirm password field hint."
+  },
   "passwordMismatch": "Passwords do not match.",
-  "@passwordMismatch": { "description": "Validation: passwords differ." },
-
+  "@passwordMismatch": {
+    "description": "Validation: passwords differ."
+  },
   "displayName": "Display Name",
-  "@displayName": { "description": "Display name field label." },
-
+  "@displayName": {
+    "description": "Display name field label."
+  },
   "displayNameHint": "How others see you",
-  "@displayNameHint": { "description": "Display name field hint." },
-
+  "@displayNameHint": {
+    "description": "Display name field hint."
+  },
   "displayNameRequired": "Display name is required.",
-  "@displayNameRequired": { "description": "Validation: display name empty." },
-
+  "@displayNameRequired": {
+    "description": "Validation: display name empty."
+  },
   "login": "Log In",
-  "@login": { "description": "Login button label." },
-
+  "@login": {
+    "description": "Login button label."
+  },
   "register": "Sign Up",
-  "@register": { "description": "Register button label." },
-
+  "@register": {
+    "description": "Register button label."
+  },
   "logout": "Log Out",
-  "@logout": { "description": "Logout button label." },
-
+  "@logout": {
+    "description": "Logout button label."
+  },
   "logoutConfirm": "Are you sure you want to log out?",
-  "@logoutConfirm": { "description": "Logout confirmation dialog message." },
-
+  "@logoutConfirm": {
+    "description": "Logout confirmation dialog message."
+  },
   "forgotPassword": "Forgot Password?",
-  "@forgotPassword": { "description": "Forgot password link label." },
-
+  "@forgotPassword": {
+    "description": "Forgot password link label."
+  },
   "forgotPasswordTitle": "Reset Password",
-  "@forgotPasswordTitle": { "description": "Forgot password screen title." },
-
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title."
+  },
   "forgotPasswordMessage": "Enter your email and we'll send you a link to reset your password.",
-  "@forgotPasswordMessage": { "description": "Forgot password instructions." },
-
+  "@forgotPasswordMessage": {
+    "description": "Forgot password instructions."
+  },
   "resetPasswordSent": "Password reset email sent. Check your inbox.",
-  "@resetPasswordSent": { "description": "Confirmation after sending reset email." },
-
+  "@resetPasswordSent": {
+    "description": "Confirmation after sending reset email."
+  },
   "noAccountPrompt": "Don't have an account?",
-  "@noAccountPrompt": { "description": "Prompt to navigate to registration." },
-
+  "@noAccountPrompt": {
+    "description": "Prompt to navigate to registration."
+  },
   "hasAccountPrompt": "Already have an account?",
-  "@hasAccountPrompt": { "description": "Prompt to navigate to login." },
-
+  "@hasAccountPrompt": {
+    "description": "Prompt to navigate to login."
+  },
   "orContinueWith": "Or continue with",
-  "@orContinueWith": { "description": "Social login separator." },
-
+  "@orContinueWith": {
+    "description": "Social login separator."
+  },
   "signInWithApple": "Sign in with Apple",
-  "@signInWithApple": { "description": "Apple sign-in button." },
-
+  "@signInWithApple": {
+    "description": "Apple sign-in button."
+  },
   "signInWithGoogle": "Sign in with Google",
-  "@signInWithGoogle": { "description": "Google sign-in button." },
-
+  "@signInWithGoogle": {
+    "description": "Google sign-in button."
+  },
   "termsAndPrivacy": "By continuing, you agree to our Terms of Service and Privacy Policy.",
-  "@termsAndPrivacy": { "description": "Legal disclaimer on auth screens." },
-
-
+  "@termsAndPrivacy": {
+    "description": "Legal disclaimer on auth screens."
+  },
   "feedTitle": "Feed",
-  "@feedTitle": { "description": "Feed tab title." },
-
+  "@feedTitle": {
+    "description": "Feed tab title."
+  },
   "feedNearby": "Nearby",
-  "@feedNearby": { "description": "Feed section: nearby actions." },
-
+  "@feedNearby": {
+    "description": "Feed section: nearby actions."
+  },
   "feedTrending": "Trending",
-  "@feedTrending": { "description": "Feed section: trending actions." },
-
+  "@feedTrending": {
+    "description": "Feed section: trending actions."
+  },
   "feedRecent": "Recent",
-  "@feedRecent": { "description": "Feed section: recently created actions." },
-
+  "@feedRecent": {
+    "description": "Feed section: recently created actions."
+  },
   "feedNoActions": "No actions nearby. Explore trending actions instead!",
-  "@feedNoActions": { "description": "Empty state for feed." },
-
+  "@feedNoActions": {
+    "description": "Empty state for feed."
+  },
   "feedNoNearbyActionsTitle": "No actions nearby",
-  "@feedNoNearbyActionsTitle": { "description": "Feed empty state title for nearby tab." },
-
+  "@feedNoNearbyActionsTitle": {
+    "description": "Feed empty state title for nearby tab."
+  },
   "feedNoNearbyActionsSubtitle": "Enable location to see actions around you",
-  "@feedNoNearbyActionsSubtitle": { "description": "Feed empty state subtitle for nearby tab." },
-
+  "@feedNoNearbyActionsSubtitle": {
+    "description": "Feed empty state subtitle for nearby tab."
+  },
   "feedNoTrendingActionsTitle": "No trending actions",
-  "@feedNoTrendingActionsTitle": { "description": "Feed empty state title for trending tab." },
-
+  "@feedNoTrendingActionsTitle": {
+    "description": "Feed empty state title for trending tab."
+  },
   "feedNoTrendingActionsSubtitle": "Check back later for popular actions",
-  "@feedNoTrendingActionsSubtitle": { "description": "Feed empty state subtitle for trending tab." },
-
+  "@feedNoTrendingActionsSubtitle": {
+    "description": "Feed empty state subtitle for trending tab."
+  },
   "feedLoadFailed": "Failed to load actions",
-  "@feedLoadFailed": { "description": "Feed error title shown when actions fail to load." },
-
+  "@feedLoadFailed": {
+    "description": "Feed error title shown when actions fail to load."
+  },
   "feedHeroTitle": "Action radar online",
-  "@feedHeroTitle": { "description": "Title text in the premium feed hero card." },
-
+  "@feedHeroTitle": {
+    "description": "Title text in the premium feed hero card."
+  },
   "feedHeroMissionCount": "{count} missions ready near you",
   "@feedHeroMissionCount": {
     "description": "Subtitle in the feed hero card showing mission count.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "feedLiveBadge": "Live",
-  "@feedLiveBadge": { "description": "Badge label shown in feed hero card." },
-
+  "@feedLiveBadge": {
+    "description": "Badge label shown in feed hero card."
+  },
   "feedVerificationReady": "AI verification ready",
-  "@feedVerificationReady": { "description": "Status label shown at top of feed action cards." },
-
+  "@feedVerificationReady": {
+    "description": "Status label shown at top of feed action cards."
+  },
   "feedEarnRewards": "Earn rewards",
-  "@feedEarnRewards": { "description": "Label shown in feed action card metadata row." },
-
+  "@feedEarnRewards": {
+    "description": "Label shown in feed action card metadata row."
+  },
   "feedStartCta": "Start",
-  "@feedStartCta": { "description": "CTA label on feed action cards to begin an action." },
-
+  "@feedStartCta": {
+    "description": "CTA label on feed action cards to begin an action."
+  },
   "feedRefreshing": "Refreshing…",
-  "@feedRefreshing": { "description": "Pull-to-refresh indicator." },
-
+  "@feedRefreshing": {
+    "description": "Pull-to-refresh indicator."
+  },
   "feedEndOfList": "You've reached the end.",
-  "@feedEndOfList": { "description": "Message at the bottom of an infinite list." },
-
+  "@feedEndOfList": {
+    "description": "Message at the bottom of an infinite list."
+  },
   "feedPostedBy": "Posted by {username}",
   "@feedPostedBy": {
     "description": "Attribution label on an action card.",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
-
   "feedTimeAgo": "{time} ago",
   "@feedTimeAgo": {
     "description": "Relative time label.",
     "placeholders": {
-      "time": { "type": "String" }
+      "time": {
+        "type": "String"
+      }
     }
   },
-
-
   "searchTitle": "Search",
-  "@searchTitle": { "description": "Search tab title." },
-
+  "@searchTitle": {
+    "description": "Search tab title."
+  },
   "searchActions": "Search Actions",
-  "@searchActions": { "description": "Search bar label." },
-
+  "@searchActions": {
+    "description": "Search bar label."
+  },
   "searchHint": "Try \"plant a tree\" or \"clean a beach\"",
-  "@searchHint": { "description": "Search bar placeholder." },
-
+  "@searchHint": {
+    "description": "Search bar placeholder."
+  },
   "searchActionsPlaceholder": "Search actions...",
-  "@searchActionsPlaceholder": { "description": "Search input hint used in the search app bar." },
-
+  "@searchActionsPlaceholder": {
+    "description": "Search input hint used in the search app bar."
+  },
   "searchMapViewTooltip": "Map view",
-  "@searchMapViewTooltip": { "description": "Tooltip for opening map view from search." },
-
+  "@searchMapViewTooltip": {
+    "description": "Tooltip for opening map view from search."
+  },
   "searchDiscoverByKeywordOrCategory": "Discover actions by keyword or category",
-  "@searchDiscoverByKeywordOrCategory": { "description": "Search hero helper text encouraging keyword or category discovery." },
-
+  "@searchDiscoverByKeywordOrCategory": {
+    "description": "Search hero helper text encouraging keyword or category discovery."
+  },
   "searchEmptyTitle": "Search for actions",
-  "@searchEmptyTitle": { "description": "Empty state title shown before a search query is entered." },
-
+  "@searchEmptyTitle": {
+    "description": "Empty state title shown before a search query is entered."
+  },
   "searchEmptySubtitle": "Find actions by title, description, or tags",
-  "@searchEmptySubtitle": { "description": "Empty state subtitle shown before a search query is entered." },
-
+  "@searchEmptySubtitle": {
+    "description": "Empty state subtitle shown before a search query is entered."
+  },
   "searchFailed": "Search failed",
-  "@searchFailed": { "description": "Error title shown when search request fails." },
-
+  "@searchFailed": {
+    "description": "Error title shown when search request fails."
+  },
   "searchNoResultsFor": "No results for \"{query}\"",
   "@searchNoResultsFor": {
     "description": "No-results message with the user's search query.",
     "placeholders": {
-      "query": { "type": "String" }
+      "query": {
+        "type": "String"
+      }
     }
   },
-
   "searchResultOpenStatus": "Open",
-  "@searchResultOpenStatus": { "description": "Status label shown on search result cards for open actions." },
-
+  "@searchResultOpenStatus": {
+    "description": "Status label shown on search result cards for open actions."
+  },
   "searchCategories": "Categories",
-  "@searchCategories": { "description": "Section header: categories." },
-
+  "@searchCategories": {
+    "description": "Section header: categories."
+  },
   "searchNoResults": "No actions match your search.",
-  "@searchNoResults": { "description": "Empty state for search." },
-
+  "@searchNoResults": {
+    "description": "Empty state for search."
+  },
   "searchRecent": "Recent Searches",
-  "@searchRecent": { "description": "Section header: recent searches." },
-
+  "@searchRecent": {
+    "description": "Section header: recent searches."
+  },
   "searchClearRecent": "Clear Recent",
-  "@searchClearRecent": { "description": "Button to clear recent searches." },
-
+  "@searchClearRecent": {
+    "description": "Button to clear recent searches."
+  },
   "searchFilterTitle": "Filters",
-  "@searchFilterTitle": { "description": "Filter sheet title." },
-
+  "@searchFilterTitle": {
+    "description": "Filter sheet title."
+  },
   "searchFilterApply": "Apply Filters",
-  "@searchFilterApply": { "description": "Apply filters button." },
-
+  "@searchFilterApply": {
+    "description": "Apply filters button."
+  },
   "searchFilterReset": "Reset",
-  "@searchFilterReset": { "description": "Reset filters button." },
-
+  "@searchFilterReset": {
+    "description": "Reset filters button."
+  },
   "searchFilterDistance": "Distance",
-  "@searchFilterDistance": { "description": "Distance filter label." },
-
+  "@searchFilterDistance": {
+    "description": "Distance filter label."
+  },
   "searchFilterReward": "Reward Amount",
-  "@searchFilterReward": { "description": "Reward filter label." },
-
+  "@searchFilterReward": {
+    "description": "Reward filter label."
+  },
   "searchFilterType": "Action Type",
-  "@searchFilterType": { "description": "Action type filter label." },
-
+  "@searchFilterType": {
+    "description": "Action type filter label."
+  },
   "searchResultCount": "{count, plural, =0{No results} =1{1 result} other{{count} results}}",
   "@searchResultCount": {
     "description": "Number of search results.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
-
   "actionDetailTitle": "Action Detail",
-  "@actionDetailTitle": { "description": "Action detail screen title." },
-
+  "@actionDetailTitle": {
+    "description": "Action detail screen title."
+  },
   "createActionTitle": "Create Action",
-  "@createActionTitle": { "description": "Create action screen title." },
-
+  "@createActionTitle": {
+    "description": "Create action screen title."
+  },
   "editActionTitle": "Edit Action",
-  "@editActionTitle": { "description": "Edit action screen title." },
-
+  "@editActionTitle": {
+    "description": "Edit action screen title."
+  },
   "actionTitle": "Title",
-  "@actionTitle": { "description": "Action title field label." },
-
+  "@actionTitle": {
+    "description": "Action title field label."
+  },
   "actionTitleHint": "What needs to be done?",
-  "@actionTitleHint": { "description": "Action title field hint." },
-
+  "@actionTitleHint": {
+    "description": "Action title field hint."
+  },
   "actionTitleRequired": "Title is required.",
-  "@actionTitleRequired": { "description": "Validation: title empty." },
-
+  "@actionTitleRequired": {
+    "description": "Validation: title empty."
+  },
   "actionDescription": "Description",
-  "@actionDescription": { "description": "Action description field label." },
-
+  "@actionDescription": {
+    "description": "Action description field label."
+  },
   "actionDescriptionHint": "Describe the action in detail…",
-  "@actionDescriptionHint": { "description": "Action description field hint." },
-
+  "@actionDescriptionHint": {
+    "description": "Action description field hint."
+  },
   "actionDescriptionRequired": "Description is required.",
-  "@actionDescriptionRequired": { "description": "Validation: description empty." },
-
+  "@actionDescriptionRequired": {
+    "description": "Validation: description empty."
+  },
   "actionCategory": "Category",
-  "@actionCategory": { "description": "Action category field label." },
-
+  "@actionCategory": {
+    "description": "Action category field label."
+  },
   "actionCategoryRequired": "Please select a category.",
-  "@actionCategoryRequired": { "description": "Validation: category empty." },
-
+  "@actionCategoryRequired": {
+    "description": "Validation: category empty."
+  },
   "actionLocation": "Location",
-  "@actionLocation": { "description": "Action location field label." },
-
+  "@actionLocation": {
+    "description": "Action location field label."
+  },
   "actionLocationHint": "Where should this be done?",
-  "@actionLocationHint": { "description": "Action location hint." },
-
+  "@actionLocationHint": {
+    "description": "Action location hint."
+  },
   "actionLocationRequired": "Location is required.",
-  "@actionLocationRequired": { "description": "Validation: location empty." },
-
+  "@actionLocationRequired": {
+    "description": "Validation: location empty."
+  },
   "actionRadius": "Verification Radius",
-  "@actionRadius": { "description": "Radius within which the action must be completed." },
-
+  "@actionRadius": {
+    "description": "Radius within which the action must be completed."
+  },
   "actionRadiusHint": "How close must the performer be?",
-  "@actionRadiusHint": { "description": "Action radius hint." },
-
+  "@actionRadiusHint": {
+    "description": "Action radius hint."
+  },
   "actionReward": "Reward",
-  "@actionReward": { "description": "Action reward field label." },
-
+  "@actionReward": {
+    "description": "Action reward field label."
+  },
   "actionRewardHint": "Points or badge awarded on completion",
-  "@actionRewardHint": { "description": "Action reward hint." },
-
+  "@actionRewardHint": {
+    "description": "Action reward hint."
+  },
   "actionRewardRequired": "Reward is required.",
-  "@actionRewardRequired": { "description": "Validation: reward empty." },
-
+  "@actionRewardRequired": {
+    "description": "Validation: reward empty."
+  },
   "actionType": "Action Type",
-  "@actionType": { "description": "Action type selector label." },
-
+  "@actionType": {
+    "description": "Action type selector label."
+  },
   "actionTypeOneOff": "One-Off",
-  "@actionTypeOneOff": { "description": "Label for single-step actions." },
-
+  "@actionTypeOneOff": {
+    "description": "Label for single-step actions."
+  },
   "actionTypeSequential": "Sequential",
-  "@actionTypeSequential": { "description": "Label for multi-step actions." },
-
+  "@actionTypeSequential": {
+    "description": "Label for multi-step actions."
+  },
   "actionTypeHabit": "Habit",
-  "@actionTypeHabit": { "description": "Label for recurring or habit-style actions." },
-
+  "@actionTypeHabit": {
+    "description": "Label for recurring or habit-style actions."
+  },
   "actionTypeOneOffDescription": "A single action completed in one step.",
-  "@actionTypeOneOffDescription": { "description": "Description of one-off actions." },
-
+  "@actionTypeOneOffDescription": {
+    "description": "Description of one-off actions."
+  },
   "actionTypeSequentialDescription": "A multi-step action completed over time.",
-  "@actionTypeSequentialDescription": { "description": "Description of sequential actions." },
-
+  "@actionTypeSequentialDescription": {
+    "description": "Description of sequential actions."
+  },
   "verificationCriteria": "Verification Criteria",
-  "@verificationCriteria": { "description": "Section: what AI should look for." },
-
+  "@verificationCriteria": {
+    "description": "Section: what AI should look for."
+  },
   "verificationCriteriaHint": "What should the video show to pass verification?",
-  "@verificationCriteriaHint": { "description": "Verification criteria hint." },
-
+  "@verificationCriteriaHint": {
+    "description": "Verification criteria hint."
+  },
   "verificationCriteriaRequired": "Verification criteria are required.",
-  "@verificationCriteriaRequired": { "description": "Validation: criteria empty." },
-
+  "@verificationCriteriaRequired": {
+    "description": "Validation: criteria empty."
+  },
   "actionSteps": "Steps",
-  "@actionSteps": { "description": "Section header for sequential action steps." },
-
+  "@actionSteps": {
+    "description": "Section header for sequential action steps."
+  },
   "actionAddStep": "Add Step",
-  "@actionAddStep": { "description": "Button to add a sequential step." },
-
+  "@actionAddStep": {
+    "description": "Button to add a sequential step."
+  },
   "actionRemoveStep": "Remove Step",
-  "@actionRemoveStep": { "description": "Button to remove a sequential step." },
-
+  "@actionRemoveStep": {
+    "description": "Button to remove a sequential step."
+  },
   "actionStepNumber": "Step {number}",
   "@actionStepNumber": {
     "description": "Step label with number.",
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
-
   "actionDeadline": "Deadline",
-  "@actionDeadline": { "description": "Action deadline field label." },
-
+  "@actionDeadline": {
+    "description": "Action deadline field label."
+  },
   "actionDeadlineHint": "Optional completion deadline",
-  "@actionDeadlineHint": { "description": "Action deadline hint." },
-
+  "@actionDeadlineHint": {
+    "description": "Action deadline hint."
+  },
   "actionMaxParticipants": "Max Participants",
-  "@actionMaxParticipants": { "description": "Maximum number of participants." },
-
+  "@actionMaxParticipants": {
+    "description": "Maximum number of participants."
+  },
   "actionMaxParticipantsHint": "Leave empty for unlimited",
-  "@actionMaxParticipantsHint": { "description": "Max participants hint." },
-
+  "@actionMaxParticipantsHint": {
+    "description": "Max participants hint."
+  },
   "actionCreated": "Action created successfully!",
-  "@actionCreated": { "description": "Success message after creating an action." },
-
+  "@actionCreated": {
+    "description": "Success message after creating an action."
+  },
   "actionUpdated": "Action updated successfully!",
-  "@actionUpdated": { "description": "Success message after updating an action." },
-
+  "@actionUpdated": {
+    "description": "Success message after updating an action."
+  },
   "actionDeleted": "Action deleted.",
-  "@actionDeleted": { "description": "Success message after deleting an action." },
-
+  "@actionDeleted": {
+    "description": "Success message after deleting an action."
+  },
   "actionDeleteConfirm": "Are you sure you want to delete this action?",
-  "@actionDeleteConfirm": { "description": "Delete action confirmation." },
-
+  "@actionDeleteConfirm": {
+    "description": "Delete action confirmation."
+  },
   "actionParticipants": "{count, plural, =0{No participants} =1{1 participant} other{{count} participants}}",
   "@actionParticipants": {
     "description": "Number of participants.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "actionSubmissions": "{count, plural, =0{No submissions} =1{1 submission} other{{count} submissions}}",
   "@actionSubmissions": {
     "description": "Number of submissions.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
-
   "submitVideoTitle": "Submit Video",
-  "@submitVideoTitle": { "description": "Submit video screen title." },
-
+  "@submitVideoTitle": {
+    "description": "Submit video screen title."
+  },
   "recordingTitle": "Recording",
-  "@recordingTitle": { "description": "Recording screen title." },
-
+  "@recordingTitle": {
+    "description": "Recording screen title."
+  },
   "recordVideo": "Record Video",
-  "@recordVideo": { "description": "Button to start recording." },
-
+  "@recordVideo": {
+    "description": "Button to start recording."
+  },
   "stopRecording": "Stop Recording",
-  "@stopRecording": { "description": "Button to stop recording." },
-
+  "@stopRecording": {
+    "description": "Button to stop recording."
+  },
   "recordingInProgress": "Recording in progress…",
-  "@recordingInProgress": { "description": "Status label while recording." },
-
+  "@recordingInProgress": {
+    "description": "Status label while recording."
+  },
   "recordingDuration": "{minutes}:{seconds}",
   "@recordingDuration": {
     "description": "Recording timer display.",
     "placeholders": {
-      "minutes": { "type": "String" },
-      "seconds": { "type": "String" }
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
     }
   },
-
   "reviewVideoTitle": "Review Video",
-  "@reviewVideoTitle": { "description": "Review video screen title." },
-
+  "@reviewVideoTitle": {
+    "description": "Review video screen title."
+  },
   "reviewVideoPrompt": "Review your video before submitting.",
-  "@reviewVideoPrompt": { "description": "Instruction on the review screen." },
-
+  "@reviewVideoPrompt": {
+    "description": "Instruction on the review screen."
+  },
   "retakeVideo": "Retake",
-  "@retakeVideo": { "description": "Button to re-record." },
-
+  "@retakeVideo": {
+    "description": "Button to re-record."
+  },
   "submitVideo": "Submit Video",
-  "@submitVideo": { "description": "Button to submit video for verification." },
-
+  "@submitVideo": {
+    "description": "Button to submit video for verification."
+  },
   "submitForAiReview": "Submit for AI Review",
-  "@submitForAiReview": { "description": "Button label used to submit verification capture for AI review." },
-
+  "@submitForAiReview": {
+    "description": "Button label used to submit verification capture for AI review."
+  },
   "submitting": "Submitting…",
-  "@submitting": { "description": "Status while uploading submission." },
-
+  "@submitting": {
+    "description": "Status while uploading submission."
+  },
   "submissionSuccess": "Video submitted for verification!",
-  "@submissionSuccess": { "description": "Success message after submitting." },
-
+  "@submissionSuccess": {
+    "description": "Success message after submitting."
+  },
   "submissionFailed": "Submission failed. Please try again.",
-  "@submissionFailed": { "description": "Error message when submission fails." },
-
+  "@submissionFailed": {
+    "description": "Error message when submission fails."
+  },
   "cameraPermissionTitle": "Camera Access Required",
-  "@cameraPermissionTitle": { "description": "Camera permission dialog title." },
-
+  "@cameraPermissionTitle": {
+    "description": "Camera permission dialog title."
+  },
   "cameraPermissionMessage": "Verily needs camera access to record video proof.",
-  "@cameraPermissionMessage": { "description": "Camera permission dialog message." },
-
+  "@cameraPermissionMessage": {
+    "description": "Camera permission dialog message."
+  },
   "microphonePermissionTitle": "Microphone Access Required",
-  "@microphonePermissionTitle": { "description": "Microphone permission dialog title." },
-
+  "@microphonePermissionTitle": {
+    "description": "Microphone permission dialog title."
+  },
   "microphonePermissionMessage": "Verily needs microphone access to record audio with your video.",
-  "@microphonePermissionMessage": { "description": "Microphone permission dialog message." },
-
+  "@microphonePermissionMessage": {
+    "description": "Microphone permission dialog message."
+  },
   "openSettings": "Open Settings",
-  "@openSettings": { "description": "Button to open device settings." },
-
-
+  "@openSettings": {
+    "description": "Button to open device settings."
+  },
   "verifying": "Verifying…",
-  "@verifying": { "description": "Status while AI is verifying." },
-
+  "@verifying": {
+    "description": "Status while AI is verifying."
+  },
   "verificationPassed": "Verification Passed",
-  "@verificationPassed": { "description": "Status: video passed verification." },
-
+  "@verificationPassed": {
+    "description": "Status: video passed verification."
+  },
   "verificationFailed": "Verification Failed",
-  "@verificationFailed": { "description": "Status: video failed verification." },
-
+  "@verificationFailed": {
+    "description": "Status: video failed verification."
+  },
   "verificationPending": "Pending Review",
-  "@verificationPending": { "description": "Status: awaiting verification." },
-
+  "@verificationPending": {
+    "description": "Status: awaiting verification."
+  },
   "verificationProcessing": "Processing",
-  "@verificationProcessing": { "description": "Status: AI is processing." },
-
+  "@verificationProcessing": {
+    "description": "Status: AI is processing."
+  },
   "verificationError": "Verification encountered an error.",
-  "@verificationError": { "description": "Status: verification errored." },
-
+  "@verificationError": {
+    "description": "Status: verification errored."
+  },
   "confidenceScore": "Confidence: {score}%",
   "@confidenceScore": {
     "description": "AI confidence score.",
     "placeholders": {
-      "score": { "type": "int" }
+      "score": {
+        "type": "int"
+      }
     }
   },
-
   "verificationFeedback": "AI Feedback",
-  "@verificationFeedback": { "description": "Section header for AI reasoning." },
-
+  "@verificationFeedback": {
+    "description": "Section header for AI reasoning."
+  },
   "verificationRetry": "You can re-submit with a new video.",
-  "@verificationRetry": { "description": "Hint after a failed verification." },
-
+  "@verificationRetry": {
+    "description": "Hint after a failed verification."
+  },
   "submissionStatusTitle": "Submission Status",
-  "@submissionStatusTitle": { "description": "Submission status screen title." },
-
-
+  "@submissionStatusTitle": {
+    "description": "Submission status screen title."
+  },
   "rewardsTitle": "Rewards",
-  "@rewardsTitle": { "description": "Rewards screen title." },
-
+  "@rewardsTitle": {
+    "description": "Rewards screen title."
+  },
   "badges": "Badges",
-  "@badges": { "description": "Badges section label." },
-
+  "@badges": {
+    "description": "Badges section label."
+  },
   "badgesEmpty": "No badges earned yet. Complete actions to earn them!",
-  "@badgesEmpty": { "description": "Empty state for badges." },
-
+  "@badgesEmpty": {
+    "description": "Empty state for badges."
+  },
   "points": "Points",
-  "@points": { "description": "Points label." },
-
+  "@points": {
+    "description": "Points label."
+  },
   "pointsTotal": "{count} points",
   "@pointsTotal": {
     "description": "Total points display.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "leaderboard": "Leaderboard",
-  "@leaderboard": { "description": "Leaderboard section label." },
-
+  "@leaderboard": {
+    "description": "Leaderboard section label."
+  },
   "leaderboardRank": "#{rank}",
   "@leaderboardRank": {
     "description": "Leaderboard rank display.",
     "placeholders": {
-      "rank": { "type": "int" }
+      "rank": {
+        "type": "int"
+      }
     }
   },
-
   "earnedAt": "Earned {date}",
   "@earnedAt": {
     "description": "Date a reward was earned.",
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
-
   "rewardPoints": "+{count} points",
   "@rewardPoints": {
     "description": "Points awarded for a reward.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "rewardBadge": "Badge: {name}",
   "@rewardBadge": {
     "description": "Badge award display.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-
-
   "profileTitle": "Profile",
-  "@profileTitle": { "description": "Profile tab title." },
-
+  "@profileTitle": {
+    "description": "Profile tab title."
+  },
   "profileLoadFailed": "Failed to load profile",
-  "@profileLoadFailed": { "description": "Error title shown when the profile fails to load." },
-
+  "@profileLoadFailed": {
+    "description": "Error title shown when the profile fails to load."
+  },
   "profileWalletSubtitle": "View balances, tokens & NFTs",
-  "@profileWalletSubtitle": { "description": "Subtitle text on the wallet card in profile." },
-
+  "@profileWalletSubtitle": {
+    "description": "Subtitle text on the wallet card in profile."
+  },
   "profileActionsTab": "Actions",
-  "@profileActionsTab": { "description": "Profile tab label for created actions." },
-
+  "@profileActionsTab": {
+    "description": "Profile tab label for created actions."
+  },
   "profileActionsLoadFailed": "Failed to load actions",
-  "@profileActionsLoadFailed": { "description": "Error text shown when profile actions fail to load." },
-
+  "@profileActionsLoadFailed": {
+    "description": "Error text shown when profile actions fail to load."
+  },
   "profileNoActionsYet": "No actions yet",
-  "@profileNoActionsYet": { "description": "Empty state title when the user has no created actions." },
-
+  "@profileNoActionsYet": {
+    "description": "Empty state title when the user has no created actions."
+  },
   "profileCompleteActionCta": "Complete",
-  "@profileCompleteActionCta": { "description": "CTA label for completing an action from profile." },
-
+  "@profileCompleteActionCta": {
+    "description": "CTA label for completing an action from profile."
+  },
   "profileActionStatusActive": "Active",
-  "@profileActionStatusActive": { "description": "Localized action status label for active actions on profile." },
-
+  "@profileActionStatusActive": {
+    "description": "Localized action status label for active actions on profile."
+  },
   "profileActionStatusCompleted": "Completed",
-  "@profileActionStatusCompleted": { "description": "Localized action status label for completed actions on profile." },
-
+  "@profileActionStatusCompleted": {
+    "description": "Localized action status label for completed actions on profile."
+  },
   "profileActionStatusClosed": "Closed",
-  "@profileActionStatusClosed": { "description": "Localized action status label for closed actions on profile." },
-
+  "@profileActionStatusClosed": {
+    "description": "Localized action status label for closed actions on profile."
+  },
   "profileRewardsLoadFailed": "Failed to load rewards",
-  "@profileRewardsLoadFailed": { "description": "Error text shown when profile rewards fail to load." },
-
+  "@profileRewardsLoadFailed": {
+    "description": "Error text shown when profile rewards fail to load."
+  },
   "profileNoRewardsYet": "No rewards yet",
-  "@profileNoRewardsYet": { "description": "Empty state title when the user has no rewards." },
-
+  "@profileNoRewardsYet": {
+    "description": "Empty state title when the user has no rewards."
+  },
   "profileNoRewardsSubtitle": "Complete actions to earn rewards",
-  "@profileNoRewardsSubtitle": { "description": "Empty state subtitle encouraging users to complete actions for rewards." },
-
+  "@profileNoRewardsSubtitle": {
+    "description": "Empty state subtitle encouraging users to complete actions for rewards."
+  },
   "profileRewardNumber": "Reward #{rewardId}",
   "@profileRewardNumber": {
     "description": "Label for a reward item by reward identifier.",
     "placeholders": {
-      "rewardId": { "type": "int" }
+      "rewardId": {
+        "type": "int"
+      }
     }
   },
-
   "profileRewardEarnedDate": "Earned {date}",
   "@profileRewardEarnedDate": {
     "description": "Text showing when a reward was earned.",
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
-
   "editProfileTitle": "Edit Profile",
-  "@editProfileTitle": { "description": "Edit profile screen title." },
-
+  "@editProfileTitle": {
+    "description": "Edit profile screen title."
+  },
   "profileBio": "Bio",
-  "@profileBio": { "description": "Bio field label." },
-
+  "@profileBio": {
+    "description": "Bio field label."
+  },
   "profileBioHint": "Tell others about yourself",
-  "@profileBioHint": { "description": "Bio field hint." },
-
+  "@profileBioHint": {
+    "description": "Bio field hint."
+  },
   "profilePhoto": "Profile Photo",
-  "@profilePhoto": { "description": "Profile photo label." },
-
+  "@profilePhoto": {
+    "description": "Profile photo label."
+  },
   "profilePhotoChange": "Change Photo",
-  "@profilePhotoChange": { "description": "Button to change profile photo." },
-
+  "@profilePhotoChange": {
+    "description": "Button to change profile photo."
+  },
   "followers": "Followers",
-  "@followers": { "description": "Followers count label." },
-
+  "@followers": {
+    "description": "Followers count label."
+  },
   "following": "Following",
-  "@following": { "description": "Following count label." },
-
+  "@following": {
+    "description": "Following count label."
+  },
   "follow": "Follow",
-  "@follow": { "description": "Follow button label." },
-
+  "@follow": {
+    "description": "Follow button label."
+  },
   "unfollow": "Unfollow",
-  "@unfollow": { "description": "Unfollow button label." },
-
+  "@unfollow": {
+    "description": "Unfollow button label."
+  },
   "actionsCreated": "Actions Created",
-  "@actionsCreated": { "description": "Profile stat: actions created." },
-
+  "@actionsCreated": {
+    "description": "Profile stat: actions created."
+  },
   "actionsCompleted": "Actions Completed",
-  "@actionsCompleted": { "description": "Profile stat: actions completed." },
-
+  "@actionsCompleted": {
+    "description": "Profile stat: actions completed."
+  },
   "profileUpdated": "Profile updated successfully!",
-  "@profileUpdated": { "description": "Success message after updating profile." },
-
+  "@profileUpdated": {
+    "description": "Success message after updating profile."
+  },
   "profileFollowerCount": "{count, plural, =0{No followers} =1{1 follower} other{{count} followers}}",
   "@profileFollowerCount": {
     "description": "Follower count with pluralization.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "profileFollowingCount": "{count, plural, =0{Not following anyone} =1{Following 1} other{Following {count}}}",
   "@profileFollowingCount": {
     "description": "Following count with pluralization.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
-
   "settingsTitle": "Settings",
-  "@settingsTitle": { "description": "Settings screen title." },
-
+  "@settingsTitle": {
+    "description": "Settings screen title."
+  },
   "settingsTheme": "Theme",
-  "@settingsTheme": { "description": "Theme setting label." },
-
+  "@settingsTheme": {
+    "description": "Theme setting label."
+  },
   "settingsDarkMode": "Dark Mode",
-  "@settingsDarkMode": { "description": "Dark mode option." },
-
+  "@settingsDarkMode": {
+    "description": "Dark mode option."
+  },
   "settingsLightMode": "Light Mode",
-  "@settingsLightMode": { "description": "Light mode option." },
-
+  "@settingsLightMode": {
+    "description": "Light mode option."
+  },
   "settingsSystemMode": "System Default",
-  "@settingsSystemMode": { "description": "System theme option." },
-
+  "@settingsSystemMode": {
+    "description": "System theme option."
+  },
   "settingsNotifications": "Notifications",
-  "@settingsNotifications": { "description": "Notifications setting label." },
-
+  "@settingsNotifications": {
+    "description": "Notifications setting label."
+  },
   "settingsNotificationsPush": "Push Notifications",
-  "@settingsNotificationsPush": { "description": "Push notifications toggle." },
-
+  "@settingsNotificationsPush": {
+    "description": "Push notifications toggle."
+  },
   "settingsNotificationsEmail": "Email Notifications",
-  "@settingsNotificationsEmail": { "description": "Email notifications toggle." },
-
+  "@settingsNotificationsEmail": {
+    "description": "Email notifications toggle."
+  },
   "settingsPrivacy": "Privacy",
-  "@settingsPrivacy": { "description": "Privacy setting label." },
-
+  "@settingsPrivacy": {
+    "description": "Privacy setting label."
+  },
   "settingsPrivacyProfile": "Public Profile",
-  "@settingsPrivacyProfile": { "description": "Public/private profile toggle." },
-
+  "@settingsPrivacyProfile": {
+    "description": "Public/private profile toggle."
+  },
   "settingsPrivacyLocation": "Share Location",
-  "@settingsPrivacyLocation": { "description": "Location sharing toggle." },
-
+  "@settingsPrivacyLocation": {
+    "description": "Location sharing toggle."
+  },
   "settingsAbout": "About",
-  "@settingsAbout": { "description": "About section label." },
-
+  "@settingsAbout": {
+    "description": "About section label."
+  },
   "settingsAboutVersion": "Version {version}",
   "@settingsAboutVersion": {
     "description": "App version display.",
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
-
   "settingsAboutLicenses": "Open-Source Licenses",
-  "@settingsAboutLicenses": { "description": "Link to open-source licenses." },
-
+  "@settingsAboutLicenses": {
+    "description": "Link to open-source licenses."
+  },
   "settingsAboutTerms": "Terms of Service",
-  "@settingsAboutTerms": { "description": "Link to terms of service." },
-
+  "@settingsAboutTerms": {
+    "description": "Link to terms of service."
+  },
   "settingsAboutPrivacy": "Privacy Policy",
-  "@settingsAboutPrivacy": { "description": "Link to privacy policy." },
-
+  "@settingsAboutPrivacy": {
+    "description": "Link to privacy policy."
+  },
   "settingsDeleteAccount": "Delete Account",
-  "@settingsDeleteAccount": { "description": "Delete account button." },
-
+  "@settingsDeleteAccount": {
+    "description": "Delete account button."
+  },
   "settingsDeleteAccountConfirm": "This action cannot be undone. All your data will be permanently deleted.",
-  "@settingsDeleteAccountConfirm": { "description": "Delete account confirmation message." },
-
+  "@settingsDeleteAccountConfirm": {
+    "description": "Delete account confirmation message."
+  },
   "settingsLanguage": "Language",
-  "@settingsLanguage": { "description": "Language setting label." },
-
-
+  "@settingsLanguage": {
+    "description": "Language setting label."
+  },
   "locationNearby": "Nearby",
-  "@locationNearby": { "description": "Label for nearby actions." },
-
+  "@locationNearby": {
+    "description": "Label for nearby actions."
+  },
   "mapSearchPlacesHint": "Search places...",
-  "@mapSearchPlacesHint": { "description": "Hint text for the map location search input." },
-
+  "@mapSearchPlacesHint": {
+    "description": "Hint text for the map location search input."
+  },
   "mapDiscoverNearbyHint": "Move map or search to discover nearby missions",
-  "@mapDiscoverNearbyHint": { "description": "Map overlay hint when no actions are currently visible." },
-
+  "@mapDiscoverNearbyHint": {
+    "description": "Map overlay hint when no actions are currently visible."
+  },
   "mapActionsInView": "{count} actions in view",
   "@mapActionsInView": {
     "description": "Map overlay summary showing number of actions currently in the viewport.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "mapRadiusKm": "{radius} km",
   "@mapRadiusKm": {
     "description": "Radius label in kilometers for map filters and badges.",
     "placeholders": {
-      "radius": { "type": "int" }
+      "radius": {
+        "type": "int"
+      }
     }
   },
-
   "mapNoActionsNearbyZoomOut": "No actions nearby. Try zooming out.",
-  "@mapNoActionsNearbyZoomOut": { "description": "Empty state message on map when no nearby actions are found." },
-
+  "@mapNoActionsNearbyZoomOut": {
+    "description": "Empty state message on map when no nearby actions are found."
+  },
   "mapRecenterTooltip": "Re-center",
-  "@mapRecenterTooltip": { "description": "Tooltip for the map floating action button that recenters to user location." },
-
+  "@mapRecenterTooltip": {
+    "description": "Tooltip for the map floating action button that recenters to user location."
+  },
   "locationDistance": "{distance} away",
   "@locationDistance": {
     "description": "Distance to an action.",
     "placeholders": {
-      "distance": { "type": "String" }
+      "distance": {
+        "type": "String"
+      }
     }
   },
-
   "locationWithinRadius": "Within {radius}",
   "@locationWithinRadius": {
     "description": "Actions within a given radius.",
     "placeholders": {
-      "radius": { "type": "String" }
+      "radius": {
+        "type": "String"
+      }
     }
   },
-
   "locationPermissionTitle": "Location Access Required",
-  "@locationPermissionTitle": { "description": "Location permission dialog title." },
-
+  "@locationPermissionTitle": {
+    "description": "Location permission dialog title."
+  },
   "locationPermissionMessage": "Verily uses your location to show nearby actions and verify submissions.",
-  "@locationPermissionMessage": { "description": "Location permission dialog message." },
-
+  "@locationPermissionMessage": {
+    "description": "Location permission dialog message."
+  },
   "locationPermissionDenied": "Location permission denied. Some features may be unavailable.",
-  "@locationPermissionDenied": { "description": "Message when location is denied." },
-
+  "@locationPermissionDenied": {
+    "description": "Message when location is denied."
+  },
   "locationServiceDisabled": "Location services are disabled. Enable them in settings.",
-  "@locationServiceDisabled": { "description": "Message when location services are off." },
-
+  "@locationServiceDisabled": {
+    "description": "Message when location services are off."
+  },
   "locationUpdating": "Updating location…",
-  "@locationUpdating": { "description": "Status while fetching location." },
-
-
+  "@locationUpdating": {
+    "description": "Status while fetching location."
+  },
   "homeTitle": "Home",
-  "@homeTitle": { "description": "Home tab title." },
-
+  "@homeTitle": {
+    "description": "Home tab title."
+  },
   "actionDetailsTitle": "Action Details",
-  "@actionDetailsTitle": { "description": "Action details screen title." },
-
+  "@actionDetailsTitle": {
+    "description": "Action details screen title."
+  },
   "actionInvalidId": "Invalid action ID",
-  "@actionInvalidId": { "description": "Error shown when an action identifier is invalid or missing." },
-
+  "@actionInvalidId": {
+    "description": "Error shown when an action identifier is invalid or missing."
+  },
   "actionLoadFailed": "Failed to load action",
-  "@actionLoadFailed": { "description": "Error shown when action details fail to load." },
-
+  "@actionLoadFailed": {
+    "description": "Error shown when action details fail to load."
+  },
   "actionTags": "Tags",
-  "@actionTags": { "description": "Label for action tags metadata." },
-
+  "@actionTags": {
+    "description": "Label for action tags metadata."
+  },
   "actionMaxPerformers": "Max Performers",
-  "@actionMaxPerformers": { "description": "Label for maximum number of performers allowed for an action." },
-
+  "@actionMaxPerformers": {
+    "description": "Label for maximum number of performers allowed for an action."
+  },
   "actionTotalSteps": "Total Steps",
-  "@actionTotalSteps": { "description": "Label for total number of steps in a sequential action." },
-
+  "@actionTotalSteps": {
+    "description": "Label for total number of steps in a sequential action."
+  },
   "actionDuration": "Duration",
-  "@actionDuration": { "description": "Label for action duration metadata." },
-
+  "@actionDuration": {
+    "description": "Label for action duration metadata."
+  },
   "actionFrequency": "Frequency",
-  "@actionFrequency": { "description": "Label for action recurrence or frequency metadata." },
-
+  "@actionFrequency": {
+    "description": "Label for action recurrence or frequency metadata."
+  },
   "actionCreatedLabel": "Created",
-  "@actionCreatedLabel": { "description": "Label preceding action creation timestamp or date." },
-
+  "@actionCreatedLabel": {
+    "description": "Label preceding action creation timestamp or date."
+  },
   "actionLinkCopiedToClipboard": "Link copied to clipboard",
-  "@actionLinkCopiedToClipboard": { "description": "Snackbar message shown after copying an action share link." },
-
+  "@actionLinkCopiedToClipboard": {
+    "description": "Snackbar message shown after copying an action share link."
+  },
   "actionCreateWithAi": "Create with AI",
-  "@actionCreateWithAi": { "description": "Button or mode label for creating an action with AI assistance." },
-
+  "@actionCreateWithAi": {
+    "description": "Button or mode label for creating an action with AI assistance."
+  },
   "actionCreateManual": "Manual",
-  "@actionCreateManual": { "description": "Button or mode label for manually creating an action without AI." },
-
+  "@actionCreateManual": {
+    "description": "Button or mode label for manually creating an action without AI."
+  },
   "actionDescribePrompt": "Describe the action",
-  "@actionDescribePrompt": { "description": "Prompt label asking the user to describe the action for AI generation." },
-
+  "@actionDescribePrompt": {
+    "description": "Prompt label asking the user to describe the action for AI generation."
+  },
   "actionGenerate": "Generate Action",
-  "@actionGenerate": { "description": "Button label to generate an action using AI." },
-
+  "@actionGenerate": {
+    "description": "Button label to generate an action using AI."
+  },
   "actionEditPrompt": "Edit Prompt",
-  "@actionEditPrompt": { "description": "Button label to edit the AI generation prompt." },
-
+  "@actionEditPrompt": {
+    "description": "Button label to edit the AI generation prompt."
+  },
   "actionStop": "Stop",
-  "@actionStop": { "description": "Button label to stop an in-progress AI generation request." },
-
+  "@actionStop": {
+    "description": "Button label to stop an in-progress AI generation request."
+  },
   "actionCreateFailedRetry": "Failed to create action. Please try again.",
-  "@actionCreateFailedRetry": { "description": "Error message shown when creating an action fails." },
-
+  "@actionCreateFailedRetry": {
+    "description": "Error message shown when creating an action fails."
+  },
   "actionLocationName": "Location Name",
-  "@actionLocationName": { "description": "Field label for entering a human-readable location name." },
-
+  "@actionLocationName": {
+    "description": "Field label for entering a human-readable location name."
+  },
   "actionMaxPerformersOptional": "Max Performers (optional)",
-  "@actionMaxPerformersOptional": { "description": "Optional field label for maximum number of performers." },
-
+  "@actionMaxPerformersOptional": {
+    "description": "Optional field label for maximum number of performers."
+  },
   "actionLocationExample": "e.g., Central Park",
-  "@actionLocationExample": { "description": "Example placeholder text for action location name input." },
-
+  "@actionLocationExample": {
+    "description": "Example placeholder text for action location name input."
+  },
   "actionTitleExample": "e.g., Do 20 push-ups in the park",
-  "@actionTitleExample": { "description": "Example placeholder text for action title input." },
-
+  "@actionTitleExample": {
+    "description": "Example placeholder text for action title input."
+  },
   "actionDescriptionPerformerHint": "Describe what the performer needs to do...",
-  "@actionDescriptionPerformerHint": { "description": "Hint text for describing performer instructions in action creation." },
-
+  "@actionDescriptionPerformerHint": {
+    "description": "Hint text for describing performer instructions in action creation."
+  },
   "authGoogle": "Google",
-  "@authGoogle": { "description": "Short provider label for Google authentication option." },
-
+  "@authGoogle": {
+    "description": "Short provider label for Google authentication option."
+  },
   "authApple": "Apple",
-  "@authApple": { "description": "Short provider label for Apple authentication option." },
-
-  "gateAboutVerily": "About Verily",
-  "@gateAboutVerily": { "description": "Temporary l10n gate value for existing literal: About Verily" },
-
-  "gateActionFailedPleaseTryAgain": "Action failed. Please try again.",
-  "@gateActionFailedPleaseTryAgain": { "description": "Temporary l10n gate value for existing literal: Action failed. Please try again." },
-
-  "gateActions": "Actions",
-  "@gateActions": { "description": "Temporary l10n gate value for existing literal: Actions" },
-
-  "gateAmountEachPerformerReceives": "Amount each performer receives",
-  "@gateAmountEachPerformerReceives": { "description": "Temporary l10n gate value for existing literal: Amount each performer receives" },
-
-  "gateAppearance": "Appearance",
-  "@gateAppearance": { "description": "Temporary l10n gate value for existing literal: Appearance" },
-
-  "gateAtLeast8Characters": "At least 8 characters",
-  "@gateAtLeast8Characters": { "description": "Temporary l10n gate value for existing literal: At least 8 characters" },
-
-  "gateAudio": "Audio",
-  "@gateAudio": { "description": "Temporary l10n gate value for existing literal: Audio" },
-
-  "gateAvailable": "Available",
-  "@gateAvailable": { "description": "Temporary l10n gate value for existing literal: Available" },
-
-  "gateBackToFeed": "Back to Feed",
-  "@gateBackToFeed": { "description": "Temporary l10n gate value for existing literal: Back to Feed" },
-
-  "gateBlockUser": "Block user",
-  "@gateBlockUser": { "description": "Temporary l10n gate value for existing literal: Block user" },
-
-  "gateBrowseMoreActions": "Browse more actions",
-  "@gateBrowseMoreActions": { "description": "Temporary l10n gate value for existing literal: Browse more actions" },
-
-  "gateCancelPool": "Cancel Pool",
-  "@gateCancelPool": { "description": "Temporary l10n gate value for existing literal: Cancel Pool" },
-
-  "gateCancelPool_2": "Cancel Pool?",
-  "@gateCancelPool_2": { "description": "Temporary l10n gate value for existing literal: Cancel Pool?" },
-
-  "gateCaptureA30sCleanupClipOnYourStreet": "Capture a 30s cleanup clip on your street",
-  "@gateCaptureA30sCleanupClipOnYourStreet": { "description": "Temporary l10n gate value for existing literal: Capture a 30s cleanup clip on your street" },
-
-  "gateChooseAUniqueUsername": "Choose a unique username",
-  "@gateChooseAUniqueUsername": { "description": "Temporary l10n gate value for existing literal: Choose a unique username" },
-
-  "gateCleanUpABeachFor10Min": "Clean up a beach for 10 min",
-  "@gateCleanUpABeachFor10Min": { "description": "Temporary l10n gate value for existing literal: Clean up a beach for 10 min" },
-
-  "gateClear": "Clear",
-  "@gateClear": { "description": "Temporary l10n gate value for existing literal: Clear" },
-
-  "gateComplete": "Complete",
-  "@gateComplete": { "description": "Temporary l10n gate value for existing literal: Complete" },
-
-  "gateContinueToVideoCapture": "Continue to Video Capture",
-  "@gateContinueToVideoCapture": { "description": "Temporary l10n gate value for existing literal: Continue to Video Capture" },
-
-  "gateCreateRewardPool": "Create Reward Pool",
-  "@gateCreateRewardPool": { "description": "Temporary l10n gate value for existing literal: Create Reward Pool" },
-
-  "gateCredentials": "Credentials",
-  "@gateCredentials": { "description": "Temporary l10n gate value for existing literal: Credentials" },
-
-  "gateDo50PushUpsAtAPark": "Do 50 push-ups at a park",
-  "@gateDo50PushUpsAtAPark": { "description": "Temporary l10n gate value for existing literal: Do 50 push-ups at a park" },
-
-  "gateEnterSplTokenMintAddress": "Enter SPL token mint address",
-  "@gateEnterSplTokenMintAddress": { "description": "Temporary l10n gate value for existing literal: Enter SPL token mint address" },
-
-  "gateFailedToCreateRewardPoolPleaseTryAgain": "Failed to create reward pool. Please try again.",
-  "@gateFailedToCreateRewardPoolPleaseTryAgain": { "description": "Temporary l10n gate value for existing literal: Failed to create reward pool. Please try again." },
-
-  "gateFailedToLoadDistributions": "Failed to load distributions",
-  "@gateFailedToLoadDistributions": { "description": "Temporary l10n gate value for existing literal: Failed to load distributions" },
-
-  "gateFailedToOpenCameraPleaseTryAgain": "Failed to open camera. Please try again.",
-  "@gateFailedToOpenCameraPleaseTryAgain": { "description": "Temporary l10n gate value for existing literal: Failed to open camera. Please try again." },
-
-  "gateFailedToSaveProfilePleaseTryAgain": "Failed to save profile. Please try again.",
-  "@gateFailedToSaveProfilePleaseTryAgain": { "description": "Temporary l10n gate value for existing literal: Failed to save profile. Please try again." },
-
-  "gateFailedToSubmitVideoPleaseTryAgain": "Failed to submit video. Please try again.",
-  "@gateFailedToSubmitVideoPleaseTryAgain": { "description": "Temporary l10n gate value for existing literal: Failed to submit video. Please try again." },
-
-  "gateFileSize": "File Size",
-  "@gateFileSize": { "description": "Temporary l10n gate value for existing literal: File Size" },
-
-  "gateFilmA1MinuteKindnessAction": "Film a 1 minute kindness action",
-  "@gateFilmA1MinuteKindnessAction": { "description": "Temporary l10n gate value for existing literal: Film a 1 minute kindness action" },
-
-  "gateFundCreatePool": "Fund & Create Pool",
-  "@gateFundCreatePool": { "description": "Temporary l10n gate value for existing literal: Fund & Create Pool" },
-
-  "gateKeep": "Keep",
-  "@gateKeep": { "description": "Temporary l10n gate value for existing literal: Keep" },
-
-  "gateLive": "Live",
-  "@gateLive": { "description": "Temporary l10n gate value for existing literal: Live" },
-
-  "gateLocationSharing": "Location Sharing",
-  "@gateLocationSharing": { "description": "Temporary l10n gate value for existing literal: Location Sharing" },
-
-  "gateLogLocation": "Log Location",
-  "@gateLogLocation": { "description": "Temporary l10n gate value for existing literal: Log Location" },
-
-  "gateMapView": "Map view",
-  "@gateMapView": { "description": "Temporary l10n gate value for existing literal: Map view" },
-
-  "gateMaxRecipientsOptional": "Max Recipients (optional)",
-  "@gateMaxRecipientsOptional": { "description": "Temporary l10n gate value for existing literal: Max Recipients (optional)" },
-
-  "gateMeditateDailyForAWeek": "Meditate daily for a week",
-  "@gateMeditateDailyForAWeek": { "description": "Temporary l10n gate value for existing literal: Meditate daily for a week" },
-
-  "gateMorningMeditation7DayStreak": "Morning meditation - 7 day streak",
-  "@gateMorningMeditation7DayStreak": { "description": "Temporary l10n gate value for existing literal: Morning meditation - 7 day streak" },
-
-  "gateNft": "NFT",
-  "@gateNft": { "description": "Temporary l10n gate value for existing literal: NFT" },
-
-  "gateNoActionsNearbyTryZoomingOut": "No actions nearby. Try zooming out.",
-  "@gateNoActionsNearbyTryZoomingOut": { "description": "Temporary l10n gate value for existing literal: No actions nearby. Try zooming out." },
-
-  "gateOpenSourceLicenses": "Open Source Licenses",
-  "@gateOpenSourceLicenses": { "description": "Temporary l10n gate value for existing literal: Open Source Licenses" },
-
-  "gateOpenVerification": "Open Verification",
-  "@gateOpenVerification": { "description": "Temporary l10n gate value for existing literal: Open Verification" },
-
-  "gateOpenVerificationCapture": "Open verification capture",
-  "@gateOpenVerificationCapture": { "description": "Temporary l10n gate value for existing literal: Open verification capture" },
-
-  "gatePerPersonAmount": "Per Person Amount",
-  "@gatePerPersonAmount": { "description": "Temporary l10n gate value for existing literal: Per Person Amount" },
-
-  "gatePleaseEnterATokenMintAddress": "Please enter a token mint address.",
-  "@gatePleaseEnterATokenMintAddress": { "description": "Temporary l10n gate value for existing literal: Please enter a token mint address." },
-
-  "gatePleaseEnterAValidPerPersonAmount": "Please enter a valid per-person amount.",
-  "@gatePleaseEnterAValidPerPersonAmount": { "description": "Temporary l10n gate value for existing literal: Please enter a valid per-person amount." },
-
-  "gatePleaseEnterAValidTotalAmount": "Please enter a valid total amount.",
-  "@gatePleaseEnterAValidTotalAmount": { "description": "Temporary l10n gate value for existing literal: Please enter a valid total amount." },
-
-  "gatePoolWillRemainActiveUntilDepleted": "Pool will remain active until depleted",
-  "@gatePoolWillRemainActiveUntilDepleted": { "description": "Temporary l10n gate value for existing literal: Pool will remain active until depleted" },
-
-  "gateReCenter": "Re-center",
-  "@gateReCenter": { "description": "Temporary l10n gate value for existing literal: Re-center" },
-
-  "gateRecord20PushUpsAtALocalPark": "Record 20 push-ups at a local park",
-  "@gateRecord20PushUpsAtALocalPark": { "description": "Temporary l10n gate value for existing literal: Record 20 push-ups at a local park" },
-
-  "gateReportSubmitted": "Report submitted.",
-  "@gateReportSubmitted": { "description": "Temporary l10n gate value for existing literal: Report submitted." },
-
-  "gateReportUser": "Report user",
-  "@gateReportUser": { "description": "Temporary l10n gate value for existing literal: Report user" },
-
-  "gateResendCode": "Resend Code",
-  "@gateResendCode": { "description": "Temporary l10n gate value for existing literal: Resend Code" },
-
-  "gateRewardPool": "Reward Pool",
-  "@gateRewardPool": { "description": "Temporary l10n gate value for existing literal: Reward Pool" },
-
-  "gateRewardType": "Reward Type",
-  "@gateRewardType": { "description": "Temporary l10n gate value for existing literal: Reward Type" },
-
-  "gateSol": "SOL",
-  "@gateSol": { "description": "Temporary l10n gate value for existing literal: SOL" },
-
-  "gateSearchActions": "Search actions...",
-  "@gateSearchActions": { "description": "Temporary l10n gate value for existing literal: Search actions..." },
-
-  "gateSearchPlaces": "Search places...",
-  "@gateSearchPlaces": { "description": "Temporary l10n gate value for existing literal: Search places..." },
-
-  "gateSelectAnActionBeforeStartingVerification": "Select an action before starting verification.",
-  "@gateSelectAnActionBeforeStartingVerification": { "description": "Temporary l10n gate value for existing literal: Select an action before starting verification." },
-
-  "gateSetExpiryDate": "Set Expiry Date",
-  "@gateSetExpiryDate": { "description": "Temporary l10n gate value for existing literal: Set Expiry Date" },
-
-  "gateStart": "Start",
-  "@gateStart": { "description": "Temporary l10n gate value for existing literal: Start" },
-
-  "gateStopRecordingBeforeSubmittingForReview": "Stop recording before submitting for review.",
-  "@gateStopRecordingBeforeSubmittingForReview": { "description": "Temporary l10n gate value for existing literal: Stop recording before submitting for review." },
-
-  "gateStreak": "Streak",
-  "@gateStreak": { "description": "Temporary l10n gate value for existing literal: Streak" },
-
-  "gateTellOthersAboutYourself": "Tell others about yourself...",
-  "@gateTellOthersAboutYourself": { "description": "Temporary l10n gate value for existing literal: Tell others about yourself..." },
-
-  "gateToken": "Token",
-  "@gateToken": { "description": "Temporary l10n gate value for existing literal: Token" },
-
-  "gateTokenMintAddress": "Token Mint Address",
-  "@gateTokenMintAddress": { "description": "Temporary l10n gate value for existing literal: Token Mint Address" },
-
-  "gateTryAgain": "Try Again",
-  "@gateTryAgain": { "description": "Temporary l10n gate value for existing literal: Try Again" },
-
-  "gateType": "Type",
-  "@gateType": { "description": "Temporary l10n gate value for existing literal: Type" },
-
-  "gateUserBlocked": "User blocked.",
-  "@gateUserBlocked": { "description": "Temporary l10n gate value for existing literal: User blocked." },
-
-  "gateUsername": "Username",
-  "@gateUsername": { "description": "Temporary l10n gate value for existing literal: Username" },
-
-  "gateVerificationCapture": "Verification Capture",
-  "@gateVerificationCapture": { "description": "Temporary l10n gate value for existing literal: Verification Capture" },
-
-  "gateVerificationCode": "Verification Code",
-  "@gateVerificationCode": { "description": "Temporary l10n gate value for existing literal: Verification Code" },
-
-  "gateVerify": "Verify",
-  "@gateVerify": { "description": "Temporary l10n gate value for existing literal: Verify" },
-
-  "gateVideo": "Video",
-  "@gateVideo": { "description": "Temporary l10n gate value for existing literal: Video" },
-
-  "gateViewDetails": "View Details",
-  "@gateViewDetails": { "description": "Temporary l10n gate value for existing literal: View Details" },
-
-  "gateVisit3LocalCoffeeShopsAndReview": "Visit 3 local coffee shops and review",
-  "@gateVisit3LocalCoffeeShopsAndReview": { "description": "Temporary l10n gate value for existing literal: Visit 3 local coffee shops and review" },
-
-  "gateYourPublicName": "Your public name",
-  "@gateYourPublicName": { "description": "Temporary l10n gate value for existing literal: Your public name" }
+  "@authApple": {
+    "description": "Short provider label for Apple authentication option."
+  },
+  "settingsAboutVerily": "About Verily",
+  "@settingsAboutVerily": {
+    "description": "Localized UI text: About Verily"
+  },
+  "profileActionFailedRetry": "Action failed. Please try again.",
+  "@profileActionFailedRetry": {
+    "description": "Localized UI text: Action failed. Please try again."
+  },
+  "rewardPoolPerPersonAmountHint": "Amount each performer receives",
+  "@rewardPoolPerPersonAmountHint": {
+    "description": "Localized UI text: Amount each performer receives"
+  },
+  "settingsAppearance": "Appearance",
+  "@settingsAppearance": {
+    "description": "Localized UI text: Appearance"
+  },
+  "authPasswordMinEightChars": "At least 8 characters",
+  "@authPasswordMinEightChars": {
+    "description": "Localized UI text: At least 8 characters"
+  },
+  "verificationAudio": "Audio",
+  "@verificationAudio": {
+    "description": "Localized UI text: Audio"
+  },
+  "homeAvailableLabel": "Available",
+  "@homeAvailableLabel": {
+    "description": "Localized UI text: Available"
+  },
+  "submissionBackToFeed": "Back to Feed",
+  "@submissionBackToFeed": {
+    "description": "Localized UI text: Back to Feed"
+  },
+  "profileBlockUser": "Block user",
+  "@profileBlockUser": {
+    "description": "Localized UI text: Block user"
+  },
+  "homeBrowseMoreActions": "Browse more actions",
+  "@homeBrowseMoreActions": {
+    "description": "Localized UI text: Browse more actions"
+  },
+  "rewardPoolCancelPool": "Cancel Pool",
+  "@rewardPoolCancelPool": {
+    "description": "Localized UI text: Cancel Pool"
+  },
+  "rewardPoolCancelPoolTitle": "Cancel Pool?",
+  "@rewardPoolCancelPoolTitle": {
+    "description": "Localized UI text: Cancel Pool?"
+  },
+  "profileChooseUniqueUsername": "Choose a unique username",
+  "@profileChooseUniqueUsername": {
+    "description": "Localized UI text: Choose a unique username"
+  },
+  "aiActionPromptCleanUpBeachTenMin": "Clean up a beach for 10 min",
+  "@aiActionPromptCleanUpBeachTenMin": {
+    "description": "Localized UI text: Clean up a beach for 10 min"
+  },
+  "homeClear": "Clear",
+  "@homeClear": {
+    "description": "Localized UI text: Clear"
+  },
+  "rewardPoolCreateRewardPool": "Create Reward Pool",
+  "@rewardPoolCreateRewardPool": {
+    "description": "Localized UI text: Create Reward Pool"
+  },
+  "authCredentials": "Credentials",
+  "@authCredentials": {
+    "description": "Localized UI text: Credentials"
+  },
+  "aiActionPromptDo50PushUpsAtPark": "Do 50 push-ups at a park",
+  "@aiActionPromptDo50PushUpsAtPark": {
+    "description": "Localized UI text: Do 50 push-ups at a park"
+  },
+  "rewardPoolEnterSplTokenMintAddress": "Enter SPL token mint address",
+  "@rewardPoolEnterSplTokenMintAddress": {
+    "description": "Localized UI text: Enter SPL token mint address"
+  },
+  "rewardPoolCreateFailedTryAgain": "Failed to create reward pool. Please try again.",
+  "@rewardPoolCreateFailedTryAgain": {
+    "description": "Localized UI text: Failed to create reward pool. Please try again."
+  },
+  "rewardPoolFailedToLoadDistributions": "Failed to load distributions",
+  "@rewardPoolFailedToLoadDistributions": {
+    "description": "Localized UI text: Failed to load distributions"
+  },
+  "submissionFailedToOpenCameraTryAgain": "Failed to open camera. Please try again.",
+  "@submissionFailedToOpenCameraTryAgain": {
+    "description": "Localized UI text: Failed to open camera. Please try again."
+  },
+  "profileFailedToSaveTryAgain": "Failed to save profile. Please try again.",
+  "@profileFailedToSaveTryAgain": {
+    "description": "Localized UI text: Failed to save profile. Please try again."
+  },
+  "submissionFailedToSubmitVideoTryAgain": "Failed to submit video. Please try again.",
+  "@submissionFailedToSubmitVideoTryAgain": {
+    "description": "Localized UI text: Failed to submit video. Please try again."
+  },
+  "submissionFileSize": "File Size",
+  "@submissionFileSize": {
+    "description": "Localized UI text: File Size"
+  },
+  "rewardPoolFundAndCreatePool": "Fund & Create Pool",
+  "@rewardPoolFundAndCreatePool": {
+    "description": "Localized UI text: Fund & Create Pool"
+  },
+  "rewardPoolKeep": "Keep",
+  "@rewardPoolKeep": {
+    "description": "Localized UI text: Keep"
+  },
+  "settingsLocationSharing": "Location Sharing",
+  "@settingsLocationSharing": {
+    "description": "Localized UI text: Location Sharing"
+  },
+  "verificationLogLocation": "Log Location",
+  "@verificationLogLocation": {
+    "description": "Localized UI text: Log Location"
+  },
+  "rewardPoolMaxRecipientsOptional": "Max Recipients (optional)",
+  "@rewardPoolMaxRecipientsOptional": {
+    "description": "Localized UI text: Max Recipients (optional)"
+  },
+  "aiActionPromptMeditateDailyForAWeek": "Meditate daily for a week",
+  "@aiActionPromptMeditateDailyForAWeek": {
+    "description": "Localized UI text: Meditate daily for a week"
+  },
+  "rewardPoolNft": "NFT",
+  "@rewardPoolNft": {
+    "description": "Localized UI text: NFT"
+  },
+  "settingsOpenSourceLicenses": "Open Source Licenses",
+  "@settingsOpenSourceLicenses": {
+    "description": "Localized UI text: Open Source Licenses"
+  },
+  "homeOpenVerification": "Open Verification",
+  "@homeOpenVerification": {
+    "description": "Localized UI text: Open Verification"
+  },
+  "navigationOpenVerificationCapture": "Open verification capture",
+  "@navigationOpenVerificationCapture": {
+    "description": "Localized UI text: Open verification capture"
+  },
+  "rewardPoolPerPersonAmount": "Per Person Amount",
+  "@rewardPoolPerPersonAmount": {
+    "description": "Localized UI text: Per Person Amount"
+  },
+  "rewardPoolPleaseEnterTokenMintAddress": "Please enter a token mint address.",
+  "@rewardPoolPleaseEnterTokenMintAddress": {
+    "description": "Localized UI text: Please enter a token mint address."
+  },
+  "rewardPoolPleaseEnterValidPerPersonAmount": "Please enter a valid per-person amount.",
+  "@rewardPoolPleaseEnterValidPerPersonAmount": {
+    "description": "Localized UI text: Please enter a valid per-person amount."
+  },
+  "rewardPoolPleaseEnterValidTotalAmount": "Please enter a valid total amount.",
+  "@rewardPoolPleaseEnterValidTotalAmount": {
+    "description": "Localized UI text: Please enter a valid total amount."
+  },
+  "rewardPoolWillRemainActiveUntilDepleted": "Pool will remain active until depleted",
+  "@rewardPoolWillRemainActiveUntilDepleted": {
+    "description": "Localized UI text: Pool will remain active until depleted"
+  },
+  "profileReportSubmitted": "Report submitted.",
+  "@profileReportSubmitted": {
+    "description": "Localized UI text: Report submitted."
+  },
+  "profileReportUser": "Report user",
+  "@profileReportUser": {
+    "description": "Localized UI text: Report user"
+  },
+  "authResendCode": "Resend Code",
+  "@authResendCode": {
+    "description": "Localized UI text: Resend Code"
+  },
+  "rewardPoolTitle": "Reward Pool",
+  "@rewardPoolTitle": {
+    "description": "Localized UI text: Reward Pool"
+  },
+  "rewardPoolRewardType": "Reward Type",
+  "@rewardPoolRewardType": {
+    "description": "Localized UI text: Reward Type"
+  },
+  "rewardPoolSol": "SOL",
+  "@rewardPoolSol": {
+    "description": "Localized UI text: SOL"
+  },
+  "rewardPoolSetExpiryDate": "Set Expiry Date",
+  "@rewardPoolSetExpiryDate": {
+    "description": "Localized UI text: Set Expiry Date"
+  },
+  "verificationStopRecordingBeforeSubmitting": "Stop recording before submitting for review.",
+  "@verificationStopRecordingBeforeSubmitting": {
+    "description": "Localized UI text: Stop recording before submitting for review."
+  },
+  "homeStreak": "Streak",
+  "@homeStreak": {
+    "description": "Localized UI text: Streak"
+  },
+  "profileTellOthersAboutYourself": "Tell others about yourself...",
+  "@profileTellOthersAboutYourself": {
+    "description": "Localized UI text: Tell others about yourself..."
+  },
+  "rewardPoolToken": "Token",
+  "@rewardPoolToken": {
+    "description": "Localized UI text: Token"
+  },
+  "rewardPoolTokenMintAddress": "Token Mint Address",
+  "@rewardPoolTokenMintAddress": {
+    "description": "Localized UI text: Token Mint Address"
+  },
+  "submissionTryAgain": "Try Again",
+  "@submissionTryAgain": {
+    "description": "Localized UI text: Try Again"
+  },
+  "actionTypeLabel": "Type",
+  "@actionTypeLabel": {
+    "description": "Localized UI text: Type"
+  },
+  "profileUserBlocked": "User blocked.",
+  "@profileUserBlocked": {
+    "description": "Localized UI text: User blocked."
+  },
+  "profileUsername": "Username",
+  "@profileUsername": {
+    "description": "Localized UI text: Username"
+  },
+  "verificationCapture": "Verification Capture",
+  "@verificationCapture": {
+    "description": "Localized UI text: Verification Capture"
+  },
+  "authVerificationCode": "Verification Code",
+  "@authVerificationCode": {
+    "description": "Localized UI text: Verification Code"
+  },
+  "appVerify": "Verify",
+  "@appVerify": {
+    "description": "Localized UI text: Verify"
+  },
+  "submissionVideo": "Video",
+  "@submissionVideo": {
+    "description": "Localized UI text: Video"
+  },
+  "actionViewDetails": "View Details",
+  "@actionViewDetails": {
+    "description": "Localized UI text: View Details"
+  },
+  "profileYourPublicName": "Your public name",
+  "@profileYourPublicName": {
+    "description": "Localized UI text: Your public name"
+  }
 }

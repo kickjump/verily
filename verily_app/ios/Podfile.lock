@@ -66,9 +66,19 @@ PODS:
     - FlutterMacOS
   - permission_handler_apple (9.3.0):
     - Flutter
+  - PostHog (3.41.2)
+  - posthog_flutter (0.0.1):
+    - Flutter
+    - FlutterMacOS
+    - PostHog (< 4.0.0, >= 3.40.0)
   - PromisesObjC (2.4.0)
   - sign_in_with_apple (0.0.1):
     - Flutter
+  - speech_to_text (0.0.1):
+    - Flutter
+    - FlutterMacOS
+    - Try
+  - Try (2.1.1)
   - url_launcher_ios (0.0.1):
     - Flutter
   - video_player_avfoundation (0.0.1):
@@ -90,7 +100,9 @@ DEPENDENCIES:
   - native_device_orientation (from `.symlinks/plugins/native_device_orientation/ios`)
   - patrol (from `.symlinks/plugins/patrol/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - posthog_flutter (from `.symlinks/plugins/posthog_flutter/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
+  - speech_to_text (from `.symlinks/plugins/speech_to_text/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
 
@@ -103,7 +115,9 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - PostHog
     - PromisesObjC
+    - Try
 
 EXTERNAL SOURCES:
   camera_avfoundation:
@@ -134,8 +148,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/patrol/darwin"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  posthog_flutter:
+    :path: ".symlinks/plugins/posthog_flutter/ios"
   sign_in_with_apple:
     :path: ".symlinks/plugins/sign_in_with_apple/ios"
+  speech_to_text:
+    :path: ".symlinks/plugins/speech_to_text/darwin"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   video_player_avfoundation:
@@ -163,8 +181,12 @@ SPEC CHECKSUMS:
   native_device_orientation: 42487b19c552fb5a6a2b51e61b93366f628113df
   patrol: 5a504c6012be7a84369231475ede1fce6e777268
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
+  PostHog: 2a8daf098230d8e631adbc599b785bd966f7639f
+  posthog_flutter: 30917861666ce0ce3dc83d4f5aae5432ef93b8c0
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
+  speech_to_text: 627d3fd2194770b51abb324ba45c2d39398f24a8
+  Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
   url_launcher_ios: bb13df5870e8c4234ca12609d04010a21be43dfa
   video_player_avfoundation: 7993f492ae0bd77edaea24d9dc051d8bb2cd7c86
 

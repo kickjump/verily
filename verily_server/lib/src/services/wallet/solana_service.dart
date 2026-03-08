@@ -254,6 +254,40 @@ class SolanaService {
       throw NotFoundException('Reward pool $rewardPoolId not found');
     }
 
+    // Idempotency: if this recipient already has a successful/pending
+    // distribution in this pool, return it instead of issuing a duplicate.
+    final existingByRecipient = await RewardDistribution.db.find(
+      session,
+      where: (t) =>
+          t.rewardPoolId.equals(rewardPoolId) &
+          t.recipientId.equals(recipientId) &
+          t.status.notEquals(DistributionStatus.failed.value),
+      limit: 1,
+    );
+    if (existingByRecipient.isNotEmpty) {
+      _log.info(
+        'Distribution already exists for pool $rewardPoolId, '
+        'recipient $recipientId',
+      );
+      return existingByRecipient.first;
+    }
+
+    // Idempotency for retries of the same submission.
+    final existingBySubmission = await RewardDistribution.db.find(
+      session,
+      where: (t) =>
+          t.rewardPoolId.equals(rewardPoolId) &
+          t.submissionId.equals(submissionId),
+      limit: 1,
+    );
+    if (existingBySubmission.isNotEmpty) {
+      _log.info(
+        'Distribution already exists for pool $rewardPoolId, '
+        'submission $submissionId',
+      );
+      return existingBySubmission.first;
+    }
+
     if (pool.status != PoolStatus.active.value) {
       throw ValidationException('Reward pool is not active');
     }
@@ -273,22 +307,6 @@ class SolanaService {
       if (distributionCount >= pool.maxRecipients!) {
         throw ValidationException('Maximum recipients reached for this pool');
       }
-    }
-
-    // Check for duplicate distribution.
-    final existing = await RewardDistribution.db.find(
-      session,
-      where: (t) =>
-          t.rewardPoolId.equals(rewardPoolId) &
-          t.submissionId.equals(submissionId),
-      limit: 1,
-    );
-    if (existing.isNotEmpty) {
-      _log.info(
-        'Distribution already exists for pool $rewardPoolId, '
-        'submission $submissionId',
-      );
-      return existing.first;
     }
 
     // Calculate amounts.

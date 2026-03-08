@@ -70,7 +70,7 @@ Future<List<Action>> feedActions(Ref ref) async {
 final _mockActions = <Action>[
   Action(
     id: 1,
-    title: 'Record 20 push-ups at a local park',
+    title: 'Record 20 push-ups at a local park', // l10n-ignore mock seed data
     description:
         'Head to any local park and record yourself doing 20 push-ups. '
         'Make sure your full body is visible and the park environment is '
@@ -88,7 +88,8 @@ final _mockActions = <Action>[
   ),
   Action(
     id: 2,
-    title: 'Capture a 30s cleanup clip on your street',
+    title:
+        'Capture a 30s cleanup clip on your street', // l10n-ignore mock seed data
     description:
         'Record yourself picking up litter on your street for at least '
         '30 seconds. Show the before and after state.',
@@ -105,7 +106,7 @@ final _mockActions = <Action>[
   ),
   Action(
     id: 3,
-    title: 'Film a 1 minute kindness action',
+    title: 'Film a 1 minute kindness action', // l10n-ignore mock seed data
     description:
         'Record yourself performing a random act of kindness in your '
         'community. This could be helping someone carry groceries, '
@@ -123,7 +124,7 @@ final _mockActions = <Action>[
   ),
   Action(
     id: 4,
-    title: 'Morning meditation - 7 day streak',
+    title: 'Morning meditation - 7 day streak', // l10n-ignore mock seed data
     description:
         'Meditate for at least 5 minutes every morning for 7 days in a row. '
         'Record a short clip at the beginning and end of each session.',
@@ -143,7 +144,8 @@ final _mockActions = <Action>[
   ),
   Action(
     id: 5,
-    title: 'Visit 3 local coffee shops and review',
+    title:
+        'Visit 3 local coffee shops and review', // l10n-ignore mock seed data
     description:
         'Visit three different local coffee shops in your area. At each one, '
         'order a drink, film a short review, and show the storefront.',

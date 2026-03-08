@@ -90,8 +90,77 @@ jobs:
       - uses: ./.github/actions/devenv
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: run server tests
-        run: melos exec --scope="verily_server" -- dart test
+      - name: fail if DB-backed tests are hard-skipped
+        run: dart run test/integration/test_tools/assert_no_db_skip.dart
+        working-directory: verily_server
+        shell: devenv shell -- bash -e {0}
+
+      - name: apply server migrations (test)
+        run: serverpod migrate --apply --role=test
+        working-directory: verily_server
+        shell: devenv shell -- bash -e {0}
+
+      - name: run server tests (excluding DB integration shard)
+        run: melos exec --scope="verily_server" -- dart test --exclude-tags=db
+        shell: devenv shell -- bash -e {0}
+
+  server-db-integration-test:
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    timeout-minutes: 60
+    services:
+      postgres:
+        image: postgis/postgis:16-3.5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: changeme
+          POSTGRES_DB: verily_test
+        ports:
+          - 9090:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: start redis
+        run: |
+          docker run -d --name redis-test \
+            --network host \
+            redis:6.2.6 \
+            redis-server --port 9091 --requirepass changeme
+          for i in $(seq 1 10); do
+            redis-cli -p 9091 -a changeme ping 2>/dev/null && break || sleep 1
+          done
+      - name: create test passwords
+        run: |
+          cat > verily_server/config/passwords.yaml << 'EOF'
+          development:
+            database: 'changeme'
+            redis: 'changeme'
+            serviceSecret: 'ci-service-secret'
+            emailSecretHashPepper: 'ci-email-pepper'
+            jwtHmacSha512PrivateKey: 'ci-jwt-key-must-be-long-enough-32chars'
+            jwtRefreshTokenHashPepper: 'ci-jwt-refresh-pepper'
+          test:
+            database: 'changeme'
+            redis: 'changeme'
+            serviceSecret: 'ci-service-secret'
+            emailSecretHashPepper: 'ci-email-pepper'
+            jwtHmacSha512PrivateKey: 'ci-jwt-key-must-be-long-enough-32chars'
+            jwtRefreshTokenHashPepper: 'ci-jwt-refresh-pepper'
+          EOF
+      - uses: ./.github/actions/devenv
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: apply server migrations (test)
+        run: serverpod migrate --apply --role=test
+        working-directory: verily_server
+        shell: devenv shell -- bash -e {0}
+
+      - name: run DB integration shard (tag=db)
+        run: melos exec --scope="verily_server" -- dart test --tags=db
         shell: devenv shell -- bash -e {0}
 
   integration-test:

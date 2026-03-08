@@ -1,5 +1,7 @@
 import 'package:logging/logging.dart';
 
+import 'package:verily_core/src/logging/log_entry.dart';
+
 /// Thin wrapper around `package:logging` that provides a consistent API
 /// for logging across the Verily codebase.
 ///
@@ -46,4 +48,25 @@ class VLogger {
 
   /// Logs a message at [Level.CONFIG].
   void config(String message) => _logger.config(message);
+
+  /// Redacts a generic field value using the shared core policy.
+  static Object? redactField(
+    String key,
+    Object? value, {
+    bool isFreeText = false,
+  }) => LogRedaction.redactField(key, value, isFreeText: isFreeText);
+
+  /// Redacts user-provided free-form text.
+  static String redactFreeText(String? value) =>
+      LogRedaction.redactFreeText(value);
+
+  /// Redacts a token/secret-like value.
+  static String redactSecret(String? value) => LogRedaction.redactSecret(value);
+
+  /// Redacts an email value.
+  static String redactEmail(String? email) => LogRedaction.redactEmail(email);
+
+  /// Redacts a wallet address value.
+  static String redactWalletAddress(String? walletAddress) =>
+      LogRedaction.redactWalletAddress(walletAddress);
 }

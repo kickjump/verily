@@ -1125,6 +1125,40 @@ class Protocol extends _i1.SerializationManagerServer {
           isUnique: false,
           isPrimary: false,
         ),
+        _i2.IndexDefinition(
+          indexName: 'reward_distribution_pool_recipient_uidx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'rewardPoolId',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'recipientId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'reward_distribution_pool_submission_uidx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'rewardPoolId',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'submissionId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
       ],
       managed: true,
     ),
@@ -1805,7 +1839,7 @@ class Protocol extends _i1.SerializationManagerServer {
         return deserializeByClassName({
           'className': dataClassName,
           'data': data,
-        }) as T;
+        });
       } on FormatException catch (_) {
         // If the className is not recognized (e.g., older client receiving
         // data with a new subtype), fall back to deserializing without the
@@ -1813,105 +1847,103 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
 
-    final d = data as Map<String, dynamic>;
-
     if (t == _i5.Action) {
-      return _i5.Action.fromJson(d) as T;
+      return _i5.Action.fromJson(data) as T;
     }
     if (t == _i6.ActionCategory) {
-      return _i6.ActionCategory.fromJson(d) as T;
+      return _i6.ActionCategory.fromJson(data) as T;
     }
     if (t == _i7.ActionStep) {
-      return _i7.ActionStep.fromJson(d) as T;
+      return _i7.ActionStep.fromJson(data) as T;
     }
     if (t == _i8.ActionSubmission) {
-      return _i8.ActionSubmission.fromJson(d) as T;
+      return _i8.ActionSubmission.fromJson(data) as T;
     }
     if (t == _i9.AttestationChallenge) {
-      return _i9.AttestationChallenge.fromJson(d) as T;
+      return _i9.AttestationChallenge.fromJson(data) as T;
     }
     if (t == _i10.DeviceAttestation) {
-      return _i10.DeviceAttestation.fromJson(d) as T;
+      return _i10.DeviceAttestation.fromJson(data) as T;
     }
     if (t == _i11.Location) {
-      return _i11.Location.fromJson(d) as T;
+      return _i11.Location.fromJson(data) as T;
     }
     if (t == _i12.PlaceSearchResult) {
-      return _i12.PlaceSearchResult.fromJson(d) as T;
+      return _i12.PlaceSearchResult.fromJson(data) as T;
     }
     if (t == _i13.Reward) {
-      return _i13.Reward.fromJson(d) as T;
+      return _i13.Reward.fromJson(data) as T;
     }
     if (t == _i14.RewardDistribution) {
-      return _i14.RewardDistribution.fromJson(d) as T;
+      return _i14.RewardDistribution.fromJson(data) as T;
     }
     if (t == _i15.RewardPool) {
-      return _i15.RewardPool.fromJson(d) as T;
+      return _i15.RewardPool.fromJson(data) as T;
     }
     if (t == _i16.SolanaWallet) {
-      return _i16.SolanaWallet.fromJson(d) as T;
+      return _i16.SolanaWallet.fromJson(data) as T;
     }
     if (t == _i17.UserFollow) {
-      return _i17.UserFollow.fromJson(d) as T;
+      return _i17.UserFollow.fromJson(data) as T;
     }
     if (t == _i18.UserProfile) {
-      return _i18.UserProfile.fromJson(d) as T;
+      return _i18.UserProfile.fromJson(data) as T;
     }
     if (t == _i19.UserReward) {
-      return _i19.UserReward.fromJson(d) as T;
+      return _i19.UserReward.fromJson(data) as T;
     }
     if (t == _i20.VerificationResult) {
-      return _i20.VerificationResult.fromJson(d) as T;
+      return _i20.VerificationResult.fromJson(data) as T;
     }
     if (t == _i1.getType<_i5.Action?>()) {
-      return (data != null ? _i5.Action.fromJson(d) : null) as T;
+      return (data != null ? _i5.Action.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i6.ActionCategory?>()) {
-      return (data != null ? _i6.ActionCategory.fromJson(d) : null) as T;
+      return (data != null ? _i6.ActionCategory.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i7.ActionStep?>()) {
-      return (data != null ? _i7.ActionStep.fromJson(d) : null) as T;
+      return (data != null ? _i7.ActionStep.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i8.ActionSubmission?>()) {
-      return (data != null ? _i8.ActionSubmission.fromJson(d) : null) as T;
+      return (data != null ? _i8.ActionSubmission.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i9.AttestationChallenge?>()) {
-      return (data != null ? _i9.AttestationChallenge.fromJson(d) : null)
+      return (data != null ? _i9.AttestationChallenge.fromJson(data) : null)
           as T;
     }
     if (t == _i1.getType<_i10.DeviceAttestation?>()) {
-      return (data != null ? _i10.DeviceAttestation.fromJson(d) : null) as T;
+      return (data != null ? _i10.DeviceAttestation.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i11.Location?>()) {
-      return (data != null ? _i11.Location.fromJson(d) : null) as T;
+      return (data != null ? _i11.Location.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i12.PlaceSearchResult?>()) {
-      return (data != null ? _i12.PlaceSearchResult.fromJson(d) : null) as T;
+      return (data != null ? _i12.PlaceSearchResult.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i13.Reward?>()) {
-      return (data != null ? _i13.Reward.fromJson(d) : null) as T;
+      return (data != null ? _i13.Reward.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i14.RewardDistribution?>()) {
-      return (data != null ? _i14.RewardDistribution.fromJson(d) : null)
+      return (data != null ? _i14.RewardDistribution.fromJson(data) : null)
           as T;
     }
     if (t == _i1.getType<_i15.RewardPool?>()) {
-      return (data != null ? _i15.RewardPool.fromJson(d) : null) as T;
+      return (data != null ? _i15.RewardPool.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i16.SolanaWallet?>()) {
-      return (data != null ? _i16.SolanaWallet.fromJson(d) : null) as T;
+      return (data != null ? _i16.SolanaWallet.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i17.UserFollow?>()) {
-      return (data != null ? _i17.UserFollow.fromJson(d) : null) as T;
+      return (data != null ? _i17.UserFollow.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i18.UserProfile?>()) {
-      return (data != null ? _i18.UserProfile.fromJson(d) : null) as T;
+      return (data != null ? _i18.UserProfile.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i19.UserReward?>()) {
-      return (data != null ? _i19.UserReward.fromJson(d) : null) as T;
+      return (data != null ? _i19.UserReward.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i20.VerificationResult?>()) {
-      return (data != null ? _i20.VerificationResult.fromJson(d) : null)
+      return (data != null ? _i20.VerificationResult.fromJson(data) : null)
           as T;
     }
     if (t == List<_i21.ActionCategory>) {

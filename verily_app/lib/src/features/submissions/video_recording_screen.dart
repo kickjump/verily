@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -72,8 +73,12 @@ class VideoRecordingScreen extends HookConsumerWidget {
         debugPrint('Camera error: $e');
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to open camera. Please try again.'),
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(
+                  context,
+                ).submissionFailedToOpenCameraTryAgain,
+              ),
             ),
           );
         }

@@ -10,6 +10,20 @@ class NavigationObserver extends NavigatorObserver {
 
   final VLogger _log;
 
+  static final RegExp _uuidLikeSegment = RegExp(
+    r'^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
+    caseSensitive: false,
+  );
+
+  static final RegExp _longHexSegment = RegExp(
+    r'^[0-9a-f]{12,}$',
+    caseSensitive: false,
+  );
+
+  static final RegExp _numericSegment = RegExp(r'^\d{4,}$');
+
+  static final RegExp _base64LikeSegment = RegExp(r'^[A-Za-z0-9_-]{16,}$');
+
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     _log.info(
@@ -43,6 +57,43 @@ class NavigationObserver extends NavigatorObserver {
   }
 
   String _routeName(Route<dynamic>? route) {
-    return route?.settings.name ?? 'unknown';
+    final rawName = route?.settings.name;
+    if (rawName == null || rawName.isEmpty) return 'unknown';
+
+    return _normalizeRouteName(rawName);
+  }
+
+  String _normalizeRouteName(String routeName) {
+    final queryStart = routeName.indexOf('?');
+    final withoutQuery = queryStart >= 0
+        ? routeName.substring(0, queryStart)
+        : routeName;
+
+    final segments = withoutQuery.split('/');
+    final normalized = <String>[];
+
+    for (final segment in segments) {
+      if (segment.isEmpty) {
+        normalized.add(segment);
+        continue;
+      }
+
+      if (_isSensitiveSegment(segment)) {
+        normalized.add(':id');
+      } else {
+        normalized.add(segment);
+      }
+    }
+
+    final result = normalized.join('/');
+    return result.isEmpty ? '/' : result;
+  }
+
+  bool _isSensitiveSegment(String segment) {
+    if (_uuidLikeSegment.hasMatch(segment)) return true;
+    if (_longHexSegment.hasMatch(segment)) return true;
+    if (_numericSegment.hasMatch(segment)) return true;
+    if (_base64LikeSegment.hasMatch(segment)) return true;
+    return false;
   }
 }

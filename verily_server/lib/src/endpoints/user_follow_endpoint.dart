@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
 import 'package:verily_server/src/generated/protocol.dart';
-import 'package:verily_server/src/services/user_follow_service.dart';
+import 'package:verily_server/src/services/social/user_follow_service.dart';
 
 /// Endpoint for managing user follow relationships.
 ///

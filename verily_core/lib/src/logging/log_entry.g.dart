@@ -14,6 +14,8 @@ _LogEntry _$LogEntryFromJson(Map<String, dynamic> json) => _LogEntry(
   loggerName: json['loggerName'] as String,
   error: json['error'] as String?,
   stackTrace: json['stackTrace'] as String?,
+  environment: json['environment'] as String?,
+  appVersion: json['appVersion'] as String?,
 );
 
 Map<String, dynamic> _$LogEntryToJson(_LogEntry instance) => <String, dynamic>{
@@ -24,4 +26,6 @@ Map<String, dynamic> _$LogEntryToJson(_LogEntry instance) => <String, dynamic>{
   'loggerName': instance.loggerName,
   'error': instance.error,
   'stackTrace': instance.stackTrace,
+  'environment': instance.environment,
+  'appVersion': instance.appVersion,
 };

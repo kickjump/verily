@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/search/search_provider.dart';
 import 'package:verily_app/src/features/search/search_screen.dart';
 import 'package:verily_client/verily_client.dart' as vc;
@@ -24,7 +25,12 @@ void main() {
           actionCategoriesProvider.overrideWith((ref) async => mockCategories),
         ],
       );
-      await tester.pumpApp(const SearchScreen(), container: container);
+      await tester.pumpApp(
+        const SearchScreen(),
+        container: container,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      );
       // Allow async provider to resolve.
       await tester.pumpAndSettle();
     }

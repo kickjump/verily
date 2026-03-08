@@ -6,8 +6,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verily_app/src/features/feed/feed_provider.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/profile/profile_screen.dart';
+import 'package:verily_app/src/features/profile/providers/creator_actions_provider.dart';
 import 'package:verily_app/src/features/profile/providers/rewards_provider.dart';
 import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
 import 'package:verily_client/verily_client.dart' as vc;
@@ -80,7 +81,7 @@ void main() {
       container = ProviderContainer(
         overrides: [
           currentUserProfileProvider.overrideWith((ref) async => _mockProfile),
-          feedActionsProvider.overrideWith((ref) async => _mockActions),
+          creatorActionsProvider.overrideWith((ref) async => _mockActions),
           userRewardsProvider.overrideWith((ref) async => _mockRewards),
         ],
       );
@@ -91,7 +92,12 @@ void main() {
     });
 
     Future<void> pumpProfileScreen(WidgetTester tester) async {
-      await tester.pumpApp(const ProfileScreen(), container: container);
+      await tester.pumpApp(
+        const ProfileScreen(),
+        container: container,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      );
       // Allow the async providers to settle.
       await tester.pumpAndSettle();
     }
@@ -171,7 +177,12 @@ void main() {
     });
 
     testWidgets('shows loading state before data arrives', (tester) async {
-      await tester.pumpApp(const ProfileScreen(), container: container);
+      await tester.pumpApp(
+        const ProfileScreen(),
+        container: container,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      );
       // Don't settle - check the loading state.
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });

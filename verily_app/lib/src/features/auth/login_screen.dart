@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_app/src/features/auth/wallet_login_button.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -92,7 +93,7 @@ class LoginScreen extends HookConsumerWidget {
                         ),
                         const SizedBox(height: SpacingTokens.xs),
                         Text(
-                          'Verily',
+                          AppLocalizations.of(context).appName,
                           style: theme.textTheme.headlineLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: colorScheme.onSurface,
@@ -112,8 +113,8 @@ class LoginScreen extends HookConsumerWidget {
                         // Email field
                         VTextField(
                           controller: emailController,
-                          labelText: 'Email',
-                          hintText: 'you@example.com',
+                          labelText: AppLocalizations.of(context).email,
+                          hintText: AppLocalizations.of(context).emailHint,
                           keyboardType: TextInputType.emailAddress,
                           prefixIcon: const Icon(Icons.email_outlined),
                           enabled: !isLoading,
@@ -123,8 +124,8 @@ class LoginScreen extends HookConsumerWidget {
                         // Password field
                         VTextField(
                           controller: passwordController,
-                          labelText: 'Password',
-                          hintText: 'Enter your password',
+                          labelText: AppLocalizations.of(context).password,
+                          hintText: AppLocalizations.of(context).passwordHint,
                           obscureText: obscurePassword.value,
                           prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
@@ -154,7 +155,7 @@ class LoginScreen extends HookConsumerWidget {
                                         password: passwordController.text,
                                       );
                                 },
-                          child: const Text('Log In'),
+                          child: Text(AppLocalizations.of(context).login),
                         ),
                         const SizedBox(height: SpacingTokens.md),
 
@@ -190,15 +191,17 @@ class LoginScreen extends HookConsumerWidget {
                                             .read(authProvider.notifier)
                                             .loginWithGoogle();
                                       },
-                                child: const FittedBox(
+                                child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(Icons.g_mobiledata, size: 24),
-                                      SizedBox(width: SpacingTokens.xs),
-                                      Text('Google'),
+                                      const Icon(Icons.g_mobiledata, size: 24),
+                                      const SizedBox(width: SpacingTokens.xs),
+                                      Text(
+                                        AppLocalizations.of(context).authGoogle,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -214,15 +217,17 @@ class LoginScreen extends HookConsumerWidget {
                                             .read(authProvider.notifier)
                                             .loginWithApple();
                                       },
-                                child: const FittedBox(
+                                child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(Icons.apple, size: 20),
-                                      SizedBox(width: SpacingTokens.xs),
-                                      Text('Apple'),
+                                      const Icon(Icons.apple, size: 20),
+                                      const SizedBox(width: SpacingTokens.xs),
+                                      Text(
+                                        AppLocalizations.of(context).authApple,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -250,7 +255,9 @@ class LoginScreen extends HookConsumerWidget {
                               onPressed: isLoading
                                   ? null
                                   : () => context.push('/register'),
-                              child: const Text('Sign Up'),
+                              child: Text(
+                                AppLocalizations.of(context).register,
+                              ),
                             ),
                           ],
                         ),

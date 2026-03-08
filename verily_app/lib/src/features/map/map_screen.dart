@@ -5,6 +5,7 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/map/providers/location_providers.dart';
 import 'package:verily_app/src/features/map/widgets/action_detail_bottom_sheet.dart';
 import 'package:verily_app/src/features/map/widgets/action_map_marker.dart';
@@ -20,6 +21,7 @@ class MapScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final mapController = useMemoized(MapController.new);
     final selectedAction = useState<api.Action?>(null);
     final searchRadius = useState<double>(5); // km
@@ -133,13 +135,20 @@ class MapScreen extends HookConsumerWidget {
                   disableClusteringAtZoom: 16,
                   markers: actionMarkers,
                   builder: (context, markers) {
-                    return Container(
-                      width: 40,
-                      height: 40,
+                    return DecoratedBox(
                       decoration: BoxDecoration(
-                        color: ColorTokens.primary,
                         shape: BoxShape.circle,
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF1B56AE), Color(0xFF2B59FF)],
+                        ),
                         border: Border.all(color: Colors.white, width: 2),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x66143D7A),
+                            blurRadius: 10,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
                       ),
                       child: Center(
                         child: Text(
@@ -158,6 +167,51 @@ class MapScreen extends HookConsumerWidget {
             ],
           ),
 
+          Positioned(
+            top: SpacingTokens.md,
+            left: SpacingTokens.md,
+            right: SpacingTokens.md,
+            child: IgnorePointer(
+              child: VCard(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: SpacingTokens.md,
+                  vertical: SpacingTokens.sm,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 34,
+                      height: 34,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(RadiusTokens.sm),
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                      ),
+                      child: Icon(
+                        Icons.explore_outlined,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: SpacingTokens.sm),
+                    Expanded(
+                      child: Text(
+                        actions.isEmpty
+                            ? l10n.mapDiscoverNearbyHint
+                            : l10n.mapActionsInView(actions.length),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    VBadgeChip(
+                      label: l10n.mapRadiusKm(searchRadius.value.round()),
+                      icon: Icons.radar,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
           // Distance slider at bottom
           Positioned(
             left: SpacingTokens.md,
@@ -172,24 +226,20 @@ class MapScreen extends HookConsumerWidget {
           // Empty state
           if (actions.isEmpty && bbox.value != null)
             Positioned(
-              top: SpacingTokens.lg,
+              top: 86,
               left: SpacingTokens.lg,
               right: SpacingTokens.lg,
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(SpacingTokens.md),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.info_outline,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                      const SizedBox(width: SpacingTokens.sm),
-                      const Expanded(
-                        child: Text('No actions nearby. Try zooming out.'),
-                      ),
-                    ],
-                  ),
+              child: VCard(
+                padding: const EdgeInsets.all(SpacingTokens.md),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: SpacingTokens.sm),
+                    Expanded(child: Text(l10n.mapNoActionsNearbyZoomOut)),
+                  ],
                 ),
               ),
             ),
@@ -197,7 +247,7 @@ class MapScreen extends HookConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.small(
         onPressed: recenter,
-        tooltip: 'Re-center',
+        tooltip: l10n.mapRecenterTooltip,
         child: const Icon(Icons.my_location),
       ),
       bottomSheet: selectedAction.value != null

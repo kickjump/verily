@@ -18,7 +18,7 @@ final EmailSender _emailSender = ConsoleEmailSender();
 /// The starting point of the Verily Serverpod server.
 Future<void> run(List<String> args) async {
   // Initialize logging before anything else.
-  initServerLogging();
+  final logging = initServerLogging();
 
   final pod = Serverpod(args, Protocol(), Endpoints());
   final googleIdpEnabled = _hasRequiredPasswords(pod, const [
@@ -81,7 +81,11 @@ Future<void> run(List<String> args) async {
   }
 
   // Start the server.
-  await pod.start();
+  try {
+    await pod.start();
+  } finally {
+    await logging.dispose();
+  }
 }
 
 String? _readPassword(Serverpod pod, String key) {
