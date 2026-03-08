@@ -149,17 +149,16 @@ void _writeBaseline(Directory root, Set<String> signatures) {
     )
     ..writeln('# Format: <relative/path.dart>::<literal>')
     ..writeln('# Any signature not listed here will fail lint:l10n.')
-    ..writeln('');
+    ..writeln();
 
   for (final signature in sortedSignatures) {
     buffer.writeln(signature);
   }
 
-  // ignore: avoid_redundant_argument_values, document_ignores: Must create baseline parent directories recursively so nested baseline paths do not fail.
   file.parent.createSync(recursive: true);
   file
     ..createSync()
-    ..writeAsStringSync(buffer.toString(), flush: true);
+    ..writeAsStringSync(buffer.toString());
 }
 
 Set<String> _readBaseline(File file) {
