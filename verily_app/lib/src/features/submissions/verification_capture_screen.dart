@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/actions/providers/active_action_provider.dart';
 import 'package:verily_app/src/features/submissions/verification_capture_utils.dart';
 import 'package:verily_app/src/routing/route_names.dart';
@@ -85,8 +86,12 @@ class VerificationCaptureScreen extends HookConsumerWidget {
       final messenger = ScaffoldMessenger.of(context);
       if (isRecording.value) {
         messenger.showSnackBar(
-          const SnackBar(
-            content: Text('Stop recording before submitting for review.'),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(
+                context,
+              ).gateStopRecordingBeforeSubmittingForReview,
+            ),
           ),
         );
         return;
@@ -115,7 +120,7 @@ class VerificationCaptureScreen extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
-        title: const Text('Verification Capture'),
+        title: Text(AppLocalizations.of(context).gateVerificationCapture),
         actions: [
           IconButton(
             onPressed: () => context.pop(),
@@ -293,7 +298,7 @@ class VerificationCaptureScreen extends HookConsumerWidget {
                     Expanded(
                       child: _CapabilityCard(
                         icon: Icons.mic,
-                        label: 'Audio',
+                        label: AppLocalizations.of(context).gateAudio,
                         status: captureAudio.value ? 'Enabled' : 'Muted',
                       ),
                     ),
@@ -301,7 +306,7 @@ class VerificationCaptureScreen extends HookConsumerWidget {
                     Expanded(
                       child: _CapabilityCard(
                         icon: Icons.location_on_outlined,
-                        label: 'Location',
+                        label: AppLocalizations.of(context).actionLocation,
                         status: locationLog.value == null
                             ? 'Not logged'
                             : 'Logged',
@@ -469,7 +474,9 @@ class VerificationCaptureScreen extends HookConsumerWidget {
                             child: VOutlinedButton(
                               key: const Key('verification_logLocationButton'),
                               onPressed: logLocation,
-                              child: const Text('Log Location'),
+                              child: Text(
+                                AppLocalizations.of(context).gateLogLocation,
+                              ),
                             ),
                           ),
                         ],
@@ -499,12 +506,14 @@ class VerificationCaptureScreen extends HookConsumerWidget {
                       VFilledButton(
                         key: const Key('verification_submitButton'),
                         onPressed: submitVerification,
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.cloud_upload_outlined),
-                            SizedBox(width: SpacingTokens.xs),
-                            Text('Submit for AI Review'),
+                            const Icon(Icons.cloud_upload_outlined),
+                            const SizedBox(width: SpacingTokens.xs),
+                            Text(
+                              AppLocalizations.of(context).submitForAiReview,
+                            ),
                           ],
                         ),
                       ),

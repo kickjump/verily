@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_client/verily_client.dart' as vc;
@@ -15,10 +16,11 @@ class FeedScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabController = useTabController(initialLength: 2);
     final actionsAsync = ref.watch(feedActionsProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Verily'),
+        title: Text(l10n.appName),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -31,9 +33,9 @@ class FeedScreen extends HookConsumerWidget {
         ],
         bottom: TabBar(
           controller: tabController,
-          tabs: const [
-            Tab(text: 'Nearby'),
-            Tab(text: 'Trending'),
+          tabs: [
+            Tab(text: l10n.feedNearby),
+            Tab(text: l10n.feedTrending),
           ],
         ),
       ),
@@ -45,8 +47,8 @@ class FeedScreen extends HookConsumerWidget {
             actionsAsync: actionsAsync,
             onRefresh: () => ref.invalidate(feedActionsProvider),
             emptyIcon: Icons.location_on_outlined,
-            emptyTitle: 'No actions nearby',
-            emptySubtitle: 'Enable location to see actions around you',
+            emptyTitle: l10n.feedNoNearbyActionsTitle,
+            emptySubtitle: l10n.feedNoNearbyActionsSubtitle,
           ),
 
           // Trending tab
@@ -54,15 +56,15 @@ class FeedScreen extends HookConsumerWidget {
             actionsAsync: actionsAsync,
             onRefresh: () => ref.invalidate(feedActionsProvider),
             emptyIcon: Icons.trending_up,
-            emptyTitle: 'No trending actions',
-            emptySubtitle: 'Check back later for popular actions',
+            emptyTitle: l10n.feedNoTrendingActionsTitle,
+            emptySubtitle: l10n.feedNoTrendingActionsSubtitle,
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push(RouteNames.aiCreateActionPath),
         icon: const Icon(Icons.auto_awesome),
-        label: const Text('Create Action'),
+        label: Text(l10n.createActionTitle),
       ),
     );
   }
@@ -88,6 +90,7 @@ class _FeedList extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     return actionsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
@@ -98,13 +101,13 @@ class _FeedList extends HookWidget {
             Icon(Icons.error_outline, size: 64, color: colorScheme.error),
             const SizedBox(height: SpacingTokens.md),
             Text(
-              'Failed to load actions',
+              l10n.feedLoadFailed,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: colorScheme.error,
               ),
             ),
             const SizedBox(height: SpacingTokens.md),
-            FilledButton(onPressed: onRefresh, child: const Text('Retry')),
+            FilledButton(onPressed: onRefresh, child: Text(l10n.retry)),
           ],
         ),
       ),
@@ -160,11 +163,12 @@ class _ActionFeedCard extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     final typeLabel = switch (action.actionType) {
-      'one_off' => 'One-Off',
-      'sequential' => 'Sequential',
-      'habit' => 'Habit',
+      'one_off' => l10n.actionTypeOneOff,
+      'sequential' => l10n.actionTypeSequential,
+      'habit' => l10n.actionTypeHabit,
       _ => action.actionType,
     };
     final typeColor = action.actionType == 'one_off'
@@ -255,7 +259,7 @@ class _ActionFeedCard extends HookWidget {
                 ),
                 const SizedBox(width: SpacingTokens.xs),
                 Text(
-                  'Earn rewards',
+                  l10n.feedEarnRewards,
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: ColorTokens.secondary,
                     fontWeight: FontWeight.bold,

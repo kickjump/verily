@@ -7,6 +7,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
+import 'package:verily_app/l10n/generated/app_localizations_en.dart';
 import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/features/feed/feed_screen.dart';
 import 'package:verily_client/verily_client.dart' as vc;
@@ -41,6 +43,8 @@ final _mockActions = <vc.Action>[
   ),
 ];
 
+final _l10n = AppLocalizationsEn();
+
 void main() {
   group('FeedScreen', () {
     late ProviderContainer container;
@@ -58,7 +62,12 @@ void main() {
     });
 
     Future<void> pumpFeedScreen(WidgetTester tester) async {
-      await tester.pumpApp(const FeedScreen(), container: container);
+      await tester.pumpApp(
+        const FeedScreen(),
+        container: container,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      );
       // Wait for the async provider to resolve.
       await tester.pumpAndSettle();
     }
@@ -66,19 +75,19 @@ void main() {
     testWidgets('renders Nearby tab', (tester) async {
       await pumpFeedScreen(tester);
 
-      expect(find.text('Nearby'), findsOneWidget);
+      expect(find.text(_l10n.feedNearby), findsOneWidget);
     });
 
     testWidgets('renders Trending tab', (tester) async {
       await pumpFeedScreen(tester);
 
-      expect(find.text('Trending'), findsOneWidget);
+      expect(find.text(_l10n.feedTrending), findsOneWidget);
     });
 
     testWidgets('renders FAB with Create Action label', (tester) async {
       await pumpFeedScreen(tester);
 
-      expect(find.text('Create Action'), findsOneWidget);
+      expect(find.text(_l10n.createActionTitle), findsOneWidget);
       expect(find.byIcon(Icons.auto_awesome), findsOneWidget);
       expect(find.byType(FloatingActionButton), findsOneWidget);
     });
@@ -86,7 +95,7 @@ void main() {
     testWidgets('renders app bar with Verily title', (tester) async {
       await pumpFeedScreen(tester);
 
-      expect(find.text('Verily'), findsOneWidget);
+      expect(find.text(_l10n.appName), findsOneWidget);
     });
 
     testWidgets('renders search icon in app bar', (tester) async {

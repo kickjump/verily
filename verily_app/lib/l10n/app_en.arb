@@ -91,6 +91,146 @@
   "copiedToClipboard": "Copied to clipboard",
   "@copiedToClipboard": { "description": "Snackbar message when content is copied." },
 
+  "walletTitle": "Wallet",
+  "@walletTitle": { "description": "Wallet screen title and default wallet label." },
+
+  "walletTotalBalance": "Total Balance",
+  "@walletTotalBalance": { "description": "Header label for the wallet aggregate balance." },
+
+  "walletCount": "{count} wallets",
+  "@walletCount": {
+    "description": "Wallet count pill label.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "walletSecureCustody": "Secure custody",
+  "@walletSecureCustody": { "description": "Security status pill label on wallet hero card." },
+
+  "walletReceive": "Receive",
+  "@walletReceive": { "description": "Wallet quick action label to receive funds." },
+
+  "walletSend": "Send",
+  "@walletSend": { "description": "Wallet quick action label to send funds." },
+
+  "walletRefresh": "Refresh",
+  "@walletRefresh": { "description": "Wallet quick action label to refresh balances and wallets." },
+
+  "walletYourWallets": "Your Wallets",
+  "@walletYourWallets": { "description": "Section header for user wallets list." },
+
+  "walletNoWalletsYet": "No wallets yet",
+  "@walletNoWalletsYet": { "description": "Empty state title when user has no wallets." },
+
+  "walletCreateOrConnect": "Create or connect a wallet to get started",
+  "@walletCreateOrConnect": { "description": "Empty state description when user has no wallets." },
+
+  "walletAddWallet": "Add Wallet",
+  "@walletAddWallet": { "description": "CTA/button label to add a wallet." },
+
+  "walletAddressCopied": "Address copied",
+  "@walletAddressCopied": { "description": "Snackbar text when wallet address has been copied." },
+
+  "walletDefault": "Default",
+  "@walletDefault": { "description": "Badge text indicating default wallet." },
+
+  "walletTypeCustodial": "Custodial",
+  "@walletTypeCustodial": { "description": "Wallet type label for custodial wallets." },
+
+  "walletTypeExternal": "External",
+  "@walletTypeExternal": { "description": "Wallet type label for linked external wallets." },
+
+  "walletLoadFailed": "Failed to load wallets. Pull to refresh.",
+  "@walletLoadFailed": { "description": "Error state shown when wallet list fails to load." },
+
+  "walletPortfolio": "Portfolio",
+  "@walletPortfolio": { "description": "Section header for wallet portfolio tabs." },
+
+  "walletTokens": "Tokens",
+  "@walletTokens": { "description": "Portfolio tab label for tokens." },
+
+  "walletNfts": "NFTs",
+  "@walletNfts": { "description": "Portfolio tab label for NFTs." },
+
+  "walletActivity": "Activity",
+  "@walletActivity": { "description": "Portfolio tab label for activity." },
+
+  "walletNoTokensYet": "No tokens yet",
+  "@walletNoTokensYet": { "description": "Empty state title for tokens tab." },
+
+  "walletNoTokensSubtitle": "Complete actions to earn token rewards",
+  "@walletNoTokensSubtitle": { "description": "Empty state subtitle for tokens tab." },
+
+  "walletNoNftsYet": "No NFTs yet",
+  "@walletNoNftsYet": { "description": "Empty state title for NFTs tab." },
+
+  "walletNoNftsSubtitle": "Earn NFT badges by completing actions",
+  "@walletNoNftsSubtitle": { "description": "Empty state subtitle for NFTs tab." },
+
+  "walletNoActivityYet": "No activity yet",
+  "@walletNoActivityYet": { "description": "Empty state title for activity tab." },
+
+  "walletNoActivitySubtitle": "Your transaction history will appear here",
+  "@walletNoActivitySubtitle": { "description": "Empty state subtitle for activity tab." },
+
+  "walletCreateCustodial": "Create Custodial Wallet",
+  "@walletCreateCustodial": { "description": "Bottom sheet action to create a custodial wallet." },
+
+  "walletLinkExternal": "Link External Wallet",
+  "@walletLinkExternal": { "description": "Bottom sheet action to link an external wallet." },
+
+  "walletLinkWallet": "Link Wallet",
+  "@walletLinkWallet": { "description": "Dialog title for linking a wallet." },
+
+  "walletSolanaPublicKey": "Solana Public Key",
+  "@walletSolanaPublicKey": { "description": "Input label for a Solana public key." },
+
+  "walletEnterWalletAddress": "Enter your wallet address",
+  "@walletEnterWalletAddress": { "description": "Input hint for entering wallet address." },
+
+  "walletLink": "Link",
+  "@walletLink": { "description": "Confirm action button label for linking wallet." },
+
+  "walletReceiveSol": "Receive SOL",
+  "@walletReceiveSol": { "description": "Dialog title for receiving SOL." },
+
+  "walletYourWalletAddress": "Your wallet address:",
+  "@walletYourWalletAddress": { "description": "Label preceding displayed wallet address." },
+
+  "walletCopyAddress": "Copy Address",
+  "@walletCopyAddress": { "description": "Button label to copy wallet address." },
+
+  "walletMyVerilyWallet": "My Verily Wallet",
+  "@walletMyVerilyWallet": { "description": "Default label for created custodial wallet during setup." },
+
+  "walletPublicKey": "Public Key",
+  "@walletPublicKey": { "description": "Generic input label for wallet public key." },
+
+  "walletEnterSolanaPublicKey": "Enter your Solana public key",
+  "@walletEnterSolanaPublicKey": { "description": "Input hint on setup link dialog." },
+
+  "walletExternalWallet": "External Wallet",
+  "@walletExternalWallet": { "description": "Default label for linked external wallet during setup." },
+
+  "walletSetUpTitle": "Set Up Wallet",
+  "@walletSetUpTitle": { "description": "Wallet setup screen app bar title." },
+
+  "walletYourVerilyWallet": "Your Verily Wallet",
+  "@walletYourVerilyWallet": { "description": "Wallet setup hero title." },
+
+  "walletSetupDescription": "Create a wallet to receive SOL, tokens, and NFT rewards for completing actions. You can also link an existing Solana wallet.",
+  "@walletSetupDescription": { "description": "Wallet setup informational description." },
+
+  "walletCreateWallet": "Create Wallet",
+  "@walletCreateWallet": { "description": "Primary CTA button on wallet setup screen." },
+
+  "walletLinkExisting": "Link Existing Wallet",
+  "@walletLinkExisting": { "description": "Secondary CTA button on wallet setup screen." },
+
+  "walletSkipForNow": "Skip for now",
+  "@walletSkipForNow": { "description": "Tertiary CTA to skip wallet setup." },
+
 
   "loginTitle": "Log In",
   "@loginTitle": { "description": "Login screen title." },
@@ -204,6 +344,44 @@
   "feedNoActions": "No actions nearby. Explore trending actions instead!",
   "@feedNoActions": { "description": "Empty state for feed." },
 
+  "feedNoNearbyActionsTitle": "No actions nearby",
+  "@feedNoNearbyActionsTitle": { "description": "Feed empty state title for nearby tab." },
+
+  "feedNoNearbyActionsSubtitle": "Enable location to see actions around you",
+  "@feedNoNearbyActionsSubtitle": { "description": "Feed empty state subtitle for nearby tab." },
+
+  "feedNoTrendingActionsTitle": "No trending actions",
+  "@feedNoTrendingActionsTitle": { "description": "Feed empty state title for trending tab." },
+
+  "feedNoTrendingActionsSubtitle": "Check back later for popular actions",
+  "@feedNoTrendingActionsSubtitle": { "description": "Feed empty state subtitle for trending tab." },
+
+  "feedLoadFailed": "Failed to load actions",
+  "@feedLoadFailed": { "description": "Feed error title shown when actions fail to load." },
+
+  "feedHeroTitle": "Action radar online",
+  "@feedHeroTitle": { "description": "Title text in the premium feed hero card." },
+
+  "feedHeroMissionCount": "{count} missions ready near you",
+  "@feedHeroMissionCount": {
+    "description": "Subtitle in the feed hero card showing mission count.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "feedLiveBadge": "Live",
+  "@feedLiveBadge": { "description": "Badge label shown in feed hero card." },
+
+  "feedVerificationReady": "AI verification ready",
+  "@feedVerificationReady": { "description": "Status label shown at top of feed action cards." },
+
+  "feedEarnRewards": "Earn rewards",
+  "@feedEarnRewards": { "description": "Label shown in feed action card metadata row." },
+
+  "feedStartCta": "Start",
+  "@feedStartCta": { "description": "CTA label on feed action cards to begin an action." },
+
   "feedRefreshing": "Refreshing…",
   "@feedRefreshing": { "description": "Pull-to-refresh indicator." },
 
@@ -235,6 +413,35 @@
 
   "searchHint": "Try \"plant a tree\" or \"clean a beach\"",
   "@searchHint": { "description": "Search bar placeholder." },
+
+  "searchActionsPlaceholder": "Search actions...",
+  "@searchActionsPlaceholder": { "description": "Search input hint used in the search app bar." },
+
+  "searchMapViewTooltip": "Map view",
+  "@searchMapViewTooltip": { "description": "Tooltip for opening map view from search." },
+
+  "searchDiscoverByKeywordOrCategory": "Discover actions by keyword or category",
+  "@searchDiscoverByKeywordOrCategory": { "description": "Search hero helper text encouraging keyword or category discovery." },
+
+  "searchEmptyTitle": "Search for actions",
+  "@searchEmptyTitle": { "description": "Empty state title shown before a search query is entered." },
+
+  "searchEmptySubtitle": "Find actions by title, description, or tags",
+  "@searchEmptySubtitle": { "description": "Empty state subtitle shown before a search query is entered." },
+
+  "searchFailed": "Search failed",
+  "@searchFailed": { "description": "Error title shown when search request fails." },
+
+  "searchNoResultsFor": "No results for \"{query}\"",
+  "@searchNoResultsFor": {
+    "description": "No-results message with the user's search query.",
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+
+  "searchResultOpenStatus": "Open",
+  "@searchResultOpenStatus": { "description": "Status label shown on search result cards for open actions." },
 
   "searchCategories": "Categories",
   "@searchCategories": { "description": "Section header: categories." },
@@ -340,6 +547,9 @@
 
   "actionTypeSequential": "Sequential",
   "@actionTypeSequential": { "description": "Label for multi-step actions." },
+
+  "actionTypeHabit": "Habit",
+  "@actionTypeHabit": { "description": "Label for recurring or habit-style actions." },
 
   "actionTypeOneOffDescription": "A single action completed in one step.",
   "@actionTypeOneOffDescription": { "description": "Description of one-off actions." },
@@ -449,6 +659,9 @@
 
   "submitVideo": "Submit Video",
   "@submitVideo": { "description": "Button to submit video for verification." },
+
+  "submitForAiReview": "Submit for AI Review",
+  "@submitForAiReview": { "description": "Button label used to submit verification capture for AI review." },
 
   "submitting": "Submitting…",
   "@submitting": { "description": "Status while uploading submission." },
@@ -570,6 +783,58 @@
   "profileTitle": "Profile",
   "@profileTitle": { "description": "Profile tab title." },
 
+  "profileLoadFailed": "Failed to load profile",
+  "@profileLoadFailed": { "description": "Error title shown when the profile fails to load." },
+
+  "profileWalletSubtitle": "View balances, tokens & NFTs",
+  "@profileWalletSubtitle": { "description": "Subtitle text on the wallet card in profile." },
+
+  "profileActionsTab": "Actions",
+  "@profileActionsTab": { "description": "Profile tab label for created actions." },
+
+  "profileActionsLoadFailed": "Failed to load actions",
+  "@profileActionsLoadFailed": { "description": "Error text shown when profile actions fail to load." },
+
+  "profileNoActionsYet": "No actions yet",
+  "@profileNoActionsYet": { "description": "Empty state title when the user has no created actions." },
+
+  "profileCompleteActionCta": "Complete",
+  "@profileCompleteActionCta": { "description": "CTA label for completing an action from profile." },
+
+  "profileActionStatusActive": "Active",
+  "@profileActionStatusActive": { "description": "Localized action status label for active actions on profile." },
+
+  "profileActionStatusCompleted": "Completed",
+  "@profileActionStatusCompleted": { "description": "Localized action status label for completed actions on profile." },
+
+  "profileActionStatusClosed": "Closed",
+  "@profileActionStatusClosed": { "description": "Localized action status label for closed actions on profile." },
+
+  "profileRewardsLoadFailed": "Failed to load rewards",
+  "@profileRewardsLoadFailed": { "description": "Error text shown when profile rewards fail to load." },
+
+  "profileNoRewardsYet": "No rewards yet",
+  "@profileNoRewardsYet": { "description": "Empty state title when the user has no rewards." },
+
+  "profileNoRewardsSubtitle": "Complete actions to earn rewards",
+  "@profileNoRewardsSubtitle": { "description": "Empty state subtitle encouraging users to complete actions for rewards." },
+
+  "profileRewardNumber": "Reward #{rewardId}",
+  "@profileRewardNumber": {
+    "description": "Label for a reward item by reward identifier.",
+    "placeholders": {
+      "rewardId": { "type": "int" }
+    }
+  },
+
+  "profileRewardEarnedDate": "Earned {date}",
+  "@profileRewardEarnedDate": {
+    "description": "Text showing when a reward was earned.",
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+
   "editProfileTitle": "Edit Profile",
   "@editProfileTitle": { "description": "Edit profile screen title." },
 
@@ -689,6 +954,34 @@
   "locationNearby": "Nearby",
   "@locationNearby": { "description": "Label for nearby actions." },
 
+  "mapSearchPlacesHint": "Search places...",
+  "@mapSearchPlacesHint": { "description": "Hint text for the map location search input." },
+
+  "mapDiscoverNearbyHint": "Move map or search to discover nearby missions",
+  "@mapDiscoverNearbyHint": { "description": "Map overlay hint when no actions are currently visible." },
+
+  "mapActionsInView": "{count} actions in view",
+  "@mapActionsInView": {
+    "description": "Map overlay summary showing number of actions currently in the viewport.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "mapRadiusKm": "{radius} km",
+  "@mapRadiusKm": {
+    "description": "Radius label in kilometers for map filters and badges.",
+    "placeholders": {
+      "radius": { "type": "int" }
+    }
+  },
+
+  "mapNoActionsNearbyZoomOut": "No actions nearby. Try zooming out.",
+  "@mapNoActionsNearbyZoomOut": { "description": "Empty state message on map when no nearby actions are found." },
+
+  "mapRecenterTooltip": "Re-center",
+  "@mapRecenterTooltip": { "description": "Tooltip for the map floating action button that recenters to user location." },
+
   "locationDistance": "{distance} away",
   "@locationDistance": {
     "description": "Distance to an action.",
@@ -718,5 +1011,315 @@
   "@locationServiceDisabled": { "description": "Message when location services are off." },
 
   "locationUpdating": "Updating location…",
-  "@locationUpdating": { "description": "Status while fetching location." }
+  "@locationUpdating": { "description": "Status while fetching location." },
+
+
+  "homeTitle": "Home",
+  "@homeTitle": { "description": "Home tab title." },
+
+  "actionDetailsTitle": "Action Details",
+  "@actionDetailsTitle": { "description": "Action details screen title." },
+
+  "actionInvalidId": "Invalid action ID",
+  "@actionInvalidId": { "description": "Error shown when an action identifier is invalid or missing." },
+
+  "actionLoadFailed": "Failed to load action",
+  "@actionLoadFailed": { "description": "Error shown when action details fail to load." },
+
+  "actionTags": "Tags",
+  "@actionTags": { "description": "Label for action tags metadata." },
+
+  "actionMaxPerformers": "Max Performers",
+  "@actionMaxPerformers": { "description": "Label for maximum number of performers allowed for an action." },
+
+  "actionTotalSteps": "Total Steps",
+  "@actionTotalSteps": { "description": "Label for total number of steps in a sequential action." },
+
+  "actionDuration": "Duration",
+  "@actionDuration": { "description": "Label for action duration metadata." },
+
+  "actionFrequency": "Frequency",
+  "@actionFrequency": { "description": "Label for action recurrence or frequency metadata." },
+
+  "actionCreatedLabel": "Created",
+  "@actionCreatedLabel": { "description": "Label preceding action creation timestamp or date." },
+
+  "actionLinkCopiedToClipboard": "Link copied to clipboard",
+  "@actionLinkCopiedToClipboard": { "description": "Snackbar message shown after copying an action share link." },
+
+  "actionCreateWithAi": "Create with AI",
+  "@actionCreateWithAi": { "description": "Button or mode label for creating an action with AI assistance." },
+
+  "actionCreateManual": "Manual",
+  "@actionCreateManual": { "description": "Button or mode label for manually creating an action without AI." },
+
+  "actionDescribePrompt": "Describe the action",
+  "@actionDescribePrompt": { "description": "Prompt label asking the user to describe the action for AI generation." },
+
+  "actionGenerate": "Generate Action",
+  "@actionGenerate": { "description": "Button label to generate an action using AI." },
+
+  "actionEditPrompt": "Edit Prompt",
+  "@actionEditPrompt": { "description": "Button label to edit the AI generation prompt." },
+
+  "actionStop": "Stop",
+  "@actionStop": { "description": "Button label to stop an in-progress AI generation request." },
+
+  "actionCreateFailedRetry": "Failed to create action. Please try again.",
+  "@actionCreateFailedRetry": { "description": "Error message shown when creating an action fails." },
+
+  "actionLocationName": "Location Name",
+  "@actionLocationName": { "description": "Field label for entering a human-readable location name." },
+
+  "actionMaxPerformersOptional": "Max Performers (optional)",
+  "@actionMaxPerformersOptional": { "description": "Optional field label for maximum number of performers." },
+
+  "actionLocationExample": "e.g., Central Park",
+  "@actionLocationExample": { "description": "Example placeholder text for action location name input." },
+
+  "actionTitleExample": "e.g., Do 20 push-ups in the park",
+  "@actionTitleExample": { "description": "Example placeholder text for action title input." },
+
+  "actionDescriptionPerformerHint": "Describe what the performer needs to do...",
+  "@actionDescriptionPerformerHint": { "description": "Hint text for describing performer instructions in action creation." },
+
+  "authGoogle": "Google",
+  "@authGoogle": { "description": "Short provider label for Google authentication option." },
+
+  "authApple": "Apple",
+  "@authApple": { "description": "Short provider label for Apple authentication option." },
+
+  "gateAboutVerily": "About Verily",
+  "@gateAboutVerily": { "description": "Temporary l10n gate value for existing literal: About Verily" },
+
+  "gateActionFailedPleaseTryAgain": "Action failed. Please try again.",
+  "@gateActionFailedPleaseTryAgain": { "description": "Temporary l10n gate value for existing literal: Action failed. Please try again." },
+
+  "gateActions": "Actions",
+  "@gateActions": { "description": "Temporary l10n gate value for existing literal: Actions" },
+
+  "gateAmountEachPerformerReceives": "Amount each performer receives",
+  "@gateAmountEachPerformerReceives": { "description": "Temporary l10n gate value for existing literal: Amount each performer receives" },
+
+  "gateAppearance": "Appearance",
+  "@gateAppearance": { "description": "Temporary l10n gate value for existing literal: Appearance" },
+
+  "gateAtLeast8Characters": "At least 8 characters",
+  "@gateAtLeast8Characters": { "description": "Temporary l10n gate value for existing literal: At least 8 characters" },
+
+  "gateAudio": "Audio",
+  "@gateAudio": { "description": "Temporary l10n gate value for existing literal: Audio" },
+
+  "gateAvailable": "Available",
+  "@gateAvailable": { "description": "Temporary l10n gate value for existing literal: Available" },
+
+  "gateBackToFeed": "Back to Feed",
+  "@gateBackToFeed": { "description": "Temporary l10n gate value for existing literal: Back to Feed" },
+
+  "gateBlockUser": "Block user",
+  "@gateBlockUser": { "description": "Temporary l10n gate value for existing literal: Block user" },
+
+  "gateBrowseMoreActions": "Browse more actions",
+  "@gateBrowseMoreActions": { "description": "Temporary l10n gate value for existing literal: Browse more actions" },
+
+  "gateCancelPool": "Cancel Pool",
+  "@gateCancelPool": { "description": "Temporary l10n gate value for existing literal: Cancel Pool" },
+
+  "gateCancelPool_2": "Cancel Pool?",
+  "@gateCancelPool_2": { "description": "Temporary l10n gate value for existing literal: Cancel Pool?" },
+
+  "gateCaptureA30sCleanupClipOnYourStreet": "Capture a 30s cleanup clip on your street",
+  "@gateCaptureA30sCleanupClipOnYourStreet": { "description": "Temporary l10n gate value for existing literal: Capture a 30s cleanup clip on your street" },
+
+  "gateChooseAUniqueUsername": "Choose a unique username",
+  "@gateChooseAUniqueUsername": { "description": "Temporary l10n gate value for existing literal: Choose a unique username" },
+
+  "gateCleanUpABeachFor10Min": "Clean up a beach for 10 min",
+  "@gateCleanUpABeachFor10Min": { "description": "Temporary l10n gate value for existing literal: Clean up a beach for 10 min" },
+
+  "gateClear": "Clear",
+  "@gateClear": { "description": "Temporary l10n gate value for existing literal: Clear" },
+
+  "gateComplete": "Complete",
+  "@gateComplete": { "description": "Temporary l10n gate value for existing literal: Complete" },
+
+  "gateContinueToVideoCapture": "Continue to Video Capture",
+  "@gateContinueToVideoCapture": { "description": "Temporary l10n gate value for existing literal: Continue to Video Capture" },
+
+  "gateCreateRewardPool": "Create Reward Pool",
+  "@gateCreateRewardPool": { "description": "Temporary l10n gate value for existing literal: Create Reward Pool" },
+
+  "gateCredentials": "Credentials",
+  "@gateCredentials": { "description": "Temporary l10n gate value for existing literal: Credentials" },
+
+  "gateDo50PushUpsAtAPark": "Do 50 push-ups at a park",
+  "@gateDo50PushUpsAtAPark": { "description": "Temporary l10n gate value for existing literal: Do 50 push-ups at a park" },
+
+  "gateEnterSplTokenMintAddress": "Enter SPL token mint address",
+  "@gateEnterSplTokenMintAddress": { "description": "Temporary l10n gate value for existing literal: Enter SPL token mint address" },
+
+  "gateFailedToCreateRewardPoolPleaseTryAgain": "Failed to create reward pool. Please try again.",
+  "@gateFailedToCreateRewardPoolPleaseTryAgain": { "description": "Temporary l10n gate value for existing literal: Failed to create reward pool. Please try again." },
+
+  "gateFailedToLoadDistributions": "Failed to load distributions",
+  "@gateFailedToLoadDistributions": { "description": "Temporary l10n gate value for existing literal: Failed to load distributions" },
+
+  "gateFailedToOpenCameraPleaseTryAgain": "Failed to open camera. Please try again.",
+  "@gateFailedToOpenCameraPleaseTryAgain": { "description": "Temporary l10n gate value for existing literal: Failed to open camera. Please try again." },
+
+  "gateFailedToSaveProfilePleaseTryAgain": "Failed to save profile. Please try again.",
+  "@gateFailedToSaveProfilePleaseTryAgain": { "description": "Temporary l10n gate value for existing literal: Failed to save profile. Please try again." },
+
+  "gateFailedToSubmitVideoPleaseTryAgain": "Failed to submit video. Please try again.",
+  "@gateFailedToSubmitVideoPleaseTryAgain": { "description": "Temporary l10n gate value for existing literal: Failed to submit video. Please try again." },
+
+  "gateFileSize": "File Size",
+  "@gateFileSize": { "description": "Temporary l10n gate value for existing literal: File Size" },
+
+  "gateFilmA1MinuteKindnessAction": "Film a 1 minute kindness action",
+  "@gateFilmA1MinuteKindnessAction": { "description": "Temporary l10n gate value for existing literal: Film a 1 minute kindness action" },
+
+  "gateFundCreatePool": "Fund & Create Pool",
+  "@gateFundCreatePool": { "description": "Temporary l10n gate value for existing literal: Fund & Create Pool" },
+
+  "gateKeep": "Keep",
+  "@gateKeep": { "description": "Temporary l10n gate value for existing literal: Keep" },
+
+  "gateLive": "Live",
+  "@gateLive": { "description": "Temporary l10n gate value for existing literal: Live" },
+
+  "gateLocationSharing": "Location Sharing",
+  "@gateLocationSharing": { "description": "Temporary l10n gate value for existing literal: Location Sharing" },
+
+  "gateLogLocation": "Log Location",
+  "@gateLogLocation": { "description": "Temporary l10n gate value for existing literal: Log Location" },
+
+  "gateMapView": "Map view",
+  "@gateMapView": { "description": "Temporary l10n gate value for existing literal: Map view" },
+
+  "gateMaxRecipientsOptional": "Max Recipients (optional)",
+  "@gateMaxRecipientsOptional": { "description": "Temporary l10n gate value for existing literal: Max Recipients (optional)" },
+
+  "gateMeditateDailyForAWeek": "Meditate daily for a week",
+  "@gateMeditateDailyForAWeek": { "description": "Temporary l10n gate value for existing literal: Meditate daily for a week" },
+
+  "gateMorningMeditation7DayStreak": "Morning meditation - 7 day streak",
+  "@gateMorningMeditation7DayStreak": { "description": "Temporary l10n gate value for existing literal: Morning meditation - 7 day streak" },
+
+  "gateNft": "NFT",
+  "@gateNft": { "description": "Temporary l10n gate value for existing literal: NFT" },
+
+  "gateNoActionsNearbyTryZoomingOut": "No actions nearby. Try zooming out.",
+  "@gateNoActionsNearbyTryZoomingOut": { "description": "Temporary l10n gate value for existing literal: No actions nearby. Try zooming out." },
+
+  "gateOpenSourceLicenses": "Open Source Licenses",
+  "@gateOpenSourceLicenses": { "description": "Temporary l10n gate value for existing literal: Open Source Licenses" },
+
+  "gateOpenVerification": "Open Verification",
+  "@gateOpenVerification": { "description": "Temporary l10n gate value for existing literal: Open Verification" },
+
+  "gateOpenVerificationCapture": "Open verification capture",
+  "@gateOpenVerificationCapture": { "description": "Temporary l10n gate value for existing literal: Open verification capture" },
+
+  "gatePerPersonAmount": "Per Person Amount",
+  "@gatePerPersonAmount": { "description": "Temporary l10n gate value for existing literal: Per Person Amount" },
+
+  "gatePleaseEnterATokenMintAddress": "Please enter a token mint address.",
+  "@gatePleaseEnterATokenMintAddress": { "description": "Temporary l10n gate value for existing literal: Please enter a token mint address." },
+
+  "gatePleaseEnterAValidPerPersonAmount": "Please enter a valid per-person amount.",
+  "@gatePleaseEnterAValidPerPersonAmount": { "description": "Temporary l10n gate value for existing literal: Please enter a valid per-person amount." },
+
+  "gatePleaseEnterAValidTotalAmount": "Please enter a valid total amount.",
+  "@gatePleaseEnterAValidTotalAmount": { "description": "Temporary l10n gate value for existing literal: Please enter a valid total amount." },
+
+  "gatePoolWillRemainActiveUntilDepleted": "Pool will remain active until depleted",
+  "@gatePoolWillRemainActiveUntilDepleted": { "description": "Temporary l10n gate value for existing literal: Pool will remain active until depleted" },
+
+  "gateReCenter": "Re-center",
+  "@gateReCenter": { "description": "Temporary l10n gate value for existing literal: Re-center" },
+
+  "gateRecord20PushUpsAtALocalPark": "Record 20 push-ups at a local park",
+  "@gateRecord20PushUpsAtALocalPark": { "description": "Temporary l10n gate value for existing literal: Record 20 push-ups at a local park" },
+
+  "gateReportSubmitted": "Report submitted.",
+  "@gateReportSubmitted": { "description": "Temporary l10n gate value for existing literal: Report submitted." },
+
+  "gateReportUser": "Report user",
+  "@gateReportUser": { "description": "Temporary l10n gate value for existing literal: Report user" },
+
+  "gateResendCode": "Resend Code",
+  "@gateResendCode": { "description": "Temporary l10n gate value for existing literal: Resend Code" },
+
+  "gateRewardPool": "Reward Pool",
+  "@gateRewardPool": { "description": "Temporary l10n gate value for existing literal: Reward Pool" },
+
+  "gateRewardType": "Reward Type",
+  "@gateRewardType": { "description": "Temporary l10n gate value for existing literal: Reward Type" },
+
+  "gateSol": "SOL",
+  "@gateSol": { "description": "Temporary l10n gate value for existing literal: SOL" },
+
+  "gateSearchActions": "Search actions...",
+  "@gateSearchActions": { "description": "Temporary l10n gate value for existing literal: Search actions..." },
+
+  "gateSearchPlaces": "Search places...",
+  "@gateSearchPlaces": { "description": "Temporary l10n gate value for existing literal: Search places..." },
+
+  "gateSelectAnActionBeforeStartingVerification": "Select an action before starting verification.",
+  "@gateSelectAnActionBeforeStartingVerification": { "description": "Temporary l10n gate value for existing literal: Select an action before starting verification." },
+
+  "gateSetExpiryDate": "Set Expiry Date",
+  "@gateSetExpiryDate": { "description": "Temporary l10n gate value for existing literal: Set Expiry Date" },
+
+  "gateStart": "Start",
+  "@gateStart": { "description": "Temporary l10n gate value for existing literal: Start" },
+
+  "gateStopRecordingBeforeSubmittingForReview": "Stop recording before submitting for review.",
+  "@gateStopRecordingBeforeSubmittingForReview": { "description": "Temporary l10n gate value for existing literal: Stop recording before submitting for review." },
+
+  "gateStreak": "Streak",
+  "@gateStreak": { "description": "Temporary l10n gate value for existing literal: Streak" },
+
+  "gateTellOthersAboutYourself": "Tell others about yourself...",
+  "@gateTellOthersAboutYourself": { "description": "Temporary l10n gate value for existing literal: Tell others about yourself..." },
+
+  "gateToken": "Token",
+  "@gateToken": { "description": "Temporary l10n gate value for existing literal: Token" },
+
+  "gateTokenMintAddress": "Token Mint Address",
+  "@gateTokenMintAddress": { "description": "Temporary l10n gate value for existing literal: Token Mint Address" },
+
+  "gateTryAgain": "Try Again",
+  "@gateTryAgain": { "description": "Temporary l10n gate value for existing literal: Try Again" },
+
+  "gateType": "Type",
+  "@gateType": { "description": "Temporary l10n gate value for existing literal: Type" },
+
+  "gateUserBlocked": "User blocked.",
+  "@gateUserBlocked": { "description": "Temporary l10n gate value for existing literal: User blocked." },
+
+  "gateUsername": "Username",
+  "@gateUsername": { "description": "Temporary l10n gate value for existing literal: Username" },
+
+  "gateVerificationCapture": "Verification Capture",
+  "@gateVerificationCapture": { "description": "Temporary l10n gate value for existing literal: Verification Capture" },
+
+  "gateVerificationCode": "Verification Code",
+  "@gateVerificationCode": { "description": "Temporary l10n gate value for existing literal: Verification Code" },
+
+  "gateVerify": "Verify",
+  "@gateVerify": { "description": "Temporary l10n gate value for existing literal: Verify" },
+
+  "gateVideo": "Video",
+  "@gateVideo": { "description": "Temporary l10n gate value for existing literal: Video" },
+
+  "gateViewDetails": "View Details",
+  "@gateViewDetails": { "description": "Temporary l10n gate value for existing literal: View Details" },
+
+  "gateVisit3LocalCoffeeShopsAndReview": "Visit 3 local coffee shops and review",
+  "@gateVisit3LocalCoffeeShopsAndReview": { "description": "Temporary l10n gate value for existing literal: Visit 3 local coffee shops and review" },
+
+  "gateYourPublicName": "Your public name",
+  "@gateYourPublicName": { "description": "Temporary l10n gate value for existing literal: Your public name" }
 }
