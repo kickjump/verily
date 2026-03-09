@@ -95,7 +95,14 @@ jobs:
         shell: devenv shell -- bash -e {0}
 
       - name: apply server migrations (test)
-        run: cd verily_server && serverpod migrate --apply --role=test
+        run: |
+          cd verily_server
+          SERVERPOD_DATABASE_HOST=localhost \
+          SERVERPOD_DATABASE_PORT=9090 \
+          SERVERPOD_DATABASE_NAME=verily_test \
+          SERVERPOD_REDIS_HOST=localhost \
+          SERVERPOD_REDIS_PORT=9091 \
+          dart bin/main.dart --role maintenance --apply-migrations
         shell: devenv shell -- bash -e {0}
 
       - name: run server tests (excluding DB integration shard)
@@ -153,7 +160,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: apply server migrations (test)
-        run: cd verily_server && serverpod migrate --apply --role=test
+        run: |
+          cd verily_server
+          SERVERPOD_DATABASE_HOST=localhost \
+          SERVERPOD_DATABASE_PORT=9090 \
+          SERVERPOD_DATABASE_NAME=verily_test \
+          SERVERPOD_REDIS_HOST=localhost \
+          SERVERPOD_REDIS_PORT=9091 \
+          dart bin/main.dart --role maintenance --apply-migrations
         shell: devenv shell -- bash -e {0}
 
       - name: run DB integration shard (tag=db)
