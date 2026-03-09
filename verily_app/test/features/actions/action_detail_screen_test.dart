@@ -1,4 +1,5 @@
 // UuidValue construction uses experimental API.
+import '../../helpers/pump_app_l10n.dart';
 // ignore_for_file: experimental_member_use
 
 // Test overrides don't need scoped provider dependencies.
@@ -10,7 +11,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/actions/action_detail_screen.dart';
 import 'package:verily_app/src/features/actions/providers/action_detail_provider.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('ActionDetailScreen', () {
@@ -55,7 +55,7 @@ void main() {
     });
 
     Future<void> pumpActionDetailScreen(WidgetTester tester) async {
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         const ActionDetailScreen(actionId: '1'),
         container: container,
       );
@@ -72,7 +72,7 @@ void main() {
     testWidgets('renders Action Details app bar title', (tester) async {
       await pumpActionDetailScreen(tester);
 
-      expect(find.text('Action Details'), findsOneWidget);
+      expect(find.text('Action Detail'), findsOneWidget);
     });
 
     testWidgets('renders Submit Video button', (tester) async {

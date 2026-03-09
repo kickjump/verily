@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/features/profile/providers/rewards_provider.dart';
 import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
@@ -21,11 +22,11 @@ class ProfileScreen extends HookConsumerWidget {
 
     return profileAsync.when(
       loading: () => Scaffold(
-        appBar: AppBar(title: const Text('Profile')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context).profileTitle)),
         body: const Center(child: CircularProgressIndicator()),
       ),
       error: (error, _) => Scaffold(
-        appBar: AppBar(title: const Text('Profile')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context).profileTitle)),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +44,7 @@ class ProfileScreen extends HookConsumerWidget {
               const SizedBox(height: SpacingTokens.md),
               FilledButton(
                 onPressed: () => ref.invalidate(currentUserProfileProvider),
-                child: const Text('Retry'),
+                child: Text(AppLocalizations.of(context).retry),
               ),
             ],
           ),
@@ -76,7 +77,7 @@ class _ProfileBody extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(AppLocalizations.of(context).profileTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit_outlined),
@@ -230,13 +231,13 @@ class _StatsBar extends HookWidget {
         children: [
           _StatItem(
             count: '$actionCount',
-            label: 'Actions',
+            label: AppLocalizations.of(context).profileActionsTab,
             icon: Icons.add_circle_outline,
           ),
           Container(width: 1, height: 32, color: colorScheme.outlineVariant),
           _StatItem(
             count: '$rewardCount',
-            label: 'Rewards',
+            label: AppLocalizations.of(context).rewardsTitle,
             icon: Icons.emoji_events_outlined,
           ),
         ],

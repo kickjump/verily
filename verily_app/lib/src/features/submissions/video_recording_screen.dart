@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -72,8 +73,12 @@ class VideoRecordingScreen extends HookConsumerWidget {
         debugPrint('Camera error: $e');
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to open camera. Please try again.'),
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(
+                  context,
+                ).submissionFailedToOpenCameraTryAgain,
+              ),
             ),
           );
         }
@@ -132,6 +137,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
                   children: [
                     // Close button
                     IconButton(
+                      key: const Key('videoRecording_closeButton'),
                       icon: const Icon(Icons.close, color: Colors.white),
                       onPressed: isRecording.value ? null : () => context.pop(),
                       style: IconButton.styleFrom(
@@ -176,6 +182,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
 
                     // Switch camera button
                     IconButton(
+                      key: const Key('videoRecording_flipCameraButton'),
                       icon: const Icon(
                         Icons.flip_camera_ios_outlined,
                         color: Colors.white,
@@ -284,6 +291,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
 
                     // Record button
                     GestureDetector(
+                      key: const Key('videoRecording_recordButton'),
                       onTap: isLaunching.value ? null : launchCamera,
                       child: Container(
                         width: 80,

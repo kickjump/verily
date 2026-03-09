@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../helpers/pump_app_l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/search/search_provider.dart';
 import 'package:verily_app/src/features/search/search_screen.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('SearchScreen', () {
@@ -24,7 +24,7 @@ void main() {
           actionCategoriesProvider.overrideWith((ref) async => mockCategories),
         ],
       );
-      await tester.pumpApp(const SearchScreen(), container: container);
+      await tester.pumpAppL10n(const SearchScreen(), container: container);
       // Allow async provider to resolve.
       await tester.pumpAndSettle();
     }

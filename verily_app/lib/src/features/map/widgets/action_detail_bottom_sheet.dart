@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_client/verily_client.dart' as api;
 import 'package:verily_ui/verily_ui.dart';
@@ -123,7 +124,7 @@ class ActionDetailBottomSheet extends HookWidget {
                       );
                     }
                   },
-                  child: const Text('View Details'),
+                  child: Text(AppLocalizations.of(context).actionViewDetails),
                 ),
               ),
             ],

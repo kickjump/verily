@@ -1,4 +1,5 @@
 // Test overrides don't need scoped provider dependencies.
+import '../../helpers/pump_app_l10n.dart';
 // ignore_for_file: scoped_providers_should_specify_dependencies
 // UuidValue is required by Serverpod's generated Action model.
 // ignore_for_file: experimental_member_use
@@ -9,7 +10,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/features/home/home_screen.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-import 'package:verily_test_utils/verily_test_utils.dart';
 
 final _mockActions = <vc.Action>[
   vc.Action(
@@ -61,7 +61,7 @@ void main() {
     });
 
     Future<void> pumpHomeScreen(WidgetTester tester) async {
-      await tester.pumpApp(const HomeScreen(), container: container);
+      await tester.pumpAppL10n(const HomeScreen(), container: container);
       // Allow the async providers to settle.
       await tester.pumpAndSettle();
     }

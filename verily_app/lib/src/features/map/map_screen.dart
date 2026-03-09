@@ -5,6 +5,7 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/map/providers/location_providers.dart';
 import 'package:verily_app/src/features/map/widgets/action_detail_bottom_sheet.dart';
 import 'package:verily_app/src/features/map/widgets/action_map_marker.dart';
@@ -185,8 +186,12 @@ class MapScreen extends HookConsumerWidget {
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                       const SizedBox(width: SpacingTokens.sm),
-                      const Expanded(
-                        child: Text('No actions nearby. Try zooming out.'),
+                      Expanded(
+                        child: Text(
+                          AppLocalizations.of(
+                            context,
+                          ).mapNoActionsNearbyZoomOut,
+                        ),
                       ),
                     ],
                   ),
@@ -197,7 +202,7 @@ class MapScreen extends HookConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.small(
         onPressed: recenter,
-        tooltip: 'Re-center',
+        tooltip: AppLocalizations.of(context).mapRecenterTooltip,
         child: const Icon(Icons.my_location),
       ),
       bottomSheet: selectedAction.value != null

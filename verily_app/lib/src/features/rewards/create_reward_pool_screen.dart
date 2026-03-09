@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/rewards/providers/reward_pool_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -41,15 +42,25 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
 
       if (totalAmount == null || totalAmount <= 0) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please enter a valid total amount.')),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(
+                context,
+              ).rewardPoolPleaseEnterValidTotalAmount,
+            ),
+          ),
         );
         return;
       }
 
       if (rewardType.value != 'nft' && (perPerson == null || perPerson <= 0)) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please enter a valid per-person amount.'),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(
+                context,
+              ).rewardPoolPleaseEnterValidPerPersonAmount,
+            ),
           ),
         );
         return;
@@ -57,7 +68,13 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
 
       if (rewardType.value == 'spl_token' && tokenMintController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please enter a token mint address.')),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(
+                context,
+              ).rewardPoolPleaseEnterTokenMintAddress,
+            ),
+          ),
         );
         return;
       }
@@ -87,39 +104,46 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
       } else if (context.mounted) {
         isSubmitting.value = false;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to create reward pool. Please try again.'),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context).rewardPoolCreateFailedTryAgain,
+            ),
           ),
         );
       }
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Reward Pool')),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).rewardPoolCreateRewardPool),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Reward type selector
-            Text('Reward Type', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              AppLocalizations.of(context).rewardPoolRewardType,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
             SegmentedButton<String>(
-              segments: const [
+              segments: [
                 ButtonSegment(
                   value: 'sol',
-                  label: Text('SOL'),
-                  icon: Icon(Icons.currency_exchange),
+                  label: Text(AppLocalizations.of(context).rewardPoolSol),
+                  icon: const Icon(Icons.currency_exchange),
                 ),
                 ButtonSegment(
                   value: 'spl_token',
-                  label: Text('Token'),
-                  icon: Icon(Icons.token),
+                  label: Text(AppLocalizations.of(context).rewardPoolToken),
+                  icon: const Icon(Icons.token),
                 ),
                 ButtonSegment(
                   value: 'nft',
-                  label: Text('NFT'),
-                  icon: Icon(Icons.collections),
+                  label: Text(AppLocalizations.of(context).rewardPoolNft),
+                  icon: const Icon(Icons.collections),
                 ),
               ],
               selected: {rewardType.value},
@@ -133,8 +157,12 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
             if (rewardType.value == 'spl_token') ...[
               VTextField(
                 controller: tokenMintController,
-                labelText: 'Token Mint Address',
-                hintText: 'Enter SPL token mint address',
+                labelText: AppLocalizations.of(
+                  context,
+                ).rewardPoolTokenMintAddress,
+                hintText: AppLocalizations.of(
+                  context,
+                ).rewardPoolEnterSplTokenMintAddress,
               ),
               const SizedBox(height: 16),
             ],
@@ -156,8 +184,12 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
             if (rewardType.value != 'nft') ...[
               VTextField(
                 controller: perPersonController,
-                labelText: 'Per Person Amount',
-                hintText: 'Amount each performer receives',
+                labelText: AppLocalizations.of(
+                  context,
+                ).rewardPoolPerPersonAmount,
+                hintText: AppLocalizations.of(
+                  context,
+                ).rewardPoolPerPersonAmountHint,
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 16),
@@ -166,20 +198,26 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
             // Max recipients
             VTextField(
               controller: maxRecipientsController,
-              labelText: 'Max Recipients (optional)',
-              hintText: 'Leave empty for unlimited',
+              labelText: AppLocalizations.of(
+                context,
+              ).rewardPoolMaxRecipientsOptional,
+              hintText: AppLocalizations.of(context).actionMaxParticipantsHint,
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16),
 
             // Expiry
             SwitchListTile(
-              title: const Text('Set Expiry Date'),
+              title: Text(AppLocalizations.of(context).rewardPoolSetExpiryDate),
               subtitle: hasExpiry.value && expiryDate.value != null
                   ? Text(
                       'Expires: ${expiryDate.value!.toLocal().toString().substring(0, 16)}',
                     )
-                  : const Text('Pool will remain active until depleted'),
+                  : Text(
+                      AppLocalizations.of(
+                        context,
+                      ).rewardPoolWillRemainActiveUntilDepleted,
+                    ),
               value: hasExpiry.value,
               onChanged: (value) {
                 hasExpiry.value = value;
@@ -220,7 +258,9 @@ class CreateRewardPoolScreen extends HookConsumerWidget {
             VFilledButton(
               isLoading: isSubmitting.value,
               onPressed: isSubmitting.value ? null : createPool,
-              child: const Text('Fund & Create Pool'),
+              child: Text(
+                AppLocalizations.of(context).rewardPoolFundAndCreatePool,
+              ),
             ),
           ],
         ),

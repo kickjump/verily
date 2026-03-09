@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/search/search_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_client/verily_client.dart' as vc;
@@ -30,7 +31,7 @@ class SearchScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: VTextField(
           controller: searchController,
-          hintText: 'Search actions...',
+          hintText: AppLocalizations.of(context).searchActionsPlaceholder,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: searchQuery.value.isNotEmpty
               ? IconButton(
@@ -46,7 +47,7 @@ class SearchScreen extends HookConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.map_outlined),
-            tooltip: 'Map view',
+            tooltip: AppLocalizations.of(context).searchMapViewTooltip,
             onPressed: () => context.push(RouteNames.mapPath),
           ),
         ],
@@ -151,7 +152,7 @@ class _SearchResults extends HookConsumerWidget {
             const SizedBox(height: SpacingTokens.md),
             FilledButton(
               onPressed: () => ref.invalidate(searchActionsProvider(query)),
-              child: const Text('Retry'),
+              child: Text(AppLocalizations.of(context).retry),
             ),
           ],
         ),

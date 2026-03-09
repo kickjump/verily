@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../helpers/pump_app_l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:verily_app/src/features/submissions/video_recording_screen.dart';
-import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('VideoRecordingScreen', () {
     Future<void> pumpVideoRecordingScreen(WidgetTester tester) async {
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         const VideoRecordingScreen(actionId: 'test_action_1'),
       );
     }

@@ -1,4 +1,5 @@
 // UuidValue construction uses experimental API.
+import '../../helpers/pump_app_l10n.dart';
 // ignore_for_file: experimental_member_use
 
 // Test overrides don't need scoped provider dependencies.
@@ -7,12 +8,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/l10n/generated/app_localizations_en.dart';
 import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/features/feed/feed_screen.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-import 'package:verily_test_utils/verily_test_utils.dart';
 
 /// Mock actions used in feed tests.
 final _mockActions = <vc.Action>[
@@ -62,12 +61,7 @@ void main() {
     });
 
     Future<void> pumpFeedScreen(WidgetTester tester) async {
-      await tester.pumpApp(
-        const FeedScreen(),
-        container: container,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-      );
+      await tester.pumpAppL10n(const FeedScreen(), container: container);
       // Wait for the async provider to resolve.
       await tester.pumpAndSettle();
     }

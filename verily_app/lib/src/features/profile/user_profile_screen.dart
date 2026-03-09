@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
@@ -37,7 +38,11 @@ class UserProfileScreen extends HookConsumerWidget {
       } on Exception {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Action failed. Please try again.')),
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context).profileActionFailedRetry,
+              ),
+            ),
           );
         }
       } finally {
@@ -57,7 +62,7 @@ class UserProfileScreen extends HookConsumerWidget {
               Icon(Icons.error_outline, size: 64, color: colorScheme.error),
               const SizedBox(height: SpacingTokens.md),
               Text(
-                'Failed to load profile',
+                AppLocalizations.of(context).profileLoadFailed,
                 style: theme.textTheme.titleMedium?.copyWith(
                   color: colorScheme.error,
                 ),
@@ -66,7 +71,7 @@ class UserProfileScreen extends HookConsumerWidget {
               FilledButton(
                 onPressed: () =>
                     ref.invalidate(userProfileByUsernameProvider(userId)),
-                child: const Text('Retry'),
+                child: Text(AppLocalizations.of(context).retry),
               ),
             ],
           ),
@@ -120,23 +125,37 @@ class UserProfileScreen extends HookConsumerWidget {
                         children: [
                           ListTile(
                             leading: const Icon(Icons.flag_outlined),
-                            title: const Text('Report user'),
+                            title: Text(
+                              AppLocalizations.of(context).profileReportUser,
+                            ),
                             onTap: () {
                               Navigator.of(ctx).pop();
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Report submitted.'),
+                                SnackBar(
+                                  content: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    ).profileReportSubmitted,
+                                  ),
                                 ),
                               );
                             },
                           ),
                           ListTile(
                             leading: const Icon(Icons.block_outlined),
-                            title: const Text('Block user'),
+                            title: Text(
+                              AppLocalizations.of(context).profileBlockUser,
+                            ),
                             onTap: () {
                               Navigator.of(ctx).pop();
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('User blocked.')),
+                                SnackBar(
+                                  content: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    ).profileUserBlocked,
+                                  ),
+                                ),
                               );
                             },
                           ),
@@ -189,12 +208,14 @@ class UserProfileScreen extends HookConsumerWidget {
                                   onPressed: isLoadingFollow.value
                                       ? null
                                       : toggleFollow,
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.check, size: 18),
-                                      SizedBox(width: SpacingTokens.xs),
-                                      Text('Following'),
+                                      const Icon(Icons.check, size: 18),
+                                      const SizedBox(width: SpacingTokens.xs),
+                                      Text(
+                                        AppLocalizations.of(context).following,
+                                      ),
                                     ],
                                   ),
                                 )
@@ -203,12 +224,15 @@ class UserProfileScreen extends HookConsumerWidget {
                                   onPressed: isLoadingFollow.value
                                       ? null
                                       : toggleFollow,
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.person_add_outlined, size: 18),
-                                      SizedBox(width: SpacingTokens.xs),
-                                      Text('Follow'),
+                                      const Icon(
+                                        Icons.person_add_outlined,
+                                        size: 18,
+                                      ),
+                                      const SizedBox(width: SpacingTokens.xs),
+                                      Text(AppLocalizations.of(context).follow),
                                     ],
                                   ),
                                 ),
@@ -269,7 +293,7 @@ class _PublicActionsTab extends HookWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (_, __) => Center(
         child: Text(
-          'Failed to load actions',
+          AppLocalizations.of(context).feedLoadFailed,
           style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.error),
         ),
       ),
@@ -290,7 +314,7 @@ class _PublicActionsTab extends HookWidget {
                 ),
                 const SizedBox(height: SpacingTokens.md),
                 Text(
-                  'No actions yet',
+                  AppLocalizations.of(context).profileNoActionsYet,
                   style: theme.textTheme.titleMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),

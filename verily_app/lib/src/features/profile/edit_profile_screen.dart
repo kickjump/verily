@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
 import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
 import 'package:verily_client/verily_client.dart' as vc;
@@ -19,11 +20,15 @@ class EditProfileScreen extends HookConsumerWidget {
 
     return profileAsync.when(
       loading: () => Scaffold(
-        appBar: AppBar(title: const Text('Edit Profile')),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context).editProfileTitle),
+        ),
         body: const Center(child: CircularProgressIndicator()),
       ),
       error: (error, _) => Scaffold(
-        appBar: AppBar(title: const Text('Edit Profile')),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context).editProfileTitle),
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -31,13 +36,13 @@ class EditProfileScreen extends HookConsumerWidget {
               Icon(Icons.error_outline, size: 64, color: colorScheme.error),
               const SizedBox(height: SpacingTokens.md),
               Text(
-                'Failed to load profile',
+                AppLocalizations.of(context).profileLoadFailed,
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: SpacingTokens.md),
               FilledButton(
                 onPressed: () => ref.invalidate(currentUserProfileProvider),
-                child: const Text('Retry'),
+                child: Text(AppLocalizations.of(context).retry),
               ),
             ],
           ),
@@ -101,8 +106,10 @@ class _EditProfileBody extends HookConsumerWidget {
         isSaving.value = false;
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to save profile. Please try again.'),
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context).profileFailedToSaveTryAgain,
+              ),
             ),
           );
         }
@@ -117,7 +124,7 @@ class _EditProfileBody extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: Text(AppLocalizations.of(context).editProfileTitle),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: SpacingTokens.sm),
@@ -126,7 +133,7 @@ class _EditProfileBody extends HookConsumerWidget {
               onPressed: (hasChanges.value && !isSaving.value)
                   ? saveProfile
                   : null,
-              child: const Text('Save'),
+              child: Text(AppLocalizations.of(context).save),
             ),
           ),
         ],
@@ -176,8 +183,10 @@ class _EditProfileBody extends HookConsumerWidget {
               // Username field
               VTextField(
                 controller: usernameController,
-                labelText: 'Username',
-                hintText: 'Choose a unique username',
+                labelText: AppLocalizations.of(context).profileUsername,
+                hintText: AppLocalizations.of(
+                  context,
+                ).profileChooseUniqueUsername,
                 prefixText: '@',
                 prefixIcon: const Icon(Icons.alternate_email),
                 enabled: !isSaving.value,
@@ -199,8 +208,8 @@ class _EditProfileBody extends HookConsumerWidget {
               // Display name field
               VTextField(
                 controller: displayNameController,
-                labelText: 'Display Name',
-                hintText: 'Your public name',
+                labelText: AppLocalizations.of(context).displayName,
+                hintText: AppLocalizations.of(context).profileYourPublicName,
                 prefixIcon: const Icon(Icons.person_outline),
                 enabled: !isSaving.value,
                 validator: (value) {
@@ -215,8 +224,10 @@ class _EditProfileBody extends HookConsumerWidget {
               // Bio field
               VTextField(
                 controller: bioController,
-                labelText: 'Bio',
-                hintText: 'Tell others about yourself...',
+                labelText: AppLocalizations.of(context).profileBio,
+                hintText: AppLocalizations.of(
+                  context,
+                ).profileTellOthersAboutYourself,
                 maxLines: 4,
                 enabled: !isSaving.value,
               ),
