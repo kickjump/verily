@@ -4,6 +4,25 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_ui/verily_ui.dart';
 
+typedef TestLocalizationsDelegatesBuilder =
+    Iterable<LocalizationsDelegate<dynamic>> Function();
+
+TestLocalizationsDelegatesBuilder? _defaultLocalizationsDelegatesBuilder;
+
+/// Registers default localization delegates used by `pumpApp` when a
+/// test does not explicitly pass `localizationsDelegates`.
+void registerDefaultLocalizationsDelegates(
+  TestLocalizationsDelegatesBuilder builder,
+) {
+  _defaultLocalizationsDelegatesBuilder = builder;
+}
+
+/// Clears any delegates previously registered with
+/// [registerDefaultLocalizationsDelegates].
+void clearDefaultLocalizationsDelegates() {
+  _defaultLocalizationsDelegatesBuilder = null;
+}
+
 /// Extension on [WidgetTester] to pump a widget wrapped with
 /// [ProviderScope] and the Verily theme.
 extension PumpApp on WidgetTester {
@@ -21,12 +40,14 @@ extension PumpApp on WidgetTester {
     Iterable<Locale>? supportedLocales,
   }) {
     final Widget app;
+    final resolvedLocalizationsDelegates =
+        localizationsDelegates ?? _defaultLocalizationsDelegatesBuilder?.call();
 
     if (router != null) {
       app = MaterialApp.router(
         theme: VerilyTheme.light,
         darkTheme: VerilyTheme.dark,
-        localizationsDelegates: localizationsDelegates,
+        localizationsDelegates: resolvedLocalizationsDelegates,
         supportedLocales: supportedLocales ?? const [Locale('en')],
         routerConfig: router,
       );
@@ -34,7 +55,7 @@ extension PumpApp on WidgetTester {
       app = MaterialApp(
         theme: VerilyTheme.light,
         darkTheme: VerilyTheme.dark,
-        localizationsDelegates: localizationsDelegates,
+        localizationsDelegates: resolvedLocalizationsDelegates,
         supportedLocales: supportedLocales ?? const [Locale('en')],
         home: widget,
       );

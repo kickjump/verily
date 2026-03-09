@@ -91,13 +91,11 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: fail if DB-backed tests are hard-skipped
-        run: dart run test/integration/test_tools/assert_no_db_skip.dart
-        working-directory: verily_server
+        run: cd verily_server && dart run test/integration/test_tools/assert_no_db_skip.dart
         shell: devenv shell -- bash -e {0}
 
       - name: apply server migrations (test)
-        run: serverpod migrate --apply --role=test
-        working-directory: verily_server
+        run: cd verily_server && serverpod migrate --apply --role=test
         shell: devenv shell -- bash -e {0}
 
       - name: run server tests (excluding DB integration shard)
@@ -155,8 +153,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: apply server migrations (test)
-        run: serverpod migrate --apply --role=test
-        working-directory: verily_server
+        run: cd verily_server && serverpod migrate --apply --role=test
         shell: devenv shell -- bash -e {0}
 
       - name: run DB integration shard (tag=db)

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:verily_app/src/routing/route_names.dart';
@@ -35,7 +36,14 @@ void main() {
       expect(profilePage.editButton, findsOneWidget);
       expect(profilePage.settingsButton, findsOneWidget);
 
-      // Tab bar with Actions and Badges tabs.
+      // Scroll until the tab bar is visible, then assert tab labels.
+      await tester.dragUntilVisible(
+        profilePage.badgesTab,
+        find.byType(NestedScrollView),
+        const Offset(0, -250),
+      );
+      await tester.pumpAndSettle();
+
       expect(profilePage.actionsTab, findsOneWidget);
       expect(profilePage.badgesTab, findsOneWidget);
     });
@@ -78,7 +86,14 @@ void main() {
 
       final profilePage = ProfilePage(tester);
 
-      // Both tabs should be visible.
+      // Scroll until the tab bar is visible, then assert both tabs.
+      await tester.dragUntilVisible(
+        profilePage.badgesTab,
+        find.byType(NestedScrollView),
+        const Offset(0, -250),
+      );
+      await tester.pumpAndSettle();
+
       expect(profilePage.actionsTab, findsOneWidget);
       expect(profilePage.badgesTab, findsOneWidget);
     });

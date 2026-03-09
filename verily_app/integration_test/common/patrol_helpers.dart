@@ -8,6 +8,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_app/src/features/auth/login_screen.dart';
 import 'package:verily_app/src/features/auth/register_screen.dart';
@@ -15,6 +16,7 @@ import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/features/feed/feed_screen.dart';
 import 'package:verily_app/src/features/home/home_screen.dart';
 import 'package:verily_app/src/features/profile/profile_screen.dart';
+import 'package:verily_app/src/features/profile/providers/creator_actions_provider.dart';
 import 'package:verily_app/src/features/profile/providers/rewards_provider.dart';
 import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
 import 'package:verily_app/src/features/search/search_provider.dart';
@@ -114,6 +116,7 @@ final _integrationOverrides = [
   feedActionsProvider.overrideWith((ref) async => _mockActions),
   actionCategoriesProvider.overrideWith((ref) async => _mockCategories),
   currentUserProfileProvider.overrideWith((ref) async => _mockProfile),
+  creatorActionsProvider.overrideWith((ref) async => _mockActions),
   userRewardsProvider.overrideWith((ref) async => _mockRewards),
 ];
 
@@ -180,6 +183,8 @@ Widget buildAuthApp({String initialLocation = RouteNames.loginPath}) {
     child: MaterialApp.router(
       theme: VerilyTheme.light,
       darkTheme: VerilyTheme.dark,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: router,
     ),
   );
@@ -308,6 +313,8 @@ Widget buildShellApp({String initialLocation = RouteNames.feedPath}) {
       child: MaterialApp.router(
         theme: VerilyTheme.light,
         darkTheme: VerilyTheme.dark,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         routerConfig: router,
       ),
     ),
@@ -419,6 +426,8 @@ Widget buildHomeShellApp({String initialLocation = RouteNames.feedPath}) {
     child: MaterialApp.router(
       theme: VerilyTheme.light,
       darkTheme: VerilyTheme.dark,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: router,
     ),
   );
@@ -657,11 +666,13 @@ class ProfilePage {
   /// The "Rewards" stat count (matches mock data: 3 rewards).
   Finder get rewardsCount => find.text('3');
 
-  /// The "Actions" tab.
-  Finder get actionsTab => find.widgetWithText(Tab, 'Actions');
+  /// The "Actions" tab inside the profile [TabBar].
+  Finder get actionsTab =>
+      find.descendant(of: find.byType(TabBar), matching: find.text('Actions'));
 
-  /// The "Badges" tab.
-  Finder get badgesTab => find.widgetWithText(Tab, 'Badges');
+  /// The "Badges" tab inside the profile [TabBar].
+  Finder get badgesTab =>
+      find.descendant(of: find.byType(TabBar), matching: find.text('Badges'));
 
   /// Tap the edit profile button.
   Future<void> tapEditButton() async {
