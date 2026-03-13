@@ -69,7 +69,8 @@ build/
 .temp/
 .tmp/
 .screenshots/
-screenshots/
+# Only ignore top-level screenshots folder (not test/screenshots/)
+/screenshots/
 .example-ui/
 artifacts/
 
@@ -86,3 +87,5 @@ local.properties
 node_modules/
 infra/dist/
 .ant-colony/
+.pi/scheduler.json
+verily_app/test/screenshots/failures/

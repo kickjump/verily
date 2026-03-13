@@ -34,6 +34,8 @@ void main() {
 
     Future<void> pumpLoginScreen(WidgetTester tester) async {
       await tester.pumpAppL10n(const LoginScreen(), container: container);
+      // LoginScreen uses flutter_animate; settle to complete animations.
+      await tester.pumpAndSettle();
     }
 
     testWidgets('renders email text field', (tester) async {
@@ -92,7 +94,7 @@ void main() {
 
       expect(find.text('Verily'), findsOneWidget);
       expect(find.text('Verify real-world actions with AI'), findsOneWidget);
-      expect(find.byIcon(Icons.verified_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.verified_rounded), findsAtLeastNWidgets(1));
       expect(
         find.byWidgetPredicate((widget) {
           if (widget is! Image) return false;

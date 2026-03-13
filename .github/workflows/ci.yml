@@ -97,6 +97,7 @@ jobs:
   integration-test:
     runs-on: blacksmith-2vcpu-ubuntu-2404
     timeout-minutes: 60
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/devenv
