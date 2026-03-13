@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
 import 'package:verily_server/src/generated/protocol.dart';
-import 'package:verily_server/src/services/reward_pool_service.dart';
+import 'package:verily_server/src/services/rewards/reward_pool_service.dart';
 
 /// Endpoint for managing reward pools on actions.
 ///

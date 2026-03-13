@@ -32,6 +32,7 @@ class CreateAction extends _$CreateAction {
     int? habitFrequencyPerWeek,
     int? habitTotalRequired,
     List<String>? tags,
+    bool isAiGenerated = false,
   }) async {
     state = const AsyncLoading();
     try {
@@ -50,7 +51,7 @@ class CreateAction extends _$CreateAction {
         habitDurationDays: habitDurationDays,
         habitFrequencyPerWeek: habitFrequencyPerWeek,
         habitTotalRequired: habitTotalRequired,
-        tags: tags?.join(','),
+        tags: (tags != null && tags.isNotEmpty) ? tags.join(',') : null,
         // Serverpod models require UuidValue which is marked experimental.
         // ignore: experimental_member_use
         creatorId: UuidValue.fromString('00000000-0000-0000-0000-000000000000'),
@@ -64,7 +65,11 @@ class CreateAction extends _$CreateAction {
       unawaited(
         ref
             .read(posthogInstanceProvider)
-            ?.trackActionCreated(actionType: actionType, category: category),
+            ?.trackActionCreated(
+              actionType: actionType,
+              category: category,
+              isAiGenerated: isAiGenerated,
+            ),
       );
 
       return created;

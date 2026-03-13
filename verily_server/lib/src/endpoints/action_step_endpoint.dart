@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
 import 'package:verily_server/src/generated/protocol.dart';
-import 'package:verily_server/src/services/action_step_service.dart';
+import 'package:verily_server/src/services/actions/action_step_service.dart';
 
 /// Endpoint for managing steps within an action.
 ///

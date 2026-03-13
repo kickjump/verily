@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
 import 'package:verily_server/src/generated/protocol.dart';
-import 'package:verily_server/src/services/attestation_service.dart';
+import 'package:verily_server/src/services/verification/attestation_service.dart';
 
 /// Endpoint for device attestation and video nonce management.
 ///

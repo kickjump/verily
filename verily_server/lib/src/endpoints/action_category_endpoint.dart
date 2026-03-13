@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
 import 'package:verily_server/src/generated/protocol.dart';
-import 'package:verily_server/src/services/action_category_service.dart';
+import 'package:verily_server/src/services/actions/action_category_service.dart';
 
 /// Endpoint for managing action categories.
 ///
