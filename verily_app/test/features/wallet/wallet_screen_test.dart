@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../helpers/pump_app_l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/wallet/wallet_provider.dart';
 import 'package:verily_app/src/features/wallet/wallet_screen.dart';
-import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('WalletScreen', () {
@@ -14,7 +14,7 @@ void main() {
           userWalletsProvider.overrideWith((ref) async => []),
         ],
       );
-      await tester.pumpApp(const WalletScreen(), container: container);
+      await tester.pumpAppL10n(const WalletScreen(), container: container);
       // Allow async providers to resolve.
       await tester.pumpAndSettle();
     }

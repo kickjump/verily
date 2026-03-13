@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -81,7 +82,7 @@ class RegisterScreen extends HookConsumerWidget {
                       children: [
                         _StepIndicator(
                           stepNumber: 1,
-                          label: 'Credentials',
+                          label: AppLocalizations.of(context).authCredentials,
                           isActive: true,
                           isCompleted:
                               currentStep.value == _RegisterStep.verification,
@@ -97,7 +98,7 @@ class RegisterScreen extends HookConsumerWidget {
                         ),
                         _StepIndicator(
                           stepNumber: 2,
-                          label: 'Verify',
+                          label: AppLocalizations.of(context).appVerify,
                           isActive:
                               currentStep.value == _RegisterStep.verification,
                           isCompleted: false,
@@ -110,8 +111,8 @@ class RegisterScreen extends HookConsumerWidget {
                       // Email field
                       VTextField(
                         controller: emailController,
-                        labelText: 'Email',
-                        hintText: 'you@example.com',
+                        labelText: AppLocalizations.of(context).email,
+                        hintText: AppLocalizations.of(context).emailHint,
                         keyboardType: TextInputType.emailAddress,
                         prefixIcon: const Icon(Icons.email_outlined),
                         enabled: !isLoading,
@@ -130,8 +131,10 @@ class RegisterScreen extends HookConsumerWidget {
                       // Password field
                       VTextField(
                         controller: passwordController,
-                        labelText: 'Password',
-                        hintText: 'At least 8 characters',
+                        labelText: AppLocalizations.of(context).password,
+                        hintText: AppLocalizations.of(
+                          context,
+                        ).authPasswordMinEightChars,
                         obscureText: obscurePassword.value,
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
@@ -160,8 +163,10 @@ class RegisterScreen extends HookConsumerWidget {
                       // Confirm password field
                       VTextField(
                         controller: confirmPasswordController,
-                        labelText: 'Confirm Password',
-                        hintText: 'Re-enter your password',
+                        labelText: AppLocalizations.of(context).confirmPassword,
+                        hintText: AppLocalizations.of(
+                          context,
+                        ).confirmPasswordHint,
                         obscureText: obscureConfirm.value,
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
@@ -218,7 +223,7 @@ class RegisterScreen extends HookConsumerWidget {
                                   }
                                 }
                               },
-                        child: const Text('Continue'),
+                        child: Text(AppLocalizations.of(context).continueLabel),
                       ),
                     ],
 
@@ -250,7 +255,9 @@ class RegisterScreen extends HookConsumerWidget {
                       // Verification code field
                       VTextField(
                         controller: verificationCodeController,
-                        labelText: 'Verification Code',
+                        labelText: AppLocalizations.of(
+                          context,
+                        ).authVerificationCode,
                         hintText: '000000',
                         keyboardType: TextInputType.number,
                         prefixIcon: const Icon(Icons.pin_outlined),
@@ -310,7 +317,7 @@ class RegisterScreen extends HookConsumerWidget {
                                   );
                                 }
                               },
-                        child: const Text('Create Account'),
+                        child: Text(AppLocalizations.of(context).registerTitle),
                       ),
                       const SizedBox(height: SpacingTokens.md),
 
@@ -347,7 +354,9 @@ class RegisterScreen extends HookConsumerWidget {
                                   );
                                 }
                               },
-                        child: const Text('Resend Code'),
+                        child: Text(
+                          AppLocalizations.of(context).authResendCode,
+                        ),
                       ),
                     ],
 
@@ -359,7 +368,7 @@ class RegisterScreen extends HookConsumerWidget {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
-                          'Already have an account?',
+                          AppLocalizations.of(context).hasAccountPrompt,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: colorScheme.onSurfaceVariant,
                           ),
@@ -374,7 +383,7 @@ class RegisterScreen extends HookConsumerWidget {
                                     context.go(RouteNames.loginPath);
                                   }
                                 },
-                          child: const Text('Log In'),
+                          child: Text(AppLocalizations.of(context).login),
                         ),
                       ],
                     ),

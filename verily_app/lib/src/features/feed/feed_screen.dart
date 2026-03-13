@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -42,7 +43,7 @@ class FeedScreen extends HookConsumerWidget {
       body: TabBarView(
         controller: tabController,
         children: [
-          // Nearby tab
+          // Nearby tab — all active actions (spatial sort deferred)
           _FeedList(
             actionsAsync: actionsAsync,
             onRefresh: () => ref.invalidate(feedActionsProvider),
@@ -51,9 +52,13 @@ class FeedScreen extends HookConsumerWidget {
             emptySubtitle: l10n.feedNoNearbyActionsSubtitle,
           ),
 
-          // Trending tab
+          // Trending tab — sort by most recent first
           _FeedList(
-            actionsAsync: actionsAsync,
+            actionsAsync: actionsAsync.whenData(
+              (actions) =>
+                  [...actions]
+                    ..sort((a, b) => b.createdAt.compareTo(a.createdAt)),
+            ),
             onRefresh: () => ref.invalidate(feedActionsProvider),
             emptyIcon: Icons.trending_up,
             emptyTitle: l10n.feedNoTrendingActionsTitle,
@@ -142,10 +147,19 @@ class _FeedList extends HookWidget {
           child: ListView.builder(
             padding: const EdgeInsets.all(SpacingTokens.md),
             itemCount: actions.length,
-            itemBuilder: (context, index) => RepaintBoundary(
-              key: ValueKey(actions[index].id),
-              child: _ActionFeedCard(action: actions[index]),
-            ),
+            itemBuilder: (context, index) =>
+                RepaintBoundary(
+                      key: ValueKey(actions[index].id),
+                      child: _ActionFeedCard(action: actions[index]),
+                    )
+                    .animate()
+                    .fadeIn(duration: 400.ms, delay: (index * 80).ms)
+                    .slideY(
+                      begin: 0.05,
+                      end: 0,
+                      duration: 400.ms,
+                      delay: (index * 80).ms,
+                    ),
           ),
         );
       },

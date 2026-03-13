@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/wallet/wallet_provider.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -83,7 +84,7 @@ class WalletScreen extends HookConsumerWidget {
                         child: Column(
                           children: [
                             Text(
-                              'Total Balance',
+                              AppLocalizations.of(context).walletTotalBalance,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: Colors.white.withValues(alpha: 0.7),
                               ),
@@ -120,17 +121,23 @@ class WalletScreen extends HookConsumerWidget {
                               children: [
                                 _WalletActionButton(
                                   icon: Icons.arrow_downward,
-                                  label: 'Receive',
+                                  label: AppLocalizations.of(
+                                    context,
+                                  ).walletReceive,
                                   onTap: () => _showReceiveDialog(context, ref),
                                 ),
                                 _WalletActionButton(
                                   icon: Icons.arrow_upward,
-                                  label: 'Send',
+                                  label: AppLocalizations.of(
+                                    context,
+                                  ).walletSend,
                                   onTap: () {},
                                 ),
                                 _WalletActionButton(
                                   icon: Icons.refresh,
-                                  label: 'Refresh',
+                                  label: AppLocalizations.of(
+                                    context,
+                                  ).walletRefresh,
                                   onTap: () {
                                     ref
                                       ..invalidate(walletBalanceProvider)
@@ -156,7 +163,7 @@ class WalletScreen extends HookConsumerWidget {
                       SpacingTokens.sm,
                     ),
                     child: Text(
-                      'Your Wallets',
+                      AppLocalizations.of(context).walletYourWallets,
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
@@ -182,12 +189,16 @@ class WalletScreen extends HookConsumerWidget {
                                 ),
                                 const SizedBox(height: SpacingTokens.md),
                                 Text(
-                                  'No wallets yet',
+                                  AppLocalizations.of(
+                                    context,
+                                  ).walletNoWalletsYet,
                                   style: theme.textTheme.titleSmall,
                                 ),
                                 const SizedBox(height: SpacingTokens.sm),
                                 Text(
-                                  'Create or connect a wallet to get started',
+                                  AppLocalizations.of(
+                                    context,
+                                  ).walletCreateOrConnect,
                                   style: theme.textTheme.bodySmall?.copyWith(
                                     color: colorScheme.onSurfaceVariant,
                                   ),
@@ -196,7 +207,11 @@ class WalletScreen extends HookConsumerWidget {
                                 VFilledButton(
                                   onPressed: () =>
                                       _showAddWalletDialog(context, ref),
-                                  child: const Text('Add Wallet'),
+                                  child: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    ).walletAddWallet,
+                                  ),
                                 ),
                               ],
                             ),
@@ -227,8 +242,12 @@ class WalletScreen extends HookConsumerWidget {
                                   ClipboardData(text: wallet.publicKey),
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Address copied'),
+                                  SnackBar(
+                                    content: Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      ).walletAddressCopied,
+                                    ),
                                   ),
                                 );
                               },
@@ -273,8 +292,10 @@ class WalletScreen extends HookConsumerWidget {
                                               const SizedBox(
                                                 width: SpacingTokens.xs,
                                               ),
-                                              const VBadgeChip(
-                                                label: 'Default',
+                                              VBadgeChip(
+                                                label: AppLocalizations.of(
+                                                  context,
+                                                ).walletDefault,
                                               ),
                                             ],
                                           ],
@@ -340,10 +361,23 @@ class WalletScreen extends HookConsumerWidget {
                       SpacingTokens.md,
                     ),
                     child: SegmentedButton<int>(
-                      segments: const [
-                        ButtonSegment(value: 0, label: Text('Tokens')),
-                        ButtonSegment(value: 1, label: Text('NFTs')),
-                        ButtonSegment(value: 2, label: Text('Activity')),
+                      segments: [
+                        ButtonSegment(
+                          value: 0,
+                          label: Text(
+                            AppLocalizations.of(context).walletTokens,
+                          ),
+                        ),
+                        ButtonSegment(
+                          value: 1,
+                          label: Text(AppLocalizations.of(context).walletNfts),
+                        ),
+                        ButtonSegment(
+                          value: 2,
+                          label: Text(
+                            AppLocalizations.of(context).walletActivity,
+                          ),
+                        ),
                       ],
                       selected: {selectedTab.value},
                       onSelectionChanged: (values) {
@@ -360,20 +394,26 @@ class WalletScreen extends HookConsumerWidget {
                     0 => _buildEmptyState(
                       context,
                       icon: Icons.token_outlined,
-                      title: 'No tokens yet',
-                      subtitle: 'Complete actions to earn token rewards',
+                      title: AppLocalizations.of(context).walletNoTokensYet,
+                      subtitle: AppLocalizations.of(
+                        context,
+                      ).walletNoTokensSubtitle,
                     ),
                     1 => _buildEmptyState(
                       context,
                       icon: Icons.collections_outlined,
-                      title: 'No NFTs yet',
-                      subtitle: 'Earn NFT badges by completing actions',
+                      title: AppLocalizations.of(context).walletNoNftsYet,
+                      subtitle: AppLocalizations.of(
+                        context,
+                      ).walletNoNftsSubtitle,
                     ),
                     _ => _buildEmptyState(
                       context,
                       icon: Icons.history,
-                      title: 'No activity yet',
-                      subtitle: 'Your transaction history will appear here',
+                      title: AppLocalizations.of(context).walletNoActivityYet,
+                      subtitle: AppLocalizations.of(
+                        context,
+                      ).walletNoActivitySubtitle,
                     ),
                   },
                 ),
@@ -421,7 +461,7 @@ class WalletScreen extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Add Wallet',
+              AppLocalizations.of(context).walletAddWallet,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
@@ -434,12 +474,12 @@ class WalletScreen extends HookConsumerWidget {
                     .read(walletManagerProvider.notifier)
                     .createCustodialWallet();
               },
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.lock_outline),
-                  SizedBox(width: SpacingTokens.sm),
-                  Text('Create Custodial Wallet'),
+                  const Icon(Icons.lock_outline),
+                  const SizedBox(width: SpacingTokens.sm),
+                  Text(AppLocalizations.of(context).walletCreateCustodial),
                 ],
               ),
             ),
@@ -449,12 +489,12 @@ class WalletScreen extends HookConsumerWidget {
                 Navigator.pop(context);
                 _showLinkWalletDialog(context, ref);
               },
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.link),
-                  SizedBox(width: SpacingTokens.sm),
-                  Text('Link External Wallet'),
+                  const Icon(Icons.link),
+                  const SizedBox(width: SpacingTokens.sm),
+                  Text(AppLocalizations.of(context).walletLinkExternal),
                 ],
               ),
             ),
@@ -470,18 +510,18 @@ class WalletScreen extends HookConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Link Wallet'),
+        title: Text(AppLocalizations.of(context).walletLinkWallet),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(
-            labelText: 'Solana Public Key',
-            hintText: 'Enter your wallet address',
+          decoration: InputDecoration(
+            labelText: AppLocalizations.of(context).walletSolanaPublicKey,
+            hintText: AppLocalizations.of(context).walletEnterWalletAddress,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context).cancel),
           ),
           FilledButton(
             onPressed: () {
@@ -493,7 +533,7 @@ class WalletScreen extends HookConsumerWidget {
                     .linkExternalWallet(publicKey: key);
               }
             },
-            child: const Text('Link'),
+            child: Text(AppLocalizations.of(context).walletLink),
           ),
         ],
       ),
@@ -508,11 +548,11 @@ class WalletScreen extends HookConsumerWidget {
       showDialog<void>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Receive SOL'),
+          title: Text(AppLocalizations.of(context).walletReceiveSol),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Your wallet address:'),
+              Text(AppLocalizations.of(context).walletYourWalletAddress),
               const SizedBox(height: SpacingTokens.md),
               SelectableText(
                 defaultWallet.publicKey,
@@ -527,11 +567,15 @@ class WalletScreen extends HookConsumerWidget {
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: defaultWallet.publicKey));
                 Navigator.pop(context);
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(const SnackBar(content: Text('Address copied')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context).walletAddressCopied,
+                    ),
+                  ),
+                );
               },
-              child: const Text('Copy Address'),
+              child: Text(AppLocalizations.of(context).walletCopyAddress),
             ),
           ],
         ),

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../helpers/pump_app_l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:verily_app/src/features/submissions/video_review_screen.dart';
-import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('VideoReviewScreen', () {
     Future<void> pumpVideoReviewScreen(WidgetTester tester) async {
-      await tester.pumpApp(const VideoReviewScreen(actionId: 'test_action_1'));
+      await tester.pumpAppL10n(
+        const VideoReviewScreen(actionId: 'test_action_1'),
+      );
     }
 
     testWidgets('renders Review Video app bar title', (tester) async {
@@ -51,7 +53,7 @@ void main() {
     testWidgets('shows ready state when video path is provided', (
       tester,
     ) async {
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         const VideoReviewScreen(
           actionId: 'test_action_1',
           videoPath: '/tmp/test_video.mp4',

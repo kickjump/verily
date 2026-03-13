@@ -1,11 +1,11 @@
 // Test overrides don't need scoped provider dependencies.
+import '../../helpers/pump_app_l10n.dart';
 // ignore_for_file: scoped_providers_should_specify_dependencies
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_app/src/features/auth/login_screen.dart';
-import 'package:verily_test_utils/verily_test_utils.dart';
 
 // TODO(auth): These tests require `auth_provider.g.dart` to be generated.
 // Run `dart run build_runner build` in the verily_app package before running.
@@ -33,7 +33,7 @@ void main() {
     });
 
     Future<void> pumpLoginScreen(WidgetTester tester) async {
-      await tester.pumpApp(const LoginScreen(), container: container);
+      await tester.pumpAppL10n(const LoginScreen(), container: container);
     }
 
     testWidgets('renders email text field', (tester) async {

@@ -1,11 +1,11 @@
 // UuidValue construction uses experimental API.
+import '../../../helpers/pump_app_l10n.dart';
 // ignore_for_file: experimental_member_use
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:verily_app/src/features/map/widgets/action_detail_bottom_sheet.dart';
 import 'package:verily_client/verily_client.dart' as api;
-import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('ActionDetailBottomSheet', () {
@@ -27,7 +27,7 @@ void main() {
     });
 
     testWidgets('renders action title', (tester) async {
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         ActionDetailBottomSheet(action: testAction, onClose: () {}),
       );
 
@@ -35,7 +35,7 @@ void main() {
     });
 
     testWidgets('renders action description', (tester) async {
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         ActionDetailBottomSheet(action: testAction, onClose: () {}),
       );
 
@@ -46,7 +46,7 @@ void main() {
     });
 
     testWidgets('renders action type badge', (tester) async {
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         ActionDetailBottomSheet(action: testAction, onClose: () {}),
       );
 
@@ -54,7 +54,7 @@ void main() {
     });
 
     testWidgets('renders status badge', (tester) async {
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         ActionDetailBottomSheet(action: testAction, onClose: () {}),
       );
 
@@ -62,7 +62,7 @@ void main() {
     });
 
     testWidgets('renders View Details button', (tester) async {
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         ActionDetailBottomSheet(action: testAction, onClose: () {}),
       );
 
@@ -70,7 +70,7 @@ void main() {
     });
 
     testWidgets('renders close button', (tester) async {
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         ActionDetailBottomSheet(action: testAction, onClose: () {}),
       );
 
@@ -79,7 +79,7 @@ void main() {
 
     testWidgets('calls onClose when close button tapped', (tester) async {
       var closed = false;
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         ActionDetailBottomSheet(
           action: testAction,
           onClose: () => closed = true,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../helpers/pump_app_l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/actions/providers/active_action_provider.dart';
 import 'package:verily_app/src/features/submissions/verification_capture_screen.dart';
-import 'package:verily_test_utils/verily_test_utils.dart';
 import 'package:verily_ui/verily_ui.dart';
 
 void main() {
@@ -13,11 +12,9 @@ void main() {
       WidgetTester tester, {
       ProviderContainer? container,
     }) async {
-      await tester.pumpApp(
+      await tester.pumpAppL10n(
         const VerificationCaptureScreen(),
         container: container,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
       );
     }
 

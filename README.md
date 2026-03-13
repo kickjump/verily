@@ -95,8 +95,10 @@ runner:watch           # build_runner in watch mode
 ### Code Quality
 
 ```bash
-lint:all               # Run format check + dart analyze
+lint:all               # Run format check + l10n checks + dart analyze
 lint:format            # Check formatting (dprint)
+lint:l10n              # Fail on NEW hardcoded UI text in verily_app/lib/src
+lint:l10n:baseline     # Refresh l10n baseline after intentional migration
 lint:analyze           # Run dart analyze --fatal-infos
 fix:format             # Auto-fix formatting
 ```
@@ -200,6 +202,9 @@ docker compose down          # Stop services
 
 ## Documentation
 
+- [Focused Sweep Impact Map](docs/focused-sweep-impact-map.md)
+- [PR & CI Release Runbook](docs/pr-ci-runbook.md) (includes merge-readiness required checks/evidence matrix)
+- [PR Execution Playbook](docs/pr-execution-playbook.md) (step-by-step PR workflow with validation and evidence template)
 - [Gemini API Setup](docs/gemini-setup.md)
 - [X/Facebook Auth Setup](docs/auth-x-facebook-setup.md)
 - [Anti-Spoofing Roadmap](docs/anti-spoofing-roadmap.md)

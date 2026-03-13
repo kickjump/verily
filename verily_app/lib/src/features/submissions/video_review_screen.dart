@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/submissions/providers/submission_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -75,8 +76,8 @@ class VideoReviewScreen extends HookConsumerWidget {
         } else if (context.mounted) {
           isSubmitting.value = false;
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to submit video. Please try again.'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context).submissionFailedRetry),
             ),
           );
         }
@@ -84,8 +85,8 @@ class VideoReviewScreen extends HookConsumerWidget {
         isSubmitting.value = false;
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to submit video. Please try again.'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context).submissionFailedRetry),
             ),
           );
         }
@@ -97,7 +98,7 @@ class VideoReviewScreen extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: const Text('Review Video'),
+        title: Text(AppLocalizations.of(context).submissionReviewVideo),
       ),
       body: Column(
         children: [
@@ -121,20 +122,20 @@ class VideoReviewScreen extends HookConsumerWidget {
                 children: [
                   _MetadataItem(
                     icon: Icons.storage_outlined,
-                    label: 'File Size',
+                    label: AppLocalizations.of(context).submissionFileSize,
                     value: fileSizeLabel,
                   ),
                   const SizedBox(height: SpacingTokens.sm),
-                  const _MetadataItem(
+                  _MetadataItem(
                     icon: Icons.gps_fixed,
-                    label: 'Location',
+                    label: AppLocalizations.of(context).submissionLocation,
                     value: 'GPS coordinates captured',
                     valueColor: ColorTokens.success,
                   ),
                   const SizedBox(height: SpacingTokens.sm),
                   _MetadataItem(
                     icon: Icons.videocam_outlined,
-                    label: 'Video',
+                    label: AppLocalizations.of(context).submissionVideo,
                     value: videoPath != null ? 'Ready' : 'No video',
                     valueColor: videoPath != null
                         ? ColorTokens.success
@@ -158,12 +159,12 @@ class VideoReviewScreen extends HookConsumerWidget {
                       onPressed: isSubmitting.value
                           ? null
                           : () => context.pop(),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.replay),
-                          SizedBox(width: SpacingTokens.sm),
-                          Text('Retake'),
+                          const Icon(Icons.replay),
+                          const SizedBox(width: SpacingTokens.sm),
+                          Text(AppLocalizations.of(context).submissionRetake),
                         ],
                       ),
                     ),
@@ -176,12 +177,12 @@ class VideoReviewScreen extends HookConsumerWidget {
                     child: VFilledButton(
                       isLoading: isSubmitting.value,
                       onPressed: isSubmitting.value ? null : submitVideo,
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.send),
-                          SizedBox(width: SpacingTokens.sm),
-                          Text('Submit'),
+                          const Icon(Icons.send),
+                          const SizedBox(width: SpacingTokens.sm),
+                          Text(AppLocalizations.of(context).submissionSubmit),
                         ],
                       ),
                     ),
