@@ -1,8 +1,8 @@
-import '../../helpers/pump_app_l10n.dart';
 // Test overrides don't need scoped provider dependencies.
 // ignore_for_file: scoped_providers_should_specify_dependencies
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/l10n/generated/app_localizations_en.dart';
@@ -11,7 +11,8 @@ import 'package:verily_app/src/features/actions/providers/ai_action_provider.dar
 import 'package:verily_app/src/features/actions/providers/create_action_provider.dart';
 import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_core/verily_core.dart';
-import 'package:verily_test_utils/verily_test_utils.dart';
+
+import '../../helpers/pump_app_l10n.dart';
 
 final _l10n = AppLocalizationsEn();
 
@@ -76,6 +77,36 @@ void main() {
   group('AiCreateActionScreen', () {
     late ProviderContainer container;
 
+    setUpAll(() {
+      // Mock the speech_to_text platform channel to prevent
+      // MissingPluginException in tests.
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+            const MethodChannel('plugin.csdcorp.com/speech_to_text'),
+            (MethodCall methodCall) async {
+              switch (methodCall.method) {
+                case 'initialize':
+                  return false; // Speech not available in tests.
+                case 'has_permission':
+                  return false;
+                case 'cancel':
+                case 'stop':
+                  return null;
+                default:
+                  return null;
+              }
+            },
+          );
+    });
+
+    tearDownAll(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+            const MethodChannel('plugin.csdcorp.com/speech_to_text'),
+            null,
+          );
+    });
+
     setUp(() {
       container = ProviderContainer(
         overrides: [
@@ -92,7 +123,10 @@ void main() {
     });
 
     Future<void> pumpScreen(WidgetTester tester) async {
-      await tester.pumpAppL10n(const AiCreateActionScreen(), container: container);
+      await tester.pumpAppL10n(
+        const AiCreateActionScreen(),
+        container: container,
+      );
       await tester.pumpAndSettle();
     }
 
@@ -136,6 +170,14 @@ void main() {
 
     testWidgets('renders example chips section', (tester) async {
       await pumpScreen(tester);
+
+      // Scroll down to reveal example chips below the viewport.
+      await tester.scrollUntilVisible(
+        find.text('Try saying:'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pump();
 
       expect(find.text('Try saying:'), findsOneWidget);
       expect(find.text('Do 50 push-ups at a park'), findsOneWidget);
@@ -218,6 +260,14 @@ void main() {
     testWidgets('tapping example chip populates text field', (tester) async {
       await pumpScreen(tester);
 
+      // Scroll down to reveal example chips below the viewport.
+      await tester.scrollUntilVisible(
+        find.text('Do 50 push-ups at a park'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pump();
+
       // Tap the first example chip: "Do 50 push-ups at a park"
       await tester.tap(find.text('Do 50 push-ups at a park'));
       await tester.pump();
@@ -234,6 +284,14 @@ void main() {
 
     testWidgets('tapping example chip enables generate button', (tester) async {
       await pumpScreen(tester);
+
+      // Scroll down to reveal example chips below the viewport.
+      await tester.scrollUntilVisible(
+        find.text('Clean up a beach for 10 min'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pump();
 
       // Tap an example chip.
       await tester.tap(find.text('Clean up a beach for 10 min'));
@@ -336,6 +394,14 @@ void main() {
 
       testWidgets('review view displays tags', (tester) async {
         await pumpReviewScreen(tester);
+
+        // Scroll down to reveal tags section below the viewport.
+        await tester.scrollUntilVisible(
+          find.text(_l10n.actionTags),
+          100,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.pump();
 
         expect(find.text(_l10n.actionTags), findsOneWidget);
         expect(find.text('green'), findsOneWidget);

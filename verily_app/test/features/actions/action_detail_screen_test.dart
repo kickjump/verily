@@ -8,14 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../helpers/pump_app_l10n.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/l10n/generated/app_localizations_en.dart';
 import 'package:verily_app/src/features/actions/action_detail_screen.dart';
 import 'package:verily_app/src/features/actions/providers/action_detail_provider.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-import 'package:verily_test_utils/verily_test_utils.dart';
+
+import '../../helpers/pump_app_l10n.dart';
 
 final _l10n = AppLocalizationsEn();
 

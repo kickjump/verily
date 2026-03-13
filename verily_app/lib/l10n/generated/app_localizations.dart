@@ -1888,6 +1888,12 @@ abstract class AppLocalizations {
   /// **'Total Steps'**
   String get actionTotalSteps;
 
+  /// No description provided for @actionSubmitVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Video'**
+  String get actionSubmitVideo;
+
   /// Label for action duration metadata.
   ///
   /// In en, this message translates to:

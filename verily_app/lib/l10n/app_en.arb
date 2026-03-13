@@ -1033,6 +1033,7 @@
   "@actionMaxPerformers": { "description": "Label for maximum number of performers allowed for an action." },
 
   "actionTotalSteps": "Total Steps",
+  "actionSubmitVideo": "Submit Video",
   "@actionTotalSteps": { "description": "Label for total number of steps in a sequential action." },
 
   "actionDuration": "Duration",

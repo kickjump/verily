@@ -86,7 +86,7 @@ final class ActionDetailFamily extends $Family
   String toString() => r'actionDetailProvider';
 }
 
-/// Fetches the [Location] associated with an action's [locationId].
+/// Fetches the location associated with an action's location ID.
 ///
 /// Returns `null` if the action has no location requirement.
 /// This is used by the video review screen to perform on-device geo-fence
@@ -95,7 +95,7 @@ final class ActionDetailFamily extends $Family
 @ProviderFor(actionLocation)
 final actionLocationProvider = ActionLocationFamily._();
 
-/// Fetches the [Location] associated with an action's [locationId].
+/// Fetches the location associated with an action's location ID.
 ///
 /// Returns `null` if the action has no location requirement.
 /// This is used by the video review screen to perform on-device geo-fence
@@ -109,7 +109,7 @@ final class ActionLocationProvider
           FutureOr<Location?>
         >
     with $FutureModifier<Location?>, $FutureProvider<Location?> {
-  /// Fetches the [Location] associated with an action's [locationId].
+  /// Fetches the location associated with an action's location ID.
   ///
   /// Returns `null` if the action has no location requirement.
   /// This is used by the video review screen to perform on-device geo-fence
@@ -159,7 +159,7 @@ final class ActionLocationProvider
 
 String _$actionLocationHash() => r'1e8f3a595afae112447317482d1cdf85a6e8a48a';
 
-/// Fetches the [Location] associated with an action's [locationId].
+/// Fetches the location associated with an action's location ID.
 ///
 /// Returns `null` if the action has no location requirement.
 /// This is used by the video review screen to perform on-device geo-fence
@@ -176,7 +176,7 @@ final class ActionLocationFamily extends $Family
         isAutoDispose: true,
       );
 
-  /// Fetches the [Location] associated with an action's [locationId].
+  /// Fetches the location associated with an action's location ID.
   ///
   /// Returns `null` if the action has no location requirement.
   /// This is used by the video review screen to perform on-device geo-fence

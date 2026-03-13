@@ -171,9 +171,8 @@ void main() {
     });
 
     test('can change filter multiple times', () {
-      final notifier = container.read(feedFilterProvider.notifier);
-
-      notifier.select(FeedFilter.quick);
+      final notifier = container.read(feedFilterProvider.notifier)
+        ..select(FeedFilter.quick);
       expect(container.read(feedFilterProvider), equals(FeedFilter.quick));
 
       notifier.select(FeedFilter.highReward);
@@ -213,22 +212,30 @@ void main() {
       );
     }
 
-    /// Creates a container where the GPS position is already available.
+    /// Creates a container where the GPS position becomes available via stream.
     ///
-    /// Uses a [StreamController] so the stream stays open (Riverpod won't
-    /// mark the provider as `done` and rebuild). The caller should pump
-    /// microtasks to let the stream event propagate before reading
-    /// `feedActionsProvider.future`.
+    /// Uses a broadcast [StreamController] so Riverpod's auto-dispose can
+    /// re-subscribe without "Stream already listened to" errors. Emits the
+    /// position via [Future.microtask] so it arrives after subscription.
+    ///
+    /// **Important:** Callers must keep a persistent listener alive via
+    /// `container.listen(feedActionsProvider, (_, __) {})` to prevent
+    /// Riverpod from auto-disposing the provider chain between reads.
     ProviderContainer createContainerWithPosition(Position position) {
-      final controller = StreamController<Position>();
-      controller.add(position);
-      // Don't close — keep the stream alive.
-      return ProviderContainer(
+      final controller = StreamController<Position>.broadcast();
+      final c = ProviderContainer(
         overrides: [
           serverpodClientProvider.overrideWithValue(fakeClient),
-          userLocationProvider.overrideWith((_) => controller.stream),
+          userLocationProvider.overrideWith((_) {
+            // Emit position after a microtask to ensure the listener is set
+            // up before the event is delivered.
+            Future.microtask(() => controller.add(position));
+            return controller.stream;
+          }),
         ],
       );
+      // Keep the provider chain alive to prevent auto-dispose.
+      return c..listen(feedActionsProvider, (_, __) {});
     }
 
     setUp(() {
@@ -256,8 +263,11 @@ void main() {
         // the stream hasn't been processed yet. Reading the future and then
         // pumping lets Riverpod see the stream value and rebuild.
         await localContainer.read(feedActionsProvider.future);
-        // Pump microtasks so the stream event propagates to the provider.
-        await Future<void>.delayed(Duration.zero);
+        // Pump multiple microtask cycles so the stream event propagates
+        // through Riverpod's dependency graph and triggers a rebuild.
+        for (var i = 0; i < 10; i++) {
+          await Future<void>.delayed(Duration.zero);
+        }
         // After rebuild with GPS data, feedActions should call listNearby.
         final actions = await localContainer.read(feedActionsProvider.future);
 
@@ -291,7 +301,9 @@ void main() {
 
         // First read + pump to let GPS propagate.
         await localContainer.read(feedActionsProvider.future);
-        await Future<void>.delayed(Duration.zero);
+        for (var i = 0; i < 10; i++) {
+          await Future<void>.delayed(Duration.zero);
+        }
         final actions = await localContainer.read(feedActionsProvider.future);
 
         // listNearby was attempted, then fell back to listActive.
@@ -312,7 +324,9 @@ void main() {
 
         // First read + pump to let GPS propagate.
         await localContainer.read(feedActionsProvider.future);
-        await Future<void>.delayed(Duration.zero);
+        for (var i = 0; i < 10; i++) {
+          await Future<void>.delayed(Duration.zero);
+        }
         final actions = await localContainer.read(feedActionsProvider.future);
 
         expect(actions, hasLength(2));
@@ -453,7 +467,9 @@ void main() {
 
       // First read + pump to let GPS propagate.
       await localContainer.read(feedActionsProvider.future);
-      await Future<void>.delayed(Duration.zero);
+      for (var i = 0; i < 10; i++) {
+        await Future<void>.delayed(Duration.zero);
+      }
       final actions = await localContainer.read(feedActionsProvider.future);
 
       expect(fakeEndpoint.listNearbyCallCount, greaterThanOrEqualTo(1));

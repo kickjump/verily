@@ -139,4 +139,4 @@ final class FeedActionsProvider
   }
 }
 
-String _$feedActionsHash() => r'db8d0795e56d360e296d5356db9dee0d8a6e8fb9';
+String _$feedActionsHash() => r'b82af705ffcb70a70ee661ef39902c5e7cbacce4';

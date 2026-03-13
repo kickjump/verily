@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/actions/providers/action_detail_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_client/verily_client.dart' as vc;
@@ -19,12 +20,13 @@ class ActionDetailScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
     final parsedId = int.tryParse(actionId);
 
     if (parsedId == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Action Details')),
-        body: const Center(child: Text('Invalid action ID')),
+        appBar: AppBar(title: Text(l10n.actionDetailTitle)),
+        body: Center(child: Text(l10n.actionInvalidId)),
       );
     }
 
@@ -32,22 +34,22 @@ class ActionDetailScreen extends HookConsumerWidget {
 
     return actionAsync.when(
       loading: () => Scaffold(
-        appBar: AppBar(title: const Text('Action Details')),
+        appBar: AppBar(title: Text(l10n.actionDetailTitle)),
         body: const Center(child: CircularProgressIndicator()),
       ),
       error: (error, _) => Scaffold(
-        appBar: AppBar(title: const Text('Action Details')),
+        appBar: AppBar(title: Text(l10n.actionDetailTitle)),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.error_outline, size: 64, color: colorScheme.error),
               const SizedBox(height: SpacingTokens.md),
-              Text('Failed to load action', style: theme.textTheme.titleMedium),
+              Text(l10n.actionLoadFailed, style: theme.textTheme.titleMedium),
               const SizedBox(height: SpacingTokens.md),
               FilledButton(
                 onPressed: () => ref.invalidate(actionDetailProvider(parsedId)),
-                child: const Text('Retry'),
+                child: Text(l10n.retry),
               ),
             ],
           ),
@@ -85,9 +87,11 @@ class _ActionDetailBody extends HookWidget {
         .map((line) => line.replaceFirst(RegExp(r'^[-•]\s*'), ''))
         .toList();
 
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Action Details'),
+        title: Text(l10n.actionDetailTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.share_outlined),
@@ -162,9 +166,9 @@ class _ActionDetailBody extends HookWidget {
             const SizedBox(height: SpacingTokens.lg),
 
             // Verification criteria section
-            const _SectionHeader(
+            _SectionHeader(
               icon: Icons.verified_outlined,
-              title: 'Verification Criteria',
+              title: l10n.verificationCriteria,
             ),
             const SizedBox(height: SpacingTokens.sm),
             VCard(
@@ -183,9 +187,9 @@ class _ActionDetailBody extends HookWidget {
 
             // Location section (if available)
             if (action.locationId != null) ...[
-              const _SectionHeader(
+              _SectionHeader(
                 icon: Icons.location_on_outlined,
-                title: 'Location',
+                title: l10n.actionLocation,
               ),
               const SizedBox(height: SpacingTokens.sm),
               VCard(
@@ -233,7 +237,7 @@ class _ActionDetailBody extends HookWidget {
 
             // Tags
             if (action.tags != null && action.tags!.isNotEmpty) ...[
-              const _SectionHeader(icon: Icons.label_outline, title: 'Tags'),
+              _SectionHeader(icon: Icons.label_outline, title: l10n.actionTags),
               const SizedBox(height: SpacingTokens.sm),
               Wrap(
                 spacing: SpacingTokens.sm,
@@ -258,33 +262,33 @@ class _ActionDetailBody extends HookWidget {
                 children: [
                   if (action.maxPerformers != null)
                     _MetadataRow(
-                      label: 'Max Performers',
+                      label: l10n.actionMaxPerformers,
                       value: '${action.maxPerformers}',
                     ),
                   if (action.totalSteps != null && action.totalSteps! > 1) ...[
                     const SizedBox(height: SpacingTokens.sm),
                     _MetadataRow(
-                      label: 'Total Steps',
+                      label: l10n.actionTotalSteps,
                       value: '${action.totalSteps}',
                     ),
                   ],
                   if (action.habitDurationDays != null) ...[
                     const SizedBox(height: SpacingTokens.sm),
                     _MetadataRow(
-                      label: 'Duration',
+                      label: l10n.actionDuration,
                       value: '${action.habitDurationDays} days',
                     ),
                   ],
                   if (action.habitFrequencyPerWeek != null) ...[
                     const SizedBox(height: SpacingTokens.sm),
                     _MetadataRow(
-                      label: 'Frequency',
+                      label: l10n.actionFrequency,
                       value: '${action.habitFrequencyPerWeek}x per week',
                     ),
                   ],
                   const SizedBox(height: SpacingTokens.sm),
                   _MetadataRow(
-                    label: 'Created',
+                    label: l10n.actionCreatedLabel,
                     value: _formatDate(action.createdAt),
                   ),
                 ],
@@ -302,12 +306,12 @@ class _ActionDetailBody extends HookWidget {
             onPressed: () => context.push(
               RouteNames.videoRecordingPath.replaceFirst(':actionId', actionId),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.videocam_outlined),
-                SizedBox(width: SpacingTokens.sm),
-                Text('Submit Video'),
+                const Icon(Icons.videocam_outlined),
+                const SizedBox(width: SpacingTokens.sm),
+                Text(l10n.actionSubmitVideo),
               ],
             ),
           ),

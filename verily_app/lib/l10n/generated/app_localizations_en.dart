@@ -1017,6 +1017,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionTotalSteps => 'Total Steps';
 
   @override
+  String get actionSubmitVideo => 'Submit Video';
+
+  @override
   String get actionDuration => 'Duration';
 
   @override
