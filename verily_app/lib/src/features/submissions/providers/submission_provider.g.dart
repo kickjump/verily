@@ -8,6 +8,80 @@ part of 'submission_provider.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Global state provider for the pre-score computed on the video review screen.
+///
+/// Set by VideoReviewScreen before navigating to SubmissionStatusScreen.
+/// Read by SubmissionStatusScreen to show immediate feedback.
+/// Auto-cleared when the status screen disposes.
+
+@ProviderFor(PreScore)
+final preScoreProvider = PreScoreProvider._();
+
+/// Global state provider for the pre-score computed on the video review screen.
+///
+/// Set by VideoReviewScreen before navigating to SubmissionStatusScreen.
+/// Read by SubmissionStatusScreen to show immediate feedback.
+/// Auto-cleared when the status screen disposes.
+final class PreScoreProvider
+    extends $NotifierProvider<PreScore, PreScoreData?> {
+  /// Global state provider for the pre-score computed on the video review screen.
+  ///
+  /// Set by VideoReviewScreen before navigating to SubmissionStatusScreen.
+  /// Read by SubmissionStatusScreen to show immediate feedback.
+  /// Auto-cleared when the status screen disposes.
+  PreScoreProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'preScoreProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$preScoreHash();
+
+  @$internal
+  @override
+  PreScore create() => PreScore();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(PreScoreData? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<PreScoreData?>(value),
+    );
+  }
+}
+
+String _$preScoreHash() => r'80291c8a8d5d0f0a79406fb5d39fa1bd0725fdf8';
+
+/// Global state provider for the pre-score computed on the video review screen.
+///
+/// Set by VideoReviewScreen before navigating to SubmissionStatusScreen.
+/// Read by SubmissionStatusScreen to show immediate feedback.
+/// Auto-cleared when the status screen disposes.
+
+abstract class _$PreScore extends $Notifier<PreScoreData?> {
+  PreScoreData? build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<PreScoreData?, PreScoreData?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<PreScoreData?, PreScoreData?>,
+              PreScoreData?,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
 /// Fetches a single submission by its database [id].
 
 @ProviderFor(fetchSubmission)
@@ -330,7 +404,7 @@ final class SubmissionNotifierProvider
 }
 
 String _$submissionNotifierHash() =>
-    r'e266db1a7fa1931217d837519affd01df690c230';
+    r'c5f53648b6eda0f383d9f2a351895ceb7b52db1d';
 
 /// Manages the submission creation lifecycle.
 

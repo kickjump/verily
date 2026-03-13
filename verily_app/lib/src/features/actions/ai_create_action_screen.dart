@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/actions/providers/ai_action_provider.dart';
 import 'package:verily_app/src/features/actions/providers/create_action_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
@@ -79,11 +78,11 @@ class AiCreateActionScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).aiActionCreateWithAi),
+        title: const Text('Create with AI'),
         actions: [
           TextButton(
             onPressed: () => context.push(RouteNames.createActionPath),
-            child: Text(AppLocalizations.of(context).aiActionManual),
+            child: const Text('Manual'),
           ),
         ],
       ),
@@ -145,9 +144,7 @@ class AiCreateActionScreen extends HookConsumerWidget {
                       // Text input area
                       VTextField(
                         controller: textController,
-                        labelText: AppLocalizations.of(
-                          context,
-                        ).aiActionDescribeAction,
+                        labelText: 'Describe the action',
                         hintText:
                             'e.g., "I want people to plant a tree in '
                             'their neighborhood and take a video '
@@ -210,9 +207,7 @@ class AiCreateActionScreen extends HookConsumerWidget {
                                 ),
                                 TextButton(
                                   onPressed: toggleListening,
-                                  child: Text(
-                                    AppLocalizations.of(context).aiActionStop,
-                                  ),
+                                  child: const Text('Stop'),
                                 ),
                               ],
                             ),
@@ -234,18 +229,14 @@ class AiCreateActionScreen extends HookConsumerWidget {
                         runSpacing: SpacingTokens.sm,
                         children: [
                           _ExampleChip(
-                            label: AppLocalizations.of(
-                              context,
-                            ).aiActionPromptDo50PushUpsAtPark,
+                            label: 'Do 50 push-ups at a park',
                             onTap: () => textController.text =
                                 'Do 50 push-ups at a park. '
                                 'The video should clearly show '
                                 'full body reps.',
                           ),
                           _ExampleChip(
-                            label: AppLocalizations.of(
-                              context,
-                            ).aiActionPromptCleanUpBeachTenMin,
+                            label: 'Clean up a beach for 10 min',
                             onTap: () => textController.text =
                                 'Pick up litter at a beach for at '
                                 'least 10 minutes. '
@@ -253,9 +244,7 @@ class AiCreateActionScreen extends HookConsumerWidget {
                                 'the video.',
                           ),
                           _ExampleChip(
-                            label: AppLocalizations.of(
-                              context,
-                            ).aiActionPromptMeditateDailyForAWeek,
+                            label: 'Meditate daily for a week',
                             onTap: () => textController.text =
                                 'Meditate for at least 5 minutes '
                                 'every day for 7 days. '
@@ -325,14 +314,12 @@ class AiCreateActionScreen extends HookConsumerWidget {
                                     textController.text.trim(),
                                   )
                                 : null,
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.auto_awesome, size: 18),
-                                const SizedBox(width: SpacingTokens.sm),
-                                Text(
-                                  AppLocalizations.of(context).aiActionGenerate,
-                                ),
+                                Icon(Icons.auto_awesome, size: 18),
+                                SizedBox(width: SpacingTokens.sm),
+                                Text('Generate Action'),
                               ],
                             ),
                           ),
@@ -384,7 +371,7 @@ class _AiReviewView extends HookConsumerWidget {
           );
       if (created != null && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context).actionCreated)),
+          const SnackBar(content: Text('Action created successfully!')),
         );
         context.go(RouteNames.feedPath);
       }
@@ -426,31 +413,19 @@ class _AiReviewView extends HookConsumerWidget {
               const SizedBox(height: SpacingTokens.lg),
 
               // Title
-              _ReviewCard(
-                label: AppLocalizations.of(context).actionTitle,
-                value: action.title,
-              ),
+              _ReviewCard(label: 'Title', value: action.title),
               const SizedBox(height: SpacingTokens.md),
 
               // Description
-              _ReviewCard(
-                label: AppLocalizations.of(context).actionDescription,
-                value: action.description,
-              ),
+              _ReviewCard(label: 'Description', value: action.description),
               const SizedBox(height: SpacingTokens.md),
 
               // Type
-              _ReviewCard(
-                label: AppLocalizations.of(context).actionTypeLabel,
-                value: action.actionType,
-              ),
+              _ReviewCard(label: 'Type', value: action.actionType),
               const SizedBox(height: SpacingTokens.md),
 
               // Category
-              _ReviewCard(
-                label: AppLocalizations.of(context).actionCategory,
-                value: action.suggestedCategory,
-              ),
+              _ReviewCard(label: 'Category', value: action.suggestedCategory),
               const SizedBox(height: SpacingTokens.md),
 
               // Verification criteria
@@ -563,12 +538,12 @@ class _AiReviewView extends HookConsumerWidget {
               // Habit info
               if (action.habitDurationDays != null) ...[
                 _ReviewCard(
-                  label: AppLocalizations.of(context).actionDuration,
+                  label: 'Duration',
                   value: '${action.habitDurationDays} days',
                 ),
                 const SizedBox(height: SpacingTokens.md),
                 _ReviewCard(
-                  label: AppLocalizations.of(context).actionFrequency,
+                  label: 'Frequency',
                   value: '${action.habitFrequencyPerWeek ?? 7} times per week',
                 ),
                 const SizedBox(height: SpacingTokens.md),
@@ -577,7 +552,7 @@ class _AiReviewView extends HookConsumerWidget {
               // Location
               if (action.suggestedLocation != null) ...[
                 _ReviewCard(
-                  label: AppLocalizations.of(context).actionLocation,
+                  label: 'Location',
                   value:
                       '${action.suggestedLocation!.name} — ${action.suggestedLocation!.address}',
                 ),
@@ -634,9 +609,7 @@ class _AiReviewView extends HookConsumerWidget {
                 Expanded(
                   child: VOutlinedButton(
                     onPressed: onEdit,
-                    child: Text(
-                      AppLocalizations.of(context).aiActionEditPrompt,
-                    ),
+                    child: const Text('Edit Prompt'),
                   ),
                 ),
                 const SizedBox(width: SpacingTokens.md),
@@ -645,12 +618,12 @@ class _AiReviewView extends HookConsumerWidget {
                   child: VFilledButton(
                     isLoading: isSubmitting,
                     onPressed: isSubmitting ? null : onConfirm,
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.check, size: 18),
-                        const SizedBox(width: SpacingTokens.sm),
-                        Text(AppLocalizations.of(context).aiActionCreateAction),
+                        Icon(Icons.check, size: 18),
+                        SizedBox(width: SpacingTokens.sm),
+                        Text('Create Action'),
                       ],
                     ),
                   ),

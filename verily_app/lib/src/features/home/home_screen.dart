@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/actions/providers/active_action_provider.dart';
 import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
@@ -190,9 +189,7 @@ class HomeScreen extends HookConsumerWidget {
                       Row(
                         children: [
                           _StatPill(
-                            label: AppLocalizations.of(
-                              context,
-                            ).homeAvailableLabel,
+                            label: 'Available',
                             value: actionsAsync.when(
                               data: (actions) => '${actions.length}',
                               loading: () => '...',
@@ -200,10 +197,7 @@ class HomeScreen extends HookConsumerWidget {
                             ),
                           ),
                           const SizedBox(width: SpacingTokens.sm),
-                          _StatPill(
-                            label: AppLocalizations.of(context).homeStreak,
-                            value: '0 days',
-                          ),
+                          const _StatPill(label: 'Streak', value: '0 days'),
                         ],
                       ),
                       const SizedBox(height: SpacingTokens.md),
@@ -342,7 +336,7 @@ class HomeScreen extends HookConsumerWidget {
                         ),
                         TextButton(
                           onPressed: activeActionController.clear,
-                          child: Text(AppLocalizations.of(context).homeClear),
+                          child: const Text('Clear'),
                         ),
                       ],
                     ),
@@ -427,16 +421,14 @@ class HomeScreen extends HookConsumerWidget {
                       key: const Key('home_openVerificationButton'),
                       onPressed: () =>
                           context.push(RouteNames.verifyCapturePath),
-                      child: FittedBox(
+                      child: const FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.verified_outlined, size: 18),
-                            const SizedBox(width: SpacingTokens.xs),
-                            Text(
-                              AppLocalizations.of(context).homeOpenVerification,
-                            ),
+                            Icon(Icons.verified_outlined, size: 18),
+                            SizedBox(width: SpacingTokens.xs),
+                            Text('Open Verification'),
                           ],
                         ),
                       ),
@@ -527,7 +519,7 @@ class HomeScreen extends HookConsumerWidget {
                   padding: const EdgeInsets.all(SpacingTokens.lg),
                   child: FilledButton(
                     onPressed: () => ref.invalidate(feedActionsProvider),
-                    child: Text(AppLocalizations.of(context).retry),
+                    child: const Text('Retry'),
                   ),
                 ),
               ),
@@ -666,7 +658,7 @@ class HomeScreen extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.lg),
               child: VOutlinedButton(
                 onPressed: () => context.push(RouteNames.searchPath),
-                child: Text(AppLocalizations.of(context).homeBrowseMoreActions),
+                child: const Text('Browse more actions'),
               ),
             ),
           ),

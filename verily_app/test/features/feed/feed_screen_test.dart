@@ -7,12 +7,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/l10n/generated/app_localizations_en.dart';
 import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/features/feed/feed_screen.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 /// Mock actions used in feed tests.
 final _mockActions = <vc.Action>[
@@ -62,7 +62,12 @@ void main() {
     });
 
     Future<void> pumpFeedScreen(WidgetTester tester) async {
-      await tester.pumpAppL10n(const FeedScreen(), container: container);
+      await tester.pumpApp(
+        const FeedScreen(),
+        container: container,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      );
       // Wait for the async provider to resolve.
       await tester.pumpAndSettle();
     }

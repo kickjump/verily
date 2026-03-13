@@ -19,3 +19,18 @@ Future<Action> actionDetail(Ref ref, int actionId) async {
 
   return action;
 }
+
+/// Fetches the location associated with an action's location ID.
+///
+/// Returns `null` if the action has no location requirement.
+/// This is used by the video review screen to perform on-device geo-fence
+/// pre-validation before submission.
+@riverpod
+Future<Location?> actionLocation(Ref ref, int actionId) async {
+  final action = await ref.watch(actionDetailProvider(actionId).future);
+  final locationId = action.locationId;
+  if (locationId == null) return null;
+
+  final client = ref.watch(serverpodClientProvider);
+  return client.location.get(locationId);
+}

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/profile/providers/rewards_provider.dart';
 import 'package:verily_client/verily_client.dart' as vc;
 import 'package:verily_ui/verily_ui.dart';
@@ -17,7 +16,7 @@ class RewardsScreen extends HookConsumerWidget {
     final rewardsAsync = ref.watch(userRewardsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).rewardsTitle)),
+      appBar: AppBar(title: const Text('Rewards')),
       body: rewardsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
@@ -27,13 +26,13 @@ class RewardsScreen extends HookConsumerWidget {
               Icon(Icons.error_outline, size: 64, color: colorScheme.error),
               const SizedBox(height: SpacingTokens.md),
               Text(
-                AppLocalizations.of(context).profileRewardsLoadFailed,
+                'Failed to load rewards',
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: SpacingTokens.md),
               FilledButton(
                 onPressed: () => ref.invalidate(userRewardsProvider),
-                child: Text(AppLocalizations.of(context).retry),
+                child: const Text('Retry'),
               ),
             ],
           ),
@@ -119,7 +118,7 @@ class _RewardsBody extends HookWidget {
                   ),
                   const SizedBox(height: SpacingTokens.sm),
                   Text(
-                    AppLocalizations.of(context).profileNoRewardsYet,
+                    'No rewards yet',
                     style: theme.textTheme.titleSmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),

@@ -9,8 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/profile/providers/rewards_provider.dart';
 import 'package:verily_app/src/features/profile/rewards_screen.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 final _mockRewards = <vc.UserReward>[
   vc.UserReward(
@@ -50,7 +49,7 @@ void main() {
     });
 
     Future<void> pumpRewardsScreen(WidgetTester tester) async {
-      await tester.pumpAppL10n(const RewardsScreen(), container: container);
+      await tester.pumpApp(const RewardsScreen(), container: container);
       // Allow the async providers to settle.
       await tester.pumpAndSettle();
     }
@@ -119,10 +118,7 @@ void main() {
       );
       addTearDown(emptyContainer.dispose);
 
-      await tester.pumpAppL10n(
-        const RewardsScreen(),
-        container: emptyContainer,
-      );
+      await tester.pumpApp(const RewardsScreen(), container: emptyContainer);
       await tester.pumpAndSettle();
 
       expect(find.text('No rewards yet'), findsOneWidget);

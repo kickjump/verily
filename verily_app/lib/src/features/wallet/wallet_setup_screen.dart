@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/wallet/wallet_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -20,9 +19,7 @@ class WalletSetupScreen extends HookConsumerWidget {
       isCreating.value = true;
       await ref
           .read(walletManagerProvider.notifier)
-          .createCustodialWallet(
-            label: AppLocalizations.of(context).walletMyVerilyWallet,
-          );
+          .createCustodialWallet(label: 'My Verily Wallet');
       if (context.mounted) {
         context.go(RouteNames.walletPath);
       }
@@ -32,20 +29,20 @@ class WalletSetupScreen extends HookConsumerWidget {
       final publicKey = await showDialog<String>(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text(AppLocalizations.of(ctx).walletLinkWallet),
+          title: const Text('Link Wallet'),
           content: VTextField(
             controller: linkKeyController,
-            labelText: AppLocalizations.of(ctx).walletPublicKey,
-            hintText: AppLocalizations.of(ctx).walletEnterSolanaPublicKey,
+            labelText: 'Public Key',
+            hintText: 'Enter your Solana public key',
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: Text(AppLocalizations.of(ctx).cancel),
+              child: const Text('Cancel'),
             ),
             FilledButton(
               onPressed: () => Navigator.pop(ctx, linkKeyController.text),
-              child: Text(AppLocalizations.of(ctx).walletLink),
+              child: const Text('Link'),
             ),
           ],
         ),
@@ -55,10 +52,7 @@ class WalletSetupScreen extends HookConsumerWidget {
         isCreating.value = true;
         await ref
             .read(walletManagerProvider.notifier)
-            .linkExternalWallet(
-              publicKey: publicKey,
-              label: AppLocalizations.of(context).walletExternalWallet,
-            );
+            .linkExternalWallet(publicKey: publicKey, label: 'External Wallet');
         if (context.mounted) {
           context.go(RouteNames.walletPath);
         }
@@ -66,9 +60,7 @@ class WalletSetupScreen extends HookConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).walletSetUpTitle),
-      ),
+      appBar: AppBar(title: const Text('Set Up Wallet')),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -118,14 +110,14 @@ class WalletSetupScreen extends HookConsumerWidget {
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : Text(AppLocalizations.of(context).walletCreateWallet),
+                  : const Text('Create Wallet'),
             ),
             const SizedBox(height: 12),
 
             // Link existing wallet
             VOutlinedButton(
               onPressed: isCreating.value ? null : showLinkDialog,
-              child: Text(AppLocalizations.of(context).walletLinkExisting),
+              child: const Text('Link Existing Wallet'),
             ),
 
             const SizedBox(height: 12),
@@ -135,7 +127,7 @@ class WalletSetupScreen extends HookConsumerWidget {
               onPressed: isCreating.value
                   ? null
                   : () => context.go(RouteNames.feedPath),
-              child: Text(AppLocalizations.of(context).walletSkipForNow),
+              child: const Text('Skip for now'),
             ),
 
             const SizedBox(height: 24),

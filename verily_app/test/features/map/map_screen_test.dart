@@ -5,8 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/map/map_screen.dart';
 import 'package:verily_app/src/features/map/providers/location_providers.dart';
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('MapScreen', () {
@@ -32,7 +31,7 @@ void main() {
           ),
         ],
       );
-      await tester.pumpAppL10n(const MapScreen(), container: container);
+      await tester.pumpApp(const MapScreen(), container: container);
     }
 
     testWidgets('renders FlutterMap widget', (tester) async {

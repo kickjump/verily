@@ -11,8 +11,7 @@ import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
 import 'package:verily_app/src/features/profile/user_profile_screen.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 final _mockProfile = vc.UserProfile(
   id: 1,
@@ -60,7 +59,7 @@ void main() {
     });
 
     Future<void> pumpUserProfileScreen(WidgetTester tester) async {
-      await tester.pumpAppL10n(
+      await tester.pumpApp(
         const UserProfileScreen(userId: 'testuser'),
         container: container,
       );

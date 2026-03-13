@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/rewards/providers/reward_pool_provider.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -20,7 +19,7 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).rewardPoolTitle),
+        title: const Text('Reward Pool'),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) async {
@@ -28,24 +27,18 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
                 final confirmed = await showDialog<bool>(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: Text(
-                      AppLocalizations.of(context).rewardPoolCancelPoolTitle,
-                    ),
+                    title: const Text('Cancel Pool?'),
                     content: const Text(
                       'Remaining funds will be returned to your wallet.',
                     ),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(ctx, false),
-                        child: Text(
-                          AppLocalizations.of(context).rewardPoolKeep,
-                        ),
+                        child: const Text('Keep'),
                       ),
                       FilledButton(
                         onPressed: () => Navigator.pop(ctx, true),
-                        child: Text(
-                          AppLocalizations.of(context).rewardPoolCancelPool,
-                        ),
+                        child: const Text('Cancel Pool'),
                       ),
                     ],
                   ),
@@ -59,10 +52,7 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
               }
             },
             itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'cancel',
-                child: Text(AppLocalizations.of(context).rewardPoolCancelPool),
-              ),
+              const PopupMenuItem(value: 'cancel', child: Text('Cancel Pool')),
             ],
           ),
         ],
@@ -80,7 +70,7 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
               FilledButton(
                 onPressed: () =>
                     ref.invalidate(fetchRewardPoolProvider(poolIdInt)),
-                child: Text(AppLocalizations.of(context).retry),
+                child: const Text('Retry'),
               ),
             ],
           ),
@@ -209,14 +199,10 @@ class RewardPoolDetailScreen extends HookConsumerWidget {
                       child: CircularProgressIndicator(),
                     ),
                   ),
-                  error: (_, __) => Center(
+                  error: (_, __) => const Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(32),
-                      child: Text(
-                        AppLocalizations.of(
-                          context,
-                        ).rewardPoolFailedToLoadDistributions,
-                      ),
+                      padding: EdgeInsets.all(32),
+                      child: Text('Failed to load distributions'),
                     ),
                   ),
                   data: (distributions) {

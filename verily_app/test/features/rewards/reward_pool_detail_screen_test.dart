@@ -9,8 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/rewards/providers/reward_pool_provider.dart';
 import 'package:verily_app/src/features/rewards/reward_pool_detail_screen.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 final _mockPool = vc.RewardPool(
   id: 1,
@@ -47,7 +46,7 @@ void main() {
     });
 
     testWidgets('renders app bar with title', (tester) async {
-      await tester.pumpAppL10n(
+      await tester.pumpApp(
         const RewardPoolDetailScreen(poolId: '1'),
         container: container,
       );
@@ -56,7 +55,7 @@ void main() {
     });
 
     testWidgets('shows pool data after loading', (tester) async {
-      await tester.pumpAppL10n(
+      await tester.pumpApp(
         const RewardPoolDetailScreen(poolId: '1'),
         container: container,
       );
@@ -67,7 +66,7 @@ void main() {
     });
 
     testWidgets('has overflow menu button', (tester) async {
-      await tester.pumpAppL10n(
+      await tester.pumpApp(
         const RewardPoolDetailScreen(poolId: '1'),
         container: container,
       );
@@ -76,7 +75,7 @@ void main() {
     });
 
     testWidgets('shows no distributions message when empty', (tester) async {
-      await tester.pumpAppL10n(
+      await tester.pumpApp(
         const RewardPoolDetailScreen(poolId: '1'),
         container: container,
       );

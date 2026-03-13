@@ -11,8 +11,7 @@ import 'package:verily_app/src/features/profile/profile_screen.dart';
 import 'package:verily_app/src/features/profile/providers/rewards_provider.dart';
 import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 final _mockProfile = vc.UserProfile(
   id: 1,
@@ -92,7 +91,7 @@ void main() {
     });
 
     Future<void> pumpProfileScreen(WidgetTester tester) async {
-      await tester.pumpAppL10n(const ProfileScreen(), container: container);
+      await tester.pumpApp(const ProfileScreen(), container: container);
       // Allow the async providers to settle.
       await tester.pumpAndSettle();
     }
@@ -172,7 +171,7 @@ void main() {
     });
 
     testWidgets('shows loading state before data arrives', (tester) async {
-      await tester.pumpAppL10n(const ProfileScreen(), container: container);
+      await tester.pumpApp(const ProfileScreen(), container: container);
       // Don't settle - check the loading state.
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
