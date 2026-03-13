@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../helpers/pump_app_l10n.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/map/map_screen.dart';
 import 'package:verily_app/src/features/map/providers/location_providers.dart';
+
+import '../../helpers/pump_app_l10n.dart';
 
 void main() {
   group('MapScreen', () {

@@ -1,5 +1,4 @@
 // Test overrides don't need scoped provider dependencies.
-import '../../helpers/pump_app_l10n.dart';
 // ignore_for_file: scoped_providers_should_specify_dependencies
 // UuidValue is required by Serverpod's generated models.
 // ignore_for_file: experimental_member_use
@@ -10,6 +9,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/profile/edit_profile_screen.dart';
 import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
 import 'package:verily_client/verily_client.dart' as vc;
+
+import '../../helpers/pump_app_l10n.dart';
 
 final _mockProfile = vc.UserProfile(
   id: 1,

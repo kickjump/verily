@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../helpers/pump_app_l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:verily_app/src/features/map/widgets/distance_slider.dart';
+
+import '../../../helpers/pump_app_l10n.dart';
 
 void main() {
   group('DistanceSlider', () {

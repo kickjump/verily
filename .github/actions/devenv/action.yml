@@ -7,7 +7,7 @@ inputs:
   cache-version:
     description: The version of the cache to use.
     required: false
-    default: "v1"
+    default: "v2"
 
 runs:
   using: composite

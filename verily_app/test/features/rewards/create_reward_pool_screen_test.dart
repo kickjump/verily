@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../helpers/pump_app_l10n.dart';
 import 'package:verily_app/src/features/rewards/create_reward_pool_screen.dart';
+
+import '../../helpers/pump_app_l10n.dart';
 
 void main() {
   group('CreateRewardPoolScreen', () {

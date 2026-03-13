@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../helpers/pump_app_l10n.dart';
 import 'package:verily_app/src/features/wallet/wallet_setup_screen.dart';
+
+import '../../helpers/pump_app_l10n.dart';
 
 void main() {
   group('WalletSetupScreen', () {

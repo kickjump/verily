@@ -1,11 +1,12 @@
 // UuidValue construction uses experimental API.
-import '../../../helpers/pump_app_l10n.dart';
 // ignore_for_file: experimental_member_use
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:verily_app/src/features/map/widgets/action_detail_bottom_sheet.dart';
 import 'package:verily_client/verily_client.dart' as api;
+
+import '../../../helpers/pump_app_l10n.dart';
 
 void main() {
   group('ActionDetailBottomSheet', () {

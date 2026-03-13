@@ -1,5 +1,4 @@
 // UuidValue construction uses experimental API.
-import '../../helpers/pump_app_l10n.dart';
 // ignore_for_file: experimental_member_use
 
 // Test overrides don't need scoped provider dependencies.
@@ -12,6 +11,8 @@ import 'package:verily_app/src/features/feed/feed_provider.dart';
 import 'package:verily_app/src/features/profile/providers/user_profile_provider.dart';
 import 'package:verily_app/src/features/profile/user_profile_screen.dart';
 import 'package:verily_client/verily_client.dart' as vc;
+
+import '../../helpers/pump_app_l10n.dart';
 
 final _mockProfile = vc.UserProfile(
   id: 1,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../helpers/pump_app_l10n.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/actions/providers/active_action_provider.dart';
 import 'package:verily_app/src/features/submissions/verification_capture_screen.dart';
 import 'package:verily_ui/verily_ui.dart';
+
+import '../../helpers/pump_app_l10n.dart';
 
 void main() {
   group('VerificationCaptureScreen', () {
