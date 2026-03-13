@@ -74,8 +74,8 @@ build/
 .example-ui/
 artifacts/
 
-# Lock files — only keep pubspec.lock for the app package
-pubspec.lock
+# Lock files — keep workspace and app lock files for reproducible CI builds
+!pubspec.lock
 !verily_app/pubspec.lock
 
 # Local properties
