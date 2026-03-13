@@ -37,7 +37,7 @@ runs:
       run: |
         nix profile add --accept-flake-config nixpkgs#cachix
         cachix use devenv
-        nix profile add github:NixOS/nixpkgs/e38213b91d3786389a446dfce4ff5a8aaf6012f2#devenv
+        nix profile add github:NixOS/nixpkgs/nixos-unstable#devenv
       shell: bash
 
     - name: install flutter sdk via fvm
