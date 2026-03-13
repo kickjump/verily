@@ -46,30 +46,23 @@ void main() {
         ),
       );
 
-      expect(find.byType(InkWell), findsOneWidget);
+      expect(find.byType(GestureDetector), findsOneWidget);
 
-      await tester.tap(find.byType(InkWell));
+      await tester.tap(find.byType(GestureDetector));
       await tester.pump();
 
       expect(tapped, isTrue);
     });
 
-    testWidgets('without onTap does not have InkWell', (tester) async {
+    testWidgets('without onTap does not have GestureDetector', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(body: VCard(child: Text('No Tap'))),
         ),
       );
 
-      // VCard should not wrap in InkWell when onTap is null.
-      final vCardElement = find.byType(VCard).evaluate().first;
-      var foundInkWellWrapper = false;
-      vCardElement.visitChildElements((child) {
-        if (child.widget is InkWell) {
-          foundInkWellWrapper = true;
-        }
-      });
-      expect(foundInkWellWrapper, isFalse);
+      // VCard should not wrap in GestureDetector when onTap is null.
+      expect(find.byType(GestureDetector), findsNothing);
     });
   });
 }

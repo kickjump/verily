@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -30,6 +31,141 @@ import 'package:verily_app/src/routing/widgets/home_shell_scaffold.dart';
 
 part 'app_router.g.dart';
 
+// ---------------------------------------------------------------------------
+// Shared transition duration
+// ---------------------------------------------------------------------------
+const _kTransitionDuration = Duration(milliseconds: 300);
+
+// ---------------------------------------------------------------------------
+// Reusable page transition builders
+// ---------------------------------------------------------------------------
+
+/// Fade transition — used for auth screens and simple page swaps.
+CustomTransitionPage<void> _fadePage({
+  required Widget child,
+  required GoRouterState state,
+  Duration duration = _kTransitionDuration,
+}) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionDuration: duration,
+    reverseTransitionDuration: duration,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(opacity: animation, child: child);
+    },
+  );
+}
+
+/// Shared-axis vertical (slide up + fade) — used for detail screens.
+CustomTransitionPage<void> _sharedAxisVerticalPage({
+  required Widget child,
+  required GoRouterState state,
+}) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      );
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 0.06),
+            end: Offset.zero,
+          ).animate(curved),
+          child: child,
+        ),
+      );
+    },
+  );
+}
+
+/// Slide from right + fade — used for linear flow screens (recording, review).
+CustomTransitionPage<void> _slideRightPage({
+  required Widget child,
+  required GoRouterState state,
+}) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      );
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0.25, 0),
+            end: Offset.zero,
+          ).animate(curved),
+          child: child,
+        ),
+      );
+    },
+  );
+}
+
+/// Modal-style slide up from bottom — for creation / edit sheets.
+CustomTransitionPage<void> _modalSlideUpPage({
+  required Widget child,
+  required GoRouterState state,
+}) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      );
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 0.15),
+            end: Offset.zero,
+          ).animate(curved),
+          child: child,
+        ),
+      );
+    },
+  );
+}
+
+/// Scale + fade — for result / status screens.
+CustomTransitionPage<void> _scaleFadePage({
+  required Widget child,
+  required GoRouterState state,
+}) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      );
+      return FadeTransition(
+        opacity: curved,
+        child: ScaleTransition(
+          scale: Tween<double>(begin: 0.94, end: 1).animate(curved),
+          child: child,
+        ),
+      );
+    },
+  );
+}
+
 /// Provides the application [GoRouter].
 @riverpod
 GoRouter appRouter(Ref ref) {
@@ -60,6 +196,9 @@ GoRouter appRouter(Ref ref) {
       return null;
     },
     routes: [
+      // -----------------------------------------------------------------------
+      // Bottom-tab shell — tabs use builder (handled by IndexedStack internally)
+      // -----------------------------------------------------------------------
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return HomeShellScaffold(navigationShell: navigationShell);
@@ -70,7 +209,8 @@ GoRouter appRouter(Ref ref) {
               GoRoute(
                 path: RouteNames.feedPath,
                 name: RouteNames.feed,
-                builder: (context, state) => const HomeScreen(),
+                pageBuilder: (context, state) =>
+                    _fadePage(child: const HomeScreen(), state: state),
               ),
             ],
           ),
@@ -79,7 +219,8 @@ GoRouter appRouter(Ref ref) {
               GoRoute(
                 path: RouteNames.searchPath,
                 name: RouteNames.search,
-                builder: (context, state) => const SearchScreen(),
+                pageBuilder: (context, state) =>
+                    _fadePage(child: const SearchScreen(), state: state),
               ),
             ],
           ),
@@ -88,126 +229,209 @@ GoRouter appRouter(Ref ref) {
               GoRoute(
                 path: RouteNames.profilePath,
                 name: RouteNames.profile,
-                builder: (context, state) => const ProfileScreen(),
+                pageBuilder: (context, state) =>
+                    _fadePage(child: const ProfileScreen(), state: state),
               ),
             ],
           ),
         ],
       ),
+
+      // -----------------------------------------------------------------------
+      // Auth — fade transition (clean entry/exit)
+      // -----------------------------------------------------------------------
       GoRoute(
         path: RouteNames.loginPath,
         name: RouteNames.login,
-        builder: (context, state) => const LoginScreen(),
+        pageBuilder: (context, state) =>
+            _fadePage(child: const LoginScreen(), state: state),
       ),
       GoRoute(
         path: RouteNames.registerPath,
         name: RouteNames.register,
-        builder: (context, state) => const RegisterScreen(),
+        pageBuilder: (context, state) =>
+            _fadePage(child: const RegisterScreen(), state: state),
       ),
+
+      // -----------------------------------------------------------------------
+      // Verification / Camera — slide from right (linear flow)
+      // -----------------------------------------------------------------------
       GoRoute(
         path: RouteNames.verifyCapturePath,
         name: RouteNames.verifyCapture,
-        builder: (context, state) => const VerificationCaptureScreen(),
+        pageBuilder: (context, state) => _slideRightPage(
+          child: const VerificationCaptureScreen(),
+          state: state,
+        ),
       ),
+
+      // -----------------------------------------------------------------------
+      // Action detail — shared-axis vertical (drill-in from list)
+      // -----------------------------------------------------------------------
       GoRoute(
         path: RouteNames.actionDetailPath,
         name: RouteNames.actionDetail,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final actionId = state.pathParameters['actionId']!;
-          return ActionDetailScreen(actionId: actionId);
+          return _sharedAxisVerticalPage(
+            child: ActionDetailScreen(actionId: actionId),
+            state: state,
+          );
         },
       ),
+
+      // -----------------------------------------------------------------------
+      // Creation flows — modal slide up
+      // -----------------------------------------------------------------------
       GoRoute(
         path: RouteNames.createActionPath,
         name: RouteNames.createAction,
-        builder: (context, state) => const CreateActionScreen(),
+        pageBuilder: (context, state) =>
+            _modalSlideUpPage(child: const CreateActionScreen(), state: state),
       ),
       GoRoute(
         path: RouteNames.aiCreateActionPath,
         name: RouteNames.aiCreateAction,
-        builder: (context, state) => const AiCreateActionScreen(),
+        pageBuilder: (context, state) => _modalSlideUpPage(
+          child: const AiCreateActionScreen(),
+          state: state,
+        ),
       ),
+
+      // -----------------------------------------------------------------------
+      // Submission flow — slide from right (sequential steps)
+      // -----------------------------------------------------------------------
       GoRoute(
         path: RouteNames.videoRecordingPath,
         name: RouteNames.videoRecording,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final actionId = state.pathParameters['actionId']!;
-          return VideoRecordingScreen(actionId: actionId);
+          return _slideRightPage(
+            child: VideoRecordingScreen(actionId: actionId),
+            state: state,
+          );
         },
       ),
       GoRoute(
         path: RouteNames.videoReviewPath,
         name: RouteNames.videoReview,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final actionId = state.pathParameters['actionId']!;
           final videoPath = state.extra as String?;
-          return VideoReviewScreen(actionId: actionId, videoPath: videoPath);
-        },
-      ),
-      GoRoute(
-        path: RouteNames.submissionStatusPath,
-        name: RouteNames.submissionStatus,
-        builder: (context, state) {
-          final actionId = state.pathParameters['actionId']!;
-          final submissionId = state.extra as int?;
-          return SubmissionStatusScreen(
-            actionId: actionId,
-            submissionId: submissionId,
+          return _slideRightPage(
+            child: VideoReviewScreen(actionId: actionId, videoPath: videoPath),
+            state: state,
           );
         },
       ),
+
+      // -----------------------------------------------------------------------
+      // Submission status — scale + fade (result reveal)
+      // -----------------------------------------------------------------------
+      GoRoute(
+        path: RouteNames.submissionStatusPath,
+        name: RouteNames.submissionStatus,
+        pageBuilder: (context, state) {
+          final actionId = state.pathParameters['actionId']!;
+          final submissionId = state.extra as int?;
+          return _scaleFadePage(
+            child: SubmissionStatusScreen(
+              actionId: actionId,
+              submissionId: submissionId,
+            ),
+            state: state,
+          );
+        },
+      ),
+
+      // -----------------------------------------------------------------------
+      // Profile — modal slide up for edit, shared-axis for viewing others
+      // -----------------------------------------------------------------------
       GoRoute(
         path: RouteNames.editProfilePath,
         name: RouteNames.editProfile,
-        builder: (context, state) => const EditProfileScreen(),
+        pageBuilder: (context, state) =>
+            _modalSlideUpPage(child: const EditProfileScreen(), state: state),
       ),
       GoRoute(
         path: RouteNames.userProfilePath,
         name: RouteNames.userProfile,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final userId = state.pathParameters['userId']!;
-          return UserProfileScreen(userId: userId);
+          return _sharedAxisVerticalPage(
+            child: UserProfileScreen(userId: userId),
+            state: state,
+          );
         },
       ),
+
+      // -----------------------------------------------------------------------
+      // Rewards & Settings — shared-axis vertical
+      // -----------------------------------------------------------------------
       GoRoute(
         path: RouteNames.rewardsPath,
         name: RouteNames.rewards,
-        builder: (context, state) => const RewardsScreen(),
+        pageBuilder: (context, state) =>
+            _sharedAxisVerticalPage(child: const RewardsScreen(), state: state),
       ),
       GoRoute(
         path: RouteNames.settingsPath,
         name: RouteNames.settings,
-        builder: (context, state) => const SettingsScreen(),
+        pageBuilder: (context, state) => _sharedAxisVerticalPage(
+          child: const SettingsScreen(),
+          state: state,
+        ),
       ),
+
+      // -----------------------------------------------------------------------
+      // Map — fade (spatial context switch)
+      // -----------------------------------------------------------------------
       GoRoute(
         path: RouteNames.mapPath,
         name: RouteNames.map,
-        builder: (context, state) => const MapScreen(),
+        pageBuilder: (context, state) =>
+            _fadePage(child: const MapScreen(), state: state),
       ),
+
+      // -----------------------------------------------------------------------
+      // Wallet — shared-axis vertical for main, slide right for setup flow
+      // -----------------------------------------------------------------------
       GoRoute(
         path: RouteNames.walletPath,
         name: RouteNames.wallet,
-        builder: (context, state) => const WalletScreen(),
+        pageBuilder: (context, state) =>
+            _sharedAxisVerticalPage(child: const WalletScreen(), state: state),
       ),
       GoRoute(
         path: RouteNames.walletSetupPath,
         name: RouteNames.walletSetup,
-        builder: (context, state) => const WalletSetupScreen(),
+        pageBuilder: (context, state) =>
+            _slideRightPage(child: const WalletSetupScreen(), state: state),
       ),
+
+      // -----------------------------------------------------------------------
+      // Reward pools — modal slide up for creation, shared-axis for detail
+      // -----------------------------------------------------------------------
       GoRoute(
         path: RouteNames.createRewardPoolPath,
         name: RouteNames.createRewardPool,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final actionId = state.pathParameters['actionId']!;
-          return CreateRewardPoolScreen(actionId: actionId);
+          return _modalSlideUpPage(
+            child: CreateRewardPoolScreen(actionId: actionId),
+            state: state,
+          );
         },
       ),
       GoRoute(
         path: RouteNames.rewardPoolDetailPath,
         name: RouteNames.rewardPoolDetail,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final poolId = state.pathParameters['poolId']!;
-          return RewardPoolDetailScreen(poolId: poolId);
+          return _sharedAxisVerticalPage(
+            child: RewardPoolDetailScreen(poolId: poolId),
+            state: state,
+          );
         },
       ),
     ],

@@ -10,7 +10,11 @@ part of 'theme_mode_provider.dart';
 // ignore_for_file: type=lint, type=warning
 /// Manages the application theme mode (light, dark, or system).
 ///
-/// Defaults to [material.ThemeMode.system]. Widgets call
+/// The chosen mode is persisted to [SharedPreferences] so it survives app
+/// restarts. On first launch (or if the stored value is invalid) the notifier
+/// falls back to [material.ThemeMode.system].
+///
+/// Widgets call
 /// `ref.read(themeModeNotifierProvider.notifier).setThemeMode(...)` to switch.
 
 @ProviderFor(ThemeModeNotifier)
@@ -18,13 +22,21 @@ final themeModeProvider = ThemeModeNotifierProvider._();
 
 /// Manages the application theme mode (light, dark, or system).
 ///
-/// Defaults to [material.ThemeMode.system]. Widgets call
+/// The chosen mode is persisted to [SharedPreferences] so it survives app
+/// restarts. On first launch (or if the stored value is invalid) the notifier
+/// falls back to [material.ThemeMode.system].
+///
+/// Widgets call
 /// `ref.read(themeModeNotifierProvider.notifier).setThemeMode(...)` to switch.
 final class ThemeModeNotifierProvider
     extends $NotifierProvider<ThemeModeNotifier, material.ThemeMode> {
   /// Manages the application theme mode (light, dark, or system).
   ///
-  /// Defaults to [material.ThemeMode.system]. Widgets call
+  /// The chosen mode is persisted to [SharedPreferences] so it survives app
+  /// restarts. On first launch (or if the stored value is invalid) the notifier
+  /// falls back to [material.ThemeMode.system].
+  ///
+  /// Widgets call
   /// `ref.read(themeModeNotifierProvider.notifier).setThemeMode(...)` to switch.
   ThemeModeNotifierProvider._()
     : super(
@@ -53,11 +65,15 @@ final class ThemeModeNotifierProvider
   }
 }
 
-String _$themeModeNotifierHash() => r'138a22ec68485e21e46372652ac41f6e6dfec53a';
+String _$themeModeNotifierHash() => r'fc37c3dcea76da1793cee07fe6f18a51aa776c1e';
 
 /// Manages the application theme mode (light, dark, or system).
 ///
-/// Defaults to [material.ThemeMode.system]. Widgets call
+/// The chosen mode is persisted to [SharedPreferences] so it survives app
+/// restarts. On first launch (or if the stored value is invalid) the notifier
+/// falls back to [material.ThemeMode.system].
+///
+/// Widgets call
 /// `ref.read(themeModeNotifierProvider.notifier).setThemeMode(...)` to switch.
 
 abstract class _$ThemeModeNotifier extends $Notifier<material.ThemeMode> {
