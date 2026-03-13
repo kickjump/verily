@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
 import 'package:verily_server/src/generated/protocol.dart';
-import 'package:verily_server/src/services/mapbox_geocoding_service.dart';
+import 'package:verily_server/src/services/location/mapbox_geocoding_service.dart';
 
 /// Endpoint for geocoding operations using Mapbox.
 ///

@@ -71,6 +71,13 @@ abstract class _$FeedFilterNotifier extends $Notifier<FeedFilter> {
 ///
 /// Returns a list of [Action] objects. In development mode with no server
 /// running, returns mock data to keep the UI functional.
+///
+/// When the filter is [FeedFilter.nearby], the provider awaits the device's
+/// GPS position via [userLocationProvider] and calls the server-side
+/// `listNearby()` endpoint to return only actions within
+/// [kNearbyRadiusMeters]. If the device location is unavailable (permission
+/// denied, timeout, etc.), it gracefully falls back to `listActive()` so
+/// the user always sees content.
 
 @ProviderFor(feedActions)
 final feedActionsProvider = FeedActionsProvider._();
@@ -79,6 +86,13 @@ final feedActionsProvider = FeedActionsProvider._();
 ///
 /// Returns a list of [Action] objects. In development mode with no server
 /// running, returns mock data to keep the UI functional.
+///
+/// When the filter is [FeedFilter.nearby], the provider awaits the device's
+/// GPS position via [userLocationProvider] and calls the server-side
+/// `listNearby()` endpoint to return only actions within
+/// [kNearbyRadiusMeters]. If the device location is unavailable (permission
+/// denied, timeout, etc.), it gracefully falls back to `listActive()` so
+/// the user always sees content.
 
 final class FeedActionsProvider
     extends
@@ -92,6 +106,13 @@ final class FeedActionsProvider
   ///
   /// Returns a list of [Action] objects. In development mode with no server
   /// running, returns mock data to keep the UI functional.
+  ///
+  /// When the filter is [FeedFilter.nearby], the provider awaits the device's
+  /// GPS position via [userLocationProvider] and calls the server-side
+  /// `listNearby()` endpoint to return only actions within
+  /// [kNearbyRadiusMeters]. If the device location is unavailable (permission
+  /// denied, timeout, etc.), it gracefully falls back to `listActive()` so
+  /// the user always sees content.
   FeedActionsProvider._()
     : super(
         from: null,
@@ -118,4 +139,4 @@ final class FeedActionsProvider
   }
 }
 
-String _$feedActionsHash() => r'ac129b759067543547ef6ecd9cdb10bc9b7309b6';
+String _$feedActionsHash() => r'db8d0795e56d360e296d5356db9dee0d8a6e8fb9';

@@ -298,6 +298,7 @@ class _ActionDetailBody extends HookWidget {
         child: Padding(
           padding: const EdgeInsets.all(SpacingTokens.md),
           child: VFilledButton(
+            key: const Key('actionDetail_startActionButton'),
             onPressed: () => context.push(
               RouteNames.videoRecordingPath.replaceFirst(':actionId', actionId),
             ),

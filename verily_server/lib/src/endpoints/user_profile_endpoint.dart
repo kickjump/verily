@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
 import 'package:verily_server/src/generated/protocol.dart';
-import 'package:verily_server/src/services/user_profile_service.dart';
+import 'package:verily_server/src/services/users/user_profile_service.dart';
 
 /// Endpoint for managing user profiles.
 ///

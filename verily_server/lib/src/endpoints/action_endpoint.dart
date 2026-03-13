@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 import 'package:verily_server/src/generated/protocol.dart';
-import 'package:verily_server/src/services/action_service.dart';
-import 'package:verily_server/src/services/location_service.dart';
+import 'package:verily_server/src/services/actions/action_service.dart';
+import 'package:verily_server/src/services/location/location_service.dart';
 
 /// Endpoint for managing verifiable actions.
 ///

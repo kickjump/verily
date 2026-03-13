@@ -2,7 +2,7 @@ import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
 import 'package:verily_server/src/generated/protocol.dart';
-import 'package:verily_server/src/services/submission_service.dart';
+import 'package:verily_server/src/services/submissions/submission_service.dart';
 import 'package:verily_server/src/services/verification/submission_verification_orchestrator.dart';
 
 /// Endpoint for managing action submissions.
