@@ -68,3 +68,4 @@ melos:
     upgrade:
       description: Upgrade dependencies in all packages.
       exec: dart pub upgrade
+dependencies:

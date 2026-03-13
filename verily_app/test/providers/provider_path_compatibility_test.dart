@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/app/providers/theme_mode_provider.dart'
@@ -16,6 +17,21 @@ import 'package:verily_app/src/providers/theme_mode_provider.dart'
 
 void main() {
   group('provider path compatibility', () {
+    setUp(() {
+      // SharedPreferences requires method channel setup in tests.
+      TestWidgetsFlutterBinding.ensureInitialized();
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+            const MethodChannel('plugins.flutter.io/shared_preferences'),
+            (call) async {
+              if (call.method == 'getAll') return <String, Object>{};
+              if (call.method == 'setString') return true;
+              if (call.method == 'setBool') return true;
+              if (call.method == 'setInt') return true;
+              return null;
+            },
+          );
+    });
     test('legacy exports point to the same provider instances', () {
       expect(
         identical(

@@ -128,7 +128,7 @@ final class WalletManagerProvider
   }
 }
 
-String _$walletManagerHash() => r'5432f0b51b6f9064c9994dc43aeb272c315e9a7e';
+String _$walletManagerHash() => r'da15941bb0095d6cb8be57be0103c06c6f981d67';
 
 /// Manages wallet creation and linking.
 

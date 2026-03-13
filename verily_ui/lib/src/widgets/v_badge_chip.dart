@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:verily_ui/src/theme/color_tokens.dart';
 
 /// A small chip widget for displaying badges, rewards, or status labels.
+///
+/// Set [animate] to `true` for a subtle pop-in entrance animation.
+/// Use [animationDelay] to stagger multiple chips.
 class VBadgeChip extends HookWidget {
   const VBadgeChip({
     required this.label,
     this.icon,
     this.backgroundColor,
     this.foregroundColor,
+    this.animate = false,
+    this.animationDelay = Duration.zero,
     super.key,
   });
 
@@ -16,6 +22,12 @@ class VBadgeChip extends HookWidget {
   final IconData? icon;
   final Color? backgroundColor;
   final Color? foregroundColor;
+
+  /// When `true`, the chip plays a pop-in (scale + fade) entrance animation.
+  final bool animate;
+
+  /// Delay before the entrance animation starts.
+  final Duration animationDelay;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +40,7 @@ class VBadgeChip extends HookWidget {
             : colorScheme.surfaceContainerHigh.withValues(alpha: 0.9));
     final fg = foregroundColor ?? colorScheme.onSecondaryContainer;
 
-    return Container(
+    Widget chip = Container(
       padding: const EdgeInsets.symmetric(
         horizontal: SpacingTokens.sm,
         vertical: SpacingTokens.xs,
@@ -57,5 +69,19 @@ class VBadgeChip extends HookWidget {
         ],
       ),
     );
+
+    if (animate) {
+      chip = chip
+          .animate(delay: animationDelay)
+          .scaleXY(
+            begin: 0.8,
+            end: 1,
+            duration: 300.ms,
+            curve: Curves.easeOutBack,
+          )
+          .fadeIn(duration: 250.ms, curve: Curves.easeOut);
+    }
+
+    return chip;
   }
 }
