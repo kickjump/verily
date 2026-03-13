@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:verily_app/src/features/submissions/submission_status_screen.dart';
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('SubmissionStatusScreen', () {
     Future<void> pumpSubmissionStatusScreen(WidgetTester tester) async {
-      await tester.pumpAppL10n(
+      await tester.pumpApp(
         const SubmissionStatusScreen(actionId: 'test_action_1'),
       );
     }

@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/actions/providers/action_detail_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_client/verily_client.dart' as vc;
@@ -24,10 +23,8 @@ class ActionDetailScreen extends HookConsumerWidget {
 
     if (parsedId == null) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context).actionDetailTitle),
-        ),
-        body: Center(child: Text(AppLocalizations.of(context).actionInvalidId)),
+        appBar: AppBar(title: const Text('Action Details')),
+        body: const Center(child: Text('Invalid action ID')),
       );
     }
 
@@ -35,29 +32,22 @@ class ActionDetailScreen extends HookConsumerWidget {
 
     return actionAsync.when(
       loading: () => Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context).actionDetailTitle),
-        ),
+        appBar: AppBar(title: const Text('Action Details')),
         body: const Center(child: CircularProgressIndicator()),
       ),
       error: (error, _) => Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context).actionDetailTitle),
-        ),
+        appBar: AppBar(title: const Text('Action Details')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.error_outline, size: 64, color: colorScheme.error),
               const SizedBox(height: SpacingTokens.md),
-              Text(
-                AppLocalizations.of(context).actionLoadFailed,
-                style: theme.textTheme.titleMedium,
-              ),
+              Text('Failed to load action', style: theme.textTheme.titleMedium),
               const SizedBox(height: SpacingTokens.md),
               FilledButton(
                 onPressed: () => ref.invalidate(actionDetailProvider(parsedId)),
-                child: Text(AppLocalizations.of(context).retry),
+                child: const Text('Retry'),
               ),
             ],
           ),
@@ -97,7 +87,7 @@ class _ActionDetailBody extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).actionDetailTitle),
+        title: const Text('Action Details'),
         actions: [
           IconButton(
             icon: const Icon(Icons.share_outlined),
@@ -106,11 +96,7 @@ class _ActionDetailBody extends HookWidget {
               await Clipboard.setData(ClipboardData(text: link));
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      AppLocalizations.of(context).actionLinkCopied,
-                    ),
-                  ),
+                  const SnackBar(content: Text('Link copied to clipboard')),
                 );
               }
             },
@@ -176,9 +162,9 @@ class _ActionDetailBody extends HookWidget {
             const SizedBox(height: SpacingTokens.lg),
 
             // Verification criteria section
-            _SectionHeader(
+            const _SectionHeader(
               icon: Icons.verified_outlined,
-              title: AppLocalizations.of(context).actionVerificationCriteria,
+              title: 'Verification Criteria',
             ),
             const SizedBox(height: SpacingTokens.sm),
             VCard(
@@ -197,9 +183,9 @@ class _ActionDetailBody extends HookWidget {
 
             // Location section (if available)
             if (action.locationId != null) ...[
-              _SectionHeader(
+              const _SectionHeader(
                 icon: Icons.location_on_outlined,
-                title: AppLocalizations.of(context).actionLocation,
+                title: 'Location',
               ),
               const SizedBox(height: SpacingTokens.sm),
               VCard(
@@ -247,10 +233,7 @@ class _ActionDetailBody extends HookWidget {
 
             // Tags
             if (action.tags != null && action.tags!.isNotEmpty) ...[
-              _SectionHeader(
-                icon: Icons.label_outline,
-                title: AppLocalizations.of(context).actionTags,
-              ),
+              const _SectionHeader(icon: Icons.label_outline, title: 'Tags'),
               const SizedBox(height: SpacingTokens.sm),
               Wrap(
                 spacing: SpacingTokens.sm,
@@ -275,33 +258,33 @@ class _ActionDetailBody extends HookWidget {
                 children: [
                   if (action.maxPerformers != null)
                     _MetadataRow(
-                      label: AppLocalizations.of(context).actionMaxPerformers,
+                      label: 'Max Performers',
                       value: '${action.maxPerformers}',
                     ),
                   if (action.totalSteps != null && action.totalSteps! > 1) ...[
                     const SizedBox(height: SpacingTokens.sm),
                     _MetadataRow(
-                      label: AppLocalizations.of(context).actionTotalSteps,
+                      label: 'Total Steps',
                       value: '${action.totalSteps}',
                     ),
                   ],
                   if (action.habitDurationDays != null) ...[
                     const SizedBox(height: SpacingTokens.sm),
                     _MetadataRow(
-                      label: AppLocalizations.of(context).actionDuration,
+                      label: 'Duration',
                       value: '${action.habitDurationDays} days',
                     ),
                   ],
                   if (action.habitFrequencyPerWeek != null) ...[
                     const SizedBox(height: SpacingTokens.sm),
                     _MetadataRow(
-                      label: AppLocalizations.of(context).actionFrequency,
+                      label: 'Frequency',
                       value: '${action.habitFrequencyPerWeek}x per week',
                     ),
                   ],
                   const SizedBox(height: SpacingTokens.sm),
                   _MetadataRow(
-                    label: AppLocalizations.of(context).actionCreatedLabel,
+                    label: 'Created',
                     value: _formatDate(action.createdAt),
                   ),
                 ],
@@ -318,12 +301,12 @@ class _ActionDetailBody extends HookWidget {
             onPressed: () => context.push(
               RouteNames.videoRecordingPath.replaceFirst(':actionId', actionId),
             ),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.videocam_outlined),
-                const SizedBox(width: SpacingTokens.sm),
-                Text(AppLocalizations.of(context).actionSubmitVideo),
+                Icon(Icons.videocam_outlined),
+                SizedBox(width: SpacingTokens.sm),
+                Text('Submit Video'),
               ],
             ),
           ),

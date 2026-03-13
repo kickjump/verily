@@ -10,8 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/actions/action_detail_screen.dart';
 import 'package:verily_app/src/features/actions/providers/action_detail_provider.dart';
 import 'package:verily_client/verily_client.dart' as vc;
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('ActionDetailScreen', () {
@@ -56,7 +55,7 @@ void main() {
     });
 
     Future<void> pumpActionDetailScreen(WidgetTester tester) async {
-      await tester.pumpAppL10n(
+      await tester.pumpApp(
         const ActionDetailScreen(actionId: '1'),
         container: container,
       );
@@ -73,7 +72,7 @@ void main() {
     testWidgets('renders Action Details app bar title', (tester) async {
       await pumpActionDetailScreen(tester);
 
-      expect(find.text('Action Detail'), findsOneWidget);
+      expect(find.text('Action Details'), findsOneWidget);
     });
 
     testWidgets('renders Submit Video button', (tester) async {

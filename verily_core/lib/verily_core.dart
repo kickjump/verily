@@ -13,3 +13,4 @@ export 'src/logging/v_logger.dart';
 export 'src/models/ai_generated_action.dart';
 export 'src/models/bounding_box.dart';
 export 'src/models/geo_point.dart';
+export 'src/services/action_text_classifier.dart';

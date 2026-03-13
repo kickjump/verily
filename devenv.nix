@@ -305,27 +305,10 @@ in
       '';
       description = "Run dart analyze across the workspace in a single process.";
     };
-    "lint:l10n" = {
-      exec = ''
-        set -e
-        cd "$DEVENV_ROOT"
-        dart run tools/check_localized_ui_text.dart
-      '';
-      description = "Fail if NEW hardcoded UI text is found outside l10n resources.";
-    };
-    "lint:l10n:baseline" = {
-      exec = ''
-        set -e
-        cd "$DEVENV_ROOT"
-        dart run tools/check_localized_ui_text.dart --update-baseline
-      '';
-      description = "Refresh the hardcoded UI text baseline after migration work.";
-    };
     "lint:all" = {
       exec = ''
         set -e
         lint:format
-        lint:l10n
         lint:analyze
         lint:native
       '';

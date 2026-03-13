@@ -1,18 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:verily_app/src/features/rewards/create_reward_pool_screen.dart';
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('CreateRewardPoolScreen', () {
     testWidgets('renders app bar with title', (tester) async {
-      await tester.pumpAppL10n(const CreateRewardPoolScreen(actionId: '1'));
+      await tester.pumpApp(const CreateRewardPoolScreen(actionId: '1'));
 
       expect(find.text('Create Reward Pool'), findsOneWidget);
     });
 
     testWidgets('shows reward type selector', (tester) async {
-      await tester.pumpAppL10n(const CreateRewardPoolScreen(actionId: '1'));
+      await tester.pumpApp(const CreateRewardPoolScreen(actionId: '1'));
 
       expect(find.text('SOL'), findsOneWidget);
       expect(find.text('Token'), findsOneWidget);
@@ -20,25 +19,25 @@ void main() {
     });
 
     testWidgets('shows reward type section label', (tester) async {
-      await tester.pumpAppL10n(const CreateRewardPoolScreen(actionId: '1'));
+      await tester.pumpApp(const CreateRewardPoolScreen(actionId: '1'));
 
       expect(find.text('Reward Type'), findsOneWidget);
     });
 
     testWidgets('shows platform fee info card', (tester) async {
-      await tester.pumpAppL10n(const CreateRewardPoolScreen(actionId: '1'));
+      await tester.pumpApp(const CreateRewardPoolScreen(actionId: '1'));
 
       expect(find.textContaining('5% platform fee'), findsOneWidget);
     });
 
     testWidgets('shows create button', (tester) async {
-      await tester.pumpAppL10n(const CreateRewardPoolScreen(actionId: '1'));
+      await tester.pumpApp(const CreateRewardPoolScreen(actionId: '1'));
 
       expect(find.text('Fund & Create Pool'), findsOneWidget);
     });
 
     testWidgets('shows max recipients field', (tester) async {
-      await tester.pumpAppL10n(const CreateRewardPoolScreen(actionId: '1'));
+      await tester.pumpApp(const CreateRewardPoolScreen(actionId: '1'));
 
       expect(find.text('Max Recipients (optional)'), findsOneWidget);
     });

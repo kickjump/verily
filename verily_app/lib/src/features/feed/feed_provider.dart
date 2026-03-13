@@ -4,13 +4,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
-import 'package:verily_app/src/features/map/providers/location_providers.dart';
 import 'package:verily_client/verily_client.dart';
 
 part 'feed_provider.g.dart';
-
-/// Default search radius in meters for the Nearby filter (10 km).
-const kNearbyRadiusMeters = 10000.0;
 
 /// The active filter for the action feed.
 enum FeedFilter {
@@ -38,32 +34,30 @@ class FeedFilterNotifier extends _$FeedFilterNotifier {
 ///
 /// Returns a list of [Action] objects. In development mode with no server
 /// running, returns mock data to keep the UI functional.
-///
-/// When the filter is [FeedFilter.nearby], the provider awaits the device's
-/// GPS position via [userLocationProvider] and calls the server-side
-/// `listNearby()` endpoint to return only actions within
-/// [kNearbyRadiusMeters]. If the device location is unavailable (permission
-/// denied, timeout, etc.), it gracefully falls back to `listActive()` so
-/// the user always sees content.
 @riverpod
 Future<List<Action>> feedActions(Ref ref) async {
   final filter = ref.watch(feedFilterProvider);
   final client = ref.watch(serverpodClientProvider);
 
   try {
+    // Fetch actions from the server.
+    final actions = await client.action.listActive();
+
+    // Apply client-side filtering based on the selected filter.
     switch (filter) {
       case FeedFilter.nearby:
-        return await _fetchNearbyActions(ref, client);
+        // Deferred: sort by distance requires PostGIS spatial queries on the
+        // server. For now, returns all active actions in creation order.
+        return actions;
       case FeedFilter.quick:
         // Filter for one-off actions (quick to complete).
-        final actions = await client.action.listActive();
         return actions.where((a) => a.actionType == 'one_off').toList();
       case FeedFilter.highReward:
         // Deferred: sort by reward pool amount requires joining RewardPool
         // data. For now, returns all active actions unsorted.
-        return await client.action.listActive();
+        return actions;
       case FeedFilter.all:
-        return await client.action.listActive();
+        return actions;
     }
   } on Exception catch (e) {
     debugPrint('Failed to fetch actions from server: $e');
@@ -72,43 +66,11 @@ Future<List<Action>> feedActions(Ref ref) async {
   }
 }
 
-/// Attempts to fetch nearby actions using the device GPS.
-///
-/// 1. Awaits [userLocationProvider] with a timeout so the UI isn't blocked
-///    if GPS is slow.
-/// 2. Calls `client.action.listNearby()` with the resolved coordinates.
-/// 3. Falls back to `client.action.listActive()` if GPS or the endpoint
-///    is unavailable.
-Future<List<Action>> _fetchNearbyActions(Ref ref, Client client) async {
-  try {
-    final position = await ref
-        .watch(userLocationProvider.future)
-        .timeout(const Duration(seconds: 5));
-
-    try {
-      return await client.action.listNearby(
-        position.latitude,
-        position.longitude,
-        kNearbyRadiusMeters,
-      );
-    } on Exception catch (e) {
-      // listNearby failed (e.g. server has no spatial data yet).
-      // Fall back to listActive so the user still sees actions.
-      debugPrint('listNearby failed, falling back to listActive: $e');
-      return client.action.listActive();
-    }
-  } on Exception catch (e) {
-    // GPS unavailable (permission denied, timeout, etc.).
-    debugPrint('GPS unavailable, falling back to listActive: $e');
-    return client.action.listActive();
-  }
-}
-
 /// Mock actions for development when server is unavailable.
 final _mockActions = <Action>[
   Action(
     id: 1,
-    title: 'Record 20 push-ups at a local park', // l10n-ignore mock seed data
+    title: 'Record 20 push-ups at a local park',
     description:
         'Head to any local park and record yourself doing 20 push-ups. '
         'Make sure your full body is visible and the park environment is '
@@ -126,8 +88,7 @@ final _mockActions = <Action>[
   ),
   Action(
     id: 2,
-    title:
-        'Capture a 30s cleanup clip on your street', // l10n-ignore mock seed data
+    title: 'Capture a 30s cleanup clip on your street',
     description:
         'Record yourself picking up litter on your street for at least '
         '30 seconds. Show the before and after state.',
@@ -144,7 +105,7 @@ final _mockActions = <Action>[
   ),
   Action(
     id: 3,
-    title: 'Film a 1 minute kindness action', // l10n-ignore mock seed data
+    title: 'Film a 1 minute kindness action',
     description:
         'Record yourself performing a random act of kindness in your '
         'community. This could be helping someone carry groceries, '
@@ -162,7 +123,7 @@ final _mockActions = <Action>[
   ),
   Action(
     id: 4,
-    title: 'Morning meditation - 7 day streak', // l10n-ignore mock seed data
+    title: 'Morning meditation - 7 day streak',
     description:
         'Meditate for at least 5 minutes every morning for 7 days in a row. '
         'Record a short clip at the beginning and end of each session.',
@@ -182,8 +143,7 @@ final _mockActions = <Action>[
   ),
   Action(
     id: 5,
-    title:
-        'Visit 3 local coffee shops and review', // l10n-ignore mock seed data
+    title: 'Visit 3 local coffee shops and review',
     description:
         'Visit three different local coffee shops in your area. At each one, '
         'order a drink, film a short review, and show the storefront.',

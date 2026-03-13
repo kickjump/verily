@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/app/providers/theme_mode_provider.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -29,11 +28,11 @@ class SettingsScreen extends HookConsumerWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).settingsTitle)),
+      appBar: AppBar(title: const Text('Settings')),
       body: ListView(
         children: [
           // Appearance section
-          _SectionTitle(title: AppLocalizations.of(context).settingsAppearance),
+          const _SectionTitle(title: 'Appearance'),
           _ThemeModeTile(
             currentMode: themeMode,
             onChanged: (mode) =>
@@ -42,12 +41,10 @@ class SettingsScreen extends HookConsumerWidget {
           const Divider(),
 
           // Notifications section
-          _SectionTitle(
-            title: AppLocalizations.of(context).settingsNotifications,
-          ),
+          const _SectionTitle(title: 'Notifications'),
           _SettingsToggleTile(
             icon: Icons.notifications_outlined,
-            title: AppLocalizations.of(context).settingsNotificationsPush,
+            title: 'Push Notifications',
             subtitle: 'Get notified about submissions and verifications',
             value: notificationsEnabled.value,
             onChanged: (value) => notificationsEnabled.value = value,
@@ -55,17 +52,17 @@ class SettingsScreen extends HookConsumerWidget {
           const Divider(),
 
           // Privacy section
-          _SectionTitle(title: AppLocalizations.of(context).settingsPrivacy),
+          const _SectionTitle(title: 'Privacy'),
           _SettingsToggleTile(
             icon: Icons.location_on_outlined,
-            title: AppLocalizations.of(context).settingsLocationSharing,
+            title: 'Location Sharing',
             subtitle: 'Share GPS data with video submissions',
             value: locationSharingEnabled.value,
             onChanged: (value) => locationSharingEnabled.value = value,
           ),
           _SettingsToggleTile(
             icon: Icons.visibility_outlined,
-            title: AppLocalizations.of(context).settingsPrivacyProfile,
+            title: 'Public Profile',
             subtitle: 'Allow others to see your profile and actions',
             value: profilePublic.value,
             onChanged: (value) => profilePublic.value = value,
@@ -73,10 +70,10 @@ class SettingsScreen extends HookConsumerWidget {
           const Divider(),
 
           // About section
-          _SectionTitle(title: AppLocalizations.of(context).settingsAbout),
+          const _SectionTitle(title: 'About'),
           _SettingsNavTile(
             icon: Icons.info_outline,
-            title: AppLocalizations.of(context).settingsAboutVerily,
+            title: 'About Verily',
             subtitle: 'Version 1.0.0',
             onTap: () {
               showAboutDialog(
@@ -100,7 +97,7 @@ class SettingsScreen extends HookConsumerWidget {
           ),
           _SettingsNavTile(
             icon: Icons.description_outlined,
-            title: AppLocalizations.of(context).settingsAboutTerms,
+            title: 'Terms of Service',
             onTap: () => launchUrl(
               Uri.parse('https://verily.fun/terms'),
               mode: LaunchMode.externalApplication,
@@ -108,7 +105,7 @@ class SettingsScreen extends HookConsumerWidget {
           ),
           _SettingsNavTile(
             icon: Icons.privacy_tip_outlined,
-            title: AppLocalizations.of(context).settingsAboutPrivacy,
+            title: 'Privacy Policy',
             onTap: () => launchUrl(
               Uri.parse('https://verily.fun/privacy'),
               mode: LaunchMode.externalApplication,
@@ -116,7 +113,7 @@ class SettingsScreen extends HookConsumerWidget {
           ),
           _SettingsNavTile(
             icon: Icons.code,
-            title: AppLocalizations.of(context).settingsOpenSourceLicenses,
+            title: 'Open Source Licenses',
             onTap: () {
               showLicensePage(
                 context: context,
@@ -140,7 +137,7 @@ class SettingsScreen extends HookConsumerWidget {
                 children: [
                   Icon(Icons.logout, color: colorScheme.onPrimary),
                   const SizedBox(width: SpacingTokens.sm),
-                  Text(AppLocalizations.of(context).logout),
+                  const Text('Log Out'),
                 ],
               ),
             ),
@@ -156,21 +153,21 @@ class SettingsScreen extends HookConsumerWidget {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: Text(AppLocalizations.of(context).logout),
+          title: const Text('Log Out'),
           content: const Text(
             'Are you sure you want to log out of your account?',
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: Text(AppLocalizations.of(context).cancel),
+              child: const Text('Cancel'),
             ),
             FilledButton(
               onPressed: () {
                 Navigator.of(dialogContext).pop();
                 ref.read(authProvider.notifier).logout();
               },
-              child: Text(AppLocalizations.of(context).logout),
+              child: const Text('Log Out'),
             ),
           ],
         );
@@ -236,10 +233,7 @@ class _ThemeModeTile extends HookWidget {
             children: [
               Icon(Icons.palette_outlined, color: colorScheme.onSurfaceVariant),
               const SizedBox(width: SpacingTokens.md),
-              Text(
-                AppLocalizations.of(context).settingsTheme,
-                style: theme.textTheme.bodyLarge,
-              ),
+              Text('Theme', style: theme.textTheme.bodyLarge),
             ],
           ),
           const SizedBox(height: SpacingTokens.sm),

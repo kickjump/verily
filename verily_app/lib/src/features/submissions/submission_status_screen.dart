@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/submissions/providers/submission_provider.dart';
 import 'package:verily_core/verily_core.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -93,7 +92,7 @@ class SubmissionStatusScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).submissionStatusTitle),
+        title: const Text('Submission Status'),
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
@@ -201,26 +200,24 @@ class SubmissionStatusScreen extends HookConsumerWidget {
               if (status.value == VerificationStatus.passed)
                 VFilledButton(
                   onPressed: () => context.go('/feed'),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.celebration_outlined),
-                      const SizedBox(width: SpacingTokens.sm),
-                      Text(AppLocalizations.of(context).submissionBackToFeed),
+                      Icon(Icons.celebration_outlined),
+                      SizedBox(width: SpacingTokens.sm),
+                      Text('Back to Feed'),
                     ],
                   ),
                 ),
               if (status.value == VerificationStatus.failed) ...[
                 VFilledButton(
                   onPressed: () => context.pop(),
-                  child: Text(AppLocalizations.of(context).submissionTryAgain),
+                  child: const Text('Try Again'),
                 ),
                 const SizedBox(height: SpacingTokens.sm),
                 VTextButton(
                   onPressed: () => context.go('/feed'),
-                  child: Text(
-                    AppLocalizations.of(context).submissionBackToFeed,
-                  ),
+                  child: const Text('Back to Feed'),
                 ),
               ],
               const SizedBox(height: SpacingTokens.md),

@@ -68,5 +68,9 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSCameraUsageDescription</key>
+		<string>Verily needs camera access to capture photo and video evidence during verification.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Verily needs microphone access to measure ambient audio levels during verification capture.</string>
 	</dict>
 </plist>

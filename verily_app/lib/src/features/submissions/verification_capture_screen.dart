@@ -90,7 +90,7 @@ class VerificationCaptureScreen extends HookConsumerWidget {
             content: Text(
               AppLocalizations.of(
                 context,
-              ).verificationStopRecordingBeforeSubmitting,
+              ).gateStopRecordingBeforeSubmittingForReview,
             ),
           ),
         );
@@ -120,7 +120,7 @@ class VerificationCaptureScreen extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
-        title: Text(AppLocalizations.of(context).verificationCapture),
+        title: Text(AppLocalizations.of(context).gateVerificationCapture),
         actions: [
           IconButton(
             onPressed: () => context.pop(),
@@ -298,7 +298,7 @@ class VerificationCaptureScreen extends HookConsumerWidget {
                     Expanded(
                       child: _CapabilityCard(
                         icon: Icons.mic,
-                        label: AppLocalizations.of(context).verificationAudio,
+                        label: AppLocalizations.of(context).gateAudio,
                         status: captureAudio.value ? 'Enabled' : 'Muted',
                       ),
                     ),
@@ -475,9 +475,7 @@ class VerificationCaptureScreen extends HookConsumerWidget {
                               key: const Key('verification_logLocationButton'),
                               onPressed: logLocation,
                               child: Text(
-                                AppLocalizations.of(
-                                  context,
-                                ).verificationLogLocation,
+                                AppLocalizations.of(context).gateLogLocation,
                               ),
                             ),
                           ),

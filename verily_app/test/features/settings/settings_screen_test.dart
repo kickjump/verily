@@ -5,8 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_app/src/features/settings/settings_screen.dart';
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 // TODO(auth): These tests require `auth_provider.g.dart` to be generated.
 // Run `dart run build_runner build` in the verily_app package before running.
@@ -32,7 +31,7 @@ void main() {
     });
 
     Future<void> pumpSettingsScreen(WidgetTester tester) async {
-      await tester.pumpAppL10n(const SettingsScreen(), container: container);
+      await tester.pumpApp(const SettingsScreen(), container: container);
     }
 
     Future<void> scrollDown(WidgetTester tester) async {

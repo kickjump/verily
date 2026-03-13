@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/actions/providers/create_action_provider.dart';
 import 'package:verily_app/src/features/search/search_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
@@ -92,18 +91,14 @@ class CreateActionScreen extends HookConsumerWidget {
         if (context.mounted) {
           if (result != null) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(AppLocalizations.of(context).actionCreated),
-              ),
+              const SnackBar(content: Text('Action created successfully!')),
             );
             context.go(RouteNames.feedPath);
           } else {
             isSubmitting.value = false;
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  AppLocalizations.of(context).actionCreateFailedRetry,
-                ),
+              const SnackBar(
+                content: Text('Failed to create action. Please try again.'),
               ),
             );
           }
@@ -112,10 +107,8 @@ class CreateActionScreen extends HookConsumerWidget {
         isSubmitting.value = false;
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                AppLocalizations.of(context).actionCreateFailedRetry,
-              ),
+            const SnackBar(
+              content: Text('Failed to create action. Please try again.'),
             ),
           );
         }
@@ -172,7 +165,7 @@ class CreateActionScreen extends HookConsumerWidget {
                 Expanded(
                   child: VOutlinedButton(
                     onPressed: goToPreviousStep,
-                    child: Text(AppLocalizations.of(context).back),
+                    child: const Text('Back'),
                   ),
                 ),
                 const SizedBox(width: SpacingTokens.md),
@@ -183,13 +176,11 @@ class CreateActionScreen extends HookConsumerWidget {
                     ? VFilledButton(
                         isLoading: isSubmitting.value,
                         onPressed: isSubmitting.value ? null : submitAction,
-                        child: Text(
-                          AppLocalizations.of(context).createActionTitle,
-                        ),
+                        child: const Text('Create Action'),
                       )
                     : VFilledButton(
                         onPressed: goToNextStep,
-                        child: Text(AppLocalizations.of(context).continueLabel),
+                        child: const Text('Continue'),
                       ),
               ),
             ],
@@ -301,8 +292,8 @@ class _StepBasicInfo extends HookWidget {
           // Title
           VTextField(
             controller: titleController,
-            labelText: AppLocalizations.of(context).actionTitle,
-            hintText: AppLocalizations.of(context).actionTitleExample,
+            labelText: 'Title',
+            hintText: 'e.g., Do 20 push-ups in the park',
             prefixIcon: const Icon(Icons.title),
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
@@ -319,10 +310,8 @@ class _StepBasicInfo extends HookWidget {
           // Description
           VTextField(
             controller: descriptionController,
-            labelText: AppLocalizations.of(context).actionDescription,
-            hintText: AppLocalizations.of(
-              context,
-            ).actionDescriptionPerformerHint,
+            labelText: 'Description',
+            hintText: 'Describe what the performer needs to do...',
             maxLines: 4,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
@@ -338,7 +327,7 @@ class _StepBasicInfo extends HookWidget {
 
           // Action type
           Text(
-            AppLocalizations.of(context).actionType,
+            'Action Type',
             style: theme.textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -496,7 +485,7 @@ class _StepVerification extends HookWidget {
           // Verification criteria
           VTextField(
             controller: criteriaController,
-            labelText: AppLocalizations.of(context).verificationCriteria,
+            labelText: 'Verification Criteria',
             hintText:
                 'Describe what the AI should look for in the video...\n'
                 'e.g., Person must be visible doing push-ups, '
@@ -516,7 +505,7 @@ class _StepVerification extends HookWidget {
 
           // Category selection
           Text(
-            AppLocalizations.of(context).actionCategory,
+            'Category',
             style: theme.textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -648,8 +637,8 @@ class _StepLocation extends HookWidget {
             const SizedBox(height: SpacingTokens.md),
             VTextField(
               controller: locationNameController,
-              labelText: AppLocalizations.of(context).actionLocationName,
-              hintText: AppLocalizations.of(context).actionLocationExample,
+              labelText: 'Location Name',
+              hintText: 'e.g., Central Park',
               prefixIcon: const Icon(Icons.place_outlined),
             ),
             const SizedBox(height: SpacingTokens.md),
@@ -678,8 +667,8 @@ class _StepLocation extends HookWidget {
           const SizedBox(height: SpacingTokens.sm),
           VTextField(
             controller: maxPerformersController,
-            labelText: AppLocalizations.of(context).actionMaxPerformersOptional,
-            hintText: AppLocalizations.of(context).actionMaxParticipantsHint,
+            labelText: 'Max Performers (optional)',
+            hintText: 'Leave empty for unlimited',
             keyboardType: TextInputType.number,
             prefixIcon: const Icon(Icons.people_outline),
             validator: (value) {
@@ -748,43 +737,43 @@ class _StepReview extends HookWidget {
           const SizedBox(height: SpacingTokens.lg),
 
           _ReviewField(
-            label: AppLocalizations.of(context).actionTitle,
+            label: 'Title',
             value: title,
             onTap: () => onJumpToStep(0),
           ),
           const SizedBox(height: SpacingTokens.md),
           _ReviewField(
-            label: AppLocalizations.of(context).actionDescription,
+            label: 'Description',
             value: description,
             onTap: () => onJumpToStep(0),
           ),
           const SizedBox(height: SpacingTokens.md),
           _ReviewField(
-            label: AppLocalizations.of(context).actionTypeLabel,
+            label: 'Type',
             value: actionType.displayName,
             onTap: () => onJumpToStep(0),
           ),
           const SizedBox(height: SpacingTokens.md),
           _ReviewField(
-            label: AppLocalizations.of(context).verificationCriteria,
+            label: 'Verification Criteria',
             value: criteria,
             onTap: () => onJumpToStep(1),
           ),
           const SizedBox(height: SpacingTokens.md),
           _ReviewField(
-            label: AppLocalizations.of(context).actionCategory,
+            label: 'Category',
             value: category ?? 'None selected',
             onTap: () => onJumpToStep(1),
           ),
           const SizedBox(height: SpacingTokens.md),
           _ReviewField(
-            label: AppLocalizations.of(context).actionLocation,
+            label: 'Location',
             value: locationName ?? 'No location restriction',
             onTap: () => onJumpToStep(2),
           ),
           const SizedBox(height: SpacingTokens.md),
           _ReviewField(
-            label: AppLocalizations.of(context).actionMaxPerformers,
+            label: 'Max Performers',
             value: maxPerformers.isEmpty ? 'Unlimited' : maxPerformers,
             onTap: () => onJumpToStep(2),
           ),

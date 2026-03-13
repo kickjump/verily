@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:verily_app/src/features/actions/create_action_screen.dart';
-
-import '../../helpers/pump_app_l10n.dart';
+import 'package:verily_test_utils/verily_test_utils.dart';
 
 void main() {
   group('CreateActionScreen', () {
     Future<void> pumpCreateActionScreen(WidgetTester tester) async {
-      await tester.pumpAppL10n(const CreateActionScreen());
+      await tester.pumpApp(const CreateActionScreen());
     }
 
     testWidgets('renders step 1 title field', (tester) async {

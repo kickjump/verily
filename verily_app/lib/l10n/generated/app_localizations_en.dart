@@ -671,9 +671,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get submitVideo => 'Submit Video';
 
   @override
-  String get startAction => 'Start Action';
-
-  @override
   String get submitForAiReview => 'Submit for AI Review';
 
   @override
@@ -1070,336 +1067,260 @@ class AppLocalizationsEn extends AppLocalizations {
       'Describe what the performer needs to do...';
 
   @override
-  String get aiActionTooltipActionVerb => 'Action verb';
-
-  @override
-  String get aiActionTooltipSpecificDetails => 'Specific details';
-
-  @override
-  String get aiActionTooltipMeasurableGoal => 'Measurable goal';
-
-  @override
-  String get aiActionTooltipVerifiableElement => 'Verifiable element';
-
-  @override
-  String get submissionResolution => 'Resolution';
-
-  @override
   String get authGoogle => 'Google';
 
   @override
   String get authApple => 'Apple';
 
   @override
-  String get settingsAboutVerily => 'About Verily';
+  String get gateAboutVerily => 'About Verily';
 
   @override
-  String get profileActionFailedRetry => 'Action failed. Please try again.';
+  String get gateActionFailedPleaseTryAgain =>
+      'Action failed. Please try again.';
 
   @override
-  String get rewardPoolPerPersonAmountHint => 'Amount each performer receives';
+  String get gateActions => 'Actions';
 
   @override
-  String get settingsAppearance => 'Appearance';
+  String get gateAmountEachPerformerReceives =>
+      'Amount each performer receives';
 
   @override
-  String get authPasswordMinEightChars => 'At least 8 characters';
+  String get gateAppearance => 'Appearance';
 
   @override
-  String get verificationAudio => 'Audio';
+  String get gateAtLeast8Characters => 'At least 8 characters';
 
   @override
-  String get homeAvailableLabel => 'Available';
+  String get gateAudio => 'Audio';
 
   @override
-  String get submissionBackToFeed => 'Back to Feed';
+  String get gateAvailable => 'Available';
 
   @override
-  String get profileBlockUser => 'Block user';
+  String get gateBackToFeed => 'Back to Feed';
 
   @override
-  String get homeBrowseMoreActions => 'Browse more actions';
+  String get gateBlockUser => 'Block user';
 
   @override
-  String get rewardPoolCancelPool => 'Cancel Pool';
+  String get gateBrowseMoreActions => 'Browse more actions';
 
   @override
-  String get rewardPoolCancelPoolTitle => 'Cancel Pool?';
+  String get gateCancelPool => 'Cancel Pool';
 
   @override
-  String get profileChooseUniqueUsername => 'Choose a unique username';
+  String get gateCancelPool_2 => 'Cancel Pool?';
 
   @override
-  String get aiActionPromptCleanUpBeachTenMin => 'Clean up a beach for 10 min';
+  String get gateCaptureA30sCleanupClipOnYourStreet =>
+      'Capture a 30s cleanup clip on your street';
 
   @override
-  String get homeClear => 'Clear';
+  String get gateChooseAUniqueUsername => 'Choose a unique username';
 
   @override
-  String get rewardPoolCreateRewardPool => 'Create Reward Pool';
+  String get gateCleanUpABeachFor10Min => 'Clean up a beach for 10 min';
 
   @override
-  String get authCredentials => 'Credentials';
+  String get gateClear => 'Clear';
 
   @override
-  String get aiActionPromptDo50PushUpsAtPark => 'Do 50 push-ups at a park';
+  String get gateComplete => 'Complete';
 
   @override
-  String get rewardPoolEnterSplTokenMintAddress =>
-      'Enter SPL token mint address';
+  String get gateContinueToVideoCapture => 'Continue to Video Capture';
 
   @override
-  String get rewardPoolCreateFailedTryAgain =>
+  String get gateCreateRewardPool => 'Create Reward Pool';
+
+  @override
+  String get gateCredentials => 'Credentials';
+
+  @override
+  String get gateDo50PushUpsAtAPark => 'Do 50 push-ups at a park';
+
+  @override
+  String get gateEnterSplTokenMintAddress => 'Enter SPL token mint address';
+
+  @override
+  String get gateFailedToCreateRewardPoolPleaseTryAgain =>
       'Failed to create reward pool. Please try again.';
 
   @override
-  String get rewardPoolFailedToLoadDistributions =>
-      'Failed to load distributions';
+  String get gateFailedToLoadDistributions => 'Failed to load distributions';
 
   @override
-  String get submissionFailedToOpenCameraTryAgain =>
+  String get gateFailedToOpenCameraPleaseTryAgain =>
       'Failed to open camera. Please try again.';
 
   @override
-  String get profileFailedToSaveTryAgain =>
+  String get gateFailedToSaveProfilePleaseTryAgain =>
       'Failed to save profile. Please try again.';
 
   @override
-  String get submissionFailedToSubmitVideoTryAgain =>
+  String get gateFailedToSubmitVideoPleaseTryAgain =>
       'Failed to submit video. Please try again.';
 
   @override
-  String get submissionFileSize => 'File Size';
+  String get gateFileSize => 'File Size';
 
   @override
-  String get rewardPoolFundAndCreatePool => 'Fund & Create Pool';
+  String get gateFilmA1MinuteKindnessAction =>
+      'Film a 1 minute kindness action';
 
   @override
-  String get rewardPoolKeep => 'Keep';
+  String get gateFundCreatePool => 'Fund & Create Pool';
 
   @override
-  String get settingsLocationSharing => 'Location Sharing';
+  String get gateKeep => 'Keep';
 
   @override
-  String get verificationLogLocation => 'Log Location';
+  String get gateLive => 'Live';
 
   @override
-  String get rewardPoolMaxRecipientsOptional => 'Max Recipients (optional)';
+  String get gateLocationSharing => 'Location Sharing';
 
   @override
-  String get aiActionPromptMeditateDailyForAWeek => 'Meditate daily for a week';
+  String get gateLogLocation => 'Log Location';
 
   @override
-  String get rewardPoolNft => 'NFT';
+  String get gateMapView => 'Map view';
 
   @override
-  String get settingsOpenSourceLicenses => 'Open Source Licenses';
+  String get gateMaxRecipientsOptional => 'Max Recipients (optional)';
 
   @override
-  String get homeOpenVerification => 'Open Verification';
+  String get gateMeditateDailyForAWeek => 'Meditate daily for a week';
 
   @override
-  String get navigationOpenVerificationCapture => 'Open verification capture';
+  String get gateMorningMeditation7DayStreak =>
+      'Morning meditation - 7 day streak';
 
   @override
-  String get rewardPoolPerPersonAmount => 'Per Person Amount';
+  String get gateNft => 'NFT';
 
   @override
-  String get rewardPoolPleaseEnterTokenMintAddress =>
+  String get gateNoActionsNearbyTryZoomingOut =>
+      'No actions nearby. Try zooming out.';
+
+  @override
+  String get gateOpenSourceLicenses => 'Open Source Licenses';
+
+  @override
+  String get gateOpenVerification => 'Open Verification';
+
+  @override
+  String get gateOpenVerificationCapture => 'Open verification capture';
+
+  @override
+  String get gatePerPersonAmount => 'Per Person Amount';
+
+  @override
+  String get gatePleaseEnterATokenMintAddress =>
       'Please enter a token mint address.';
 
   @override
-  String get rewardPoolPleaseEnterValidPerPersonAmount =>
+  String get gatePleaseEnterAValidPerPersonAmount =>
       'Please enter a valid per-person amount.';
 
   @override
-  String get rewardPoolPleaseEnterValidTotalAmount =>
+  String get gatePleaseEnterAValidTotalAmount =>
       'Please enter a valid total amount.';
 
   @override
-  String get rewardPoolWillRemainActiveUntilDepleted =>
+  String get gatePoolWillRemainActiveUntilDepleted =>
       'Pool will remain active until depleted';
 
   @override
-  String get profileReportSubmitted => 'Report submitted.';
+  String get gateReCenter => 'Re-center';
 
   @override
-  String get profileReportUser => 'Report user';
+  String get gateRecord20PushUpsAtALocalPark =>
+      'Record 20 push-ups at a local park';
 
   @override
-  String get authResendCode => 'Resend Code';
+  String get gateReportSubmitted => 'Report submitted.';
 
   @override
-  String get rewardPoolTitle => 'Reward Pool';
+  String get gateReportUser => 'Report user';
 
   @override
-  String get rewardPoolRewardType => 'Reward Type';
+  String get gateResendCode => 'Resend Code';
 
   @override
-  String get rewardPoolSol => 'SOL';
+  String get gateRewardPool => 'Reward Pool';
 
   @override
-  String get rewardPoolSetExpiryDate => 'Set Expiry Date';
+  String get gateRewardType => 'Reward Type';
 
   @override
-  String get verificationStopRecordingBeforeSubmitting =>
+  String get gateSol => 'SOL';
+
+  @override
+  String get gateSearchActions => 'Search actions...';
+
+  @override
+  String get gateSearchPlaces => 'Search places...';
+
+  @override
+  String get gateSelectAnActionBeforeStartingVerification =>
+      'Select an action before starting verification.';
+
+  @override
+  String get gateSetExpiryDate => 'Set Expiry Date';
+
+  @override
+  String get gateStart => 'Start';
+
+  @override
+  String get gateStopRecordingBeforeSubmittingForReview =>
       'Stop recording before submitting for review.';
 
   @override
-  String get homeStreak => 'Streak';
+  String get gateStreak => 'Streak';
 
   @override
-  String get profileTellOthersAboutYourself => 'Tell others about yourself...';
+  String get gateTellOthersAboutYourself => 'Tell others about yourself...';
 
   @override
-  String get rewardPoolToken => 'Token';
+  String get gateToken => 'Token';
 
   @override
-  String get rewardPoolTokenMintAddress => 'Token Mint Address';
+  String get gateTokenMintAddress => 'Token Mint Address';
 
   @override
-  String get submissionTryAgain => 'Try Again';
+  String get gateTryAgain => 'Try Again';
 
   @override
-  String get actionTypeLabel => 'Type';
+  String get gateType => 'Type';
 
   @override
-  String get profileUserBlocked => 'User blocked.';
+  String get gateUserBlocked => 'User blocked.';
 
   @override
-  String get profileUsername => 'Username';
+  String get gateUsername => 'Username';
 
   @override
-  String get verificationCapture => 'Verification Capture';
+  String get gateVerificationCapture => 'Verification Capture';
 
   @override
-  String get authVerificationCode => 'Verification Code';
+  String get gateVerificationCode => 'Verification Code';
 
   @override
-  String get appVerify => 'Verify';
+  String get gateVerify => 'Verify';
 
   @override
-  String get submissionVideo => 'Video';
+  String get gateVideo => 'Video';
 
   @override
-  String get actionViewDetails => 'View Details';
+  String get gateViewDetails => 'View Details';
 
   @override
-  String get profileYourPublicName => 'Your public name';
+  String get gateVisit3LocalCoffeeShopsAndReview =>
+      'Visit 3 local coffee shops and review';
 
   @override
-  String get videoQualityPreCheckTitle => 'Quality Pre-Check';
-
-  @override
-  String get videoQualityAnalyzing => 'Analyzing…';
-
-  @override
-  String get videoQualityPassed => 'Passed';
-
-  @override
-  String get videoQualityIssuesFound => 'Issues Found';
-
-  @override
-  String get videoQualitySkipped => 'Skipped';
-
-  @override
-  String get videoQualityRunningChecks =>
-      'Running quality checks on your video…';
-
-  @override
-  String get videoQualityAnalysisFailed =>
-      'Quality analysis could not complete. You can still submit.';
-
-  @override
-  String get videoQualityNoChecksRun => 'No quality checks were run.';
-
-  @override
-  String videoQualityAnalysisTime(int timeMs) {
-    return 'Analyzed in ${timeMs}ms';
-  }
-
-  @override
-  String get geoFenceOutsideTitle => 'Outside Required Area';
-
-  @override
-  String geoFenceOutsideBody(String overshoot, String distance) {
-    return 'You are $overshoot outside the required area ($distance from the target location). Submissions from outside the geo-fence are likely to be rejected by AI verification.';
-  }
-
-  @override
-  String get geoFenceOutsideHint =>
-      'Move closer to the required location for the best chance of verification success.';
-
-  @override
-  String get geoFenceGoCloser => 'Go Closer';
-
-  @override
-  String get geoFenceSubmitAnyway => 'Submit Anyway';
-
-  @override
-  String geoFenceBannerWarning(String overshoot) {
-    return 'You are $overshoot outside the required area. Submission may be rejected.';
-  }
-
-  @override
-  String get geoFenceCheckingProximity => 'Checking your proximity…';
-
-  @override
-  String get geoFenceUnableToCheck => 'Unable to check proximity';
-
-  @override
-  String geoFenceInsideArea(String distance) {
-    return 'You\'re in the area ($distance from target)';
-  }
-
-  @override
-  String geoFenceOutsideArea(String overshoot) {
-    return 'You\'re $overshoot outside the required area';
-  }
-
-  @override
-  String get actionLinkCopied => 'Link copied to clipboard';
-
-  @override
-  String get actionSubmitVideo => 'Submit Video';
-
-  @override
-  String get actionVerificationCriteria => 'Verification Criteria';
-
-  @override
-  String get aiActionCreateAction => 'Create Action';
-
-  @override
-  String get aiActionCreateWithAi => 'Create with AI';
-
-  @override
-  String get aiActionDescribeAction => 'Describe the action';
-
-  @override
-  String get aiActionEditPrompt => 'Edit Prompt';
-
-  @override
-  String get aiActionGenerate => 'Generate Action';
-
-  @override
-  String get aiActionManual => 'Manual';
-
-  @override
-  String get aiActionStop => 'Stop';
-
-  @override
-  String get submissionFailedRetry =>
-      'Failed to submit video. Please try again.';
-
-  @override
-  String get submissionLocation => 'Location';
-
-  @override
-  String get submissionRetake => 'Retake';
-
-  @override
-  String get submissionReviewVideo => 'Review Video';
-
-  @override
-  String get submissionSubmit => 'Submit';
+  String get gateYourPublicName => 'Your public name';
 }
