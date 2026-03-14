@@ -8,6 +8,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/l10n/generated/app_localizations.dart';
 import 'package:verily_app/src/features/auth/auth_provider.dart';
 import 'package:verily_app/src/features/auth/login_screen.dart';
 import 'package:verily_app/src/features/auth/register_screen.dart';
@@ -181,6 +182,8 @@ Widget buildAuthApp({String initialLocation = RouteNames.loginPath}) {
       theme: VerilyTheme.light,
       darkTheme: VerilyTheme.dark,
       routerConfig: router,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     ),
   );
 }
@@ -309,6 +312,8 @@ Widget buildShellApp({String initialLocation = RouteNames.feedPath}) {
         theme: VerilyTheme.light,
         darkTheme: VerilyTheme.dark,
         routerConfig: router,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
       ),
     ),
   );
@@ -420,6 +425,8 @@ Widget buildHomeShellApp({String initialLocation = RouteNames.feedPath}) {
       theme: VerilyTheme.light,
       darkTheme: VerilyTheme.dark,
       routerConfig: router,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     ),
   );
 }
