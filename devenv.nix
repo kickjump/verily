@@ -44,6 +44,8 @@ in
     package = pkgs.prek;
 
     hooks = {
+      # ── pre-commit ──────────────────────────────────────────────────────
+
       "secrets:commit" = {
         enable = true;
         name = "secrets:commit";
@@ -52,6 +54,33 @@ in
         pass_filenames = false;
         stages = [ "pre-commit" ];
       };
+
+      format = {
+        enable = true;
+        name = "format";
+        description = "Check formatting of staged files with dprint (no auto-fix).";
+        entry = "${pkgs.dprint}/bin/dprint check --allow-no-files";
+        stages = [ "pre-commit" ];
+      };
+
+      lint = {
+        enable = true;
+        name = "lint";
+        description = "Run dart analyze on changed Dart files (errors only).";
+        entry = "${config.env.DEVENV_PROFILE}/bin/dart analyze --no-fatal-warnings";
+        pass_filenames = true;
+        files = "\\.dart$";
+        excludes = [
+          "\\.(g|freezed)\\.dart$"
+          "/generated/"
+          "/protocol/"
+          "serverpod_test_tools\\.dart$"
+        ];
+        stages = [ "pre-commit" ];
+      };
+
+      # ── pre-push ────────────────────────────────────────────────────────
+
       "secrets:push" = {
         enable = true;
         name = "secrets:push";
@@ -60,21 +89,55 @@ in
         pass_filenames = false;
         stages = [ "pre-push" ];
       };
-      format = {
+
+      "push:format" = {
         enable = true;
-        name = "format";
-        description = "Format files with dprint before commit.";
-        entry = "${pkgs.dprint}/bin/dprint fmt --allow-no-files";
-        stages = [ "pre-commit" ];
+        name = "push:format";
+        description = "Verify all formatting is correct before push.";
+        entry = "${pkgs.dprint}/bin/dprint check";
+        pass_filenames = false;
+        always_run = true;
+        stages = [ "pre-push" ];
       };
-      lint = {
+
+      "push:analyze" = {
         enable = true;
-        name = "lint";
-        description = "Run linting and formatting checks on every commit.";
+        name = "push:analyze";
+        description = "Run dart analyze across the full workspace before push.";
         entry = "${config.env.DEVENV_PROFILE}/bin/dart analyze .";
         pass_filenames = false;
         always_run = true;
-        stages = [ "pre-commit" ];
+        stages = [ "pre-push" ];
+      };
+
+      "push:native-lint" = {
+        enable = true;
+        name = "push:native-lint";
+        description = "Run native code linters (ktlint + swiftlint) before push.";
+        entry = "${pkgs.bash}/bin/bash -c '${pkgs.ktlint}/bin/ktlint \"verily_app/android/**/*.kts\" && if command -v swiftlint >/dev/null 2>&1 && [ -d verily_app/ios/Runner ]; then swiftlint lint --strict --config verily_app/ios/.swiftlint.yml verily_app/ios/Runner; fi'";
+        pass_filenames = false;
+        always_run = true;
+        stages = [ "pre-push" ];
+      };
+
+      "push:test" = {
+        enable = true;
+        name = "push:test";
+        description = "Run all unit and widget tests before push.";
+        entry = "${pkgs.bash}/bin/bash -c '${config.env.DEVENV_PROFILE}/bin/dart run melos run test:flutter --no-select && ${config.env.DEVENV_PROFILE}/bin/dart run melos exec --scope=\"verily_core\" -- dart test'";
+        pass_filenames = false;
+        always_run = true;
+        stages = [ "pre-push" ];
+      };
+
+      "push:mdt" = {
+        enable = true;
+        name = "push:mdt";
+        description = "Check markdown templates are up to date before push.";
+        entry = "mdt check";
+        pass_filenames = false;
+        always_run = true;
+        stages = [ "pre-push" ];
       };
     };
   };
