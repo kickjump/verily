@@ -10,6 +10,7 @@ import 'package:verily_server/src/generated/endpoints.dart';
 import 'package:verily_server/src/generated/protocol.dart';
 import 'package:verily_server/src/logging/server_logging.dart';
 import 'package:verily_server/src/web/routes/app_config_route.dart';
+import 'package:verily_server/src/web/routes/health_route.dart';
 import 'package:verily_server/src/web/routes/root.dart';
 
 /// Email sender instance. Replace with `SmtpEmailSender` for production.
@@ -45,6 +46,10 @@ Future<void> run(List<String> args) async {
       if (appleIdpEnabled) AppleIdpConfigFromPasswords(),
     ],
   );
+
+  // Health check for load balancer probes.
+  pod.webServer.addRoute(HealthRoute(), '/health');
+  pod.webServer.addRoute(HealthRoute(), '/readyz');
 
   // Setup a default page at the web root.
   pod.webServer.addRoute(RootRoute());
