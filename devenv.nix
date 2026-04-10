@@ -124,7 +124,7 @@ in
         enable = true;
         name = "push:test";
         description = "Run all unit and widget tests before push.";
-        entry = "${pkgs.bash}/bin/bash -c '${config.env.DEVENV_PROFILE}/bin/dart run melos run test:flutter --no-select && ${config.env.DEVENV_PROFILE}/bin/dart run melos exec --scope=\"verily_core\" -- dart test'";
+        entry = "${pkgs.bash}/bin/bash -c 'set -e; ROOT=\"$DEVENV_ROOT\"; ${pkgs.fvm}/bin/fvm flutter test \"$ROOT/verily_app\" && ${pkgs.fvm}/bin/fvm flutter test \"$ROOT/verily_ui\" && cd \"$ROOT/verily_core\" && ${config.env.DEVENV_PROFILE}/bin/dart test'";
         pass_filenames = false;
         always_run = true;
         stages = [ "pre-push" ];
