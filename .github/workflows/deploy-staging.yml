@@ -1,0 +1,64 @@
+name: deploy-staging
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      demo_mode:
+        description: "Build web app in demo mode"
+        type: boolean
+        default: true
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: true
+
+jobs:
+  build-and-push:
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/devenv
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build flutter web
+        run: |
+          cd verily_app
+          DEMO_FLAG=""
+          if [ "${{ github.event.inputs.demo_mode || 'true' }}" = "true" ]; then
+            DEMO_FLAG="--dart-define=DEMO_MODE=true"
+          fi
+          flutter build web \
+            --base-href /app/ \
+            $DEMO_FLAG \
+            --dart-define=SERVER_URL=https://api-staging.verily.fun/ \
+            --output ../verily_server/web/app
+        shell: devenv shell -- bash -e {0}
+
+      - name: build docker image
+        run: |
+          docker build \
+            -t verily-server:${{ github.sha }} \
+            -t verily-server:latest \
+            .
+
+      - name: login to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: push docker image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository }}/verily-server
+          docker tag verily-server:${{ github.sha }} $IMAGE:${{ github.sha }}
+          docker tag verily-server:latest $IMAGE:latest
+          docker push $IMAGE:${{ github.sha }}
+          docker push $IMAGE:latest

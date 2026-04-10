@@ -75,6 +75,10 @@ submission:
   - listByPerformer:
   - get:
   - getSequentialProgress:
+upload:
+  - getUploadDescription:
+  - verifyUpload:
+  - getPublicUrl:
 userFollow:
   - follow:
   - unfollow:
