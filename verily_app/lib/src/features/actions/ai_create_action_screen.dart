@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -27,11 +28,12 @@ class AiCreateActionScreen extends HookConsumerWidget {
     final aiState = ref.watch(aiActionGeneratorProvider);
     final aiNotifier = ref.read(aiActionGeneratorProvider.notifier);
 
-    // Lazily-initialized SpeechToText instance.
+    // Lazily-initialized SpeechToText instance (unavailable on web).
     final speech = useMemoized(SpeechToText.new);
 
-    // Initialize speech-to-text on first build.
+    // Initialize speech-to-text on first build (skip on web).
     useEffect(() {
+      if (kIsWeb) return null;
       speech.initialize().then((available) {
         speechAvailable.value = available;
       });

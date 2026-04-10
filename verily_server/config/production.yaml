@@ -24,11 +24,11 @@ database:
   requireSsl: true
 
 redis:
-  enabled: false
+  enabled: true
   host: redis.private-production.verily.fun
   port: 6379
 
-maxRequestSize: 524288
+maxRequestSize: 104857600
 
 sessionLogs:
   consoleEnabled: false

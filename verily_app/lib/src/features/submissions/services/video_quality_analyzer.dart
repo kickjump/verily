@@ -158,6 +158,25 @@ class VideoQualityAnalyzer {
     String videoPath, {
     GeoFenceParams? geoFenceParams,
   }) async {
+    // On web, native analysis (ML Kit, video_thumbnail, dart:io) is unavailable.
+    // Return a passing report so the demo flow continues.
+    if (kIsWeb) {
+      return VideoQualityReport(
+        checks: [
+          for (final type in QualityCheckType.values)
+            QualityCheckResult(
+              checkType: type,
+              passed: true,
+              label: type.name,
+              detail: 'Skipped on web',
+              severity: QualityCheckSeverity.info,
+            ),
+        ],
+        overallPassed: true,
+        analysisTimeMs: 0,
+      );
+    }
+
     final checks = <QualityCheckResult>[];
     final file = File(videoPath);
     final stopwatch = Stopwatch()..start();

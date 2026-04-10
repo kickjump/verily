@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/demo/demo_config.dart';
 import 'package:verily_app/src/features/submissions/providers/submission_provider.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
@@ -25,7 +27,7 @@ class VideoReviewScreen extends HookConsumerWidget {
 
     // Compute video file size for display.
     final fileSizeLabel = useMemoized(() {
-      if (videoPath == null) return 'Unknown';
+      if (videoPath == null || kIsWeb) return 'Unknown';
       try {
         final bytes = File(videoPath!).lengthSync();
         if (bytes < 1024 * 1024) {
@@ -42,15 +44,30 @@ class VideoReviewScreen extends HookConsumerWidget {
       try {
         // Capture GPS location for the submission.
         Position? position;
-        try {
-          position = await Geolocator.getCurrentPosition(
-            locationSettings: const LocationSettings(
-              accuracy: LocationAccuracy.high,
-              timeLimit: Duration(seconds: 5),
-            ),
+        if (kIsWeb || isDemoMode) {
+          position = Position(
+            latitude: demoLat,
+            longitude: demoLng,
+            timestamp: DateTime.now(),
+            accuracy: 10,
+            altitude: 0,
+            altitudeAccuracy: 0,
+            heading: 0,
+            headingAccuracy: 0,
+            speed: 0,
+            speedAccuracy: 0,
           );
-        } on Exception catch (e) {
-          debugPrint('GPS capture failed: $e');
+        } else {
+          try {
+            position = await Geolocator.getCurrentPosition(
+              locationSettings: const LocationSettings(
+                accuracy: LocationAccuracy.high,
+                timeLimit: Duration(seconds: 5),
+              ),
+            );
+          } on Exception catch (e) {
+            debugPrint('GPS capture failed: $e');
+          }
         }
 
         // The videoUrl sent to the server is the local path for now.
