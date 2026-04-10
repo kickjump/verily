@@ -63,10 +63,7 @@ class Auth extends _$Auth {
   @override
   AuthState build() {
     if (isDemoMode || _bypassAuthForTests) {
-      return const Authenticated(
-        userId: 'demo_user',
-        email: 'demo@verily.fun',
-      );
+      return const Authenticated(userId: 'demo_user', email: 'demo@verily.fun');
     }
     if (_forceLoggedOutForTests) {
       return const Unauthenticated();

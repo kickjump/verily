@@ -7,9 +7,11 @@ import 'package:serverpod/serverpod.dart';
 class HealthRoute extends WidgetRoute {
   @override
   Future<WebWidget> build(Session session, Request request) async {
-    return JsonWidget(object: {
-      'status': 'ok',
-      'timestamp': DateTime.now().toUtc().toIso8601String(),
-    });
+    return JsonWidget(
+      object: {
+        'status': 'ok',
+        'timestamp': DateTime.now().toUtc().toIso8601String(),
+      },
+    );
   }
 }

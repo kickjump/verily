@@ -6,13 +6,9 @@
 const isDemoMode = bool.fromEnvironment('DEMO_MODE');
 
 /// Default demo latitude (Central Park, NYC).
-final demoLat = double.tryParse(
-      const String.fromEnvironment('DEMO_LAT'),
-    ) ??
-    40.7829;
+final demoLat =
+    double.tryParse(const String.fromEnvironment('DEMO_LAT')) ?? 40.7829;
 
 /// Default demo longitude (Central Park, NYC).
-final demoLng = double.tryParse(
-      const String.fromEnvironment('DEMO_LNG'),
-    ) ??
-    -73.9654;
+final demoLng =
+    double.tryParse(const String.fromEnvironment('DEMO_LNG')) ?? -73.9654;
