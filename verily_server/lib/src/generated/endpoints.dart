@@ -27,19 +27,20 @@ import '../endpoints/reward_pool_endpoint.dart' as _i14;
 import '../endpoints/seed_endpoint.dart' as _i15;
 import '../endpoints/solana_endpoint.dart' as _i16;
 import '../endpoints/submission_endpoint.dart' as _i17;
-import '../endpoints/user_follow_endpoint.dart' as _i18;
-import '../endpoints/user_profile_endpoint.dart' as _i19;
-import '../endpoints/verification_endpoint.dart' as _i20;
-import 'package:verily_server/src/generated/action_category.dart' as _i21;
-import 'package:verily_server/src/generated/action.dart' as _i22;
-import 'package:verily_server/src/generated/action_step.dart' as _i23;
-import 'package:verily_server/src/generated/location.dart' as _i24;
-import 'package:verily_server/src/generated/action_submission.dart' as _i25;
-import 'package:verily_server/src/generated/user_profile.dart' as _i26;
+import '../endpoints/upload_endpoint.dart' as _i18;
+import '../endpoints/user_follow_endpoint.dart' as _i19;
+import '../endpoints/user_profile_endpoint.dart' as _i20;
+import '../endpoints/verification_endpoint.dart' as _i21;
+import 'package:verily_server/src/generated/action_category.dart' as _i22;
+import 'package:verily_server/src/generated/action.dart' as _i23;
+import 'package:verily_server/src/generated/action_step.dart' as _i24;
+import 'package:verily_server/src/generated/location.dart' as _i25;
+import 'package:verily_server/src/generated/action_submission.dart' as _i26;
+import 'package:verily_server/src/generated/user_profile.dart' as _i27;
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
-    as _i27;
-import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i28;
+import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
+    as _i29;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -141,19 +142,25 @@ class Endpoints extends _i1.EndpointDispatch {
           'submission',
           null,
         ),
-      'userFollow': _i18.UserFollowEndpoint()
+      'upload': _i18.UploadEndpoint()
+        ..initialize(
+          server,
+          'upload',
+          null,
+        ),
+      'userFollow': _i19.UserFollowEndpoint()
         ..initialize(
           server,
           'userFollow',
           null,
         ),
-      'userProfile': _i19.UserProfileEndpoint()
+      'userProfile': _i20.UserProfileEndpoint()
         ..initialize(
           server,
           'userProfile',
           null,
         ),
-      'verification': _i20.VerificationEndpoint()
+      'verification': _i21.VerificationEndpoint()
         ..initialize(
           server,
           'verification',
@@ -180,7 +187,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'category': _i1.ParameterDescription(
               name: 'category',
-              type: _i1.getType<_i21.ActionCategory>(),
+              type: _i1.getType<_i22.ActionCategory>(),
               nullable: false,
             ),
           },
@@ -226,7 +233,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'action': _i1.ParameterDescription(
               name: 'action',
-              type: _i1.getType<_i22.Action>(),
+              type: _i1.getType<_i23.Action>(),
               nullable: false,
             ),
           },
@@ -377,7 +384,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'action': _i1.ParameterDescription(
               name: 'action',
-              type: _i1.getType<_i22.Action>(),
+              type: _i1.getType<_i23.Action>(),
               nullable: false,
             ),
           },
@@ -429,7 +436,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'actionStep': _i1.ParameterDescription(
               name: 'actionStep',
-              type: _i1.getType<_i23.ActionStep>(),
+              type: _i1.getType<_i24.ActionStep>(),
               nullable: false,
             ),
           },
@@ -467,7 +474,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'actionStep': _i1.ParameterDescription(
               name: 'actionStep',
-              type: _i1.getType<_i23.ActionStep>(),
+              type: _i1.getType<_i24.ActionStep>(),
               nullable: false,
             ),
           },
@@ -1059,7 +1066,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'location': _i1.ParameterDescription(
               name: 'location',
-              type: _i1.getType<_i24.Location>(),
+              type: _i1.getType<_i25.Location>(),
               nullable: false,
             ),
           },
@@ -1430,7 +1437,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'submission': _i1.ParameterDescription(
               name: 'submission',
-              type: _i1.getType<_i25.ActionSubmission>(),
+              type: _i1.getType<_i26.ActionSubmission>(),
               nullable: false,
             ),
           },
@@ -1513,6 +1520,69 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['upload'] = _i1.EndpointConnector(
+      name: 'upload',
+      endpoint: endpoints['upload']!,
+      methodConnectors: {
+        'getUploadDescription': _i1.MethodConnector(
+          name: 'getUploadDescription',
+          params: {
+            'path': _i1.ParameterDescription(
+              name: 'path',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['upload'] as _i18.UploadEndpoint)
+                  .getUploadDescription(
+                    session,
+                    params['path'],
+                  ),
+        ),
+        'verifyUpload': _i1.MethodConnector(
+          name: 'verifyUpload',
+          params: {
+            'path': _i1.ParameterDescription(
+              name: 'path',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['upload'] as _i18.UploadEndpoint).verifyUpload(
+                    session,
+                    params['path'],
+                  ),
+        ),
+        'getPublicUrl': _i1.MethodConnector(
+          name: 'getPublicUrl',
+          params: {
+            'path': _i1.ParameterDescription(
+              name: 'path',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['upload'] as _i18.UploadEndpoint).getPublicUrl(
+                    session,
+                    params['path'],
+                  ),
+        ),
+      },
+    );
     connectors['userFollow'] = _i1.EndpointConnector(
       name: 'userFollow',
       endpoint: endpoints['userFollow']!,
@@ -1531,7 +1601,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userFollow'] as _i18.UserFollowEndpoint).follow(
+                  (endpoints['userFollow'] as _i19.UserFollowEndpoint).follow(
                     session,
                     params['userId'],
                   ),
@@ -1550,7 +1620,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userFollow'] as _i18.UserFollowEndpoint).unfollow(
+                  (endpoints['userFollow'] as _i19.UserFollowEndpoint).unfollow(
                     session,
                     params['userId'],
                   ),
@@ -1568,7 +1638,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userFollow'] as _i18.UserFollowEndpoint)
+              ) async => (endpoints['userFollow'] as _i19.UserFollowEndpoint)
                   .listFollowers(
                     session,
                     params['userId'],
@@ -1587,7 +1657,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userFollow'] as _i18.UserFollowEndpoint)
+              ) async => (endpoints['userFollow'] as _i19.UserFollowEndpoint)
                   .listFollowing(
                     session,
                     params['userId'],
@@ -1606,7 +1676,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userFollow'] as _i18.UserFollowEndpoint)
+              ) async => (endpoints['userFollow'] as _i19.UserFollowEndpoint)
                   .isFollowing(
                     session,
                     params['userId'],
@@ -1623,7 +1693,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'profile': _i1.ParameterDescription(
               name: 'profile',
-              type: _i1.getType<_i26.UserProfile>(),
+              type: _i1.getType<_i27.UserProfile>(),
               nullable: false,
             ),
           },
@@ -1632,7 +1702,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userProfile'] as _i19.UserProfileEndpoint).create(
+                  (endpoints['userProfile'] as _i20.UserProfileEndpoint).create(
                     session,
                     params['profile'],
                   ),
@@ -1644,7 +1714,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i19.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i20.UserProfileEndpoint)
                   .get(session),
         ),
         'getByUsername': _i1.MethodConnector(
@@ -1660,7 +1730,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i19.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i20.UserProfileEndpoint)
                   .getByUsername(
                     session,
                     params['username'],
@@ -1671,7 +1741,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'profile': _i1.ParameterDescription(
               name: 'profile',
-              type: _i1.getType<_i26.UserProfile>(),
+              type: _i1.getType<_i27.UserProfile>(),
               nullable: false,
             ),
           },
@@ -1680,7 +1750,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userProfile'] as _i19.UserProfileEndpoint).update(
+                  (endpoints['userProfile'] as _i20.UserProfileEndpoint).update(
                     session,
                     params['profile'],
                   ),
@@ -1699,7 +1769,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['userProfile'] as _i19.UserProfileEndpoint).search(
+                  (endpoints['userProfile'] as _i20.UserProfileEndpoint).search(
                     session,
                     params['query'],
                   ),
@@ -1724,7 +1794,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['verification'] as _i20.VerificationEndpoint)
+                  (endpoints['verification'] as _i21.VerificationEndpoint)
                       .getBySubmission(
                         session,
                         params['submissionId'],
@@ -1744,7 +1814,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['verification'] as _i20.VerificationEndpoint)
+                  (endpoints['verification'] as _i21.VerificationEndpoint)
                       .retryVerification(
                         session,
                         params['submissionId'],
@@ -1752,9 +1822,9 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth_idp'] = _i27.Endpoints()
+    modules['serverpod_auth_idp'] = _i28.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i28.Endpoints()
+    modules['serverpod_auth_core'] = _i29.Endpoints()
       ..initializeEndpoints(server);
   }
 }

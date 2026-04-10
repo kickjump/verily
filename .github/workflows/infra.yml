@@ -1,0 +1,60 @@
+name: infra
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "infra/**"
+      - "Dockerfile"
+      - ".github/workflows/infra.yml"
+  push:
+    branches: [main]
+    paths:
+      - "infra/**"
+      - "Dockerfile"
+      - ".github/workflows/infra.yml"
+
+concurrency:
+  group: infra-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  preview:
+    name: Pulumi Preview
+    if: github.event_name == 'pull_request'
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/devenv
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: pulumi preview
+        run: |
+          cd infra
+          pnpm install --frozen-lockfile
+          pulumi preview --stack staging --non-interactive
+        shell: devenv shell -- bash -e {0}
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
+  deploy:
+    name: Pulumi Deploy (Staging)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/devenv
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: pulumi up
+        run: |
+          cd infra
+          pnpm install --frozen-lockfile
+          pulumi up --stack staging --yes --non-interactive
+        shell: devenv shell -- bash -e {0}
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}

@@ -809,6 +809,44 @@ class EndpointSubmission extends _i1.EndpointRef {
       );
 }
 
+/// Endpoint for managing file uploads to cloud storage.
+///
+/// Uses Serverpod's built-in cloud storage with direct upload support.
+/// The flow is:
+/// 1. Client calls [getUploadDescription] to get a signed upload URL
+/// 2. Client uploads the file directly to the URL
+/// 3. Client calls [verifyUpload] to confirm the upload succeeded
+/// 4. Server returns the public URL for the uploaded file
+/// {@category Endpoint}
+class EndpointUpload extends _i1.EndpointRef {
+  EndpointUpload(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'upload';
+
+  /// Generates a signed upload description for direct file upload.
+  ///
+  /// [path] is the storage path (e.g., `submissions/video_123.mp4`).
+  /// Returns a JSON string with the upload URL and required headers.
+  _i2.Future<String?> getUploadDescription(String path) =>
+      caller.callServerEndpoint<String?>('upload', 'getUploadDescription', {
+        'path': path,
+      });
+
+  /// Verifies that a direct file upload completed successfully.
+  ///
+  /// Call this after the client finishes uploading the file.
+  /// Returns `true` if the file is stored and accessible.
+  _i2.Future<bool> verifyUpload(String path) =>
+      caller.callServerEndpoint<bool>('upload', 'verifyUpload', {'path': path});
+
+  /// Returns the public URL for an uploaded file.
+  ///
+  /// Returns `null` if the file does not exist.
+  _i2.Future<Uri?> getPublicUrl(String path) =>
+      caller.callServerEndpoint<Uri?>('upload', 'getPublicUrl', {'path': path});
+}
+
 /// Endpoint for managing user follow relationships.
 ///
 /// All methods require authentication. Users can follow and unfollow
@@ -980,6 +1018,7 @@ class Client extends _i1.ServerpodClientShared {
     seed = EndpointSeed(this);
     solana = EndpointSolana(this);
     submission = EndpointSubmission(this);
+    upload = EndpointUpload(this);
     userFollow = EndpointUserFollow(this);
     userProfile = EndpointUserProfile(this);
     verification = EndpointVerification(this);
@@ -1018,6 +1057,8 @@ class Client extends _i1.ServerpodClientShared {
 
   late final EndpointSubmission submission;
 
+  late final EndpointUpload upload;
+
   late final EndpointUserFollow userFollow;
 
   late final EndpointUserProfile userProfile;
@@ -1044,6 +1085,7 @@ class Client extends _i1.ServerpodClientShared {
     'seed': seed,
     'solana': solana,
     'submission': submission,
+    'upload': upload,
     'userFollow': userFollow,
     'userProfile': userProfile,
     'verification': verification,

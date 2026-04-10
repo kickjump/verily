@@ -6,8 +6,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
 import 'package:verily_app/src/demo/demo_config.dart';
 import 'package:verily_app/src/features/submissions/providers/submission_provider.dart';
+import 'package:verily_app/src/features/submissions/services/video_upload_service.dart';
 import 'package:verily_app/src/routing/route_names.dart';
 import 'package:verily_ui/verily_ui.dart';
 
@@ -70,9 +72,29 @@ class VideoReviewScreen extends HookConsumerWidget {
           }
         }
 
-        // The videoUrl sent to the server is the local path for now.
-        // In production this would be uploaded to cloud storage first.
-        final videoUrl = videoPath ?? 'placeholder://no-video';
+        // Upload video to cloud storage, fall back to local path in demo mode.
+        String videoUrl;
+        if (isDemoMode || videoPath == null) {
+          videoUrl = videoPath ?? 'placeholder://no-video';
+        } else {
+          final client = ref.read(serverpodClientProvider);
+          final uploadService = VideoUploadService(client);
+          final uploadedUrl = await uploadService.uploadVideo(videoPath!);
+          if (uploadedUrl != null) {
+            videoUrl = uploadedUrl;
+          } else {
+            videoUrl = videoPath!;
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'Video upload failed — submitting with local reference.',
+                  ),
+                ),
+              );
+            }
+          }
+        }
         final actionIdInt = int.tryParse(actionId) ?? 0;
 
         final submission = await ref

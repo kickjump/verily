@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:http/http.dart' as http;
 import 'package:serverpod/serverpod.dart';
 import 'package:verily_core/verily_core.dart';
 
@@ -47,15 +48,9 @@ class GeminiService {
         longitude: longitude,
       );
 
-      // For MVP, we pass the video URL. In production, we'd upload the
-      // video bytes directly to the Gemini API.
-      final content = [
-        Content.text(prompt),
-        Content.text(
-          'Video URL for analysis: $videoUrl\n'
-          'Note: Please analyze based on the verification criteria above.',
-        ),
-      ];
+      // Try to download the video and send bytes to Gemini for proper
+      // analysis. Fall back to URL-only if download fails.
+      final content = await _buildVideoContent(prompt, videoUrl);
 
       final response = await model.generateContent(content);
       final responseText = response.text;
@@ -82,6 +77,43 @@ class GeminiService {
         modelUsed: _modelName,
       );
     }
+  }
+
+  static Future<List<Content>> _buildVideoContent(
+    String prompt,
+    String videoUrl,
+  ) async {
+    final urlFallback = [
+      Content.text(prompt),
+      Content.text(
+        'Video URL for analysis: $videoUrl\n'
+        'Note: Please analyze based on the verification criteria.',
+      ),
+    ];
+
+    if (!videoUrl.startsWith('http://') && !videoUrl.startsWith('https://')) {
+      return urlFallback;
+    }
+
+    try {
+      final response = await http.get(Uri.parse(videoUrl));
+      if (response.statusCode == 200) {
+        return [
+          Content.multi([
+            TextPart(prompt),
+            DataPart('video/mp4', response.bodyBytes),
+          ]),
+        ];
+      }
+      _log.info(
+        'Video download returned ${response.statusCode}, '
+        'falling back to URL-based analysis',
+      );
+    } on Exception catch (e) {
+      _log.info('Video download failed ($e), using URL-based analysis');
+    }
+
+    return urlFallback;
   }
 
   static String _buildPrompt({
