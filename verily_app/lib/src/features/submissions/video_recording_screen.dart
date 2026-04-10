@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -53,7 +54,7 @@ class VideoRecordingScreen extends HookConsumerWidget {
       try {
         final picker = ImagePicker();
         final video = await picker.pickVideo(
-          source: ImageSource.camera,
+          source: kIsWeb ? ImageSource.gallery : ImageSource.camera,
           preferredCameraDevice: isFrontCamera.value
               ? CameraDevice.front
               : CameraDevice.rear,
@@ -103,14 +104,16 @@ class VideoRecordingScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: SpacingTokens.md),
                   Text(
-                    'Camera Preview',
+                    kIsWeb ? 'Upload Video' : 'Camera Preview',
                     style: theme.textTheme.titleLarge?.copyWith(
                       color: Colors.white30,
                     ),
                   ),
                   const SizedBox(height: SpacingTokens.xs),
                   Text(
-                    'Tap record to open camera',
+                    kIsWeb
+                        ? 'Tap to select a video file'
+                        : 'Tap record to open camera',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white24,
                     ),

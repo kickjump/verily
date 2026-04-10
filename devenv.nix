@@ -433,6 +433,27 @@ in
       description = "The dart format executable for formatting the workspace.";
       binary = "bash";
     };
+    "web:build" = {
+      exec = ''
+        set -e
+        cd "$DEVENV_ROOT/verily_app"
+        flutter build web --base-href /app/ \
+          --dart-define=SERVER_URL=''${1:-http://localhost:8080/} \
+          --output "$DEVENV_ROOT/verily_server/web/app"
+      '';
+      description = "Build Flutter web app for the Serverpod web server.";
+    };
+    "web:build:demo" = {
+      exec = ''
+        set -e
+        cd "$DEVENV_ROOT/verily_app"
+        flutter build web --base-href /app/ \
+          --dart-define=DEMO_MODE=true \
+          --dart-define=SERVER_URL=''${1:-http://localhost:8080/} \
+          --output "$DEVENV_ROOT/verily_server/web/app"
+      '';
+      description = "Build Flutter web app in demo mode (mocked auth, location, submissions).";
+    };
     "fix:all" = {
       exec = ''
         set -e

@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:geolocator/geolocator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'package:verily_app/src/app/providers/serverpod_client_provider.dart';
+import 'package:verily_app/src/demo/demo_config.dart';
 import 'package:verily_client/verily_client.dart';
 import 'package:verily_core/verily_core.dart';
 
@@ -9,10 +11,26 @@ part 'location_providers.g.dart';
 
 /// Streams the user's current geographic position.
 ///
-/// Handles permission requests and location service checks. Emits position
-/// updates as the device moves.
+/// On web or in demo mode, emits a fixed position (demo coordinates).
+/// On mobile, handles permission requests and location service checks.
 @riverpod
 Stream<Position> userLocation(Ref ref) async* {
+  if (kIsWeb || isDemoMode) {
+    yield Position(
+      latitude: demoLat,
+      longitude: demoLng,
+      timestamp: DateTime.now(),
+      accuracy: 10,
+      altitude: 0,
+      altitudeAccuracy: 0,
+      heading: 0,
+      headingAccuracy: 0,
+      speed: 0,
+      speedAccuracy: 0,
+    );
+    return;
+  }
+
   final serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
     throw Exception('Location services are disabled.');

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:verily_app/src/analytics/posthog_analytics.dart';
+import 'package:verily_app/src/demo/demo_config.dart';
 import 'package:verily_app/src/features/auth/auth_gateway.dart';
 
 part 'auth_provider.g.dart';
@@ -61,10 +62,10 @@ class AuthLoading extends AuthState {
 class Auth extends _$Auth {
   @override
   AuthState build() {
-    if (_bypassAuthForTests) {
+    if (isDemoMode || _bypassAuthForTests) {
       return const Authenticated(
-        userId: 'preview_user',
-        email: 'preview@verily.fun',
+        userId: 'demo_user',
+        email: 'demo@verily.fun',
       );
     }
     if (_forceLoggedOutForTests) {
