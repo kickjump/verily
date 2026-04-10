@@ -59,7 +59,8 @@ in
         enable = true;
         name = "format";
         description = "Check formatting of staged files with dprint (no auto-fix).";
-        entry = "${pkgs.dprint}/bin/dprint check --allow-no-files";
+        entry = "${config.env.DEVENV_PROFILE}/bin/lint:format";
+        pass_filenames = false;
         stages = [ "pre-commit" ];
       };
 
@@ -94,7 +95,7 @@ in
         enable = true;
         name = "push:format";
         description = "Verify all formatting is correct before push.";
-        entry = "${pkgs.dprint}/bin/dprint check";
+        entry = "${config.env.DEVENV_PROFILE}/bin/lint:format";
         pass_filenames = false;
         always_run = true;
         stages = [ "pre-push" ];
@@ -104,7 +105,7 @@ in
         enable = true;
         name = "push:analyze";
         description = "Run dart analyze across the full workspace before push.";
-        entry = "${config.env.DEVENV_PROFILE}/bin/dart analyze .";
+        entry = "${config.env.DEVENV_PROFILE}/bin/lint:analyze";
         pass_filenames = false;
         always_run = true;
         stages = [ "pre-push" ];
@@ -114,17 +115,27 @@ in
         enable = true;
         name = "push:native-lint";
         description = "Run native code linters (ktlint + swiftlint) before push.";
-        entry = "${pkgs.bash}/bin/bash -c '${pkgs.ktlint}/bin/ktlint \"verily_app/android/**/*.kts\" && if command -v swiftlint >/dev/null 2>&1 && [ -d verily_app/ios/Runner ]; then swiftlint lint --strict --config verily_app/ios/.swiftlint.yml verily_app/ios/Runner; fi'";
+        entry = "${config.env.DEVENV_PROFILE}/bin/lint:native";
         pass_filenames = false;
         always_run = true;
         stages = [ "pre-push" ];
       };
 
-      "push:test" = {
+      "push:test:flutter" = {
         enable = true;
-        name = "push:test";
-        description = "Run all unit and widget tests before push.";
-        entry = "${pkgs.bash}/bin/bash -c 'set -e; ROOT=\"$DEVENV_ROOT\"; ${pkgs.fvm}/bin/fvm flutter test \"$ROOT/verily_app\" && ${pkgs.fvm}/bin/fvm flutter test \"$ROOT/verily_ui\" && cd \"$ROOT/verily_core\" && ${config.env.DEVENV_PROFILE}/bin/dart test'";
+        name = "push:test:flutter";
+        description = "Run Flutter unit and widget tests before push.";
+        entry = "${config.env.DEVENV_PROFILE}/bin/test:flutter";
+        pass_filenames = false;
+        always_run = true;
+        stages = [ "pre-push" ];
+      };
+
+      "push:test:core" = {
+        enable = true;
+        name = "push:test:core";
+        description = "Run verily_core Dart tests before push.";
+        entry = "${config.env.DEVENV_PROFILE}/bin/test:core";
         pass_filenames = false;
         always_run = true;
         stages = [ "pre-push" ];
@@ -134,7 +145,7 @@ in
         enable = true;
         name = "push:mdt";
         description = "Check markdown templates are up to date before push.";
-        entry = "mdt check";
+        entry = "${config.env.DEVENV_PROFILE}/bin/mdt:check";
         pass_filenames = false;
         always_run = true;
         stages = [ "pre-push" ];
@@ -338,16 +349,25 @@ in
       exec = ''
         set -e
         test:flutter
-        melos exec --scope="verily_core" -- dart test
+        test:core
       '';
       description = "Run tests in all packages.";
     };
     "test:flutter" = {
       exec = ''
         set -e
-        melos run test:flutter --no-select
+        flutter test "$DEVENV_ROOT/verily_app/test"
+        flutter test "$DEVENV_ROOT/verily_ui/test"
       '';
-      description = "Run Flutter tests only.";
+      description = "Run Flutter unit and widget tests (excludes integration tests).";
+    };
+    "test:core" = {
+      exec = ''
+        set -e
+        cd "$DEVENV_ROOT/verily_core"
+        dart test
+      '';
+      description = "Run verily_core Dart tests.";
     };
     "test:integration" = {
       exec = ''
@@ -397,6 +417,13 @@ in
         dprint check
       '';
       description = "Check all formatting is correct.";
+    };
+    "mdt:check" = {
+      exec = ''
+        set -e
+        mdt check
+      '';
+      description = "Check markdown templates are up to date.";
     };
     "dartfmt" = {
       exec = ''
