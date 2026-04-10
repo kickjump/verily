@@ -64,11 +64,9 @@ class EndpointActionCategory extends _i1.EndpointRef {
 
   /// Retrieves a single action category by its ID.
   _i2.Future<_i3.ActionCategory> get(int id) =>
-      caller.callServerEndpoint<_i3.ActionCategory>(
-        'actionCategory',
-        'get',
-        {'id': id},
-      );
+      caller.callServerEndpoint<_i3.ActionCategory>('actionCategory', 'get', {
+        'id': id,
+      });
 }
 
 /// Endpoint for managing verifiable actions.
@@ -83,35 +81,23 @@ class EndpointAction extends _i1.EndpointRef {
   String get name => 'action';
 
   /// Creates a new action.
-  _i2.Future<_i4.Action> create(_i4.Action action) =>
-      caller.callServerEndpoint<_i4.Action>(
-        'action',
-        'create',
-        {'action': action},
-      );
+  _i2.Future<_i4.Action> create(_i4.Action action) => caller
+      .callServerEndpoint<_i4.Action>('action', 'create', {'action': action});
 
   /// Lists all active actions.
   _i2.Future<List<_i4.Action>> listActive() =>
-      caller.callServerEndpoint<List<_i4.Action>>(
-        'action',
-        'listActive',
-        {},
-      );
+      caller.callServerEndpoint<List<_i4.Action>>('action', 'listActive', {});
 
   /// Lists actions near a geographic location.
   _i2.Future<List<_i4.Action>> listNearby(
     double lat,
     double lng,
     double radiusMeters,
-  ) => caller.callServerEndpoint<List<_i4.Action>>(
-    'action',
-    'listNearby',
-    {
-      'lat': lat,
-      'lng': lng,
-      'radiusMeters': radiusMeters,
-    },
-  );
+  ) => caller.callServerEndpoint<List<_i4.Action>>('action', 'listNearby', {
+    'lat': lat,
+    'lng': lng,
+    'radiusMeters': radiusMeters,
+  });
 
   /// Lists actions that have locations inside a bounding box.
   _i2.Future<List<_i4.Action>> listInBoundingBox(
@@ -132,49 +118,31 @@ class EndpointAction extends _i1.EndpointRef {
 
   /// Lists actions belonging to a specific category.
   _i2.Future<List<_i4.Action>> listByCategory(int categoryId) =>
-      caller.callServerEndpoint<List<_i4.Action>>(
-        'action',
-        'listByCategory',
-        {'categoryId': categoryId},
-      );
+      caller.callServerEndpoint<List<_i4.Action>>('action', 'listByCategory', {
+        'categoryId': categoryId,
+      });
 
   /// Searches actions by a query string.
   _i2.Future<List<_i4.Action>> search(String query) =>
-      caller.callServerEndpoint<List<_i4.Action>>(
-        'action',
-        'search',
-        {'query': query},
-      );
+      caller.callServerEndpoint<List<_i4.Action>>('action', 'search', {
+        'query': query,
+      });
 
   /// Retrieves a single action by its ID.
-  _i2.Future<_i4.Action> get(int id) => caller.callServerEndpoint<_i4.Action>(
-    'action',
-    'get',
-    {'id': id},
-  );
+  _i2.Future<_i4.Action> get(int id) =>
+      caller.callServerEndpoint<_i4.Action>('action', 'get', {'id': id});
 
   /// Updates an existing action.
-  _i2.Future<_i4.Action> update(_i4.Action action) =>
-      caller.callServerEndpoint<_i4.Action>(
-        'action',
-        'update',
-        {'action': action},
-      );
+  _i2.Future<_i4.Action> update(_i4.Action action) => caller
+      .callServerEndpoint<_i4.Action>('action', 'update', {'action': action});
 
   /// Deletes an action by its ID.
-  _i2.Future<void> delete(int id) => caller.callServerEndpoint<void>(
-    'action',
-    'delete',
-    {'id': id},
-  );
+  _i2.Future<void> delete(int id) =>
+      caller.callServerEndpoint<void>('action', 'delete', {'id': id});
 
   /// Lists all actions created by the authenticated user.
-  _i2.Future<List<_i4.Action>> listByCreator() =>
-      caller.callServerEndpoint<List<_i4.Action>>(
-        'action',
-        'listByCreator',
-        {},
-      );
+  _i2.Future<List<_i4.Action>> listByCreator() => caller
+      .callServerEndpoint<List<_i4.Action>>('action', 'listByCreator', {});
 }
 
 /// Endpoint for managing steps within an action.
@@ -190,11 +158,9 @@ class EndpointActionStep extends _i1.EndpointRef {
 
   /// Creates a new action step.
   _i2.Future<_i5.ActionStep> create(_i5.ActionStep actionStep) =>
-      caller.callServerEndpoint<_i5.ActionStep>(
-        'actionStep',
-        'create',
-        {'actionStep': actionStep},
-      );
+      caller.callServerEndpoint<_i5.ActionStep>('actionStep', 'create', {
+        'actionStep': actionStep,
+      });
 
   /// Lists all steps for a given action, ordered by step number.
   _i2.Future<List<_i5.ActionStep>> listByAction(int actionId) =>
@@ -206,18 +172,13 @@ class EndpointActionStep extends _i1.EndpointRef {
 
   /// Updates an existing action step.
   _i2.Future<_i5.ActionStep> update(_i5.ActionStep actionStep) =>
-      caller.callServerEndpoint<_i5.ActionStep>(
-        'actionStep',
-        'update',
-        {'actionStep': actionStep},
-      );
+      caller.callServerEndpoint<_i5.ActionStep>('actionStep', 'update', {
+        'actionStep': actionStep,
+      });
 
   /// Deletes an action step by its ID.
-  _i2.Future<void> delete(int id) => caller.callServerEndpoint<void>(
-    'actionStep',
-    'delete',
-    {'id': id},
-  );
+  _i2.Future<void> delete(int id) =>
+      caller.callServerEndpoint<void>('actionStep', 'delete', {'id': id});
 }
 
 /// Endpoint for AI-powered action creation.
@@ -241,25 +202,17 @@ class EndpointAiAction extends _i1.EndpointRef {
   }) => caller.callServerEndpoint<_i6.AiGeneratedAction?>(
     'aiAction',
     'generate',
-    {
-      'description': description,
-      'latitude': latitude,
-      'longitude': longitude,
-    },
+    {'description': description, 'latitude': latitude, 'longitude': longitude},
   );
 
   /// Generates verification criteria for an action.
   _i2.Future<String?> generateCriteria(
     String actionTitle,
     String actionDescription,
-  ) => caller.callServerEndpoint<String?>(
-    'aiAction',
-    'generateCriteria',
-    {
-      'actionTitle': actionTitle,
-      'actionDescription': actionDescription,
-    },
-  );
+  ) => caller.callServerEndpoint<String?>('aiAction', 'generateCriteria', {
+    'actionTitle': actionTitle,
+    'actionDescription': actionDescription,
+  });
 
   /// Generates step breakdowns for a sequential action.
   _i2.Future<List<_i6.AiGeneratedStep>?> generateSteps(
@@ -343,24 +296,17 @@ class EndpointAuthApple extends _i9.EndpointAppleIdpBase {
     required bool isNativeApplePlatformSignIn,
     String? firstName,
     String? lastName,
-  }) => caller.callServerEndpoint<_i10.AuthSuccess>(
-    'authApple',
-    'login',
-    {
-      'identityToken': identityToken,
-      'authorizationCode': authorizationCode,
-      'isNativeApplePlatformSignIn': isNativeApplePlatformSignIn,
-      'firstName': firstName,
-      'lastName': lastName,
-    },
-  );
+  }) => caller.callServerEndpoint<_i10.AuthSuccess>('authApple', 'login', {
+    'identityToken': identityToken,
+    'authorizationCode': authorizationCode,
+    'isNativeApplePlatformSignIn': isNativeApplePlatformSignIn,
+    'firstName': firstName,
+    'lastName': lastName,
+  });
 
   @override
-  _i2.Future<bool> hasAccount() => caller.callServerEndpoint<bool>(
-    'authApple',
-    'hasAccount',
-    {},
-  );
+  _i2.Future<bool> hasAccount() =>
+      caller.callServerEndpoint<bool>('authApple', 'hasAccount', {});
 }
 
 /// Concrete email/password auth endpoint for Serverpod IDP.
@@ -384,14 +330,10 @@ class EndpointAuthEmail extends _i9.EndpointEmailIdpBase {
   _i2.Future<_i10.AuthSuccess> login({
     required String email,
     required String password,
-  }) => caller.callServerEndpoint<_i10.AuthSuccess>(
-    'authEmail',
-    'login',
-    {
-      'email': email,
-      'password': password,
-    },
-  );
+  }) => caller.callServerEndpoint<_i10.AuthSuccess>('authEmail', 'login', {
+    'email': email,
+    'password': password,
+  });
 
   /// Starts the registration for a new user account with an email-based login
   /// associated to it.
@@ -425,14 +367,11 @@ class EndpointAuthEmail extends _i9.EndpointEmailIdpBase {
   _i2.Future<String> verifyRegistrationCode({
     required _i1.UuidValue accountRequestId,
     required String verificationCode,
-  }) => caller.callServerEndpoint<String>(
-    'authEmail',
-    'verifyRegistrationCode',
-    {
-      'accountRequestId': accountRequestId,
-      'verificationCode': verificationCode,
-    },
-  );
+  }) =>
+      caller.callServerEndpoint<String>('authEmail', 'verifyRegistrationCode', {
+        'accountRequestId': accountRequestId,
+        'verificationCode': verificationCode,
+      });
 
   /// Completes a new account registration, creating a new auth user with a
   /// profile and attaching the given email account to it.
@@ -455,10 +394,7 @@ class EndpointAuthEmail extends _i9.EndpointEmailIdpBase {
   }) => caller.callServerEndpoint<_i10.AuthSuccess>(
     'authEmail',
     'finishRegistration',
-    {
-      'registrationToken': registrationToken,
-      'password': password,
-    },
+    {'registrationToken': registrationToken, 'password': password},
   );
 
   /// Requests a password reset for [email].
@@ -500,14 +436,11 @@ class EndpointAuthEmail extends _i9.EndpointEmailIdpBase {
   _i2.Future<String> verifyPasswordResetCode({
     required _i1.UuidValue passwordResetRequestId,
     required String verificationCode,
-  }) => caller.callServerEndpoint<String>(
-    'authEmail',
-    'verifyPasswordResetCode',
-    {
-      'passwordResetRequestId': passwordResetRequestId,
-      'verificationCode': verificationCode,
-    },
-  );
+  }) => caller
+      .callServerEndpoint<String>('authEmail', 'verifyPasswordResetCode', {
+        'passwordResetRequestId': passwordResetRequestId,
+        'verificationCode': verificationCode,
+      });
 
   /// Completes a password reset request by setting a new password.
   ///
@@ -527,21 +460,14 @@ class EndpointAuthEmail extends _i9.EndpointEmailIdpBase {
   _i2.Future<void> finishPasswordReset({
     required String finishPasswordResetToken,
     required String newPassword,
-  }) => caller.callServerEndpoint<void>(
-    'authEmail',
-    'finishPasswordReset',
-    {
-      'finishPasswordResetToken': finishPasswordResetToken,
-      'newPassword': newPassword,
-    },
-  );
+  }) => caller.callServerEndpoint<void>('authEmail', 'finishPasswordReset', {
+    'finishPasswordResetToken': finishPasswordResetToken,
+    'newPassword': newPassword,
+  });
 
   @override
-  _i2.Future<bool> hasAccount() => caller.callServerEndpoint<bool>(
-    'authEmail',
-    'hasAccount',
-    {},
-  );
+  _i2.Future<bool> hasAccount() =>
+      caller.callServerEndpoint<bool>('authEmail', 'hasAccount', {});
 }
 
 /// Concrete Google auth endpoint for Serverpod IDP.
@@ -560,21 +486,14 @@ class EndpointAuthGoogle extends _i9.EndpointGoogleIdpBase {
   _i2.Future<_i10.AuthSuccess> login({
     required String idToken,
     required String? accessToken,
-  }) => caller.callServerEndpoint<_i10.AuthSuccess>(
-    'authGoogle',
-    'login',
-    {
-      'idToken': idToken,
-      'accessToken': accessToken,
-    },
-  );
+  }) => caller.callServerEndpoint<_i10.AuthSuccess>('authGoogle', 'login', {
+    'idToken': idToken,
+    'accessToken': accessToken,
+  });
 
   @override
-  _i2.Future<bool> hasAccount() => caller.callServerEndpoint<bool>(
-    'authGoogle',
-    'hasAccount',
-    {},
-  );
+  _i2.Future<bool> hasAccount() =>
+      caller.callServerEndpoint<bool>('authGoogle', 'hasAccount', {});
 }
 
 /// Endpoint for Solana wallet-based authentication.
@@ -595,11 +514,9 @@ class EndpointAuthWallet extends _i1.EndpointRef {
   ///
   /// Returns a base64-encoded random nonce that the client must sign.
   _i2.Future<String> requestChallenge(String publicKey) =>
-      caller.callServerEndpoint<String>(
-        'authWallet',
-        'requestChallenge',
-        {'publicKey': publicKey},
-      );
+      caller.callServerEndpoint<String>('authWallet', 'requestChallenge', {
+        'publicKey': publicKey,
+      });
 
   /// Verifies a signed challenge and authenticates the user.
   ///
@@ -610,10 +527,7 @@ class EndpointAuthWallet extends _i1.EndpointRef {
   ) => caller.callServerEndpoint<_i11.SolanaWallet>(
     'authWallet',
     'verifyChallenge',
-    {
-      'publicKey': publicKey,
-      'signatureBase64': signatureBase64,
-    },
+    {'publicKey': publicKey, 'signatureBase64': signatureBase64},
   );
 }
 
@@ -647,17 +561,12 @@ class EndpointGeocoding extends _i1.EndpointRef {
   );
 
   /// Reverse-geocodes a coordinate to the nearest place.
-  _i2.Future<_i12.PlaceSearchResult?> reverseGeocode(
-    double lat,
-    double lng,
-  ) => caller.callServerEndpoint<_i12.PlaceSearchResult?>(
-    'geocoding',
-    'reverseGeocode',
-    {
-      'lat': lat,
-      'lng': lng,
-    },
-  );
+  _i2.Future<_i12.PlaceSearchResult?> reverseGeocode(double lat, double lng) =>
+      caller.callServerEndpoint<_i12.PlaceSearchResult?>(
+        'geocoding',
+        'reverseGeocode',
+        {'lat': lat, 'lng': lng},
+      );
 }
 
 /// Endpoint for managing geographic locations.
@@ -673,11 +582,9 @@ class EndpointLocation extends _i1.EndpointRef {
 
   /// Creates a new location.
   _i2.Future<_i13.Location> create(_i13.Location location) =>
-      caller.callServerEndpoint<_i13.Location>(
-        'location',
-        'create',
-        {'location': location},
-      );
+      caller.callServerEndpoint<_i13.Location>('location', 'create', {
+        'location': location,
+      });
 
   /// Searches for locations near a geographic coordinate.
   _i2.Future<List<_i13.Location>> searchNearby(
@@ -687,20 +594,12 @@ class EndpointLocation extends _i1.EndpointRef {
   ) => caller.callServerEndpoint<List<_i13.Location>>(
     'location',
     'searchNearby',
-    {
-      'lat': lat,
-      'lng': lng,
-      'radiusMeters': radiusMeters,
-    },
+    {'lat': lat, 'lng': lng, 'radiusMeters': radiusMeters},
   );
 
   /// Retrieves a single location by its ID.
   _i2.Future<_i13.Location> get(int id) =>
-      caller.callServerEndpoint<_i13.Location>(
-        'location',
-        'get',
-        {'id': id},
-      );
+      caller.callServerEndpoint<_i13.Location>('location', 'get', {'id': id});
 }
 
 /// Endpoint for managing rewards and leaderboards.
@@ -716,19 +615,13 @@ class EndpointReward extends _i1.EndpointRef {
 
   /// Lists all rewards associated with a given action.
   _i2.Future<List<_i14.Reward>> listByAction(int actionId) =>
-      caller.callServerEndpoint<List<_i14.Reward>>(
-        'reward',
-        'listByAction',
-        {'actionId': actionId},
-      );
+      caller.callServerEndpoint<List<_i14.Reward>>('reward', 'listByAction', {
+        'actionId': actionId,
+      });
 
   /// Lists all rewards earned by the authenticated user.
-  _i2.Future<List<_i15.UserReward>> listByUser() =>
-      caller.callServerEndpoint<List<_i15.UserReward>>(
-        'reward',
-        'listByUser',
-        {},
-      );
+  _i2.Future<List<_i15.UserReward>> listByUser() => caller
+      .callServerEndpoint<List<_i15.UserReward>>('reward', 'listByUser', {});
 
   /// Retrieves the leaderboard of users ranked by total reward points.
   _i2.Future<List<_i15.UserReward>> getLeaderboard() =>
@@ -759,27 +652,21 @@ class EndpointRewardPool extends _i1.EndpointRef {
     String? tokenMintAddress,
     int? maxRecipients,
     DateTime? expiresAt,
-  }) => caller.callServerEndpoint<_i16.RewardPool>(
-    'rewardPool',
-    'create',
-    {
-      'actionId': actionId,
-      'rewardType': rewardType,
-      'totalAmount': totalAmount,
-      'perPersonAmount': perPersonAmount,
-      'tokenMintAddress': tokenMintAddress,
-      'maxRecipients': maxRecipients,
-      'expiresAt': expiresAt,
-    },
-  );
+  }) => caller.callServerEndpoint<_i16.RewardPool>('rewardPool', 'create', {
+    'actionId': actionId,
+    'rewardType': rewardType,
+    'totalAmount': totalAmount,
+    'perPersonAmount': perPersonAmount,
+    'tokenMintAddress': tokenMintAddress,
+    'maxRecipients': maxRecipients,
+    'expiresAt': expiresAt,
+  });
 
   /// Gets a reward pool by id.
   _i2.Future<_i16.RewardPool> get(int poolId) =>
-      caller.callServerEndpoint<_i16.RewardPool>(
-        'rewardPool',
-        'get',
-        {'poolId': poolId},
-      );
+      caller.callServerEndpoint<_i16.RewardPool>('rewardPool', 'get', {
+        'poolId': poolId,
+      });
 
   /// Lists all reward pools for an action.
   _i2.Future<List<_i16.RewardPool>> listByAction(int actionId) =>
@@ -799,11 +686,9 @@ class EndpointRewardPool extends _i1.EndpointRef {
 
   /// Cancels a reward pool (only the creator can cancel).
   _i2.Future<_i16.RewardPool> cancel(int poolId) =>
-      caller.callServerEndpoint<_i16.RewardPool>(
-        'rewardPool',
-        'cancel',
-        {'poolId': poolId},
-      );
+      caller.callServerEndpoint<_i16.RewardPool>('rewardPool', 'cancel', {
+        'poolId': poolId,
+      });
 
   /// Lists all distributions from a reward pool.
   _i2.Future<List<_i17.RewardDistribution>> getDistributions(int poolId) =>
@@ -828,11 +713,8 @@ class EndpointSeed extends _i1.EndpointRef {
 
   /// Seeds the database with default actions and their associated
   /// categories, steps, and rewards.
-  _i2.Future<void> seedDefaultActions() => caller.callServerEndpoint<void>(
-    'seed',
-    'seedDefaultActions',
-    {},
-  );
+  _i2.Future<void> seedDefaultActions() =>
+      caller.callServerEndpoint<void>('seed', 'seedDefaultActions', {});
 }
 
 /// Endpoint for Solana wallet management.
@@ -848,32 +730,20 @@ class EndpointSolana extends _i1.EndpointRef {
 
   /// Creates a custodial wallet for the authenticated user.
   _i2.Future<_i11.SolanaWallet> createWallet({String? label}) =>
-      caller.callServerEndpoint<_i11.SolanaWallet>(
-        'solana',
-        'createWallet',
-        {'label': label},
-      );
+      caller.callServerEndpoint<_i11.SolanaWallet>('solana', 'createWallet', {
+        'label': label,
+      });
 
   /// Links an external Solana wallet.
-  _i2.Future<_i11.SolanaWallet> linkWallet(
-    String publicKey, {
-    String? label,
-  }) => caller.callServerEndpoint<_i11.SolanaWallet>(
-    'solana',
-    'linkWallet',
-    {
-      'publicKey': publicKey,
-      'label': label,
-    },
-  );
+  _i2.Future<_i11.SolanaWallet> linkWallet(String publicKey, {String? label}) =>
+      caller.callServerEndpoint<_i11.SolanaWallet>('solana', 'linkWallet', {
+        'publicKey': publicKey,
+        'label': label,
+      });
 
   /// Lists all wallets for the authenticated user.
-  _i2.Future<List<_i11.SolanaWallet>> getWallets() =>
-      caller.callServerEndpoint<List<_i11.SolanaWallet>>(
-        'solana',
-        'getWallets',
-        {},
-      );
+  _i2.Future<List<_i11.SolanaWallet>> getWallets() => caller
+      .callServerEndpoint<List<_i11.SolanaWallet>>('solana', 'getWallets', {});
 
   /// Sets a wallet as the user's default for receiving rewards.
   _i2.Future<_i11.SolanaWallet> setDefaultWallet(int walletId) =>
@@ -884,11 +754,8 @@ class EndpointSolana extends _i1.EndpointRef {
       );
 
   /// Gets the SOL balance of the user's default wallet.
-  _i2.Future<double> getBalance() => caller.callServerEndpoint<double>(
-    'solana',
-    'getBalance',
-    {},
-  );
+  _i2.Future<double> getBalance() =>
+      caller.callServerEndpoint<double>('solana', 'getBalance', {});
 }
 
 /// Endpoint for managing action submissions.
@@ -904,11 +771,9 @@ class EndpointSubmission extends _i1.EndpointRef {
 
   /// Creates a new submission for an action.
   _i2.Future<_i18.ActionSubmission> create(_i18.ActionSubmission submission) =>
-      caller.callServerEndpoint<_i18.ActionSubmission>(
-        'submission',
-        'create',
-        {'submission': submission},
-      );
+      caller.callServerEndpoint<_i18.ActionSubmission>('submission', 'create', {
+        'submission': submission,
+      });
 
   /// Lists all submissions for a given action.
   _i2.Future<List<_i18.ActionSubmission>> listByAction(int actionId) =>
@@ -928,11 +793,9 @@ class EndpointSubmission extends _i1.EndpointRef {
 
   /// Retrieves a single submission by its ID.
   _i2.Future<_i18.ActionSubmission> get(int id) =>
-      caller.callServerEndpoint<_i18.ActionSubmission>(
-        'submission',
-        'get',
-        {'id': id},
-      );
+      caller.callServerEndpoint<_i18.ActionSubmission>('submission', 'get', {
+        'id': id,
+      });
 
   /// Gets the sequential progress for a multi-step action.
   ///
@@ -966,30 +829,22 @@ class EndpointUpload extends _i1.EndpointRef {
   /// [path] is the storage path (e.g., `submissions/video_123.mp4`).
   /// Returns a JSON string with the upload URL and required headers.
   _i2.Future<String?> getUploadDescription(String path) =>
-      caller.callServerEndpoint<String?>(
-        'upload',
-        'getUploadDescription',
-        {'path': path},
-      );
+      caller.callServerEndpoint<String?>('upload', 'getUploadDescription', {
+        'path': path,
+      });
 
   /// Verifies that a direct file upload completed successfully.
   ///
   /// Call this after the client finishes uploading the file.
   /// Returns `true` if the file is stored and accessible.
-  _i2.Future<bool> verifyUpload(String path) => caller.callServerEndpoint<bool>(
-    'upload',
-    'verifyUpload',
-    {'path': path},
-  );
+  _i2.Future<bool> verifyUpload(String path) =>
+      caller.callServerEndpoint<bool>('upload', 'verifyUpload', {'path': path});
 
   /// Returns the public URL for an uploaded file.
   ///
   /// Returns `null` if the file does not exist.
-  _i2.Future<Uri?> getPublicUrl(String path) => caller.callServerEndpoint<Uri?>(
-    'upload',
-    'getPublicUrl',
-    {'path': path},
-  );
+  _i2.Future<Uri?> getPublicUrl(String path) =>
+      caller.callServerEndpoint<Uri?>('upload', 'getPublicUrl', {'path': path});
 }
 
 /// Endpoint for managing user follow relationships.
@@ -1005,19 +860,13 @@ class EndpointUserFollow extends _i1.EndpointRef {
 
   /// Follows another user.
   _i2.Future<_i19.UserFollow> follow(_i1.UuidValue userId) =>
-      caller.callServerEndpoint<_i19.UserFollow>(
-        'userFollow',
-        'follow',
-        {'userId': userId},
-      );
+      caller.callServerEndpoint<_i19.UserFollow>('userFollow', 'follow', {
+        'userId': userId,
+      });
 
   /// Unfollows another user.
-  _i2.Future<void> unfollow(_i1.UuidValue userId) =>
-      caller.callServerEndpoint<void>(
-        'userFollow',
-        'unfollow',
-        {'userId': userId},
-      );
+  _i2.Future<void> unfollow(_i1.UuidValue userId) => caller
+      .callServerEndpoint<void>('userFollow', 'unfollow', {'userId': userId});
 
   /// Lists all followers of a user.
   _i2.Future<List<_i19.UserFollow>> listFollowers(_i1.UuidValue userId) =>
@@ -1037,11 +886,9 @@ class EndpointUserFollow extends _i1.EndpointRef {
 
   /// Checks whether the authenticated user is following a given user.
   _i2.Future<bool> isFollowing(_i1.UuidValue userId) =>
-      caller.callServerEndpoint<bool>(
-        'userFollow',
-        'isFollowing',
-        {'userId': userId},
-      );
+      caller.callServerEndpoint<bool>('userFollow', 'isFollowing', {
+        'userId': userId,
+      });
 }
 
 /// Endpoint for managing user profiles.
@@ -1057,19 +904,13 @@ class EndpointUserProfile extends _i1.EndpointRef {
 
   /// Creates a new user profile for the authenticated user.
   _i2.Future<_i20.UserProfile> create(_i20.UserProfile profile) =>
-      caller.callServerEndpoint<_i20.UserProfile>(
-        'userProfile',
-        'create',
-        {'profile': profile},
-      );
+      caller.callServerEndpoint<_i20.UserProfile>('userProfile', 'create', {
+        'profile': profile,
+      });
 
   /// Retrieves the authenticated user's profile.
   _i2.Future<_i20.UserProfile> get() =>
-      caller.callServerEndpoint<_i20.UserProfile>(
-        'userProfile',
-        'get',
-        {},
-      );
+      caller.callServerEndpoint<_i20.UserProfile>('userProfile', 'get', {});
 
   /// Retrieves a user profile by username.
   _i2.Future<_i20.UserProfile?> getByUsername(String username) =>
@@ -1081,11 +922,9 @@ class EndpointUserProfile extends _i1.EndpointRef {
 
   /// Updates the authenticated user's profile.
   _i2.Future<_i20.UserProfile> update(_i20.UserProfile profile) =>
-      caller.callServerEndpoint<_i20.UserProfile>(
-        'userProfile',
-        'update',
-        {'profile': profile},
-      );
+      caller.callServerEndpoint<_i20.UserProfile>('userProfile', 'update', {
+        'profile': profile,
+      });
 
   /// Searches for user profiles by a query string.
   _i2.Future<List<_i20.UserProfile>> search(String query) =>
@@ -1149,12 +988,7 @@ class Client extends _i1.ServerpodClientShared {
     super.authenticationKeyManager,
     Duration? streamingConnectionTimeout,
     Duration? connectionTimeout,
-    Function(
-      _i1.MethodCallContext,
-      Object,
-      StackTrace,
-    )?
-    onFailedCall,
+    Function(_i1.MethodCallContext, Object, StackTrace)? onFailedCall,
     Function(_i1.MethodCallContext)? onSucceededCall,
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
