@@ -58,7 +58,7 @@ test:flutter                 # Run Flutter tests only
 test:integration             # Run Patrol integration tests
 
 # Versioning
-knope document-change        # Create a changeset file
+mc change                  # Create a changeset file
 ```
 
 ## Architecture Decisions
@@ -108,9 +108,9 @@ Use `GoRouter` for all navigation. Routes are defined in `app_router.dart` with 
 
 ## Version Management & Releases
 
-### Changeset Workflow (Knope)
+### Changeset Workflow (monochange)
 
-The project uses [knope](https://knope.tech) for **changeset-only** version management. Conventional commits do **not** trigger version bumps — only explicit changeset files do.
+The project uses [monochange](https://github.com/monochange/monochange) for **changeset-only** version management. Conventional commits do **not** trigger version bumps — only explicit changeset files do.
 
 ### Pinned App Dependencies
 
@@ -150,7 +150,7 @@ The project uses [knope](https://knope.tech) for **changeset-only** version mana
 - **Melos** 7.x — monorepo tooling (config in root `pubspec.yaml`)
 - **Patrol** — E2E integration testing
 - **dprint** — non-Dart formatting
-- **Knope** — changeset-based version management
+- **monochange** — changeset-based version management
 - **PostGIS** — spatial queries for location-based actions
 
 ## Expanded Marketplace Features

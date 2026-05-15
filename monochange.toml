@@ -1,0 +1,99 @@
+[defaults]
+package_type = "dart"
+parent_bump = "patch"
+
+[defaults.changelog]
+path = "{{ path }}/CHANGELOG.md"
+format = "keep_a_changelog"
+
+[source]
+provider = "github"
+owner = "kickjump"
+repo = "verily"
+
+[package.verily_app]
+path = "verily_app"
+type = "flutter"
+publish = { enabled = false }
+
+[package.verily_server]
+path = "verily_server"
+type = "dart"
+publish = { enabled = false }
+
+[package.verily_client]
+path = "verily_client"
+type = "dart"
+
+[package.verily_core]
+path = "verily_core"
+type = "dart"
+publish = { enabled = false }
+
+[package.verily_ui]
+path = "verily_ui"
+type = "flutter"
+publish = { enabled = false }
+
+[package.verily_lints]
+path = "verily_lints"
+type = "dart"
+publish = { enabled = false }
+
+[package.verily_test_utils]
+path = "verily_test_utils"
+type = "dart"
+publish = { enabled = false }
+
+[group.all]
+packages = [
+  "verily_app",
+  "verily_server",
+  "verily_client",
+  "verily_core",
+  "verily_ui",
+  "verily_lints",
+  "verily_test_utils",
+]
+release = true
+tag = true
+
+[ecosystems.dart]
+enabled = true
+
+[ecosystems.flutter]
+enabled = true
+
+# ── CLI workflows ──────────────────────────────────────────────────────────
+
+[cli.change]
+help_text = "Create a changeset"
+inputs = [
+  { name = "package", type = "string_list", required = true },
+  { name = "bump", type = "choice", choices = ["none", "patch", "minor", "major"], default = "patch" },
+  { name = "reason", type = "string", required = true },
+  { name = "type", type = "string" },
+  { name = "caused_by", type = "string_list" },
+]
+steps = [{ name = "create change file", type = "CreateChangeFile" }]
+
+[cli.release-pr]
+help_text = "Prepare a release pull request"
+inputs = [
+  { name = "format", type = "choice", choices = ["markdown", "json"], default = "markdown" },
+  { name = "no_verify", type = "boolean", default = false },
+]
+steps = [
+  { name = "plan release", type = "PrepareRelease", allow_empty_changesets = true },
+  { name = "format changed files", type = "Command", command = "dprint fmt", when = "{{ number_of_changesets > 0 }}" },
+  { name = "create release commit", type = "CommitRelease", when = "{{ number_of_changesets > 0 }}" },
+  { name = "open release request", type = "OpenReleaseRequest", when = "{{ number_of_changesets > 0 }}" },
+]
+
+[cli.publish]
+help_text = "Publish package artifacts"
+inputs = [
+  { name = "output", type = "path" },
+  { name = "resume", type = "path" },
+]
+steps = [{ name = "publish packages", type = "PublishPackages" }]

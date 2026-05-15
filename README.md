@@ -114,7 +114,7 @@ test:integration       # Run Patrol E2E tests
 ```bash
 install:all            # Install eget binaries + dart dependencies
 install:dart           # flutter pub get (workspace)
-install:eget           # Install knope via eget
+install:eget           # Install eget binaries (pulumi, pnpm, esc)
 update:deps            # Update devenv + flutter pub upgrade
 clean:all              # Clean all Flutter packages
 ```
@@ -122,8 +122,8 @@ clean:all              # Clean all Flutter packages
 ### Versioning & Releases
 
 ```bash
-knope document-change  # Create a changeset file
-knope release          # Prepare release (bump versions, changelog, tag)
+mc change              # Create a changeset file
+mc release-pr          # Prepare release PR (bump versions, changelog, tag)
 ```
 
 ## Project Features

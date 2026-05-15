@@ -1,0 +1,62 @@
+name: setup-mc
+description: "Install the monochange CLI (mc)"
+
+runs:
+  using: composite
+  steps:
+    - name: install monochange
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        INSTALL_DIR="$HOME/.local/bin"
+        mkdir -p "$INSTALL_DIR"
+
+        # Determine the target triple
+        OS="$(uname -s)"
+        ARCH="$(uname -m)"
+        if [ "$OS" = "Linux" ] && [ "$ARCH" = "x86_64" ]; then
+          TARGET="x86_64-unknown-linux-musl"
+        elif [ "$OS" = "Linux" ] && [ "$ARCH" = "aarch64" ]; then
+          TARGET="aarch64-unknown-linux-musl"
+        elif [ "$OS" = "Darwin" ] && [ "$ARCH" = "arm64" ]; then
+          TARGET="aarch64-apple-darwin"
+        elif [ "$OS" = "Darwin" ] && [ "$ARCH" = "x86_64" ]; then
+          TARGET="x86_64-apple-darwin"
+        elif [ "$OS" = "MINGW"* ] || [ "$OS" = "CYGWIN"* ] || [ "$OS" = "MSYS"* ]; then
+          TARGET="x86_64-pc-windows-msvc"
+        else
+          echo "::error::Unsupported platform: $OS $ARCH" >&2
+          exit 1
+        fi
+
+        # Find the latest release tag
+        LATEST_TAG="$(curl -fsSL https://api.github.com/repos/monochange/monochange/releases/latest | jq -r '.tag_name')"
+        if [ -z "$LATEST_TAG" ] || [ "$LATEST_TAG" = "null" ]; then
+          echo "::error::Could not determine the latest monochange release" >&2
+          exit 1
+        fi
+
+        EXT="tar.gz"
+        SUFFIX=".tar.gz"
+        if [[ "$TARGET" == *"-windows-"* ]]; then
+          EXT="zip"
+          SUFFIX=".zip"
+        fi
+
+        ARCHIVE="monochange-${TARGET}-${LATEST_TAG}${SUFFIX}"
+        URL="https://github.com/monochange/monochange/releases/download/${LATEST_TAG}/${ARCHIVE}"
+
+        echo "Downloading monochange ${LATEST_TAG} for ${TARGET}..."
+        curl -fsSL "$URL" -o "$RUNNER_TEMP/mc-archive${SUFFIX}"
+
+        if [ "$EXT" = "tar.gz" ]; then
+          tar xzf "$RUNNER_TEMP/mc-archive${SUFFIX}" -C "$INSTALL_DIR"
+        else
+          unzip -o "$RUNNER_TEMP/mc-archive${SUFFIX}" -d "$INSTALL_DIR"
+        fi
+
+        chmod +x "$INSTALL_DIR/mc"
+        echo "$INSTALL_DIR" >> "$GITHUB_PATH"
+
+        echo "monochange ${LATEST_TAG} installed: $($INSTALL_DIR/mc --version)"
