@@ -7,12 +7,14 @@
 }:
 
 let
+  extra = inputs.ifiokjr-nixpkgs.packages.${pkgs.stdenv.system};
   isCI = builtins.getEnv "CI" != "";
 in
 {
   packages =
     with pkgs;
     [
+      extra.monochange
       dprint
       eget
       fvm
