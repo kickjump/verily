@@ -237,7 +237,7 @@ in
     "mc" = {
       exec = ''
         set -e
-        mc $@
+        ${extra.monochange}/bin/mc "$@"
       '';
       description = "The monochange CLI for changeset and release management.";
       binary = "bash";
