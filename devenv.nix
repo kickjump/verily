@@ -2,19 +2,17 @@
   pkgs,
   lib,
   config,
-  inputs,
   ...
 }:
 
 let
-  extra = inputs.ifiokjr-nixpkgs.packages.${pkgs.stdenv.system};
   isCI = builtins.getEnv "CI" != "";
 in
 {
   packages =
     with pkgs;
     [
-      extra.monochange
+      monochange
       dprint
       eget
       fvm
@@ -237,7 +235,7 @@ in
     "mc" = {
       exec = ''
         set -e
-        ${extra.monochange}/bin/mc "$@"
+        ${monochange}/bin/mc "$@"
       '';
       description = "The monochange CLI for changeset and release management.";
       binary = "bash";
