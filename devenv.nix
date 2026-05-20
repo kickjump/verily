@@ -14,7 +14,7 @@ in
   packages =
     with pkgs;
     [
-      monochangePkgs.monochange
+      (monochangePkgs.monochange)
       dprint
       eget
       fvm
@@ -237,7 +237,7 @@ in
     "mc" = {
       exec = ''
         set -e
-        ${monochange}/bin/mc "$@"
+        ${monochangePkgs.monochange}/bin/mc "$@"
       '';
       description = "The monochange CLI for changeset and release management.";
       binary = "bash";
