@@ -2,17 +2,20 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
 }:
 
 let
+  monochangePkgs =
+    (inputs.ifiokjr-nixpkgs.outputs { nixpkgs = inputs.nixpkgs; }).packages.${pkgs.stdenv.system};
   isCI = builtins.getEnv "CI" != "";
 in
 {
   packages =
     with pkgs;
     [
-      monochange
+      monochangePkgs.monochange
       dprint
       eget
       fvm
