@@ -7,5 +7,7 @@ inputs:
         follows: nixpkgs
   nixpkgs:
     url: github:NixOS/nixpkgs/nixpkgs-unstable
+  ifiokjr-nixpkgs:
+    url: github:ifiokjr/nixpkgs
 # If you're using non-OSS software, you can set allowUnfree to true.
 allowUnfree: true

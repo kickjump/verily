@@ -7,12 +7,14 @@
 }:
 
 let
+  monochangePkgs = inputs.ifiokjr-nixpkgs.packages.${pkgs.stdenv.system};
   isCI = builtins.getEnv "CI" != "";
 in
 {
   packages =
     with pkgs;
     [
+      (monochangePkgs.monochange)
       dprint
       eget
       fvm
@@ -232,12 +234,12 @@ in
       '';
       description = "Run flutter commands from the verily_app directory.";
     };
-    "knope" = {
+    "mc" = {
       exec = ''
         set -e
-        $DEVENV_ROOT/.eget/bin/knope $@
+        ${monochangePkgs.monochange}/bin/mc "$@"
       '';
-      description = "The knope executable for changeset and release management.";
+      description = "The monochange CLI for changeset and release management.";
       binary = "bash";
     };
     "pulumi" = {
